@@ -1,4 +1,4 @@
-libunittest is a portable C++ library for unit testing.
+libunittest is a portable C++ library for unit testing making use of C++11.
 
 Features:
 
