@@ -1,40 +1,54 @@
 #include <libunittest/testrun.hpp>
 #include <libunittest/utilities.hpp>
 
-unittest::testrunner::testrunner(const std::string& class_name,
-                                 const std::string& test_name)
-    : suite_(testsuite::instance()),
-      is_run_(true)
-{
-    if (!suite_->get_keep_running())
-        is_run_ = false;
-    else if (!suite_->is_test_run(class_name, test_name))
-        is_run_ = false;
+namespace unittest {
 
-    if (is_run_) {
-        suite_->start_timing();
-        start_ = std::chrono::high_resolution_clock::now();
+template<>
+struct implementation<testrunner> {
+
+	std::chrono::high_resolution_clock::time_point start_;
+    bool is_run_;
+
+    implementation()
+    	: start_(std::chrono::high_resolution_clock::time_point::min()),
+    	  is_run_(true)
+    {}
+
+};
+
+testrunner::testrunner(const std::string& class_name,
+					   const std::string& test_name)
+    : pimplpattern(new implementation<testrunner>())
+{
+	auto suite = testsuite::instance();
+	impl_->is_run_ = suite->is_test_run(class_name, test_name);
+    if (impl_->is_run_) {
+        suite->start_timing();
+        impl_->start_ = std::chrono::high_resolution_clock::now();
         log_.class_name = class_name;
         log_.test_name = test_name;
-        write_test_start_message(std::cout, log_, suite_->verbose_);
+        write_test_start_message(std::cout, log_, suite->verbose_);
     }
 }
 
-unittest::testrunner::~testrunner()
+testrunner::~testrunner()
 {
-    if (is_run_) {
+	auto suite = testsuite::instance();
+    if (impl_->is_run_) {
+        write_test_end_message(std::cout, log_, suite->verbose_);
         log_.successful = log_.status==teststatus::success;
-        if (!log_.successful && suite_->failure_stop_)
-            suite_->set_keep_running(false);
+        suite->make_keep_running(log_);
         const auto end = std::chrono::high_resolution_clock::now();
-        suite_->stop_timing();
-        log_.duration = duration_in_seconds(end - start_);
+        suite->stop_timing();
+        log_.duration = duration_in_seconds(end - impl_->start_);
     }
-    suite_->collect(log_);
+    suite->collect(log_);
 }
 
 bool
-unittest::testrunner::is_executed()
+testrunner::is_executed()
 {
-    return is_run_;
+    return impl_->is_run_;
 }
+
+} // unittest

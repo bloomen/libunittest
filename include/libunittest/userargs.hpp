@@ -92,12 +92,13 @@ public:
 
 protected:
 
-    bool verbose_;
-    bool failure_stop_;
-    bool generate_xml_;
-    std::string name_filter_;
-    std::string test_name_;
-    std::string xml_filename_;
+	bool verbose_;
+	bool failure_stop_;
+	bool generate_xml_;
+	std::string name_filter_;
+	std::string test_name_;
+	std::string xml_filename_;
+
 };
 
 } // unittest

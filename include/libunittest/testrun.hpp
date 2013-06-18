@@ -3,6 +3,7 @@
 #include <libunittest/testfailure.hpp>
 #include <libunittest/testsuite.hpp>
 #include <libunittest/testlog.hpp>
+#include <libunittest/pimplpattern.hpp>
 #include <string>
 #include <iostream>
 #include <chrono>
@@ -15,7 +16,7 @@ namespace unittest {
 /**
  * @brief The test runner that is called by the testrun function
  */
-class testrunner {
+class testrunner : public pimplpattern<testrunner> {
 public:
     /**
      * @brief Constructor
@@ -61,7 +62,6 @@ public:
             log_.error_type = "Unknown exception";
             log_.message = "Unknown message";
         }
-        write_test_end_message(std::cout, log_, suite_->verbose_);
     }
 
 private:
@@ -72,9 +72,6 @@ private:
     operator=(const testrunner&) = delete;
 
     testlog log_;
-    std::chrono::high_resolution_clock::time_point start_;
-    testsuite *suite_;
-    bool is_run_;
 };
 /**
  * @brief A test run (thread-safe)

@@ -22,7 +22,8 @@ public:
     /**
      * @brief Destructor
      */
-    ~argparser();
+    virtual ~argparser();
+
 };
 /**
  * @brief The exception class to indicate argument errors

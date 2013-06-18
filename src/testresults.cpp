@@ -2,14 +2,16 @@
 #include <libunittest/teststatus.hpp>
 #include <libunittest/utilities.hpp>
 
-unittest::testresults::testresults()
+namespace unittest {
+
+testresults::testresults()
     : successful(true), n_tests(0), n_successes(0), n_failures(0),
       n_errors(0), n_skipped(0), duration(0), testlogs(0)
 {}
 
 void
-unittest::write_xml(std::ostream& stream,
-                    const testresults& results)
+write_xml(std::ostream& stream,
+          const testresults& results)
 {
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     stream << "\n";
@@ -46,8 +48,8 @@ unittest::write_xml(std::ostream& stream,
 }
 
 void
-unittest::write_summary(std::ostream& stream,
-                        const testresults& results)
+write_summary(std::ostream& stream,
+              const testresults& results)
 {
     stream << "\n";
     write_horizontal_bar(stream, '-');
@@ -72,8 +74,8 @@ unittest::write_summary(std::ostream& stream,
 }
 
 void
-unittest::write_error_info(std::ostream& stream,
-                           const testresults& results)
+write_error_info(std::ostream& stream,
+                 const testresults& results)
 {
     if (!results.successful) {
         stream << "\n";
@@ -96,3 +98,5 @@ unittest::write_error_info(std::ostream& stream,
         stream << std::flush;
     }
 }
+
+} // unittest

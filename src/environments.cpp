@@ -5,24 +5,26 @@
 #include <iostream>
 #include <fstream>
 
+namespace unittest {
+
 int
-unittest::make_default_environment(int argc, char **argv)
+make_default_environment(int argc, char **argv)
 {
     int exit_code;
     try {
-        unittest::argparser args(argc, argv);
-        auto suite = unittest::testsuite::instance();
+        argparser args(argc, argv);
+        auto suite = testsuite::instance();
         suite->set_verbose(args.verbose());
         suite->set_failure_stop(args.failure_stop());
         suite->set_name_filter(args.name_filter());
         suite->set_test_name(args.test_name());
-        unittest::run_all_tests();
+        run_all_tests();
         const auto results = suite->get_results();
-        unittest::write_error_info(std::cout, results);
-        unittest::write_summary(std::cout, results);
+        write_error_info(std::cout, results);
+        write_summary(std::cout, results);
         if (args.generate_xml()) {
             std::ofstream file(args.xml_filename());
-            unittest::write_xml(file, results);
+            write_xml(file, results);
         }
         if (results.successful)
             exit_code = EXIT_SUCCESS;
@@ -34,3 +36,5 @@ unittest::make_default_environment(int argc, char **argv)
     }
     return exit_code;
 }
+
+} // unittest
