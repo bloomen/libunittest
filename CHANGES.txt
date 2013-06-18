@@ -1,5 +1,11 @@
 3.0.0
 
+- libunittest is now to be compiled to a shared library
+- introduced the private implementation idiom where ever appropriate
+- added install.sh for easy build and installation
+- updated README.txt with install information
+- separated the code into logical sub-modules
+
 2.5.0
 
 - portable exit codes in argparser
