@@ -41,7 +41,7 @@ argparser::argparser(int argc, char **argv)
     for (int i=1; i<argc; ++i) {
         const std::string value(argv[i]);
         if (value=="-h") {
-            impl_->print_help(std::cout);
+            impl_->write_help(std::cout);
             std::exit(EXIT_SUCCESS);
         } else if (value=="-v") {
             verbose(true);
