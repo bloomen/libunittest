@@ -1,3 +1,7 @@
+3.0.1
+
+- a few code improvements here and there
+
 3.0.0
 
 - libunittest is now to be compiled to a shared library
