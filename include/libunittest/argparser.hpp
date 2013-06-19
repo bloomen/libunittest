@@ -22,7 +22,7 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~argparser();
+    ~argparser();
 
 };
 /**
