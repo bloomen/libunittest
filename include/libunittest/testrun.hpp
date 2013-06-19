@@ -28,7 +28,7 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~testrunner();
+    ~testrunner();
     /**
      * @brief Returns whether to execute the current test
      * @returns Whether to execute the current test
