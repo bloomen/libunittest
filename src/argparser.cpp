@@ -9,7 +9,7 @@ template<>
 struct implementation<argparser> {
 
 	void
-	print_help(std::ostream& stream) const
+	write_help(std::ostream& stream) const
 	{
 	    stream << "This is your testing application using libunittest-";
 	    stream << get_version_string() << "\n\n";
@@ -25,10 +25,10 @@ struct implementation<argparser> {
 	}
 
 	void
-	help_exit_failure(const std::string& message) const
+	help_and_throw(const std::string& message) const
 	{
 	    std::ostringstream stream;
-	    print_help(stream);
+	    write_help(stream);
 	    throw argparser_error(join(message, "\n\n", stream.str()));
 	}
 
@@ -67,22 +67,22 @@ argparser::argparser(int argc, char **argv)
             if (++i<argc) {
                 name_filter(argv[i]);
             } else {
-            	impl_->help_exit_failure("Option '-f' needs a filter string");
+            	impl_->help_and_throw("Option '-f' needs a filter string");
             }
         } else if (value=="-t") {
             if (++i<argc) {
                 test_name(argv[i]);
             } else {
-            	impl_->help_exit_failure("Option '-t' needs a test name");
+            	impl_->help_and_throw("Option '-t' needs a test name");
             }
         } else if (value=="-o") {
             if (++i<argc) {
                 xml_filename(argv[i]);
             } else {
-            	impl_->help_exit_failure("Option '-o' needs an XML file name");
+            	impl_->help_and_throw("Option '-o' needs an XML file name");
             }
         } else {
-        	impl_->help_exit_failure(join("Unknown argument '", value, "'"));
+        	impl_->help_and_throw(join("Unknown argument '", value, "'"));
         }
     }
 }
