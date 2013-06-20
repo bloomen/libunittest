@@ -8,7 +8,7 @@ else
 CXX = g++
 endif
 
-FLAGS = -O2 -Wall -std=c++0x -pthread -shared
+FLAGS = -O2 -Wall -std=c++0x -pthread -shared -fPIC
 
 INCS = -I"../include" 
 SRCS = ../src/*.cpp

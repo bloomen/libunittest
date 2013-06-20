@@ -1,5 +1,5 @@
 #!/bin/bash
-version="3.0.1"
+version="3.0.2"
 
 dir="libunittest-"$version
 rm -rf $dir
