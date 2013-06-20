@@ -15,7 +15,6 @@ sed -i "s/VERSION_NUMBER/\"${version}\"/g" $dir/install.sh
 txtfiles='COPYING.txt README.txt CHANGES.txt'
 for f in $txtfiles;do
 	cp $f $dir
-	todos $dir/$f
 done
 
 folders='build examples include src test'
