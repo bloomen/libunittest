@@ -11,9 +11,7 @@ for f in $shfiles;do
 	cp $f $dir
 done
 
-sed -i "s/VERSION_NUMBER/\"${version}\"/g" $dir/install.sh 
-
-txtfiles='COPYING.txt README.txt CHANGES.txt'
+txtfiles='COPYING.txt README.txt CHANGES.txt VERSION.txt'
 for f in $txtfiles;do
 	cp $f $dir
 done
