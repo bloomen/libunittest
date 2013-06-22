@@ -21,7 +21,7 @@ public:
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
      */
-    bool
+    virtual bool
     verbose() const;
     /**
      * @brief Sets whether the output is verbose
@@ -33,7 +33,7 @@ public:
      * @brief Returns whether to stop running after the first test fails
      * @returns Whether to stop running after first failure
      */
-    bool
+    virtual bool
     failure_stop() const;
     /**
      * @brief Sets whether to stop running after first failure
@@ -45,7 +45,7 @@ public:
      * @brief Returns whether to generate XML output
      * @returns Whether to generate XML output
      */
-    bool
+    virtual bool
     generate_xml() const;
     /**
      * @brief Sets whether to generate XML output
@@ -57,7 +57,7 @@ public:
      * @brief Returns a name filter on the full test name
      * @returns The filter string
      */
-    std::string
+    virtual std::string
     name_filter() const;
     /**
      * @brief Sets a name filter on the full test name
@@ -69,7 +69,7 @@ public:
      * @brief Returns a certain test to be run. This supersedes the name filter
      * @returns The test name
      */
-    std::string
+    virtual std::string
     test_name() const;
     /**
      * @brief Sets a certain test to be run. This supersedes the name filter
@@ -81,7 +81,7 @@ public:
      * @brief Returns the XML output file name
      * @returns The XML output file name
      */
-    std::string
+    virtual std::string
     xml_filename() const;
     /**
      * @brief Sets the XML output file name
