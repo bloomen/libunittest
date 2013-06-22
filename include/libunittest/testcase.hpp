@@ -877,12 +877,6 @@ private:
             const std::string&,
             const std::string&);
 
-    void
-    set_test_context(TestContext *context)
-    {
-        context_ = context;
-    }
-
     template<typename T>
     std::string
     _(const T& value) const
@@ -895,6 +889,12 @@ private:
             result = result.substr(0, max_displayed_string_length());
         }
         return std::move("'" + result + "'");
+    }
+
+    void
+    set_test_context(TestContext *context)
+    {
+        context_ = context;
     }
 
     TestContext *context_;
