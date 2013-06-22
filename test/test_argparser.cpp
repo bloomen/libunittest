@@ -207,3 +207,39 @@ void test_argparser::test_argparser_errors()
         assert_throw<unittest::argparser_error>(functor, SPOT);
     }
 }
+
+void test_argparser::test_copy_constructor()
+{
+    argparser args(1, arguments_);
+    args.verbose(true);
+    args.failure_stop(true);
+    args.generate_xml(true);
+    args.name_filter("test_stuff");
+    args.test_name("test_me");
+    args.xml_filename("mytest.xml");
+    argparser args2(args);
+    assert_equal(true, args2.verbose(), SPOT);
+    assert_equal(true, args2.failure_stop(), SPOT);
+    assert_equal(true, args2.generate_xml(), SPOT);
+    assert_equal("test_stuff", args2.name_filter(), SPOT);
+    assert_equal("test_me", args2.test_name(), SPOT);
+    assert_equal("mytest.xml", args2.xml_filename(), SPOT);
+}
+
+void test_argparser::test_assignment_operator()
+{
+    argparser args(1, arguments_);
+    args.verbose(true);
+    args.failure_stop(true);
+    args.generate_xml(true);
+    args.name_filter("test_stuff");
+    args.test_name("test_me");
+    args.xml_filename("mytest.xml");
+    argparser args2 = args;
+    assert_equal(true, args2.verbose(), SPOT);
+    assert_equal(true, args2.failure_stop(), SPOT);
+    assert_equal(true, args2.generate_xml(), SPOT);
+    assert_equal("test_stuff", args2.name_filter(), SPOT);
+    assert_equal("test_me", args2.test_name(), SPOT);
+    assert_equal("mytest.xml", args2.xml_filename(), SPOT);
+}

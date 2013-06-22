@@ -18,6 +18,8 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_argparser, test_xml_filename)
         UNITTEST_RUN(test_argparser, test_all_arguments)
         UNITTEST_RUN(test_argparser, test_argparser_errors)
+        UNITTEST_RUN(test_argparser, test_copy_constructor)
+        UNITTEST_RUN(test_argparser, test_assignment_operator)
     }
 
     test_argparser();
@@ -36,6 +38,8 @@ struct test_argparser : unittest::testcase<> {
     void test_xml_filename();
     void test_all_arguments();
     void test_argparser_errors();
+    void test_copy_constructor();
+    void test_assignment_operator();
 
 private:
     int max_argc_;
