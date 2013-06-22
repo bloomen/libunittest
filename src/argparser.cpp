@@ -87,9 +87,6 @@ argparser::argparser(int argc, char **argv)
     }
 }
 
-argparser::~argparser()
-{}
-
 argparser_error::argparser_error(const std::string& message)
     : std::runtime_error(message)
 {}

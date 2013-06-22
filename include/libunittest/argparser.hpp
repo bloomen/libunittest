@@ -19,11 +19,6 @@ public:
      * @param argv The array of arguments
      */
     argparser(int argc, char **argv);
-    /**
-     * @brief Destructor
-     */
-    ~argparser();
-
 };
 /**
  * @brief The exception class to indicate argument errors
