@@ -1,5 +1,6 @@
 #!/bin/bash
-version="3.0.3"
+set -e
+version=$(head -n 1 VERSION.txt)
 
 dir="libunittest-"$version
 rm -rf $dir

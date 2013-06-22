@@ -1,6 +1,7 @@
 3.0.3
 
 - made all methods virtual in userargs class for consistency reasons
+- added a version file
 
 3.0.2
 
