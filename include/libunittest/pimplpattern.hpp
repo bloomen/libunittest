@@ -15,7 +15,7 @@ struct implementation;
 template<typename T>
 class pimplpattern {
 protected:
-	std::unique_ptr<implementation<T>> impl_;
+	std::shared_ptr<implementation<T>> impl_;
 
 public:
 	/**
