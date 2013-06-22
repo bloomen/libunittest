@@ -66,12 +66,8 @@ public:
 
 private:
 
-    testrunner(const testrunner&) = delete;
-
-    testrunner&
-    operator=(const testrunner&) = delete;
-
     testlog log_;
+
 };
 /**
  * @brief A test run (thread-safe)
