@@ -1,5 +1,6 @@
 3.0.4
 
+- safer smaller_equal and greater_equal assertions
 - added private is_verbose() to the testsuite
 - removed unnecessary explicit destructor from argparser
 - use of shared_ptr instead of unique_ptr in pimplpattern to ensure
