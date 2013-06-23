@@ -6,7 +6,7 @@ namespace unittest {
 std::tuple<int,int,int>
 get_version_tuple()
 {
-    return std::make_tuple(3, 0, 3);
+    return std::make_tuple(3, 0, 4);
 }
 
 std::string
