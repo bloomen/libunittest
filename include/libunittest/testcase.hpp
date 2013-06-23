@@ -250,7 +250,7 @@ protected:
                          const U& second,
                          const Args&... message) const
     {
-        if (!(first >= second)) {
+        if (first < second) {
             const std::string msg = _(first) + " not greater than or equal to " + _(second);
             fail(__func__, msg, message...);
         }
@@ -288,7 +288,7 @@ protected:
                          const U& second,
                          const Args&... message) const
     {
-        if (!(first <= second)) {
+        if (first > second) {
             const std::string msg = _(first) + " not smaller than or equal to " + _(second);
             fail(__func__, msg, message...);
         }
