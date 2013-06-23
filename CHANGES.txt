@@ -1,5 +1,6 @@
-3.0.4
+3.1.0
 
+- improved make_default_environment() and argparser class
 - safer smaller_equal and greater_equal assertions
 - added private is_verbose() to the testsuite
 - removed unnecessary explicit destructor from argparser
