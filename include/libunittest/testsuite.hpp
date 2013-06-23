@@ -11,7 +11,7 @@
  */
 namespace unittest {
 /**
- * @brief The test suite controlling the test runs (singleton, thread-safe)
+ * @brief The test suite collecting test information (singleton, thread-safe)
  */
 class testsuite : public pimplpattern<testsuite> {
 public:
@@ -79,7 +79,9 @@ private:
     is_test_run(const std::string& class_name,
     			const std::string& test_name) const;
 
-    bool verbose_;
+    bool
+    is_verbose() const;
+
 };
 
 } // unittest

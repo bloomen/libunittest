@@ -14,7 +14,8 @@
  */
 namespace unittest {
 /**
- * @brief The test runner that is called by the testrun function
+ * @brief The test runner that is called by the testrun function. It executes
+ * 	and controls a test run
  */
 class testrunner : public pimplpattern<testrunner> {
 public:

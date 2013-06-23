@@ -9,6 +9,7 @@ namespace unittest {
 template<>
 struct implementation<testsuite> {
 
+	bool verbose_;
     bool keep_running_;
     bool failure_stop_;
     long n_tests_;
@@ -23,7 +24,7 @@ struct implementation<testsuite> {
     std::chrono::high_resolution_clock::time_point end_;
 
     implementation()
-    	: keep_running_(true), failure_stop_(false),
+    	: verbose_(false), keep_running_(true), failure_stop_(false),
     	  n_tests_(0), n_successes_(0), n_failures_(0),
     	  n_errors_(0), n_skipped_(0), testlogs_(0), name_filter_(""),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
@@ -81,8 +82,7 @@ testsuite::instance()
 }
 
 testsuite::testsuite()
-    : pimplpattern(new implementation<testsuite>()),
-      verbose_(false)
+    : pimplpattern(new implementation<testsuite>())
 {}
 
 void
@@ -90,7 +90,7 @@ testsuite::set_verbose(bool verbose)
 {
     static std::mutex set_verbose_mutex_;
     std::lock_guard<std::mutex> lock(set_verbose_mutex_);
-    verbose_ = verbose;
+    impl_->verbose_ = verbose;
 }
 
 void
@@ -174,6 +174,12 @@ testsuite::is_test_run(const std::string& class_name,
     	const std::string full_name = class_name + "." + test_name;
     	return is_test_executed(full_name, impl_->test_name_, impl_->name_filter_);
     }
+}
+
+bool
+testsuite::is_verbose() const
+{
+	return impl_->verbose_;
 }
 
 } // unittest

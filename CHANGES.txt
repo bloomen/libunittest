@@ -1,9 +1,11 @@
 3.0.4
 
+- added private is_verbose() to the testsuite
 - removed unnecessary explicit destructor from argparser
 - use of shared_ptr instead of unique_ptr in pimplpattern to ensure
     copy and assignment work trivially
 - added unit tests for copy and assignment to test_argparser 
+- better documentation
 
 3.0.3
 
