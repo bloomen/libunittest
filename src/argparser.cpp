@@ -34,9 +34,12 @@ struct implementation<argparser> {
 
 };
 
-argparser::argparser(int argc, char **argv)
+argparser::argparser()
     : userargs(),
       pimplpattern(new implementation<argparser>())
+{}
+
+void argparser::parse(int argc, char **argv)
 {
     for (int i=1; i<argc; ++i) {
         const std::string value(argv[i]);

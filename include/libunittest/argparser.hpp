@@ -15,10 +15,14 @@ class argparser : public userargs, public pimplpattern<argparser> {
 public:
     /**
      * @brief Constructor
+     */
+    argparser();
+    /**
+     * @brief Parses the arguments and assigns given values
      * @param argc The number of arguments
      * @param argv The array of arguments
      */
-    argparser(int argc, char **argv);
+    void parse(int argc, char **argv);
 };
 /**
  * @brief The exception class to indicate argument errors

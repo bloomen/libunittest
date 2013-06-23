@@ -17,7 +17,7 @@ test_argparser::~test_argparser()
 
 void test_argparser::test_no_arguments()
 {
-    argparser args(1, arguments_);
+    argparser args;
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -29,7 +29,8 @@ void test_argparser::test_no_arguments()
 void test_argparser::test_verbose()
 {
     arguments_[1] = (char*)"-v";
-    argparser args(2, arguments_);
+    argparser args;
+    args.parse(2, arguments_);
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -41,7 +42,8 @@ void test_argparser::test_verbose()
 void test_argparser::test_failure_stop()
 {
     arguments_[1] = (char*)"-s";
-    argparser args(2, arguments_);
+    argparser args;
+    args.parse(2, arguments_);
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -53,7 +55,8 @@ void test_argparser::test_failure_stop()
 void test_argparser::test_generate_xml()
 {
     arguments_[1] = (char*)"-x";
-    argparser args(2, arguments_);
+    argparser args;
+    args.parse(2, arguments_);
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
@@ -66,7 +69,8 @@ void test_argparser::test_name_filter()
 {
     arguments_[1] = (char*)"-f";
     arguments_[2] = (char*)"stuff";
-    argparser args(3, arguments_);
+    argparser args;
+    args.parse(3, arguments_);
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -79,7 +83,8 @@ void test_argparser::test_test_name()
 {
     arguments_[1] = (char*)"-t";
     arguments_[2] = (char*)"test_me";
-    argparser args(3, arguments_);
+    argparser args;
+    args.parse(3, arguments_);
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -92,7 +97,8 @@ void test_argparser::test_xml_filename()
 {
     arguments_[1] = (char*)"-o";
     arguments_[2] = (char*)"stuff.xml";
-    argparser args(3, arguments_);
+    argparser args;
+    args.parse(3, arguments_);
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
@@ -106,7 +112,8 @@ void test_argparser::test_verbose_failure_stop()
     const std::vector<char*> values = {(char*)"-vs", (char*)"-sv"};
     for (auto value : values) {
         arguments_[1] = value;
-        argparser args(2, arguments_);
+        argparser args;
+        args.parse(2, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(false, args.generate_xml(), SPOT);
@@ -121,7 +128,8 @@ void test_argparser::test_verbose_generate_xml()
     const std::vector<char*> values = {(char*)"-vx", (char*)"-xv"};
     for (auto value : values) {
         arguments_[1] = value;
-        argparser args(2, arguments_);
+        argparser args;
+        args.parse(2, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(false, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
@@ -136,7 +144,8 @@ void test_argparser::test_failure_stop_generate_xml()
     const std::vector<char*> values = {(char*)"-sx", (char*)"-xs"};
     for (auto value : values) {
         arguments_[1] = value;
-        argparser args(2, arguments_);
+        argparser args;
+        args.parse(2, arguments_);
         assert_equal(false, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
@@ -154,7 +163,8 @@ void test_argparser::test_verbose_failure_stop_generate_xml()
     };
     for (auto value : values) {
         arguments_[1] = value;
-        argparser args(2, arguments_);
+        argparser args;
+        args.parse(2, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
@@ -175,7 +185,8 @@ void test_argparser::test_all_arguments()
     arguments_[7] = (char*)"test_me";
     arguments_[8] = (char*)"-o";
     arguments_[9] = (char*)"stuff.xml";
-    argparser args(10, arguments_);
+    argparser args;
+    args.parse(10, arguments_);
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
@@ -186,31 +197,19 @@ void test_argparser::test_all_arguments()
 
 void test_argparser::test_argparser_errors()
 {
-    struct wrapper {
-        wrapper(int argc, char **argv)
-            : argc_(argc), argv_(argv)
-        {}
-        void operator()() {
-            argparser args(argc_, argv_);
-        }
-    private:
-        int argc_;
-        char **argv_;
-    };
-
     const std::vector<char*> values = {
             (char*)"-g", (char*)"-f", (char*)"-t", (char*)"-o"
     };
     for (auto value : values) {
         arguments_[1] = value;
-        wrapper functor(2, arguments_);
-        assert_throw<unittest::argparser_error>(functor, SPOT);
+        argparser args;
+        assert_throw<unittest::argparser_error>(std::bind(&argparser::parse, args, 2, arguments_), SPOT);
     }
 }
 
 void test_argparser::test_copy_constructor()
 {
-    argparser args(1, arguments_);
+    argparser args;
     args.verbose(true);
     args.failure_stop(true);
     args.generate_xml(true);
@@ -228,7 +227,7 @@ void test_argparser::test_copy_constructor()
 
 void test_argparser::test_assignment_operator()
 {
-    argparser args(1, arguments_);
+    argparser args;
     args.verbose(true);
     args.failure_stop(true);
     args.generate_xml(true);
