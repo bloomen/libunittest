@@ -1,3 +1,11 @@
+3.1.1
+
+- moved utility functions from testcase class to utilities header
+- moved assertions to testassertions class
+- testcase now inherits from abstract base class testassertions
+- added virtual make_fail_message() so that the user can specify a
+    custom fail message template 
+
 3.1.0
 
 - improved make_default_environment() and argparser class

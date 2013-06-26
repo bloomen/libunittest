@@ -3,6 +3,7 @@
 #include <string>
 #include <chrono>
 #include <sstream>
+#include <regex>
 /**
  * @brief Unit testing in C++
  */
@@ -75,5 +76,168 @@ is_test_executed(const std::string& test_name,
  */
 double
 duration_in_seconds(const std::chrono::duration<double>& duration);
+/**
+ * @brief Checks if two values are equal up to some epsilon
+ * @param first A value
+ * @param second Another value
+ * @param eps The epsilon
+ * @returns Whether the values are equal up to some epsilon
+ */
+template<typename T,
+         typename U,
+         typename V>
+bool
+is_approx_equal(const T& first,
+                const U& second,
+                const V& eps)
+{
+    V diff = 0;
+    if (first>second)
+        diff = static_cast<V>(first - second);
+    else if (first<second)
+        diff = static_cast<V>(second - first);
+    return diff < eps;
+}
+/**
+ * @brief Checks whether the elements in two ranges are approx. equal
+ *  up to some epsilon
+ * @param first1 An input iterator
+ * @param last1 An input iterator
+ * @param first2 An input iterator
+ * @param eps The epsilon
+ * @returns Whether the elements in the two ranges are approx. equal
+ */
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename T>
+bool
+is_approx_equal(InputIterator1 first1,
+                InputIterator1 last1,
+                InputIterator2 first2,
+                const T& eps)
+{
+  while (first1!=last1) {
+      if (!is_approx_equal(*first1, *first2, eps))
+          return false;
+      ++first1; ++first2;
+  }
+  return true;
+}
+/**
+ * @brief Checks if a value is in a given range.
+ *  The bounds are excluding
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ * @returns Whether the value is in a given range
+ */
+template<typename T,
+         typename U,
+         typename V>
+bool
+is_in_range(const T& value,
+            const U& lower,
+            const V& upper)
+{
+    return value>lower && value<upper;
+}
+/**
+ * @brief Checks if a value is in a container
+ * @param value A value
+ * @param container A container
+ * @returns Whether the value is in the container
+ */
+template<typename T,
+         typename Container>
+bool
+is_contained(const T& value,
+             const Container& container)
+{
+    auto first = std::begin(container);
+    auto last = std::end(container);
+    return std::find(first, last, value) != last;
+}
+/**
+ * @brief Checks if a value is approx. in a container
+ *  up to some epsilon
+ * @param value A value
+ * @param container A container
+ * @param eps The epsilon
+ * @returns Whether the value is approx. in the container
+ */
+template<typename T,
+         typename Container,
+         typename U>
+bool
+is_approx_contained(const T& value,
+                    const Container& container,
+                    const U& eps)
+{
+    auto first = std::begin(container);
+    auto last = std::end(container);
+    while (first!=last) {
+        if (is_approx_equal(*first, value, eps)) return true;
+        ++first;
+    }
+    return false;
+}
+/**
+ * @brief Checks if two containers are equal
+ * @param first A container
+ * @param second Another container
+ * @returns Whether the containers are equal
+ */
+template<typename Container1,
+         typename Container2>
+bool
+is_containers_equal(const Container1& first,
+                    const Container2& second)
+{
+    const bool equal_first = std::equal(std::begin(first), std::end(first),
+                                        std::begin(second));
+    const bool equal_second = std::equal(std::begin(second), std::end(second),
+                                         std::begin(first));
+    return equal_first && equal_second;
+}
+/**
+ * @brief Checks if two containers are approx. equal
+ *  up to some epsilon
+ * @param first A container
+ * @param second Another container
+ * @param eps The epsilon
+ * @returns Whether the two containers are approx. equal
+ */
+template<typename Container1,
+         typename Container2,
+         typename V>
+bool
+is_containers_approx_equal(const Container1& first,
+                           const Container2& second,
+                           const V& eps)
+{
+    const bool equal_first = is_approx_equal(std::begin(first), std::end(first),
+                                             std::begin(second), eps);
+    const bool equal_second = is_approx_equal(std::begin(second), std::end(second),
+                                              std::begin(first), eps);
+    return equal_first && equal_second;
+}
+/**
+ * @brief Checks if a value matches a regular expression
+ * @param value A value
+ * @param regex A regular expression
+ * @returns Whether a value matches the regular expression
+ */
+bool
+is_regex_matched(const std::string& value,
+                 const std::string& regex);
+/**
+ * @brief Checks if a value matches a regular expression
+ * @param value A value
+ * @param regex A regular expression
+ * @returns Whether a value matches the regular expression
+ */
+bool
+is_regex_matched(const std::string& value,
+                 const std::regex& regex);
 
 } // unittest

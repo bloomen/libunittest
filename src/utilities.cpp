@@ -43,4 +43,18 @@ duration_in_seconds(const std::chrono::duration<double>& duration)
     return std::chrono::duration_cast<std::chrono::duration<double>>(duration).count();
 }
 
+bool
+is_regex_matched(const std::string& value,
+                 const std::string& regex)
+{
+    return std::regex_match(value, std::regex(regex));
+}
+
+bool
+is_regex_matched(const std::string& value,
+                 const std::regex& regex)
+{
+    return std::regex_match(value, regex);
+}
+
 } // unittest
