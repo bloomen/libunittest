@@ -1,5 +1,5 @@
 #pragma once
-#include <libunittest/testassertions.hpp>
+#include <libunittest/assertions.hpp>
 #include <string>
 /**
  * @brief Unit testing in C++
@@ -14,13 +14,13 @@ class nocontext {};
  *  test context is optional
  */
 template<typename TestContext=nocontext>
-class testcase : public testassertions {
+class testcase : public assertions {
 public:
     /**
      * @brief Constructor
      */
     testcase()
-        : testassertions(), context_(nullptr)
+        : assertions(), context_(nullptr)
     {}
     /**
      * @brief Destructor

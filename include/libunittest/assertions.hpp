@@ -9,18 +9,18 @@
  */
 namespace unittest {
 /**
- * @brief A collection of test assertions (abstract base class)
+ * @brief A collection of assertions
  */
-class testassertions {
+class assertions {
 public:
     /**
      * @brief Constructor
      */
-	testassertions();
+	assertions();
     /**
      * @brief Destructor
      */
-    virtual ~testassertions();
+    virtual ~assertions();
     /**
      * @brief A pure virtual method
      * @returns The maximum displayed string length
@@ -45,7 +45,7 @@ public:
      * @brief Throws exception testfailure with a given message
      * @param message The fail message
      */
-    void
+    virtual void
     fail(const std::string& message) const;
     /**
      * @brief Builds a fail message from the parameters passed and calls
