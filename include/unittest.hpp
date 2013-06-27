@@ -5,8 +5,10 @@
  * @file unittest.hpp
  */
 #include <libunittest/argparser.hpp>
+#include <libunittest/assertions.hpp>
 #include <libunittest/call.hpp>
 #include <libunittest/environments.hpp>
+#include <libunittest/formatting.hpp>
 #include <libunittest/testcase.hpp>
 #include <libunittest/testfailure.hpp>
 #include <libunittest/testlog.hpp>
