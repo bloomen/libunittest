@@ -6,6 +6,7 @@
 - added virtual make_fail_message() so that the user can specify a
     custom fail message template 
 - introduced a formatting class from which the assertions class derives
+- a bit of refactoring and code doc
 
 3.1.0
 
