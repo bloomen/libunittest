@@ -41,7 +41,7 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        fail(join(make_fail_message(assertion, text), args...));
+        fail(join(make_displayed_fail_message(assertion, text), args...));
     }
     /**
      * @brief Asserts that a value is true

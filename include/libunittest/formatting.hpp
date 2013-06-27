@@ -22,11 +22,11 @@ public:
      * @brief A pure virtual method
      * @param assertion The name of the assertion
      * @param text The assertion text
-     * @returns A fail message
+     * @returns A displayed fail message
      */
     virtual std::string
-    make_fail_message(const std::string& assertion,
-    				  const std::string& text) const = 0;
+    make_displayed_fail_message(const std::string& assertion,
+    							const std::string& text) const = 0;
     /**
      * @brief A pure virtual method
      * @returns The maximum displayed string length

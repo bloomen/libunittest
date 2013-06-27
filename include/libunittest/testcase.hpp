@@ -69,14 +69,14 @@ public:
         return 10;
     }
     /**
-     * @brief Generates a fail message from an assertion name and text
+     * @brief Generates a displayed fail message from assertion name and text
      * @param assertion The name of the assertion
      * @param text The assertion text
-     * @returns A fail message
+     * @returns A displayed fail message
      */
     virtual std::string
-    make_fail_message(const std::string& assertion,
-    				  const std::string& text) const
+    make_displayed_fail_message(const std::string& assertion,
+    							const std::string& text) const
     {
     	return join(text, " (", assertion, ") ");
     }
