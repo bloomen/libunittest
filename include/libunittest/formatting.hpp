@@ -26,7 +26,7 @@ public:
      */
     virtual std::string
     make_displayed_fail_message(const std::string& assertion,
-    							const std::string& text) const = 0;
+                                const std::string& text) const = 0;
     /**
      * @brief A pure virtual method
      * @returns The maximum displayed string length

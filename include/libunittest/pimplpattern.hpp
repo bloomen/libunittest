@@ -15,23 +15,23 @@ struct implementation;
 template<typename T>
 class pimplpattern {
 protected:
-	std::shared_ptr<implementation<T>> impl_;
+    std::shared_ptr<implementation<T>> impl_;
 
 public:
-	/**
-	 * @brief Constructor
-	 * @param imp A pointer to the concrete implementation class
-	 */
-	explicit pimplpattern(implementation<T> *imp);
-	/**
-	 * @brief Destructor
-	 */
-	virtual ~pimplpattern();
+    /**
+     * @brief Constructor
+     * @param imp A pointer to the concrete implementation class
+     */
+    explicit pimplpattern(implementation<T> *imp);
+    /**
+     * @brief Destructor
+     */
+    virtual ~pimplpattern();
 };
 
 template<typename T>
 pimplpattern<T>::pimplpattern(implementation<T> *imp)
-	: impl_(imp)
+    : impl_(imp)
 {}
 
 template<typename T>
