@@ -51,8 +51,7 @@ public:
     tear_down()
     {}
     /**
-     * @brief Returns the maximum displayed string length of a single object
-     *  that is passed to any of the assertions
+     * @brief Returns the maximum displayed string length
      * @returns The maximum displayed string length
      */
     virtual int
@@ -61,8 +60,7 @@ public:
         return 100;
     }
     /**
-     * @brief Returns the maximum displayed precision of numerical values that
-     *  are passed to any of the assertions
+     * @brief Returns the maximum displayed precision of numerical values
      * @returns The maximum displayed value precision
      */
     virtual int
@@ -74,6 +72,7 @@ public:
      * @brief Generates a fail message from an assertion name and text
      * @param assertion The name of the assertion
      * @param text The assertion text
+     * @returns A fail message
      */
     virtual std::string
     make_fail_message(const std::string& assertion,

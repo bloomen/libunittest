@@ -1,6 +1,7 @@
 #pragma once
 #include <libunittest/utilities.hpp>
 #include <libunittest/testfailure.hpp>
+#include <libunittest/formatting.hpp>
 #include <string>
 #include <regex>
 #include <typeinfo>
@@ -11,7 +12,7 @@ namespace unittest {
 /**
  * @brief A collection of assertions
  */
-class assertions {
+class assertions : public formatting {
 public:
     /**
      * @brief Constructor
@@ -21,26 +22,6 @@ public:
      * @brief Destructor
      */
     virtual ~assertions();
-    /**
-     * @brief A pure virtual method
-     * @returns The maximum displayed string length
-     */
-    virtual int
-    max_displayed_string_length() const = 0;
-    /**
-     * @brief A pure virtual method
-     * @returns The maximum displayed value precision
-     */
-    virtual int
-    max_displayed_value_precision() const = 0;
-    /**
-     * @brief A pure virtual method
-     * @param assertion The name of the assertion
-     * @param text The assertion text
-     */
-    virtual std::string
-    make_fail_message(const std::string& assertion,
-    				  const std::string& text) const = 0;
     /**
      * @brief Throws exception testfailure with a given message
      * @param message The fail message
@@ -659,22 +640,6 @@ public:
             const std::string text = "An unknown exception was thrown";
             fail(__func__, text, message...);
         }
-    }
-
-private:
-
-    template<typename T>
-    std::string
-    _(const T& value) const
-    {
-        std::ostringstream stream;
-        stream.precision(max_displayed_value_precision());
-        stream << value;
-        std::string result(stream.str());
-        if (int(result.size())>max_displayed_string_length()) {
-            result = result.substr(0, max_displayed_string_length());
-        }
-        return std::move("'" + result + "'");
     }
 
 };

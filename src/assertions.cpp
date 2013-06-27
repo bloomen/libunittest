@@ -3,6 +3,7 @@
 namespace unittest {
 
 assertions::assertions()
+	: formatting()
 {}
 
 assertions::~assertions()
