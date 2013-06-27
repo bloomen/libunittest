@@ -41,12 +41,12 @@ public:
     max_displayed_value_precision() const = 0;
     /**
      * @brief Converts a given value to string by taking into account
-     * 	the maximum string length and maximum value precision
+     * 	the maximum string length and the maximum value precision
      * @param value The value
      */
     template<typename T>
     std::string
-    _(const T& value) const
+    str(const T& value) const
     {
         std::ostringstream stream;
         stream.precision(max_displayed_value_precision());

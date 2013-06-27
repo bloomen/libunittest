@@ -51,6 +51,18 @@ public:
     tear_down()
     {}
     /**
+     * @brief Generates a displayed fail message from assertion name and text
+     * @param assertion The name of the assertion
+     * @param text The assertion text
+     * @returns A displayed fail message
+     */
+    virtual std::string
+    make_displayed_fail_message(const std::string& assertion,
+                                const std::string& text) const
+    {
+        return join(text, " (", assertion, ") ");
+    }
+    /**
      * @brief Returns the maximum displayed string length
      * @returns The maximum displayed string length
      */
@@ -67,18 +79,6 @@ public:
     max_displayed_value_precision() const
     {
         return 10;
-    }
-    /**
-     * @brief Generates a displayed fail message from assertion name and text
-     * @param assertion The name of the assertion
-     * @param text The assertion text
-     * @returns A displayed fail message
-     */
-    virtual std::string
-    make_displayed_fail_message(const std::string& assertion,
-                                const std::string& text) const
-    {
-    	return join(text, " (", assertion, ") ");
     }
 
 private:

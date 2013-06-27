@@ -34,6 +34,7 @@ struct test_misc : unittest::testcase<context> {
         UNITTEST_RUN(test_misc, test_duration_in_seconds)
         UNITTEST_RUN(test_misc, test_unittest_spot)
         UNITTEST_RUN(test_misc, test_is_test_executed)
+        UNITTEST_RUN(test_misc, test_formatting_str)
     }
 
     void test_get_version_tuple();
@@ -62,6 +63,7 @@ struct test_misc : unittest::testcase<context> {
     void test_duration_in_seconds();
     void test_unittest_spot();
     void test_is_test_executed();
+    void test_formatting_str();
 
 private:
     unittest::testresults make_sample_results();

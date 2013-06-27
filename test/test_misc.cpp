@@ -332,3 +332,12 @@ void test_misc::test_is_test_executed()
     assert_true(unittest::is_test_executed("stuff.test_me", "stuff.test_me", "weird"), SPOT);
     assert_false(unittest::is_test_executed("stuff.test_me", "stuff.test_me_xxx", ""), SPOT);
 }
+
+void test_misc::test_formatting_str()
+{
+    assert_equal("'albert'", str("albert"), SPOT);
+    assert_equal("''", str(""), SPOT);
+    assert_equal("'0'", str(0), SPOT);
+    assert_equal("'3.1415'", str(3.1415), SPOT);
+    assert_equal("'blöd'", str("blöd"), SPOT);
+}

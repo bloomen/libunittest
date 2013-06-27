@@ -1,3 +1,8 @@
+3.1.2
+
+- renamed formatting::_() to formatting::str() to be more explicit 
+- added unit tests for formatting::str()
+
 3.1.1
 
 - moved utility functions from testcase class to utilities header

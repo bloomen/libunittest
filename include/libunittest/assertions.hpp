@@ -90,7 +90,7 @@ public:
                  const Args&... message) const
     {
         if (!(expected == actual)) {
-            const std::string text = _(expected) + " not equal to " + _(actual);
+            const std::string text = str(expected) + " not equal to " + str(actual);
             fail(__func__, text, message...);
         }
     }
@@ -109,7 +109,7 @@ public:
                      const Args&... message) const
     {
         if (first == second) {
-            const std::string text = _(first) + " equal to " + _(second);
+            const std::string text = str(first) + " equal to " + str(second);
             fail(__func__, text, message...);
         }
     }
@@ -132,7 +132,7 @@ public:
                         const Args&... message) const
     {
         if (!is_approx_equal(expected, actual, eps)) {
-            const std::string text = _(expected) + " not approx. equal to " + _(actual) + " with eps=" + _(eps);
+            const std::string text = str(expected) + " not approx. equal to " + str(actual) + " with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -155,7 +155,7 @@ public:
                             const Args&... message) const
     {
         if (is_approx_equal(first, second, eps)) {
-            const std::string text = _(first) + " approx. equal to " + _(second) + " with eps=" + _(eps);
+            const std::string text = str(first) + " approx. equal to " + str(second) + " with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -174,7 +174,7 @@ public:
                    const Args&... message) const
     {
         if (!(first > second)) {
-            const std::string text = _(first) + " not greater than " + _(second);
+            const std::string text = str(first) + " not greater than " + str(second);
             fail(__func__, text, message...);
         }
     }
@@ -193,7 +193,7 @@ public:
                          const Args&... message) const
     {
         if (first < second) {
-            const std::string text = _(first) + " not greater than or equal to " + _(second);
+            const std::string text = str(first) + " not greater than or equal to " + str(second);
             fail(__func__, text, message...);
         }
     }
@@ -212,7 +212,7 @@ public:
                    const Args&... message) const
     {
         if (!(first < second)) {
-            const std::string text = _(first) + " not smaller than " + _(second);
+            const std::string text = str(first) + " not smaller than " + str(second);
             fail(__func__, text, message...);
         }
     }
@@ -231,7 +231,7 @@ public:
                          const Args&... message) const
     {
         if (first > second) {
-            const std::string text = _(first) + " not smaller than or equal to " + _(second);
+            const std::string text = str(first) + " not smaller than or equal to " + str(second);
             fail(__func__, text, message...);
         }
     }
@@ -253,7 +253,7 @@ public:
                     const Args&... message) const
     {
         if (!is_in_range(value, lower, upper)) {
-            const std::string text = _(value) + " not in range (" + _(lower) + ", " + _(upper) + ")";
+            const std::string text = str(value) + " not in range (" + str(lower) + ", " + str(upper) + ")";
             fail(__func__, text, message...);
         }
     }
@@ -275,7 +275,7 @@ public:
                         const Args&... message) const
     {
         if (is_in_range(value, lower, upper)) {
-            const std::string text = _(value) + " in range (" + _(lower) + ", " + _(upper) + ")";
+            const std::string text = str(value) + " in range (" + str(lower) + ", " + str(upper) + ")";
             fail(__func__, text, message...);
         }
     }
@@ -294,7 +294,7 @@ public:
                         const Args&... message) const
     {
         if (!is_contained(value, container)) {
-            const std::string text = _(value) + " not in container";
+            const std::string text = str(value) + " not in container";
             fail(__func__, text, message...);
         }
     }
@@ -313,7 +313,7 @@ public:
                             const Args&... message) const
     {
         if (is_contained(value, container)) {
-            const std::string text = _(value) + " in container";
+            const std::string text = str(value) + " in container";
             fail(__func__, text, message...);
         }
     }
@@ -336,7 +336,7 @@ public:
                                const Args&... message) const
     {
         if (!is_approx_contained(value, container, eps)) {
-            const std::string text = _(value) + " not approx. in container with eps=" + _(eps);
+            const std::string text = str(value) + " not approx. in container with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -359,7 +359,7 @@ public:
                                    const Args&... message) const
     {
         if (is_approx_contained(value, container, eps)) {
-            const std::string text = _(value) + " approx. in container with eps=" + _(eps);
+            const std::string text = str(value) + " approx. in container with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -420,7 +420,7 @@ public:
                                    const Args&... message) const
     {
         if (!is_containers_approx_equal(expected, actual, eps)) {
-            const std::string text = "containers are not approx. equal with eps=" + _(eps);
+            const std::string text = "containers are not approx. equal with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -444,7 +444,7 @@ public:
                                        const Args&... message) const
     {
         if (is_containers_approx_equal(expected, actual, eps)) {
-            const std::string text = "containers are approx. equal with eps=" + _(eps);
+            const std::string text = "containers are approx. equal with eps=" + str(eps);
             fail(__func__, text, message...);
         }
     }
@@ -541,7 +541,7 @@ public:
                        const Args&... message) const
     {
         if (!is_regex_matched(string, regex)) {
-            const std::string text = _(string) + " does not match the pattern " + _(regex);
+            const std::string text = str(string) + " does not match the pattern " + str(regex);
             fail(__func__, text, message...);
         }
     }
@@ -558,7 +558,7 @@ public:
                        const Args&... message) const
     {
         if (!is_regex_matched(string, regex)) {
-            const std::string text = _(string) + " does not match the given pattern";
+            const std::string text = str(string) + " does not match the given pattern";
             fail(__func__, text, message...);
         }
     }
@@ -575,7 +575,7 @@ public:
                            const Args&... message) const
     {
         if (is_regex_matched(string, regex)) {
-            const std::string text = _(string) + " matches the pattern " + _(regex);
+            const std::string text = str(string) + " matches the pattern " + str(regex);
             fail(__func__, text, message...);
         }
     }
@@ -592,7 +592,7 @@ public:
                            const Args&... message) const
     {
         if (is_regex_matched(string, regex)) {
-            const std::string text = _(string) + " matches the given pattern";
+            const std::string text = str(string) + " matches the given pattern";
             fail(__func__, text, message...);
         }
     }
