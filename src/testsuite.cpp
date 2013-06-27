@@ -11,7 +11,7 @@ namespace unittest {
 template<>
 struct implementation<testsuite> {
 
-	bool verbose_;
+    bool verbose_;
     bool keep_running_;
     bool failure_stop_;
     long n_tests_;
@@ -168,7 +168,7 @@ testsuite::collect(const testlog& log)
 
 bool
 testsuite::is_test_run(const std::string& class_name,
-					   const std::string& test_name) const
+                       const std::string& test_name) const
 {
     if (!impl_->get_keep_running()) {
     	return false;
@@ -181,7 +181,7 @@ testsuite::is_test_run(const std::string& class_name,
 bool
 testsuite::is_verbose() const
 {
-	return impl_->verbose_;
+    return impl_->verbose_;
 }
 
 } // unittest

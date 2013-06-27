@@ -11,7 +11,7 @@ testlog::testlog()
 void
 write_test_start_message(std::ostream& stream,
                          const testlog& log,
-						 bool verbose)
+                         bool verbose)
 {
     if (verbose) {
         stream << log.class_name << "." << log.test_name << " ... ";

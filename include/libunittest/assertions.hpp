@@ -16,7 +16,7 @@ public:
     /**
      * @brief Constructor
      */
-	assertions();
+    assertions();
     /**
      * @brief Destructor
      */

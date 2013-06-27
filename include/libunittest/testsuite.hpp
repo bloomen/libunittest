@@ -74,7 +74,7 @@ private:
 
     bool
     is_test_run(const std::string& class_name,
-    			const std::string& test_name) const;
+                const std::string& test_name) const;
 
     bool
     is_verbose() const;

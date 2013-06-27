@@ -8,29 +8,29 @@ namespace unittest {
 template<>
 struct implementation<argparser> {
 
-	void
-	write_help(std::ostream& stream) const
-	{
-	    stream << "This is your testing application using libunittest-";
-	    stream << get_version_string() << "\n\n";
-	    stream << "Available options are:\n";
-	    stream << "-h          Displays this help message\n";
-	    stream << "-v          Sets verbose output for running tests\n";
-	    stream << "-s          Stops running tests after the first test fails\n";
-	    stream << "-x          Enables the generation of the XML output\n";
-	    stream << "-f filter   Specifies a filter applied to the beginning of the test names\n";
-	    stream << "-t test     Specifies a certain test to run superseding the name filter\n";
-	    stream << "-o xmlfile  Specifies the XML output file name (default: libunittest.xml)\n";
-	    stream << std::flush;
-	}
+    void
+    write_help(std::ostream& stream) const
+    {
+        stream << "This is your testing application using libunittest-";
+        stream << get_version_string() << "\n\n";
+        stream << "Available options are:\n";
+        stream << "-h          Displays this help message\n";
+        stream << "-v          Sets verbose output for running tests\n";
+        stream << "-s          Stops running tests after the first test fails\n";
+        stream << "-x          Enables the generation of the XML output\n";
+        stream << "-f filter   Specifies a filter applied to the beginning of the test names\n";
+        stream << "-t test     Specifies a certain test to run superseding the name filter\n";
+        stream << "-o xmlfile  Specifies the XML output file name (default: libunittest.xml)\n";
+        stream << std::flush;
+    }
 
-	void
-	help_and_throw(const std::string& message) const
-	{
-	    std::ostringstream stream;
-	    write_help(stream);
-	    throw argparser_error(join(message, "\n\n", stream.str()));
-	}
+    void
+    help_and_throw(const std::string& message) const
+    {
+        std::ostringstream stream;
+        write_help(stream);
+        throw argparser_error(join(message, "\n\n", stream.str()));
+    }
 
 };
 

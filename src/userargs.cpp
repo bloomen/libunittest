@@ -3,8 +3,8 @@
 namespace unittest {
 
 userargs::userargs()
-	: verbose_(false), failure_stop_(false), generate_xml_(false),
-	  name_filter_(""), test_name_(""), xml_filename_("libunittest.xml")
+    : verbose_(false), failure_stop_(false), generate_xml_(false),
+      name_filter_(""), test_name_(""), xml_filename_("libunittest.xml")
 {}
 
 userargs::~userargs()
@@ -19,7 +19,7 @@ userargs::verbose() const
 void
 userargs::verbose(bool value)
 {
-	verbose_ = value;
+    verbose_ = value;
 }
 
 bool
@@ -31,7 +31,7 @@ userargs::failure_stop() const
 void
 userargs::failure_stop(bool value)
 {
-	failure_stop_ = value;
+    failure_stop_ = value;
 }
 
 bool
@@ -43,7 +43,7 @@ userargs::generate_xml() const
 void
 userargs::generate_xml(bool value)
 {
-	generate_xml_ = value;
+    generate_xml_ = value;
 }
 
 std::string
@@ -55,7 +55,7 @@ userargs::name_filter() const
 void
 userargs::name_filter(const std::string& value)
 {
-	name_filter_ = value;
+    name_filter_ = value;
 }
 
 std::string
@@ -67,7 +67,7 @@ userargs::test_name() const
 void
 userargs::test_name(const std::string& value)
 {
-	test_name_ = value;
+    test_name_ = value;
 }
 
 std::string
@@ -79,7 +79,7 @@ userargs::xml_filename() const
 void
 userargs::xml_filename(const std::string& value)
 {
-	xml_filename_ = value;
+    xml_filename_ = value;
 }
 
 } // unittest

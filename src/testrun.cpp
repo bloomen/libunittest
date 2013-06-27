@@ -9,7 +9,7 @@ namespace unittest {
 template<>
 struct implementation<testrunner> {
 
-	std::chrono::high_resolution_clock::time_point start_;
+    std::chrono::high_resolution_clock::time_point start_;
     bool is_run_;
 
     implementation()
@@ -20,11 +20,11 @@ struct implementation<testrunner> {
 };
 
 testrunner::testrunner(const std::string& class_name,
-					   const std::string& test_name)
+                       const std::string& test_name)
     : pimplpattern(new implementation<testrunner>())
 {
-	auto suite = testsuite::instance();
-	impl_->is_run_ = suite->is_test_run(class_name, test_name);
+    auto suite = testsuite::instance();
+    impl_->is_run_ = suite->is_test_run(class_name, test_name);
     if (impl_->is_run_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();
@@ -36,7 +36,7 @@ testrunner::testrunner(const std::string& class_name,
 
 testrunner::~testrunner()
 {
-	auto suite = testsuite::instance();
+    auto suite = testsuite::instance();
     if (impl_->is_run_) {
         write_test_end_message(std::cout, log_, suite->is_verbose());
         log_.successful = log_.status==teststatus::success;

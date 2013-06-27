@@ -13,7 +13,7 @@ public:
     /**
      * @brief Constructor
      */
-	formatting();
+    formatting();
     /**
      * @brief Destructor
      */
