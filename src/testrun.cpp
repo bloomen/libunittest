@@ -1,5 +1,6 @@
 #include <libunittest/testrun.hpp>
 #include <libunittest/utilities.hpp>
+#include <libunittest/testsuite.hpp>
 
 namespace unittest {
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <libunittest/teststatus.hpp>
 #include <libunittest/testfailure.hpp>
-#include <libunittest/testsuite.hpp>
 #include <libunittest/testlog.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <string>
