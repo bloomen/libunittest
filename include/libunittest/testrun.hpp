@@ -4,8 +4,6 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <string>
-#include <iostream>
-#include <chrono>
 #include <typeinfo>
 #include <stdexcept>
 /**
