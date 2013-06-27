@@ -1,4 +1,5 @@
 #include <libunittest/assertions.hpp>
+#include <libunittest/testfailure.hpp>
 
 namespace unittest {
 

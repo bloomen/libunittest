@@ -1,6 +1,5 @@
 #pragma once
 #include <libunittest/utilities.hpp>
-#include <libunittest/testfailure.hpp>
 #include <libunittest/formatting.hpp>
 #include <string>
 #include <regex>
