@@ -3,6 +3,8 @@
 #include <libunittest/utilities.hpp>
 #include <mutex>
 #include <memory>
+#include <chrono>
+#include <vector>
 
 namespace unittest {
 

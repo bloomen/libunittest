@@ -3,9 +3,6 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <string>
-#include <vector>
-#include <chrono>
-#include <thread>
 /**
  * @brief Unit testing in C++
  */
