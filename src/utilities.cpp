@@ -57,4 +57,22 @@ is_regex_matched(const std::string& value,
     return std::regex_match(value, regex);
 }
 
+std::string
+xml_escape(const std::string& data)
+{
+    std::string escaped("");
+    escaped.reserve(data.size());
+    for (auto character : data) {
+        switch (character) {
+            case '&':  escaped.append("&amp;");       break;
+            case '\"': escaped.append("&quot;");      break;
+            case '\'': escaped.append("&apos;");      break;
+            case '<':  escaped.append("&lt;");        break;
+            case '>':  escaped.append("&gt;");        break;
+            default:   escaped.append(1, character);  break;
+        }
+    }
+    return std::move(escaped);
+}
+
 } // unittest

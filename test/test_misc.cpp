@@ -341,3 +341,16 @@ void test_misc::test_formatting_str()
     assert_equal("'3.1415'", str(3.1415), SPOT);
     assert_equal("'blöd'", str("blöd"), SPOT);
 }
+
+void test_misc::test_xml_escape()
+{
+    assert_equal("", unittest::xml_escape(""), SPOT);
+    assert_equal("stuff", unittest::xml_escape("stuff"), SPOT);
+    assert_equal("blöd", unittest::xml_escape("blöd"), SPOT);
+    assert_equal("&amp;", unittest::xml_escape("&"), SPOT);
+    assert_equal("&amp;stuff", unittest::xml_escape("&stuff"), SPOT);
+    assert_equal("&amp;st uff &lt;", unittest::xml_escape("&st uff <"), SPOT);
+    assert_equal("&quot;", unittest::xml_escape("\""), SPOT);
+    assert_equal("&apos;", unittest::xml_escape("\'"), SPOT);
+    assert_equal("&gt;", unittest::xml_escape(">"), SPOT);
+}

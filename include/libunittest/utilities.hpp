@@ -239,5 +239,11 @@ is_regex_matched(const std::string& value,
 bool
 is_regex_matched(const std::string& value,
                  const std::regex& regex);
+/**
+ * @brief Escapes a string for use in an XML document
+ * @param data Some string
+ */
+std::string
+xml_escape(const std::string& data);
 
 } // unittest

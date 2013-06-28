@@ -23,20 +23,21 @@ write_xml(std::ostream& stream,
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
     for (auto log : results.testlogs) {
-        stream << "\t<testcase classname=\"" << log.class_name;
-        stream << "\" name=\"" << log.test_name;
+        stream << "\t<testcase classname=\"" << xml_escape(log.class_name);
+        stream << "\" name=\"" << xml_escape(log.test_name);
         stream << "\" time=\"" << log.duration << "\"";
         if (log.successful) {
             stream << "/>";
             stream << "\n";
         } else {
-            stream << ">" << std::endl;
+            stream << ">";
+            stream << "\n";
             if (log.status==teststatus::failure)
                 stream << "\t\t<failure ";
             else
                 stream << "\t\t<error ";
-            stream << "type=\"" << log.error_type;
-            stream << "\" message=\"" << log.message << "\"/>";
+            stream << "type=\"" << xml_escape(log.error_type);
+            stream << "\" message=\"" << xml_escape(log.message) << "\"/>";
             stream << "\n";
             stream << "\t</testcase>";
             stream << "\n";
