@@ -9,6 +9,19 @@
  */
 namespace unittest {
 /**
+ * @brief Escapes a string for use in an XML document
+ * @param data Some string
+ */
+std::string
+xml_escape(const std::string& data);
+/**
+ * @brief Generates the ISO8601 time stamp from a time point object
+ * @param time_point The time point object
+ * @returns The ISO8601 time stamp (e.g. 2013-06-29T14:12:05)
+ */
+std::string
+make_iso_timestamp(const std::chrono::system_clock::time_point& time_point);
+/**
  * @brief An overload doing nothing to finish template recursion
  * @param stream An output stream
  */
@@ -59,17 +72,6 @@ write_horizontal_bar(std::ostream& stream,
                      char character,
                      int length=50);
 /**
- * @brief Returns whether a given test is executed
- * @param test_name The full test name
- * @param exact_name An exact name to be checked for, ignored if empty
- * @param filter_name A filter for the beginning of the test name, ignored if empty
- * @returns Whether a given test is executed
- */
-bool
-is_test_executed(const std::string& test_name,
-                 const std::string& exact_name,
-                 const std::string& filter_name);
-/**
  * @brief Casts a duration value to seconds
  * @param duration The duration value
  * @returns The duration in seconds
@@ -116,12 +118,12 @@ is_approx_equal(InputIterator1 first1,
                 InputIterator2 first2,
                 const T& eps)
 {
-  while (first1!=last1) {
-      if (!is_approx_equal(*first1, *first2, eps))
-          return false;
-      ++first1; ++first2;
-  }
-  return true;
+    while (first1!=last1) {
+        if (!is_approx_equal(*first1, *first2, eps))
+            return false;
+        ++first1; ++first2;
+    }
+    return true;
 }
 /**
  * @brief Checks if a value is in a given range.
@@ -193,9 +195,11 @@ bool
 is_containers_equal(const Container1& first,
                     const Container2& second)
 {
-    const bool equal_first = std::equal(std::begin(first), std::end(first),
+    const bool equal_first = std::equal(std::begin(first),
+                                        std::end(first),
                                         std::begin(second));
-    const bool equal_second = std::equal(std::begin(second), std::end(second),
+    const bool equal_second = std::equal(std::begin(second),
+                                         std::end(second),
                                          std::begin(first));
     return equal_first && equal_second;
 }
@@ -215,10 +219,14 @@ is_containers_approx_equal(const Container1& first,
                            const Container2& second,
                            const V& eps)
 {
-    const bool equal_first = is_approx_equal(std::begin(first), std::end(first),
-                                             std::begin(second), eps);
-    const bool equal_second = is_approx_equal(std::begin(second), std::end(second),
-                                              std::begin(first), eps);
+    const bool equal_first = is_approx_equal(std::begin(first),
+                                             std::end(first),
+                                             std::begin(second),
+                                             eps);
+    const bool equal_second = is_approx_equal(std::begin(second),
+                                              std::end(second),
+                                              std::begin(first),
+                                              eps);
     return equal_first && equal_second;
 }
 /**
@@ -239,18 +247,5 @@ is_regex_matched(const std::string& value,
 bool
 is_regex_matched(const std::string& value,
                  const std::regex& regex);
-/**
- * @brief Escapes a string for use in an XML document
- * @param data Some string
- */
-std::string
-xml_escape(const std::string& data);
-/**
- * @brief Generates the ISO8601 time stamp from a time point object
- * @param time_point The time point object
- * @returns The ISO8601 time stamp (e.g. 2013-06-29T14:12:05)
- */
-std::string
-make_iso_timestamp(const std::chrono::system_clock::time_point& time_point);
 
 } // unittest

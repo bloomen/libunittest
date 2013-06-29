@@ -186,4 +186,26 @@ testsuite::is_verbose() const
     return impl_->verbose_;
 }
 
+bool
+is_test_executed(const std::string& test_name,
+                 const std::string& exact_name,
+                 const std::string& filter_name)
+{
+    if (exact_name!="") {
+        if (exact_name==test_name)
+            return true;
+        else
+            return false;
+    }
+
+    if (filter_name!="") {
+        if (test_name.substr(0, filter_name.size())==filter_name)
+            return true;
+        else
+            return false;
+    }
+
+    return true;
+}
+
 } // unittest
