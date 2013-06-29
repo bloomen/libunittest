@@ -17,7 +17,8 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~formatting();
+    virtual
+    ~formatting();
     /**
      * @brief A pure virtual method
      * @param assertion The name of the assertion

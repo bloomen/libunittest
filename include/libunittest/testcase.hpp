@@ -25,7 +25,8 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~testcase()
+    virtual
+    ~testcase()
     {}
     /**
      * @brief Returns a pointer to the optional test context

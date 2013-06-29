@@ -16,7 +16,8 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~userargs();
+    virtual
+    ~userargs();
     /**
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose

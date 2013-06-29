@@ -11,7 +11,8 @@ namespace unittest {
 /**
  * @brief An argument parser
  */
-class argparser : public userargs, public pimplpattern<argparser> {
+class argparser : public userargs,
+                  public pimplpattern<argparser> {
 public:
     /**
      * @brief Constructor
@@ -22,7 +23,8 @@ public:
      * @param argc The number of arguments
      * @param argv The array of arguments
      */
-    void parse(int argc, char **argv);
+    void
+    parse(int argc, char **argv);
 };
 /**
  * @brief The exception class to indicate argument errors
@@ -33,7 +35,8 @@ public:
      * @brief Constructor
      * @param message The exception message
      */
-    explicit argparser_error(const std::string& message);
+    explicit
+    argparser_error(const std::string& message);
 };
 
 } // unittest

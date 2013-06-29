@@ -22,11 +22,13 @@ public:
      * @brief Constructor
      * @param imp A pointer to the concrete implementation class
      */
-    explicit pimplpattern(implementation<T> *imp);
+    explicit
+    pimplpattern(implementation<T> *imp);
     /**
      * @brief Destructor
      */
-    virtual ~pimplpattern();
+    virtual
+    ~pimplpattern();
 };
 
 template<typename T>

@@ -14,7 +14,8 @@ public:
      * @brief Constructor
      * @param message The exception message
      */
-    explicit testfailure(const std::string& message);
+    explicit
+    testfailure(const std::string& message);
 };
 
 } // unittest

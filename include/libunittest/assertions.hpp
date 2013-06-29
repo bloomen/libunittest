@@ -20,7 +20,8 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~assertions();
+    virtual
+    ~assertions();
     /**
      * @brief Throws exception testfailure with a given message
      * @param message The fail message
