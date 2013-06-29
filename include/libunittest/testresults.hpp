@@ -2,6 +2,7 @@
 #include <libunittest/testlog.hpp>
 #include <ostream>
 #include <vector>
+#include <chrono>
 /**
  * @brief Unit testing in C++
  */
@@ -51,10 +52,12 @@ struct testresults {
  * @brief Writes the test results as an XML to the given output stream
  * @param stream The output stream
  * @param results The test results
+ * @param time_point The time point used in the root tag (defaults to now)
  */
 void
 write_xml(std::ostream& stream,
-          const testresults& results);
+          const testresults& results,
+          const std::chrono::system_clock::time_point& time_point=std::chrono::system_clock::now());
 /**
  * @brief Writes the test summary to the given output stream
  * @param stream The output stream

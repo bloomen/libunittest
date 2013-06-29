@@ -245,5 +245,12 @@ is_regex_matched(const std::string& value,
  */
 std::string
 xml_escape(const std::string& data);
+/**
+ * @brief Generates the ISO8601 time stamp from a time point object
+ * @param time_point The time point object
+ * @returns The ISO8601 time stamp (e.g. 2013-06-29T14:12:05)
+ */
+std::string
+make_iso_timestamp(const std::chrono::system_clock::time_point& time_point);
 
 } // unittest

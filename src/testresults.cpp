@@ -11,15 +11,18 @@ testresults::testresults()
 
 void
 write_xml(std::ostream& stream,
-          const testresults& results)
+          const testresults& results,
+          const std::chrono::system_clock::time_point& time_point)
 {
+    stream.setf(std::ios_base::fixed);
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     stream << "\n";
     stream << "<testsuite name=\"libunittest";
+    stream << "\" timestamp=\"" << make_iso_timestamp(time_point);
     stream << "\" tests=\"" << results.n_tests;
-    stream << "\" skipped=\"" << results.n_skipped;
     stream << "\" errors=\"" << results.n_errors;
     stream << "\" failures=\"" << results.n_failures;
+    stream << "\" skipped=\"" << results.n_skipped;
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
     for (auto log : results.testlogs) {
@@ -46,6 +49,7 @@ write_xml(std::ostream& stream,
     stream << "</testsuite>";
     stream << "\n";
     stream << std::flush;
+    stream.unsetf(std::ios_base::fixed);
 }
 
 void

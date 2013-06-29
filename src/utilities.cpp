@@ -75,4 +75,14 @@ xml_escape(const std::string& data)
     return std::move(escaped);
 }
 
+std::string
+make_iso_timestamp(const std::chrono::system_clock::time_point& time_point)
+{
+    const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
+    struct tm timeinfo = *std::localtime(&rawtime);
+    char buffer[20];
+    std::strftime(buffer, 20, "%FT%X", &timeinfo);
+    return buffer;
+}
+
 } // unittest

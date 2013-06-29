@@ -36,6 +36,7 @@ struct test_misc : unittest::testcase<context> {
         UNITTEST_RUN(test_misc, test_is_test_executed)
         UNITTEST_RUN(test_misc, test_formatting_str)
         UNITTEST_RUN(test_misc, test_xml_escape)
+        UNITTEST_RUN(test_misc, test_make_iso_timestamp)
     }
 
     void test_get_version_tuple();
@@ -66,6 +67,7 @@ struct test_misc : unittest::testcase<context> {
     void test_is_test_executed();
     void test_formatting_str();
     void test_xml_escape();
+    void test_make_iso_timestamp();
 
 private:
     unittest::testresults make_sample_results();

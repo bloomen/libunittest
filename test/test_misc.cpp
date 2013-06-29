@@ -112,11 +112,15 @@ void test_misc::test_write_xml_empty()
 {
     const unittest::testresults results;
     std::ostringstream stream;
-    unittest::write_xml(stream, results);
+    const time_t value = 1234567890;
+    const auto time_point = std::chrono::system_clock::from_time_t(value);
+    unittest::write_xml(stream, results, time_point);
     std::ostringstream expected;
     expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    expected << "<testsuite name=\"libunittest\" tests=\"0\" skipped=\"0\" ";
-    expected << "errors=\"0\" failures=\"0\" time=\"0\">\n";
+    expected << "<testsuite name=\"libunittest\" ";
+    expected << "timestamp=\"2009-02-14T00:31:30\" ";
+    expected << "tests=\"0\" errors=\"0\" ";
+    expected << "failures=\"0\" skipped=\"0\" time=\"0.000000\">\n";
     expected << "</testsuite>\n";
     assert_equal(expected.str(), stream.str(), SPOT);
 }
@@ -125,16 +129,20 @@ void test_misc::test_write_xml_filled()
 {
     const auto results = make_sample_results();
     std::ostringstream stream;
-    unittest::write_xml(stream, results);
+    const time_t value = 1234567890;
+    const auto time_point = std::chrono::system_clock::from_time_t(value);
+    unittest::write_xml(stream, results, time_point);
     std::ostringstream expected;
     expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    expected << "<testsuite name=\"libunittest\" tests=\"3\" skipped=\"2\" ";
-    expected << "errors=\"1\" failures=\"1\" time=\"6\">\n";
-    expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1\"/>\n";
-    expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2\">\n";
+    expected << "<testsuite name=\"libunittest\" ";
+    expected << "timestamp=\"2009-02-14T00:31:30\" ";
+    expected << "tests=\"3\" errors=\"1\" ";
+    expected << "failures=\"1\" skipped=\"2\" time=\"6.000000\">\n";
+    expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
+    expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\">\n";
     expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";
     expected << "\t</testcase>\n";
-    expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3\">\n";
+    expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
     expected << "\t\t<error type=\"error\" message=\"message3\"/>\n";
     expected << "\t</testcase>\n";
     expected << "</testsuite>\n";
@@ -353,4 +361,11 @@ void test_misc::test_xml_escape()
     assert_equal("&quot;", unittest::xml_escape("\""), SPOT);
     assert_equal("&apos;", unittest::xml_escape("\'"), SPOT);
     assert_equal("&gt;", unittest::xml_escape(">"), SPOT);
+}
+
+void test_misc::test_make_iso_timestamp()
+{
+    const time_t value = 1234567890;
+    const auto time_point = std::chrono::system_clock::from_time_t(value);
+    assert_equal("2009-02-14T00:31:30", unittest::make_iso_timestamp(time_point), SPOT);
 }
