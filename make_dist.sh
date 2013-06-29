@@ -21,7 +21,7 @@ for f in $folders;do
 	cp -r $f $dir
 done
 
-cleans='build test examples/complete examples/minimal'
+cleans='build test examples/standard examples/minimal'
 for f in $cleans;do
 	cd $dir/$f
 	make clean > /dev/null

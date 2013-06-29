@@ -11,6 +11,7 @@ Features:
 - tests can be run in parallel due to full thread-safety
 - portable across various operating systems such as Linux and MacOSX
 - macros only for registering test runs
+- it comes with tests and examples
 
 libunittest has been successfully tested with:
 
