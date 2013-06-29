@@ -190,13 +190,11 @@ void test_assertions::test_assert_none_of()
 void test_assertions::test_assert_regex_match()
 {
     assert_regex_match("peter", ".+", SPOT);
-    assert_fail(std::bind(&test::assert_regex_match<std::string>, *this, "peter", "a-z", ""), SPOT);
 }
 
 void test_assertions::test_assert_not_regex_match()
 {
     assert_not_regex_match("peter", "a-z", SPOT);
-    assert_fail(std::bind(&test::assert_not_regex_match<std::string>, *this, "peter", ".+", ""), SPOT);
 }
 
 void test_assertions::test_assert_throw()
