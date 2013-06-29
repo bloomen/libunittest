@@ -128,6 +128,8 @@ testsuite::get_results() const
 void
 testsuite::make_keep_running(const testlog& log)
 {
+    static std::mutex make_keep_running_mutex_;
+    std::lock_guard<std::mutex> lock(make_keep_running_mutex_);
     if (!log.successful && impl_->failure_stop_)
         impl_->set_keep_running(false);
 }
@@ -156,9 +158,9 @@ testsuite::collect(const testlog& log)
     std::lock_guard<std::mutex> lock(collect_mutex_);
     switch (log.status) {
     case teststatus::success: ++impl_->n_successes_; break;
-    case teststatus::failure: ++impl_->n_failures_; break;
-    case teststatus::error: ++impl_->n_errors_; break;
-    case teststatus::skipped: ++impl_->n_skipped_; break;
+    case teststatus::failure: ++impl_->n_failures_;  break;
+    case teststatus::error: ++impl_->n_errors_;      break;
+    default: ++impl_->n_skipped_;                    break;
     }
     if (log.status!=teststatus::skipped) {
         ++impl_->n_tests_;
