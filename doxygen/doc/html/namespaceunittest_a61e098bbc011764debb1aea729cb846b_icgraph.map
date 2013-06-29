@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classunittest_1_1assertions.html#a4f4028684019fcc0838b1b6e07a1934c" title="Asserts that a value is approx. in a container up to some epsilon. The assertion succeeds if |a &#45; b| ..." alt="" coords="279,5,607,35"/>
+<area shape="rect" id="node5" href="$classunittest_1_1assertions.html#a7bcfad8c0bb7a1899c5f91eb2df4e8a1" title="Asserts that a value is not approx. in a container up to some epsilon. The assertion succeeds if |a &#45;..." alt="" coords="264,59,621,88"/>
+</map>

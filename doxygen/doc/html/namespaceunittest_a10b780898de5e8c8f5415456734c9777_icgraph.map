@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classunittest_1_1assertions.html#a24205513ae15742c4eeed18d27a536f0" title="Asserts that two values are approximately equal up to some epsilon. The assertions succeeds if |a &#45; b..." alt="" coords="252,5,537,35"/>
+<area shape="rect" id="node5" href="$classunittest_1_1assertions.html#a2b4001099ae4cd5002b8fd9ed2a21507" title="Asserts that two values are not approximately equal up to some epsilon. The assertions succeeds if |a..." alt="" coords="237,59,552,88"/>
+<area shape="rect" id="node7" href="$namespaceunittest.html#a61e098bbc011764debb1aea729cb846b" title="Checks if a value is approx. in a container up to some epsilon." alt="" coords="289,112,500,141"/>
+<area shape="rect" id="node13" href="$namespaceunittest.html#acdfad60dfe6508b9ef59a3032ea96401" title="Checks whether the elements in two ranges are approx. equal up to some epsilon." alt="" coords="304,165,485,195"/>
+<area shape="rect" id="node15" href="$namespaceunittest.html#a488b2885eec6b5024c0b0056c365c201" title="Checks if two containers are approx. equal up to some epsilon." alt="" coords="267,219,523,248"/>
+<area shape="rect" id="node9" href="$classunittest_1_1assertions.html#a4f4028684019fcc0838b1b6e07a1934c" title="Asserts that a value is approx. in a container up to some epsilon. The assertion succeeds if |a &#45; b| ..." alt="" coords="631,72,959,101"/>
+<area shape="rect" id="node11" href="$classunittest_1_1assertions.html#a7bcfad8c0bb7a1899c5f91eb2df4e8a1" title="Asserts that a value is not approx. in a container up to some epsilon. The assertion succeeds if |a &#45;..." alt="" coords="616,125,973,155"/>
+<area shape="rect" id="node17" href="$classunittest_1_1assertions.html#ad1ebe58306791cd7a9c9a7a85416dff0" title="Asserts that two containers are approx. equal up to some epsilon. The assertion succeeds if |a &#45; b| &lt;..." alt="" coords="615,192,975,221"/>
+<area shape="rect" id="node19" href="$classunittest_1_1assertions.html#a40110b3c79a3694cb49f2bd1b46a384c" title="Asserts that two containers are not approx. equal up to some epsilon. The assertion succeeds if |a &#45; ..." alt="" coords="601,245,988,275"/>
+</map>

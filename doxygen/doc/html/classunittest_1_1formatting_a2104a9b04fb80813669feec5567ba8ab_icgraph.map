@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classunittest_1_1assertions.html#a24205513ae15742c4eeed18d27a536f0" title="Asserts that two values are approximately equal up to some epsilon. The assertions succeeds if |a &#45; b..." alt="" coords="276,5,561,35"/>
+<area shape="rect" id="node5" href="$classunittest_1_1assertions.html#ad1ebe58306791cd7a9c9a7a85416dff0" title="Asserts that two containers are approx. equal up to some epsilon. The assertion succeeds if |a &#45; b| &lt;..." alt="" coords="239,59,599,88"/>
+<area shape="rect" id="node7" href="$classunittest_1_1assertions.html#a4f4028684019fcc0838b1b6e07a1934c" title="Asserts that a value is approx. in a container up to some epsilon. The assertion succeeds if |a &#45; b| ..." alt="" coords="255,112,583,141"/>
+<area shape="rect" id="node9" href="$classunittest_1_1assertions.html#a2b4001099ae4cd5002b8fd9ed2a21507" title="Asserts that two values are not approximately equal up to some epsilon. The assertions succeeds if |a..." alt="" coords="261,165,576,195"/>
+<area shape="rect" id="node11" href="$classunittest_1_1assertions.html#a40110b3c79a3694cb49f2bd1b46a384c" title="Asserts that two containers are not approx. equal up to some epsilon. The assertion succeeds if |a &#45; ..." alt="" coords="225,219,612,248"/>
+<area shape="rect" id="node13" href="$classunittest_1_1assertions.html#a7bcfad8c0bb7a1899c5f91eb2df4e8a1" title="Asserts that a value is not approx. in a container up to some epsilon. The assertion succeeds if |a &#45;..." alt="" coords="240,272,597,301"/>
+<area shape="rect" id="node15" href="$classunittest_1_1assertions.html#ae2aaaecf6efb4e18dbb67f9b1bba2dc6" title="Asserts that two values are equal." alt="" coords="301,325,536,355"/>
+<area shape="rect" id="node17" href="$classunittest_1_1assertions.html#a55341c163f00c9ce0257223043d9427e" title="Asserts that the first value is greater than the second." alt="" coords="296,379,541,408"/>
+<area shape="rect" id="node19" href="$classunittest_1_1assertions.html#a9f4a911dd9514d804ac5b4befff5c38f" title="Asserts that the first value is greater than or equal to the second." alt="" coords="275,432,563,461"/>
+<area shape="rect" id="node21" href="$classunittest_1_1assertions.html#a525b7f697a06dfd2fa4c10ae70ef80c6" title="Asserts that a value is in a container." alt="" coords="280,485,557,515"/>
+<area shape="rect" id="node23" href="$classunittest_1_1assertions.html#a36612b74d124a48cc519e3a36299866e" title="Asserts that a value is in a given range with excluding bounds." alt="" coords="292,539,545,568"/>
+<area shape="rect" id="node25" href="$classunittest_1_1assertions.html#a0f92af2c863e1c21317dbced95ec7260" title="Asserts that two values are not equal." alt="" coords="288,592,549,621"/>
+<area shape="rect" id="node27" href="$classunittest_1_1assertions.html#a4c3b184275c5dda5fdad1d465212195b" title="Asserts that a value is not in a container." alt="" coords="265,645,572,675"/>
+<area shape="rect" id="node29" href="$classunittest_1_1assertions.html#af50b2f6e575e78c2d5afed23fd6a08f2" title="Asserts that a value is not in a given range with excluding bounds." alt="" coords="277,699,560,728"/>
+<area shape="rect" id="node31" href="$classunittest_1_1assertions.html#a024b925a3123fc7735c2715fb569e4dc" title="Asserts that a string does not match a regular expression." alt="" coords="263,752,575,781"/>
+<area shape="rect" id="node33" href="$classunittest_1_1assertions.html#a6e39b457ab4a63dac771445c02123a28" title="Asserts that a string matches a regular expression." alt="" coords="277,805,560,835"/>
+<area shape="rect" id="node35" href="$classunittest_1_1assertions.html#a1a72e644afcfc18fe3fe5ad2057615d5" title="Asserts that the first value is smaller than the second." alt="" coords="296,859,541,888"/>
+<area shape="rect" id="node37" href="$classunittest_1_1assertions.html#ab30951e33c25eb71a30c7f85b6167fc4" title="Asserts that the first value is smaller than or equal to the second." alt="" coords="275,912,563,941"/>
+</map>

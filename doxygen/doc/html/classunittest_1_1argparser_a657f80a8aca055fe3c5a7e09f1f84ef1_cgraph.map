@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classunittest_1_1userargs.html#a0914ba89468b3b0acd8b56592485ced2" title="Returns whether to stop running after the first test fails." alt="" coords="248,5,464,35"/>
+<area shape="rect" id="node5" href="$classunittest_1_1userargs.html#a99ba6c640aad13ec3e9e0fb90f83adb7" title="Returns whether to generate XML output." alt="" coords="241,59,471,88"/>
+<area shape="rect" id="node7" href="$namespaceunittest.html#a40ce94bef13b737678960b64bd21c209" title="Joins an arbitrary number of input arguments to a single string. All arguments must implement the &lt;&lt; ..." alt="" coords="305,112,407,141"/>
+<area shape="rect" id="node11" href="$classunittest_1_1userargs.html#a158f5773537e08501b01e2a759d924a9" title="Returns a name filter on the full test name." alt="" coords="249,165,463,195"/>
+<area shape="rect" id="node13" href="$classunittest_1_1userargs.html#ada36f9f829a9f41d9970c84ff580924a" title="Returns a certain test to be run. This supersedes the name filter." alt="" coords="251,219,461,248"/>
+<area shape="rect" id="node15" href="$classunittest_1_1userargs.html#aad8e5850a62a1183ba56e8032120af17" title="Returns whether the output is verbose." alt="" coords="259,272,453,301"/>
+<area shape="rect" id="node17" href="$classunittest_1_1userargs.html#af5f2ee672a5be84734a2b408b545802e" title="Returns the XML output file name." alt="" coords="243,325,469,355"/>
+<area shape="rect" id="node9" href="$namespaceunittest.html#ae4f89d887c1a9079c45b3d616ddb511d" title="An overload doing nothing to finish template recursion." alt="" coords="521,112,703,141"/>
+</map>

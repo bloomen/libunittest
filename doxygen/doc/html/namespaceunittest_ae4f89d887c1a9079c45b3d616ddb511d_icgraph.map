@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespaceunittest.html#a40ce94bef13b737678960b64bd21c209" title="Joins an arbitrary number of input arguments to a single string. All arguments must implement the &lt;&lt; ..." alt="" coords="279,165,380,195"/>
+<area shape="rect" id="node23" href="$namespaceunittest.html#aa650d6bbbd67a54fdb539e9a5a1a20b2" title="Writes arguments to an output stream via template recursion." alt="" coords="239,219,420,248"/>
+<area shape="rect" id="node5" href="$classunittest_1_1assertions.html#a38426270c2f24663deb02c350be1cf3e" title="Asserts that a functor does not throw any exception." alt="" coords="531,5,789,35"/>
+<area shape="rect" id="node7" href="$classunittest_1_1assertions.html#a536d1c19eea76e64d68e7f625f9eddee" title="Asserts that a functor throws Exception." alt="" coords="543,59,777,88"/>
+<area shape="rect" id="node9" href="$classunittest_1_1assertions.html#a4e1c1d6a74594969c91a1b8e962ad5ed" title="Builds a fail message from the parameters passed and calls the fail(message) overload." alt="" coords="575,112,745,141"/>
+<area shape="rect" id="node11" href="$namespaceunittest.html#a94b32d70fd855758c57731987e96e836" title="Returns the libunittest version as a string." alt="" coords="563,165,757,195"/>
+<area shape="rect" id="node15" href="$structunittest_1_1implementation_3_01argparser_01_4.html#a4a116cb71e39ba5377115495bc020ae4" title="unittest::implementation\&lt; argparser \&gt;::help_and_throw" alt="" coords="471,219,849,248"/>
+<area shape="rect" id="node17" href="$classunittest_1_1testcase.html#a4860bc3c4c7c0cf4d3b40d949c042ab7" title="Generates a displayed fail message from assertion name and text." alt="" coords="492,272,828,301"/>
+<area shape="rect" id="node19" href="$classunittest_1_1argparser.html#a657f80a8aca055fe3c5a7e09f1f84ef1" title="Parses the arguments and assigns given values." alt="" coords="568,325,752,355"/>
+<area shape="rect" id="node13" href="$structunittest_1_1implementation_3_01argparser_01_4.html#a83f9f5b073690e4c367c91f2d641ca76" title="unittest::implementation\&lt; argparser \&gt;::write_help" alt="" coords="899,165,1243,195"/>
+<area shape="rect" id="node21" href="$namespaceunittest.html#ae5653abda2d2c36de7c0942c007950d6" title="Sets up a default testing environment and calls run_all_tests(). This high&#45;level function is intended..." alt="" coords="944,325,1197,355"/>
+</map>
