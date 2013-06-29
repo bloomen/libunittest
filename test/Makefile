@@ -1,6 +1,6 @@
 PROG = unittest_test
 
-UNAME := $(shell uname)
+UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++

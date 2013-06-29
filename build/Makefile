@@ -1,6 +1,6 @@
 PROG = libunittest.so
 
-UNAME := $(shell uname)
+UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++
