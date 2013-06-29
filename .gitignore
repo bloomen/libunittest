@@ -6,3 +6,5 @@ test/unittest_test
 examples/standard/unittest_example
 examples/minimal/unittest_example
 libunittest.xml
+doxygen/html
+doxygen/doxyfile

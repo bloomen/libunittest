@@ -19,12 +19,12 @@ for f in $txtfiles;do
 	cp $f $dir
 done
 
-folders='build examples include src test'
+folders='build examples include src test doxygen'
 for f in $folders;do
 	cp -r $f $dir
 done
 
-cleans='build test examples/standard examples/minimal'
+cleans='build test examples/standard examples/minimal doxygen'
 for f in $cleans;do
 	cd $dir/$f
 	make clean > /dev/null

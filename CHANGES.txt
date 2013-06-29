@@ -8,6 +8,7 @@
 - extended unit tests
 - refactored and simplified the examples
 - renamed folder examples/complete to examples/standard
+- added doxygen folder and Makefile to build doxygen documentation 
 
 3.1.2
 
