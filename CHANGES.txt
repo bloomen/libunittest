@@ -9,6 +9,8 @@
 - refactored and simplified the examples
 - renamed folder examples/complete to examples/standard
 - added doxygen folder and Makefile to build doxygen documentation 
+- made make_default_environment() inline to avoid linking problems
+- adjusted run scripts for use on Linux and MacOS
 
 3.1.2
 
