@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classunittest_1_1assertions.html#ad4236300f885f9c2f2e415a4dfb58788" title="Throws exception testfailure with a given message." alt="" coords="375,5,545,35"/>
-<area shape="rect" id="node5" href="$namespaceunittest.html#a10b780898de5e8c8f5415456734c9777" title="Checks if two values are equal up to some epsilon." alt="" coords="369,59,551,88"/>
-<area shape="rect" id="node7" href="$classunittest_1_1formatting.html#a2104a9b04fb80813669feec5567ba8ab" title="Converts a given value to string by taking into account the maximum string length and the maximum val..." alt="" coords="375,112,545,141"/>
-<area shape="rect" id="node9" href="$classunittest_1_1formatting.html#ae1f641eb701db06049aabd7ea325edea" title="A pure virtual method." alt="" coords="600,85,955,115"/>
-<area shape="rect" id="node11" href="$classunittest_1_1formatting.html#a66a6d3fd7bb54ddc4d7f2038894f7980" title="A pure virtual method." alt="" coords="608,139,947,168"/>
-</map>

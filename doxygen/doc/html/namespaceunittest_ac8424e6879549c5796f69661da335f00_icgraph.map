@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$namespaceunittest.html#a304e492deb4cffda0edc26db05840e86" title="Writes the error info to the given output stream." alt="" coords="263,5,439,35"/>
-<area shape="rect" id="node7" href="$namespaceunittest.html#ad3493c5f28d6f66cd3e6607a71fa9bd9" title="Writes the test summary to the given output stream." alt="" coords="263,59,439,88"/>
-<area shape="rect" id="node5" href="$namespaceunittest.html#ae5653abda2d2c36de7c0942c007950d6" title="Sets up a default testing environment and calls run_all_tests(). This high&#45;level function is intended..." alt="" coords="489,32,743,61"/>
-</map>

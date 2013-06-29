@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$namespaceunittest.html#a7be143cb03cdd3a75ad067656c65ab39" title="Returns the libunittest version as a tuple." alt="" coords="251,5,443,35"/>
-<area shape="rect" id="node5" href="$namespaceunittest.html#a40ce94bef13b737678960b64bd21c209" title="Joins an arbitrary number of input arguments to a single string. All arguments must implement the &lt;&lt; ..." alt="" coords="296,59,397,88"/>
-<area shape="rect" id="node7" href="$namespaceunittest.html#ae4f89d887c1a9079c45b3d616ddb511d" title="An overload doing nothing to finish template recursion." alt="" coords="492,59,673,88"/>
-</map>
