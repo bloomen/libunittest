@@ -3,6 +3,6 @@
 dist
 build/libunittest.so*
 test/unittest_test
-examples/complete/unittest_example
+examples/standard/unittest_example
 examples/minimal/unittest_example
 libunittest.xml

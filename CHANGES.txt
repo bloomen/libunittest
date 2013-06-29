@@ -3,6 +3,10 @@
 - added xml_escape() function to utilities
 - use of xml_escape() in write_xml() function to make sure special
     characters are escaped properly
+- added make_iso_timestamp() function to utilities
+- added timestamp attribute to XML root tag
+- extended unit tests
+- refactored and simplified the examples
 
 3.1.2
 
