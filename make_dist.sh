@@ -1,4 +1,7 @@
 #!/bin/bash
+# This script creates a distribution archive in the dist folder.
+# The dist folder is created in the current directory if not there yet.
+# The version in VERSION.txt is used to distinguish between different archives.
 set -e
 version=$(head -n 1 VERSION.txt)
 

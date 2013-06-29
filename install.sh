@@ -1,4 +1,10 @@
 #!/bin/bash
+# This scripts installs libunittest in a given location.
+# Usage: sh install.sh [install_directory]
+# If install_directory is not given than libunittest will be installed in a 
+# standard system location (/usr) requiring root privileges.
+# The version in VERSION.txt is used to distinguish between installed libraries.
+# libunittest is only installed if all tests pass. 
 set -e
 version=$(head -n 1 VERSION.txt)
 
