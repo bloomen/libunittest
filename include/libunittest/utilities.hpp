@@ -94,9 +94,9 @@ is_approx_equal(const T& first,
                 const V& eps)
 {
     V diff = 0;
-    if (first>second)
+    if (first > second)
         diff = static_cast<V>(first - second);
-    else if (first<second)
+    else if (first < second)
         diff = static_cast<V>(second - first);
     return diff < eps;
 }
@@ -118,7 +118,7 @@ is_approx_equal(InputIterator1 first1,
                 InputIterator2 first2,
                 const T& eps)
 {
-    while (first1!=last1) {
+    while (first1 != last1) {
         if (!is_approx_equal(*first1, *first2, eps))
             return false;
         ++first1; ++first2;
@@ -141,7 +141,7 @@ is_in_range(const T& value,
             const U& lower,
             const V& upper)
 {
-    return value>lower && value<upper;
+    return value > lower && value < upper;
 }
 /**
  * @brief Checks if a value is in a container
