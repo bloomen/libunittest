@@ -122,7 +122,7 @@ testsuite::set_test_name(const std::string& test_name)
 testresults
 testsuite::get_results() const
 {
-    return std::move(impl_->get_results());
+    return impl_->get_results();
 }
 
 void
