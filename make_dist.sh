@@ -31,6 +31,11 @@ for f in $cleans;do
 	cd - > /dev/null
 done
 
+chmods='install.sh test/run_test.sh examples/standard/run_example.sh examples/minimal/run_example.sh'
+for f in $chmods;do
+    chmod -x $dir/$f
+done
+
 tar cfz $dir.tar.gz $dir
 mkdir -p dist
 mv $dir.tar.gz dist
