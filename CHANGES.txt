@@ -4,6 +4,7 @@
     or examples
 - adjusted install.sh: now it will create the install_directory 
     if it is not there yet 
+- added check for proper epsilon and range bounds in assertions class
 
 3.1.3
 
