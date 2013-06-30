@@ -19,4 +19,4 @@ all :
 	$(CXX) $(FLAGS) $(INCS) $(SRCS) -o $(PROG)
 
 clean :
-	$(RM) $(PROG)
+	$(RM) $(PROG)*
