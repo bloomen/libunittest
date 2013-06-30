@@ -65,7 +65,7 @@ struct implementation<testsuite> {
         results.n_skipped = n_skipped_;
         results.duration = get_duration();
         results.testlogs = testlogs_;
-        return std::move(results);
+        return results;
     }
 
 };
