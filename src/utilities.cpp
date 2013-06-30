@@ -38,7 +38,7 @@ is_regex_matched(const std::string& value,
 std::string
 xml_escape(const std::string& data)
 {
-    std::string escaped("");
+    std::string escaped;
     escaped.reserve(data.size());
     for (auto character : data) {
         switch (character) {
