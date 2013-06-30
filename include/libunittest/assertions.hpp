@@ -45,6 +45,45 @@ public:
         fail(join(make_displayed_fail_message(assertion, text), args...));
     }
     /**
+     * @brief Checks if an epsilon is valid
+     * @param epsilon The epsilon
+     * @param caller The name of the caller
+     * @param message If given, is appended to the default fail message
+     */
+    template<typename T,
+             typename... Args>
+    void
+    check_epsilon(const T& epsilon,
+                  const std::string& caller,
+                  const Args&... message) const
+    {
+        if (!(epsilon > 0)) {
+            const std::string text = "The epsilon of " + str(epsilon) + " is not greater than zero";
+            fail(caller, text, message...);
+        }
+    }
+    /**
+     * @brief Checks if the range bounds are valid
+     * @param lower The lower bound
+     * @param upper The upper bound
+     * @param caller The name of the caller
+     * @param message If given, is appended to the default fail message
+     */
+    template<typename T,
+             typename U,
+             typename... Args>
+    void
+    check_range_bounds(const T& lower,
+                       const U& upper,
+                       const std::string& caller,
+                       const Args&... message) const
+    {
+        if (!(lower < upper)) {
+            const std::string text = "The lower bound of " + str(lower) + " is not smaller than the upper bound of " + str(upper);
+            fail(caller, text, message...);
+        }
+    }
+    /**
      * @brief Asserts that a value is true
      * @param value A value
      * @param message If given, is appended to the default fail message
@@ -119,7 +158,7 @@ public:
      *  epsilon. The assertions succeeds if |a - b| < epsilon
      * @param expected The expected value
      * @param actual The actual value
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename T,
@@ -129,11 +168,12 @@ public:
     void
     assert_approx_equal(const T& expected,
                         const U& actual,
-                        const V& eps,
+                        const V& epsilon,
                         const Args&... message) const
     {
-        if (!is_approx_equal(expected, actual, eps)) {
-            const std::string text = str(expected) + " not approx. equal to " + str(actual) + " with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (!is_approx_equal(expected, actual, epsilon)) {
+            const std::string text = str(expected) + " not approx. equal to " + str(actual) + " with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -142,7 +182,7 @@ public:
      *  epsilon. The assertions succeeds if |a - b| < epsilon is false
      * @param first A value
      * @param second Another value
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename T,
@@ -152,11 +192,12 @@ public:
     void
     assert_approx_not_equal(const T& first,
                             const U& second,
-                            const V& eps,
+                            const V& epsilon,
                             const Args&... message) const
     {
-        if (is_approx_equal(first, second, eps)) {
-            const std::string text = str(first) + " approx. equal to " + str(second) + " with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (is_approx_equal(first, second, epsilon)) {
+            const std::string text = str(first) + " approx. equal to " + str(second) + " with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -253,6 +294,7 @@ public:
                     const V& upper,
                     const Args&... message) const
     {
+        check_range_bounds(lower, upper, __func__, message...);
         if (!is_in_range(value, lower, upper)) {
             const std::string text = str(value) + " not in range (" + str(lower) + ", " + str(upper) + ")";
             fail(__func__, text, message...);
@@ -275,6 +317,7 @@ public:
                         const V& upper,
                         const Args&... message) const
     {
+        check_range_bounds(lower, upper, __func__, message...);
         if (is_in_range(value, lower, upper)) {
             const std::string text = str(value) + " in range (" + str(lower) + ", " + str(upper) + ")";
             fail(__func__, text, message...);
@@ -323,7 +366,7 @@ public:
      *  The assertion succeeds if |a - b| < epsilon for at least one element
      * @param value A value
      * @param container A container
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename T,
@@ -333,11 +376,12 @@ public:
     void
     assert_approx_in_container(const T& value,
                                const Container& container,
-                               const U& eps,
+                               const U& epsilon,
                                const Args&... message) const
     {
-        if (!is_approx_contained(value, container, eps)) {
-            const std::string text = str(value) + " not approx. in container with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (!is_approx_contained(value, container, epsilon)) {
+            const std::string text = str(value) + " not approx. in container with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -346,7 +390,7 @@ public:
      *  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements
      * @param value A value
      * @param container A container
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename T,
@@ -356,11 +400,12 @@ public:
     void
     assert_approx_not_in_container(const T& value,
                                    const Container& container,
-                                   const U& eps,
+                                   const U& epsilon,
                                    const Args&... message) const
     {
-        if (is_approx_contained(value, container, eps)) {
-            const std::string text = str(value) + " approx. in container with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (is_approx_contained(value, container, epsilon)) {
+            const std::string text = str(value) + " approx. in container with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -407,7 +452,7 @@ public:
      *  The assertion succeeds if |a - b| < epsilon for all pairs of elements
      * @param expected The expected container
      * @param actual The actual container
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename Container1,
@@ -417,11 +462,12 @@ public:
     void
     assert_approx_equal_containers(const Container1& expected,
                                    const Container2& actual,
-                                   const V& eps,
+                                   const V& epsilon,
                                    const Args&... message) const
     {
-        if (!is_containers_approx_equal(expected, actual, eps)) {
-            const std::string text = "containers are not approx. equal with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (!is_containers_approx_equal(expected, actual, epsilon)) {
+            const std::string text = "containers are not approx. equal with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -431,7 +477,7 @@ public:
      *  pair of elements
      * @param expected The expected container
      * @param actual The actual container
-     * @param eps The epsilon
+     * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
     template<typename Container1,
@@ -441,11 +487,12 @@ public:
     void
     assert_approx_not_equal_containers(const Container1& expected,
                                        const Container2& actual,
-                                       const V& eps,
+                                       const V& epsilon,
                                        const Args&... message) const
     {
-        if (is_containers_approx_equal(expected, actual, eps)) {
-            const std::string text = "containers are approx. equal with eps=" + str(eps);
+        check_epsilon(epsilon, __func__, message...);
+        if (is_containers_approx_equal(expected, actual, epsilon)) {
+            const std::string text = "containers are approx. equal with epsilon = " + str(epsilon);
             fail(__func__, text, message...);
         }
     }
@@ -614,6 +661,12 @@ public:
             functor();
         } catch (const Exception&) {
             caught = true;
+        } catch (const std::exception& e) {
+            const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": ", e.what());
+            fail(__func__, text, message...);
+        } catch (...) {
+            const std::string text = "An unexpected, unknown exception was thrown";
+            fail(__func__, text, message...);
         }
         if (!caught) {
             const std::string text = join("The exception was not thrown: ", typeid(Exception).name());
