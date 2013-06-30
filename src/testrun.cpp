@@ -10,11 +10,11 @@ template<>
 struct implementation<testrunner> {
 
     std::chrono::high_resolution_clock::time_point start_;
-    bool is_run_;
+    bool is_executed_;
 
     implementation()
     	: start_(std::chrono::high_resolution_clock::time_point::min()),
-    	  is_run_(true)
+    	  is_executed_(true)
     {}
 
 };
@@ -24,8 +24,8 @@ testrunner::testrunner(const std::string& class_name,
     : pimplpattern(new implementation<testrunner>())
 {
     auto suite = testsuite::instance();
-    impl_->is_run_ = suite->is_test_run(class_name, test_name);
-    if (impl_->is_run_) {
+    impl_->is_executed_ = suite->is_test_run(class_name, test_name);
+    if (impl_->is_executed_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();
         log_.class_name = class_name;
@@ -37,7 +37,7 @@ testrunner::testrunner(const std::string& class_name,
 testrunner::~testrunner()
 {
     auto suite = testsuite::instance();
-    if (impl_->is_run_) {
+    if (impl_->is_executed_) {
         write_test_end_message(std::cout, log_, suite->is_verbose());
         log_.successful = log_.status==teststatus::success;
         suite->make_keep_running(log_);
@@ -51,7 +51,7 @@ testrunner::~testrunner()
 bool
 testrunner::is_executed()
 {
-    return impl_->is_run_;
+    return impl_->is_executed_;
 }
 
 } // unittest
