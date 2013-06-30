@@ -14,11 +14,6 @@ if [ "x$dir" = "x" ]; then
 	dir=/usr
 fi
 
-if [ ! -d "$dir" ]; then
-	echo "$dir does not exist!"
-	exit 1
-fi
-
 echo "Compiling ... "
 
 cd build
@@ -44,6 +39,7 @@ echo "Installing ..."
 inc_dir=$dir/include
 lib_dir=$dir/lib
 
+mkdir -p $dir
 mkdir -p $inc_dir
 mkdir -p $lib_dir
 
