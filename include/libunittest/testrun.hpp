@@ -17,14 +17,14 @@ namespace unittest {
 class testrunner : public pimplpattern<testrunner> {
 public:
     /**
-     * @brief Constructor
+     * @brief Constructor preparing for a test run
      * @param class_name The name of the test class
      * @param test_name The name of the current test method
      */
     testrunner(const std::string& class_name,
                const std::string& test_name);
     /**
-     * @brief Destructor
+     * @brief Destructor finishing up a test run
      */
     ~testrunner();
     /**
@@ -45,26 +45,29 @@ public:
     {
         try {
             (test.*method)();
-            log_.status = teststatus::success;
-            log_.message = "ok";
+            log_success();
         } catch (const testfailure& e) {
-            log_.status = teststatus::failure;
-            log_.error_type = "testfailure";
-            log_.message = e.what();
+            log_failure(e);
         } catch (const std::exception& e) {
-            log_.status = teststatus::error;
-            log_.error_type = typeid(e).name();
-            log_.message = e.what();
+            log_error(e);
         } catch (...) {
-            log_.status = teststatus::error;
-            log_.error_type = "Unknown exception";
-            log_.message = "Unknown message";
+            log_error();
         }
     }
 
 private:
 
-    testlog log_;
+    void
+    log_success();
+
+    void
+    log_failure(const testfailure& e);
+
+    void
+    log_error(const std::exception& e);
+
+    void
+    log_error();
 
 };
 /**

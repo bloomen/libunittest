@@ -9,6 +9,7 @@ namespace unittest {
 template<>
 struct implementation<testrunner> {
 
+    testlog log_;
     std::chrono::high_resolution_clock::time_point start_;
     bool is_executed_;
 
@@ -28,9 +29,9 @@ testrunner::testrunner(const std::string& class_name,
     if (impl_->is_executed_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();
-        log_.class_name = class_name;
-        log_.test_name = test_name;
-        write_test_start_message(std::cout, log_, suite->is_verbose());
+        impl_->log_.class_name = class_name;
+        impl_->log_.test_name = test_name;
+        write_test_start_message(std::cout, impl_->log_, suite->is_verbose());
     }
 }
 
@@ -38,20 +39,52 @@ testrunner::~testrunner()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
-        write_test_end_message(std::cout, log_, suite->is_verbose());
-        log_.successful = log_.status==teststatus::success;
-        suite->make_keep_running(log_);
+        write_test_end_message(std::cout, impl_->log_, suite->is_verbose());
+        impl_->log_.successful = impl_->log_.status==teststatus::success;
+        suite->make_keep_running(impl_->log_);
         const auto end = std::chrono::high_resolution_clock::now();
         suite->stop_timing();
-        log_.duration = duration_in_seconds(end - impl_->start_);
+        impl_->log_.duration = duration_in_seconds(end - impl_->start_);
     }
-    suite->collect(log_);
+    suite->collect(impl_->log_);
 }
 
 bool
 testrunner::is_executed()
 {
     return impl_->is_executed_;
+}
+
+void
+testrunner::log_success()
+{
+    impl_->log_.status = teststatus::success;
+    impl_->log_.message = "ok";
+    impl_->log_.error_type = "";
+}
+
+void
+testrunner::log_failure(const testfailure& e)
+{
+    impl_->log_.status = teststatus::failure;
+    impl_->log_.message = e.what();
+    impl_->log_.error_type = "testfailure";
+}
+
+void
+testrunner::log_error(const std::exception& e)
+{
+    impl_->log_.status = teststatus::error;
+    impl_->log_.message = e.what();
+    impl_->log_.error_type = typeid(e).name();
+}
+
+void
+testrunner::log_error()
+{
+    impl_->log_.status = teststatus::error;
+    impl_->log_.message = "Unknown message";
+    impl_->log_.error_type = "Unknown exception";
 }
 
 } // unittest
