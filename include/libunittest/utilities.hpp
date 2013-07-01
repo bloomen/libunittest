@@ -11,6 +11,7 @@ namespace unittest {
 /**
  * @brief Escapes a string for use in an XML document
  * @param data Some string
+ * @returns The escaped string
  */
 std::string
 xml_escape(const std::string& data);
