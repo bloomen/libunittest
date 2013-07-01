@@ -50,7 +50,7 @@ xml_escape(const std::string& data)
             default:   escaped.append(1, character);  break;
         }
     }
-    return std::move(escaped);
+    return escaped;
 }
 
 std::string
