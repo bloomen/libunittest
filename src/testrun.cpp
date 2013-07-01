@@ -80,7 +80,7 @@ testrunner::log_error(const std::exception& e)
 }
 
 void
-testrunner::log_error()
+testrunner::log_unknown_error()
 {
     impl_->log_.status = teststatus::error;
     impl_->log_.message = "Unknown message";

@@ -80,16 +80,5 @@ private:
     is_verbose() const;
 
 };
-/**
- * @brief Returns whether a given test is executed
- * @param test_name The full test name
- * @param exact_name An exact name to be checked for, ignored if empty
- * @param filter_name A filter for the beginning of the test name, ignored if empty
- * @returns Whether a given test is executed
- */
-bool
-is_test_executed(const std::string& test_name,
-                 const std::string& exact_name,
-                 const std::string& filter_name);
 
 } // unittest

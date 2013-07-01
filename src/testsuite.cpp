@@ -175,7 +175,7 @@ testsuite::is_test_run(const std::string& class_name,
     if (!impl_->get_keep_running()) {
     	return false;
     } else {
-    	const std::string full_name = class_name + "." + test_name;
+    	const std::string full_name = make_full_test_name(class_name, test_name);
     	return is_test_executed(full_name, impl_->test_name_, impl_->name_filter_);
     }
 }
@@ -184,28 +184,6 @@ bool
 testsuite::is_verbose() const
 {
     return impl_->verbose_;
-}
-
-bool
-is_test_executed(const std::string& test_name,
-                 const std::string& exact_name,
-                 const std::string& filter_name)
-{
-    if (exact_name!="") {
-        if (exact_name==test_name)
-            return true;
-        else
-            return false;
-    }
-
-    if (filter_name!="") {
-        if (test_name.substr(0, filter_name.size())==filter_name)
-            return true;
-        else
-            return false;
-    }
-
-    return true;
 }
 
 } // unittest

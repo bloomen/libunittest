@@ -35,8 +35,8 @@ public:
     is_executed();
     /**
      * @brief Executes the test method
-     * @param test An instance of a testcase class
-     * @param method A test method belonging to the testcase class
+     * @param test An instance of a test class
+     * @param method A test method belonging to the test class
      */
     template<typename TestCase>
     void
@@ -51,7 +51,7 @@ public:
         } catch (const std::exception& e) {
             log_error(e);
         } catch (...) {
-            log_error();
+            log_unknown_error();
         }
     }
 
@@ -67,7 +67,7 @@ private:
     log_error(const std::exception& e);
 
     void
-    log_error();
+    log_unknown_error();
 
 };
 /**
