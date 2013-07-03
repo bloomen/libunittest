@@ -1,6 +1,6 @@
 #pragma once
 /**
- * @brief A C++ library for unit testing
+ * @brief A portable C++ library for unit testing
  *        http://sourceforge.net/projects/libunittest
  * @file unittest.hpp
  */
