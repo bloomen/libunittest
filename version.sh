@@ -5,8 +5,8 @@ set -e
 ident='make_tuple'
 string=$(cat src/version.cpp | grep $ident)
 string=${string//[[:space:]]}
-pos=$(echo $string | grep -bo $ident | cut -d: -f1)
-let pos=$pos+11
+pos=$(awk -v a="$string" -v b="$ident" 'BEGIN{print index(a,b)}')
+let pos=$pos+10
 major=${string:$pos:1}
 let pos=$pos+2
 minor=${string:$pos:1}
