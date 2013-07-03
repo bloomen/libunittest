@@ -1,12 +1,12 @@
 #!/bin/bash
 # This scripts installs libunittest in a given location.
-# Usage: sh install.sh [install_directory]
+# Usage: chmod u+x install.sh
+#        ./install.sh [install_directory]
 # If install_directory is not given than libunittest will be installed in a 
-# standard system location (/usr) requiring root privileges.
-# The version in VERSION.txt is used to distinguish between installed libraries.
-# libunittest is only installed if all tests pass. 
+# standard system location (/usr) requiring root privileges. Please note that 
+# libunittest is only installed if all unit tests pass. 
 set -e
-version=$(head -n 1 VERSION.txt)
+version=$(bash version.sh)
 
 dir=$1
 
@@ -30,7 +30,7 @@ echo "Testing ..."
 cd test
 make clean >/dev/null
 make
-sh run_test.sh
+./run_test.sh
 cd ..
 
 echo
@@ -43,7 +43,7 @@ mkdir -p $dir
 mkdir -p $inc_dir
 mkdir -p $lib_dir
 
-cp -r -v include/* $inc_dir
+cp -rv include/* $inc_dir
 cp -v build/libunittest.so.$version $lib_dir
 rm -f $lib_dir/libunittest.so
 ln -sv $lib_dir/libunittest.so.$version $lib_dir/libunittest.so

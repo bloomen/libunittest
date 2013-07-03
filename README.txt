@@ -21,10 +21,12 @@ libunittest has been successfully tested with:
 In order to build and install libunittest simply unpack the archive, enter 
 the resulting directory and execute: 
 
-sh install.sh [install_directory]
+chmod u+x install.sh
+./install.sh [install_directory]
 
 If install_directory is not given than libunittest will be installed in a 
-standard system location (/usr) requiring root privileges.
+standard system location (/usr) requiring root privileges. Please note that 
+libunittest is only installed if all unit tests pass. 
 
 libunittest is being developed by Christian Blume. Contact Christian at
 chr.blume@gmail.com for any questions or comments.
