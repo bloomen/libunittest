@@ -1,3 +1,8 @@
+3.1.5
+
+- made the examples more clear
+- a bit of refactoring of libunittest internals
+
 3.1.4
 
 - ensured that the run scripts become executable after compiling tests 
