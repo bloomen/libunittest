@@ -45,45 +45,6 @@ public:
         fail(join(make_displayed_fail_message(assertion, text), args...));
     }
     /**
-     * @brief Checks if an epsilon is valid
-     * @param epsilon The epsilon
-     * @param caller The name of the caller
-     * @param message If given, is appended to the default fail message
-     */
-    template<typename T,
-             typename... Args>
-    void
-    check_epsilon(const T& epsilon,
-                  const std::string& caller,
-                  const Args&... message) const
-    {
-        if (!(epsilon > 0)) {
-            const std::string text = "The epsilon of " + str(epsilon) + " is not greater than zero";
-            fail(caller, text, message...);
-        }
-    }
-    /**
-     * @brief Checks if the range bounds are valid
-     * @param lower The lower bound
-     * @param upper The upper bound
-     * @param caller The name of the caller
-     * @param message If given, is appended to the default fail message
-     */
-    template<typename T,
-             typename U,
-             typename... Args>
-    void
-    check_range_bounds(const T& lower,
-                       const U& upper,
-                       const std::string& caller,
-                       const Args&... message) const
-    {
-        if (!(lower < upper)) {
-            const std::string text = "The lower bound of " + str(lower) + " is not smaller than the upper bound of " + str(upper);
-            fail(caller, text, message...);
-        }
-    }
-    /**
      * @brief Asserts that a value is true
      * @param value A value
      * @param message If given, is appended to the default fail message
@@ -151,6 +112,24 @@ public:
         if (first == second) {
             const std::string text = str(first) + " equal to " + str(second);
             fail(__func__, text, message...);
+        }
+    }
+    /**
+     * @brief Checks if an epsilon is valid
+     * @param epsilon The epsilon
+     * @param caller The name of the caller
+     * @param message If given, is appended to the default fail message
+     */
+    template<typename T,
+             typename... Args>
+    void
+    check_epsilon(const T& epsilon,
+                  const std::string& caller,
+                  const Args&... message) const
+    {
+        if (!(epsilon > 0)) {
+            const std::string text = "The epsilon of " + str(epsilon) + " is not greater than zero";
+            fail(caller, text, message...);
         }
     }
     /**
@@ -275,6 +254,27 @@ public:
         if (first > second) {
             const std::string text = str(first) + " not smaller than or equal to " + str(second);
             fail(__func__, text, message...);
+        }
+    }
+    /**
+     * @brief Checks if the range bounds are valid
+     * @param lower The lower bound
+     * @param upper The upper bound
+     * @param caller The name of the caller
+     * @param message If given, is appended to the default fail message
+     */
+    template<typename T,
+             typename U,
+             typename... Args>
+    void
+    check_range_bounds(const T& lower,
+                       const U& upper,
+                       const std::string& caller,
+                       const Args&... message) const
+    {
+        if (!(lower < upper)) {
+            const std::string text = "The lower bound of " + str(lower) + " is not smaller than the upper bound of " + str(upper);
+            fail(caller, text, message...);
         }
     }
     /**
