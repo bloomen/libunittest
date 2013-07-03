@@ -1,21 +1,25 @@
 #include "unittest.hpp"
 
 struct test_stuff : unittest::testcase<> {
-    static void run() {
+    static void run()
+    {
         UNITTEST_RUN(test_stuff, test_value_is_true)
     }
 
-    void test_value_is_true() {
+    void test_value_is_true()
+    {
         bool value = true;
         assert_true(value);
     }
 };
 
-void unittest::run_all_tests() {
+void unittest::run_all_tests()
+{
     unittest::call<test_stuff>();
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     return unittest::make_default_environment(argc, argv);
 }
 
