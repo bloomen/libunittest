@@ -1,10 +1,9 @@
-VERSION = $(shell head -n 1 ../VERSION.txt)
+VERSION = $(shell bash version.sh)
 
-SED = sed
-SEDFLAGS = -e "s/LIBUNITTEST_VERSION/$(VERSION)/g"
+SED = sed -e "s/LIBUNITTEST_VERSION/$(VERSION)/g"
 
 DOXYGEN = doxygen
-TEMPLATE_DOXYFILE = template_doxyfile
+TEMPLATE = template_doxyfile
 DOXYFILE = doxyfile
 
 ECHO = echo
@@ -12,7 +11,7 @@ RM = rm -rf
 
 all :
 	@$(ECHO) "Running doxygen for libunittest-$(VERSION) ..."
-	@$(SED) $(SEDFLAGS) $(TEMPLATE_DOXYFILE) > $(DOXYFILE)
+	@$(SED) $(TEMPLATE) > $(DOXYFILE)
 	@$(DOXYGEN) >/dev/null
 
 clean :
