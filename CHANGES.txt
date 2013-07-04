@@ -1,3 +1,8 @@
+3.1.6
+
+- fixed doxygen creation
+- a bit of code clean-up
+
 3.1.5
 
 - improved shell scripts and better documentation
