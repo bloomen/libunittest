@@ -3,7 +3,7 @@
 # and prints it to screen
 set -e
 ident='make_tuple'
-string=$(cat src/version.cpp | grep $ident)
+string=$(grep $ident src/version.cpp)
 string=${string//[[:space:]]}
 pos=$(awk -v a="$string" -v b="$ident" 'BEGIN{print index(a,b)}')
 let pos=$pos+10
