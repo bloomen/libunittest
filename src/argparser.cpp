@@ -2,6 +2,7 @@
 #include <libunittest/utilities.hpp>
 #include <libunittest/version.hpp>
 #include <iostream>
+#include <sstream>
 
 namespace unittest {
 

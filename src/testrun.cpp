@@ -1,8 +1,11 @@
 #include <libunittest/testrun.hpp>
 #include <libunittest/utilities.hpp>
 #include <libunittest/testsuite.hpp>
+#include <libunittest/teststatus.hpp>
+#include <libunittest/testlog.hpp>
 #include <chrono>
 #include <iostream>
+#include <typeinfo>
 
 namespace unittest {
 

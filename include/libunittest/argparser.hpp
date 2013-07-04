@@ -1,7 +1,6 @@
 #pragma once
 #include <libunittest/userargs.hpp>
 #include <libunittest/pimplpattern.hpp>
-#include <ostream>
 #include <string>
 #include <stdexcept>
 /**
