@@ -1,3 +1,8 @@
+3.1.7
+
+- removed obsolete options for doxyfile template
+- restricted doxygen doc generation to header files
+
 3.1.6
 
 - fixed doxygen creation
