@@ -219,7 +219,7 @@ public:
         }
     }
     /**
-     * @brief Asserts that the first value is smaller than the second
+     * @brief Asserts that the first value is lesser than the second
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -228,17 +228,17 @@ public:
              typename U,
              typename... Args>
     void
-    assert_smaller(const T& first,
-                   const U& second,
-                   const Args&... message) const
+    assert_lesser(const T& first,
+                  const U& second,
+                  const Args&... message) const
     {
         if (!(first < second)) {
-            const std::string text = str(first) + " not smaller than " + str(second);
+            const std::string text = str(first) + " not lesser than " + str(second);
             fail(__func__, text, message...);
         }
     }
     /**
-     * @brief Asserts that the first value is smaller than or equal to the second
+     * @brief Asserts that the first value is lesser than or equal to the second
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -247,12 +247,12 @@ public:
              typename U,
              typename... Args>
     void
-    assert_smaller_equal(const T& first,
-                         const U& second,
-                         const Args&... message) const
+    assert_lesser_equal(const T& first,
+                        const U& second,
+                        const Args&... message) const
     {
         if (first > second) {
-            const std::string text = str(first) + " not smaller than or equal to " + str(second);
+            const std::string text = str(first) + " not lesser than or equal to " + str(second);
             fail(__func__, text, message...);
         }
     }

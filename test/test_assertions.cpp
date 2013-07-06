@@ -65,18 +65,18 @@ void test_assertions::test_assert_greater_equal()
     assert_fail(std::bind(&test::assert_greater_equal<int, int>, *this, 1, 2), SPOT);
 }
 
-void test_assertions::test_assert_smaller()
+void test_assertions::test_assert_lesser()
 {
-    assert_smaller(1, 2, SPOT);
-    assert_fail(std::bind(&test::assert_smaller<int, int>, *this, 2, 1), SPOT);
-    assert_fail(std::bind(&test::assert_smaller<int, int>, *this, 1, 1), SPOT);
+    assert_lesser(1, 2, SPOT);
+    assert_fail(std::bind(&test::assert_lesser<int, int>, *this, 2, 1), SPOT);
+    assert_fail(std::bind(&test::assert_lesser<int, int>, *this, 1, 1), SPOT);
 }
 
-void test_assertions::test_assert_smaller_equal()
+void test_assertions::test_assert_lesser_equal()
 {
-    assert_smaller_equal(1, 2, SPOT);
-    assert_smaller_equal(1, 1, SPOT);
-    assert_fail(std::bind(&test::assert_smaller_equal<int, int>, *this, 2, 1), SPOT);
+    assert_lesser_equal(1, 2, SPOT);
+    assert_lesser_equal(1, 1, SPOT);
+    assert_fail(std::bind(&test::assert_lesser_equal<int, int>, *this, 2, 1), SPOT);
 }
 
 void test_assertions::test_assert_in_range()

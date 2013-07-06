@@ -13,8 +13,8 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assertions, test_assert_approx_not_equal)
         UNITTEST_RUN(test_assertions, test_assert_greater)
         UNITTEST_RUN(test_assertions, test_assert_greater_equal)
-        UNITTEST_RUN(test_assertions, test_assert_smaller)
-        UNITTEST_RUN(test_assertions, test_assert_smaller_equal)
+        UNITTEST_RUN(test_assertions, test_assert_lesser)
+        UNITTEST_RUN(test_assertions, test_assert_lesser_equal)
         UNITTEST_RUN(test_assertions, test_assert_in_range)
         UNITTEST_RUN(test_assertions, test_assert_not_in_range)
         UNITTEST_RUN(test_assertions, test_assert_in_container)
@@ -43,8 +43,8 @@ struct test_assertions : unittest::testcase<> {
     void test_assert_approx_not_equal();
     void test_assert_greater();
     void test_assert_greater_equal();
-    void test_assert_smaller();
-    void test_assert_smaller_equal();
+    void test_assert_lesser();
+    void test_assert_lesser_equal();
     void test_assert_in_range();
     void test_assert_not_in_range();
     void test_assert_in_container();
