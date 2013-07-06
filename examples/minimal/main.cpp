@@ -18,8 +18,7 @@ void unittest::run_all_tests()
     unittest::call<test_stuff>();
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     return unittest::make_default_environment(argc, argv);
 }
 
