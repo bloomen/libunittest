@@ -35,3 +35,5 @@ mkdir -p dist
 mv $dir.tar.gz dist
 
 rm -rf $dir
+
+echo "Created dist/$dir.tar.gz"

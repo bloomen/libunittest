@@ -14,7 +14,7 @@ if [ "x$dir" = "x" ]; then
 	dir=/usr
 fi
 
-echo "Compiling ... "
+echo "Compiling libunittest-$version ... "
 
 cd build
 make clean >/dev/null
@@ -49,4 +49,4 @@ rm -f $lib_dir/libunittest.so
 ln -sv $lib_dir/libunittest.so.$version $lib_dir/libunittest.so
 
 echo
-echo "libunittest successfully installed!"
+echo "libunittest-$version successfully installed!"
