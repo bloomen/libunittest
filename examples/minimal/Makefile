@@ -14,12 +14,14 @@ INCS = -I"../../include"
 LIBS = -L"../../build" -lunittest
 SRCS = *.cpp
 
-CHMODX = chmod u+x
+CHMOD = chmod
 RM = rm -f
 
 all :
 	$(CXX) $(FLAGS) $(INCS) $(SRCS) $(LIBS) -o $(PROG)
-	$(CHMODX) run_example.sh
+	$(CHMOD) u+x run_example.sh
 
 clean :
 	$(RM) $(PROG)
+	$(CHMOD) u-x run_example.sh
+	
