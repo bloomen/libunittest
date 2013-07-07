@@ -86,6 +86,7 @@ void test_misc::test_userargs_defaults()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -97,12 +98,14 @@ void test_misc::test_userargs_set_get()
     args.verbose(true);
     args.failure_stop(true);
     args.generate_xml(true);
+    args.handle_exceptions(false);
     args.name_filter("test_me");
     args.test_name("test_me_more");
     args.xml_filename("awesome_tests.xml");
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
+    assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal("test_me", args.name_filter(), SPOT);
     assert_equal("test_me_more", args.test_name(), SPOT);
     assert_equal("awesome_tests.xml", args.xml_filename(), SPOT);

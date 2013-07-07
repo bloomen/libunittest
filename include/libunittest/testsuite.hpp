@@ -19,30 +19,43 @@ public:
     static testsuite*
     instance();
     /**
-     * @brief Sets whether output is verbose for running tests
+     * @brief Sets whether output is verbose for running tests (default: false)
      * @param verbose Whether output is verbose for running tests
      */
     void
     set_verbose(bool verbose);
     /**
-     * @brief Sets whether to stop running after the first test fails
+     * @brief Sets whether to stop running after the first test fails (default: false)
      * @param failure_stop Whether to stop running after first failure
      */
     void
     set_failure_stop(bool failure_stop);
     /**
      * @brief Sets a filter on the full test name. This will make the suite
-     *  execute only those tests that begin with the given filter string
+     *  execute only those tests that begin with the given filter string (default: "")
      * @param name_filter The filter string
      */
     void
     set_name_filter(const std::string& name_filter);
     /**
-     * @brief Sets a certain test to be run. This supersedes the name filter
+     * @brief Sets a certain test to be run. This supersedes the name filter (default: "")
      * @param test_name The test name
      */
     void
     set_test_name(const std::string& test_name);
+    /**
+     * @brief Sets whether to handle exceptions. Setting it to false
+     *  is useful for debugging purposes (default: true)
+     * @param handle_exceptions Whether to handle exceptions
+     */
+    void
+    set_handle_exceptions(bool handle_exceptions);
+    /**
+     * @brief Returns whether to handle exceptions
+     * @returns Whether to handle exceptions
+     */
+    bool
+    get_handle_exceptions() const;
     /**
      * @brief Returns the accumulated test results
      * @returns The test results

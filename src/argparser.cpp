@@ -34,6 +34,24 @@ struct implementation<argparser> {
         throw argparser_error(join(message, "\n\n", stream.str()));
     }
 
+    std::vector<std::string>
+    expand_arguments(int argc, char **argv)
+    {
+        std::vector<std::string> args;
+        for (int i=1; i<argc; ++i) {
+            const std::string value(argv[i]);
+            if (value.substr(0, 1)=="-") {
+                const std::string expanded(value.substr(1, value.size()));
+                for (auto val : expanded) {
+                    args.push_back(join("-", val));
+                }
+            } else {
+                args.push_back(value);
+            }
+        }
+        return args;
+    }
+
 };
 
 argparser::argparser()
@@ -43,39 +61,40 @@ argparser::argparser()
 
 void argparser::parse(int argc, char **argv)
 {
-    for (int i=1; i<argc; ++i) {
-        const std::string value(argv[i]);
-        if (value=="-h") {
+    const auto args = impl_->expand_arguments(argc, argv);
+    const auto length = args.size();
+    for (unsigned i=0; i<length; ++i) {
+        if (args[i]=="-h") {
             impl_->write_help(std::cout);
             std::exit(EXIT_SUCCESS);
-        } else if (value=="-v") {
+        } else if (args[i]=="-v") {
             verbose(true);
-        } else if (value=="-s") {
+        } else if (args[i]=="-s") {
             failure_stop(true);
-        } else if (value=="-x") {
+        } else if (args[i]=="-x") {
             generate_xml(true);
-        } else if (value=="-e") {
+        } else if (args[i]=="-e") {
             handle_exceptions(false);
-        } else if (value=="-f") {
-            if (++i<argc) {
-                name_filter(argv[i]);
+        } else if (args[i]=="-f") {
+            if (++i<length) {
+                name_filter(args[i]);
             } else {
             	impl_->help_and_throw("Option '-f' needs a filter string");
             }
-        } else if (value=="-t") {
-            if (++i<argc) {
-                test_name(argv[i]);
+        } else if (args[i]=="-t") {
+            if (++i<length) {
+                test_name(args[i]);
             } else {
             	impl_->help_and_throw("Option '-t' needs a test name");
             }
-        } else if (value=="-o") {
-            if (++i<argc) {
-                xml_filename(argv[i]);
+        } else if (args[i]=="-o") {
+            if (++i<length) {
+                xml_filename(args[i]);
             } else {
             	impl_->help_and_throw("Option '-o' needs an XML file name");
             }
         } else {
-        	impl_->help_and_throw(join("Unknown argument '", value, "'"));
+        	impl_->help_and_throw(join("Unknown argument '", args[i], "'"));
         }
     }
 }

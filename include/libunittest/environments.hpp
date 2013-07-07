@@ -40,6 +40,7 @@ make_default_environment(int argc, char **argv)
     suite->set_failure_stop(arguments.failure_stop());
     suite->set_name_filter(arguments.name_filter());
     suite->set_test_name(arguments.test_name());
+    suite->set_handle_exceptions(arguments.handle_exceptions());
 
     run_all_tests();
 

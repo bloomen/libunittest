@@ -1,6 +1,7 @@
 #pragma once
 #include <libunittest/utilities.hpp>
 #include <libunittest/formatting.hpp>
+#include <libunittest/testsuite.hpp>
 #include <string>
 #include <regex>
 #include <typeinfo>
@@ -657,16 +658,24 @@ public:
                  const Args&... message) const
     {
         bool caught = false;
-        try {
-            functor();
-        } catch (const Exception&) {
-            caught = true;
-        } catch (const std::exception& e) {
-            const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": ", e.what());
-            fail(__func__, text, message...);
-        } catch (...) {
-            const std::string text = "An unexpected, unknown exception was thrown";
-            fail(__func__, text, message...);
+        if (testsuite::instance()->get_handle_exceptions()) {
+            try {
+                functor();
+            } catch (const Exception&) {
+                caught = true;
+            } catch (const std::exception& e) {
+                const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": ", e.what());
+                fail(__func__, text, message...);
+            } catch (...) {
+                const std::string text = "An unexpected, unknown exception was thrown";
+                fail(__func__, text, message...);
+            }
+        } else {
+            try {
+                functor();
+            } catch (const Exception&) {
+                caught = true;
+            }
         }
         if (!caught) {
             const std::string text = join("The exception was not thrown: ", typeid(Exception).name());
@@ -684,14 +693,18 @@ public:
     assert_no_throw(Functor functor,
                     const Args&... message) const
     {
-        try {
+        if (testsuite::instance()->get_handle_exceptions()) {
+            try {
+                functor();
+            } catch (const std::exception& e) {
+                const std::string text = join("An exception was thrown: ", typeid(e).name(), ": ", e.what());
+                fail(__func__, text, message...);
+            } catch (...) {
+                const std::string text = "An unknown exception was thrown";
+                fail(__func__, text, message...);
+            }
+        } else {
             functor();
-        } catch (const std::exception& e) {
-            const std::string text = join("An exception was thrown: ", typeid(e).name(), ": ", e.what());
-            fail(__func__, text, message...);
-        } catch (...) {
-            const std::string text = "An unknown exception was thrown";
-            fail(__func__, text, message...);
         }
     }
 

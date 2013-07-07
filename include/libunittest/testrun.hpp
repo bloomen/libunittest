@@ -1,6 +1,7 @@
 #pragma once
 #include <libunittest/testfailure.hpp>
 #include <libunittest/pimplpattern.hpp>
+#include <libunittest/testsuite.hpp>
 #include <string>
 #include <stdexcept>
 /**
@@ -40,15 +41,20 @@ public:
     execute(TestCase& test,
             void (TestCase::*method)())
     {
-        try {
+        if (testsuite::instance()->get_handle_exceptions()) {
+            try {
+                (test.*method)();
+                log_success();
+            } catch (const testfailure& e) {
+                log_failure(e);
+            } catch (const std::exception& e) {
+                log_error(e);
+            } catch (...) {
+                log_unknown_error();
+            }
+        } else {
             (test.*method)();
             log_success();
-        } catch (const testfailure& e) {
-            log_failure(e);
-        } catch (const std::exception& e) {
-            log_error(e);
-        } catch (...) {
-            log_unknown_error();
         }
     }
 

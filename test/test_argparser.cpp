@@ -21,6 +21,7 @@ void test_argparser::test_no_arguments()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -34,6 +35,7 @@ void test_argparser::test_verbose()
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -47,6 +49,7 @@ void test_argparser::test_failure_stop()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -60,6 +63,21 @@ void test_argparser::test_generate_xml()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal("", args.name_filter(), SPOT);
+    assert_equal("", args.test_name(), SPOT);
+    assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+}
+
+void test_argparser::test_handle_exceptions()
+{
+    arguments_[1] = (char*)"-e";
+    argparser args;
+    args.parse(2, arguments_);
+    assert_equal(false, args.verbose(), SPOT);
+    assert_equal(false, args.failure_stop(), SPOT);
+    assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -74,6 +92,7 @@ void test_argparser::test_name_filter()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -88,6 +107,7 @@ void test_argparser::test_test_name()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -102,6 +122,7 @@ void test_argparser::test_xml_filename()
     assert_equal(false, args.verbose(), SPOT);
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
@@ -117,6 +138,7 @@ void test_argparser::test_verbose_failure_stop()
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(false, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -133,6 +155,7 @@ void test_argparser::test_verbose_generate_xml()
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(false, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -149,6 +172,7 @@ void test_argparser::test_failure_stop_generate_xml()
         assert_equal(false, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -168,6 +192,7 @@ void test_argparser::test_verbose_failure_stop_generate_xml()
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
@@ -178,7 +203,7 @@ void test_argparser::test_all_arguments()
 {
     arguments_[1] = (char*)"-v";
     arguments_[2] = (char*)"-s";
-    arguments_[3] = (char*)"-x";
+    arguments_[3] = (char*)"-xe";
     arguments_[4] = (char*)"-f";
     arguments_[5] = (char*)"stuff";
     arguments_[6] = (char*)"-t";
@@ -190,6 +215,7 @@ void test_argparser::test_all_arguments()
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
+    assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
@@ -213,6 +239,7 @@ void test_argparser::test_copy_constructor()
     args.verbose(true);
     args.failure_stop(true);
     args.generate_xml(true);
+    args.handle_exceptions(false);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.xml_filename("mytest.xml");
@@ -220,6 +247,7 @@ void test_argparser::test_copy_constructor()
     assert_equal(true, args2.verbose(), SPOT);
     assert_equal(true, args2.failure_stop(), SPOT);
     assert_equal(true, args2.generate_xml(), SPOT);
+    assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);
@@ -231,6 +259,7 @@ void test_argparser::test_assignment_operator()
     args.verbose(true);
     args.failure_stop(true);
     args.generate_xml(true);
+    args.handle_exceptions(false);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.xml_filename("mytest.xml");
@@ -238,6 +267,7 @@ void test_argparser::test_assignment_operator()
     assert_equal(true, args2.verbose(), SPOT);
     assert_equal(true, args2.failure_stop(), SPOT);
     assert_equal(true, args2.generate_xml(), SPOT);
+    assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);

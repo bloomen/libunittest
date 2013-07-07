@@ -3,7 +3,7 @@
 namespace unittest {
 
 userargs::userargs()
-    : verbose_(false), failure_stop_(false), generate_xml_(false),
+    : verbose_(false), failure_stop_(false), generate_xml_(false), handle_exceptions_(true),
       name_filter_(""), test_name_(""), xml_filename_("libunittest.xml")
 {}
 
@@ -44,6 +44,18 @@ void
 userargs::generate_xml(bool value)
 {
     generate_xml_ = value;
+}
+
+bool
+userargs::handle_exceptions() const
+{
+    return handle_exceptions_;
+}
+
+void
+userargs::handle_exceptions(bool value)
+{
+    handle_exceptions_ = value;
 }
 
 std::string

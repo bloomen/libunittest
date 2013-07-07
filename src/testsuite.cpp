@@ -22,13 +22,14 @@ struct implementation<testsuite> {
     std::vector<testlog> testlogs_;
     std::string name_filter_;
     std::string test_name_;
+    bool handle_exceptions_;
     std::chrono::high_resolution_clock::time_point start_;
     std::chrono::high_resolution_clock::time_point end_;
 
     implementation()
-    	: verbose_(false), keep_running_(true), failure_stop_(false),
-    	  n_tests_(0), n_successes_(0), n_failures_(0),
-    	  n_errors_(0), n_skipped_(0), testlogs_(0), name_filter_(""),
+    	: verbose_(false), keep_running_(true), failure_stop_(false), n_tests_(0),
+    	  n_successes_(0), n_failures_(0), n_errors_(0), n_skipped_(0), testlogs_(0),
+    	  name_filter_(""), test_name_(""), handle_exceptions_(true),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
     	  end_(std::chrono::high_resolution_clock::time_point::min())
     {}
@@ -117,6 +118,20 @@ testsuite::set_test_name(const std::string& test_name)
     static std::mutex set_test_name_mutex_;
     std::lock_guard<std::mutex> lock(set_test_name_mutex_);
     impl_->test_name_ = test_name;
+}
+
+void
+testsuite::set_handle_exceptions(bool handle_exceptions)
+{
+    static std::mutex set_handle_exceptions_mutex_;
+    std::lock_guard<std::mutex> lock(set_handle_exceptions_mutex_);
+    impl_->handle_exceptions_ = handle_exceptions;
+}
+
+bool
+testsuite::get_handle_exceptions() const
+{
+    return impl_->handle_exceptions_;
 }
 
 testresults
