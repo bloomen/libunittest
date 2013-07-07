@@ -1,6 +1,8 @@
 3.2.0
 
 - renamed assert_smaller(_equal) to assert_lesser(_equal)
+- added option to turn off exception handling (useful for debugging)
+- better documentation
 
 3.1.7
 
