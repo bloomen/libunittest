@@ -3,7 +3,8 @@
 struct test_stuff : unittest::testcase<> {
     static void run()
     {
-        UNITTEST_RUN(test_stuff, test_value_is_true)
+        UNITTEST_CLASS(test_stuff)
+        UNITTEST_RUN(test_value_is_true)
     }
 
     void test_value_is_true()

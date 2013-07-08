@@ -21,10 +21,11 @@ struct test_something : unittest::testcase<test_context> {
     //this static method runs the tests
     static void run()
     {
+        UNITTEST_CLASS(test_something)
         test_context context; //a test context that some tests are run within
-        UNITTEST_RUNCXT(context, test_something, test_has_context)
-        UNITTEST_RUNCXT(context, test_something, test_correct_message)
-        UNITTEST_RUN(test_something, test_no_context)
+        UNITTEST_RUNCXT(context, test_has_context)
+        UNITTEST_RUNCXT(context, test_correct_message)
+        UNITTEST_RUN(test_no_context)
     }
 
     void test_has_context();

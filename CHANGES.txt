@@ -1,5 +1,7 @@
 3.2.0
 
+- simplified test registration and introduced new macro: UNITTEST_CLASS
+    which registers a test class for the current run() method 
 - renamed assert_smaller(_equal) to assert_lesser(_equal)
 - added option to turn off exception handling (useful for debugging)
 - better documentation

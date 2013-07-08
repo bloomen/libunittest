@@ -7,9 +7,10 @@ struct test_whatever : unittest::testcase<> {
     //this static method runs the tests
     static void run()
     {
-        UNITTEST_RUN(test_whatever, test_throw)
-        UNITTEST_RUN(test_whatever, test_in_range)
-        UNITTEST_RUN(test_whatever, test_in_container)
+        UNITTEST_CLASS(test_whatever)
+        UNITTEST_RUN(test_throw)
+        UNITTEST_RUN(test_in_range)
+        UNITTEST_RUN(test_in_container)
     }
 
     void test_throw();
