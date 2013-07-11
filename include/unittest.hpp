@@ -19,4 +19,5 @@
 #include <libunittest/userargs.hpp>
 #include <libunittest/utilities.hpp>
 #include <libunittest/version.hpp>
+#include <libunittest/random.hpp>
 #include <libunittest/macros.hpp>
