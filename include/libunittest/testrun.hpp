@@ -12,7 +12,7 @@ namespace unittest {
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run
  */
-class testrunner : public pimplpattern<testrunner> {
+class testrunner final : public pimplpattern<testrunner> {
 public:
     /**
      * @brief Constructor preparing for a test run

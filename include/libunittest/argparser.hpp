@@ -10,8 +10,8 @@ namespace unittest {
 /**
  * @brief An argument parser
  */
-class argparser : public userargs,
-                  public pimplpattern<argparser> {
+class argparser final : public userargs,
+                        public pimplpattern<argparser> {
 public:
     /**
      * @brief Constructor
@@ -28,7 +28,7 @@ public:
 /**
  * @brief The exception class to indicate argument errors
  */
-class argparser_error : public std::runtime_error {
+class argparser_error final : public std::runtime_error {
 public:
     /**
      * @brief Constructor
