@@ -5,17 +5,19 @@ Features:
 - unit and integration testing in C++
 - follows the xUnit test patterns
 - formatted XML output of the test results
-- option to only run specific tests without recompiling 
 - comes with rich assertions and is easily extendable
+- option to only run specific tests without recompiling
+- option to turn off exception handling for debugging purposes 
 - supports test contexts which multiple tests can be run within
-- tests can be run in parallel due to full thread-safety
-- portable across various operating systems such as Linux and MacOSX
+- functionality to easily produce random values and containers 
+- portable across various operating systems
+- tests can be run in parallel
 - macros only for registering test runs
-- it comes with tests and examples
+- libunittest comes with tests and examples
 
 libunittest has been successfully tested with:
 
-* g++ -std=c++0x  (on Linux with GCC4.6)
+* g++ -std=c++0x  (on Linux with GCC4.7)
 * clang++ -std=c++0x -stdlib=libc++  (on MacOSX with Clang3.2)
 
 In order to build and install libunittest simply unpack the archive, enter 
