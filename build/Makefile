@@ -3,7 +3,7 @@ PROG = libunittest.so
 UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
-CXX = clang++ -stdlib=libc++
+CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
 else
 CXX = g++
 endif
