@@ -7,104 +7,186 @@
  */
 namespace unittest {
 /**
- * @brief
+ * @brief A random object
  */
 template<typename T>
 class random_object {
 public:
-
+    /**
+     * @brief Constructor initializing the Mersenne-Twister generator
+     *  with a default random seed of one
+     */
     random_object()
         : seed_(1), generator_(seed_)
     {}
-
+    /**
+     * @brief Destructor
+     */
     virtual
     ~random_object()
     {}
-
-    virtual void
+    /**
+     * @brief Supposed to return a random value
+     * @returns A random value
+     */
+    virtual T
+    value() = 0;
+    /**
+     * @brief Sets a new random seed
+     * @param seed The random seed
+     */
+    void
     seed(int seed)
     {
         seed_ = seed;
         generator_.seed(seed_);
     }
 
-    virtual T
-    value() = 0;
-
 protected:
+    std::mt19937&
+    gen()
+    {
+        return generator_;
+    }
+
+private:
     int seed_;
     std::mt19937 generator_;
 
 };
 /**
- * @brief
+ * @brief A random integer
  */
-template<typename T>
-class random_int : public random_object<T> {
+template<typename T=int>
+class random_int final : public random_object<T> {
 public:
-
-    random_int(T maximum)
-        : random_object<T>(), uniform_(0, maximum)
+    /**
+     * @brief Constructor, range: [0, 1]
+     */
+    random_int()
+        : random_object<T>(), distribution_(0, 1)
     {}
-
-    random_int(T minimum,
-               T maximum)
-        : random_object<T>(), uniform_(minimum, maximum)
+    /**
+     * @brief Constructor, range: [0, maximum]
+     * @param maximum The upper bound (including)
+     */
+    random_int(const T& maximum)
+        : random_object<T>(), distribution_(0, maximum)
     {}
-
+    /**
+     * @brief Constructor, range: [minimum, maximum]
+     * @param minimum The lower bound (including)
+     * @param maximum The upper bound (including)
+     */
+    random_int(const T& minimum,
+               const T& maximum)
+        : random_object<T>(), distribution_(minimum, maximum)
+    {}
+    /**
+     * @brief Returns a random integer
+     * @param A random integer
+     */
     T
-    value()
+    value() override
     {
-        return uniform_(this->generator_);
+        return distribution_(this->gen());
     }
 
 private:
-    std::uniform_int_distribution<T> uniform_;
+    std::uniform_int_distribution<T> distribution_;
 
 };
 /**
- * @brief
+ * @brief A random bool
  */
-template<typename T>
-class random_real : public random_object<T> {
+template<>
+class random_int<bool> final : public random_object<bool> {
 public:
-
-    random_real(T maximum)
-        : random_object<T>(), uniform_(0, maximum)
+    /**
+     * @brief Constructor
+     */
+    random_int()
+        : random_object<bool>(), distribution_(0, 1)
     {}
-
-    random_real(T minimum,
-                T maximum)
-        : random_object<T>(), uniform_(minimum, maximum)
-    {}
-
-    T
-    value()
+    /**
+     * @brief Returns a random bool
+     * @param A random bool
+     */
+    bool
+    value() override
     {
-        return uniform_(this->generator_);
+        return distribution_(this->gen());
     }
 
 private:
-    std::uniform_real_distribution<T> uniform_;
+    std::uniform_int_distribution<int> distribution_;
 
 };
 /**
- * @brief
+ * @brief A random real
+ */
+template<typename T=double>
+class random_real final : public random_object<T> {
+public:
+    /**
+     * @brief Constructor, range: [0, 1)
+     */
+    random_real()
+        : random_object<T>(), distribution_(0, 1)
+    {}
+    /**
+     * @brief Constructor, range: [0, maximum)
+     * @param maximum The upper bound (excluding)
+     */
+    random_real(const T& maximum)
+        : random_object<T>(), distribution_(0, maximum)
+    {}
+    /**
+     * @brief Constructor, range: [minimum, maximum)
+     * @param minimum The lower bound (including)
+     * @param maximum The upper bound (excluding)
+     */
+    random_real(const T& minimum,
+                const T& maximum)
+        : random_object<T>(), distribution_(minimum, maximum)
+    {}
+    /**
+     * @brief Returns a random real value
+     * @param A random real value
+     */
+    T
+    value() override
+    {
+        return distribution_(this->gen());
+    }
+
+private:
+    std::uniform_real_distribution<T> distribution_;
+
+};
+/**
+ * @brief A random choice from a given container
  */
 template<typename T,
          typename Container>
-class random_choice : public random_object<T> {
+class random_choice final : public random_object<T> {
 public:
-
+    /**
+     * @brief Constructor
+     * @param container The container to choose from
+     */
     random_choice(const Container& container)
         : random_object<T>(), container_(container),
-          uniform_(0, container_.size() - 1)
+          distribution_(0, container_.size() - 1)
     {}
-
+    /**
+     * @brief Returns a random choice
+     * @returns A random choice
+     */
     T
-    value()
+    value() override
     {
-        const auto index = uniform_(this->generator_);
+        const auto index = distribution_(this->gen());
         long long count = 0;
         T result;
         for (auto& value : container_) {
@@ -119,64 +201,82 @@ public:
 
 private:
     Container container_;
-    std::uniform_int_distribution<long long> uniform_;
+    std::uniform_int_distribution<long long> distribution_;
 
 };
 /**
- * @brief
+ * @brief A random container
  */
 template<typename T,
          typename Container>
-class random_container : public random_object<Container> {
+class random_container final : public random_object<Container> {
 public:
-
-    random_container(random_choice<T, Container>& rand,
-                     long long length)
+    /**
+     * @brief Constructor
+     * @param rand The random object used to fill the container
+     * @param size The container size
+     */
+    random_container(random_object<T>& rand,
+                     long long size)
         : random_object<Container>(),
           rand_(&rand),
-          uniform_(length, length)
+          distribution_(size, size)
     {}
-
-    random_container(random_choice<T, Container>& rand,
-                     long long min_length,
-                     long long max_length)
+    /**
+     * @brief Constructor
+     * @param rand The random object used to fill the container
+     * @param min_size The minimum container size (including)
+     * @param max_size The maximum container size (including)
+     */
+    random_container(random_object<T>& rand,
+                     long long min_size,
+                     long long max_size)
         : random_object<Container>(),
           rand_(&rand),
-          uniform_(min_length, max_length)
+          distribution_(min_size, max_size)
     {}
-
+    /**
+     * @brief Returns a random container
+     * @returns A random container
+     */
     Container
-    value()
+    value() override
     {
-        const auto length = uniform_(this->generator_);
+        const auto size = distribution_(this->gen());
         std::vector<T> result;
-        result.reserve(length);
-        for (long long i=0; i<length; ++i)
+        result.reserve(size);
+        for (long long i=0; i<size; ++i)
             result.push_back(rand_->value());
         return {result.begin(), result.end()};
     }
 
 private:
-    random_choice<T, Container>* rand_;
-    std::uniform_int_distribution<long long> uniform_;
+    random_object<T>* rand_;
+    std::uniform_int_distribution<long long> distribution_;
 
 };
 /**
- * @brief
+ * @brief A random permutation of a given container
  */
 template<typename Container>
-class random_permutation : public random_object<Container> {
+class random_permutation final : public random_object<Container> {
 public:
-
+    /**
+     * @brief Constructor
+     * @param container The container
+     */
     random_permutation(const Container& container)
         : random_object<Container>(),
           container_(container)
     {}
-
+    /**
+     * @brief Returns a random permutation
+     * @returns A random permutation
+     */
     Container
-    value()
+    value() override
     {
-        std::shuffle(std::begin(container_), std::end(container_), this->generator_);
+        std::shuffle(std::begin(container_), std::end(container_), this->gen());
         return container_;
     }
 
