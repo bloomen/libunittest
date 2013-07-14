@@ -16,7 +16,7 @@ public:
      *  with a default random seed of one
      */
     random_object()
-        : seed_(1), generator_(seed_)
+        : generator_(1)
     {}
     /**
      * @brief Destructor
@@ -37,8 +37,7 @@ public:
     void
     seed(int seed)
     {
-        seed_ = seed;
-        generator_.seed(seed_);
+        generator_.seed(seed);
     }
 
 protected:
@@ -49,7 +48,6 @@ protected:
     }
 
 private:
-    int seed_;
     std::mt19937 generator_;
 
 };
