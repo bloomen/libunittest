@@ -7,7 +7,7 @@ xml_escape(const std::string& data)
 {
     std::string escaped;
     escaped.reserve(data.size());
-    for (auto character : data) {
+    for (auto& character : data) {
         switch (character) {
             case '&':  escaped.append("&amp;");       break;
             case '\"': escaped.append("&quot;");      break;

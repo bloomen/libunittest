@@ -42,7 +42,7 @@ struct implementation<argparser> {
             const std::string value(argv[i]);
             if (value.substr(0, 1)=="-") {
                 const std::string expanded(value.substr(1, value.size()));
-                for (auto val : expanded) {
+                for (auto& val : expanded) {
                     args.push_back(join("-", val));
                 }
             } else {

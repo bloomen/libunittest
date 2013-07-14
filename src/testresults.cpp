@@ -25,7 +25,7 @@ write_xml(std::ostream& stream,
     stream << "\" skipped=\"" << results.n_skipped;
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
-    for (auto log : results.testlogs) {
+    for (auto& log : results.testlogs) {
         stream << "\t<testcase classname=\"" << xml_escape(log.class_name);
         stream << "\" name=\"" << xml_escape(log.test_name);
         stream << "\" time=\"" << log.duration << "\"";
@@ -84,7 +84,7 @@ write_error_info(std::ostream& stream,
 {
     if (!results.successful) {
         stream << "\n";
-        for (auto log : results.testlogs) {
+        for (auto& log : results.testlogs) {
             const auto status = log.status;
             if (status==teststatus::failure || status==teststatus::error) {
                 write_horizontal_bar(stream, '=');
