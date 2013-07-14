@@ -7,6 +7,7 @@ struct test_random : unittest::testcase<> {
     {
         UNITTEST_CLASS(test_random)
         UNITTEST_RUN(test_random_int)
+        UNITTEST_RUN(test_random_bool)
         UNITTEST_RUN(test_random_real)
         UNITTEST_RUN(test_random_choice)
         UNITTEST_RUN(test_random_container_string)
@@ -15,6 +16,7 @@ struct test_random : unittest::testcase<> {
     }
 
     void test_random_int();
+    void test_random_bool();
     void test_random_real();
     void test_random_choice();
     void test_random_container_string();
@@ -22,7 +24,10 @@ struct test_random : unittest::testcase<> {
     void test_random_permutation();
 
 private:
-    template<typename RandomCont, typename OrigContainer, typename T>
+
+    template<typename RandomCont,
+             typename OrigContainer,
+             typename T>
     void assert_random_container_fixed(RandomCont& random_object,
                                        const OrigContainer& container,
                                        const T& length,
@@ -36,7 +41,9 @@ private:
         }
     }
 
-    template<typename RandomCont, typename OrigContainer, typename T>
+    template<typename RandomCont,
+             typename OrigContainer,
+             typename T>
     void assert_random_container_range(RandomCont& random_object,
                                        const OrigContainer& container,
                                        const T& min_length,
