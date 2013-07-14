@@ -20,4 +20,5 @@
 #include <libunittest/utilities.hpp>
 #include <libunittest/version.hpp>
 #include <libunittest/random.hpp>
+#include <libunittest/strings.hpp>
 #include <libunittest/macros.hpp>
