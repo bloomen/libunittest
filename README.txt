@@ -17,7 +17,7 @@ Features:
 
 libunittest has been successfully tested with:
 
-* g++ -std=c++0x  (on Linux with GCC4.7)
+* g++ -std=c++0x  (on Linux with GCC4.6)
 * clang++ -std=c++0x -stdlib=libc++  (on MacOSX with Clang3.2)
 
 In order to build and install libunittest simply unpack the archive, enter 
