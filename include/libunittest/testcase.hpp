@@ -59,7 +59,7 @@ public:
      */
     virtual std::string
     make_displayed_fail_message(const std::string& assertion,
-                                const std::string& text) const override
+                                const std::string& text) const
     {
         return join(text, " (", assertion, ") ");
     }
@@ -68,7 +68,7 @@ public:
      * @returns The maximum displayed string length
      */
     virtual int
-    max_displayed_string_length() const override
+    max_displayed_string_length() const
     {
         return 100;
     }
@@ -77,7 +77,7 @@ public:
      * @returns The maximum displayed value precision
      */
     virtual int
-    max_displayed_value_precision() const override
+    max_displayed_value_precision() const
     {
         return 10;
     }

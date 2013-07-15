@@ -55,7 +55,7 @@ private:
  * @brief A random integer
  */
 template<typename T=int>
-class random_int final : public random_object<T> {
+class random_int : public random_object<T> {
 public:
     /**
      * @brief Constructor, range: [0, 1]
@@ -84,7 +84,7 @@ public:
      * @param A random integer
      */
     T
-    value() override
+    value()
     {
         return distribution_(this->gen());
     }
@@ -97,7 +97,7 @@ private:
  * @brief A random bool
  */
 template<>
-class random_int<bool> final : public random_object<bool> {
+class random_int<bool> : public random_object<bool> {
 public:
     /**
      * @brief Constructor
@@ -110,7 +110,7 @@ public:
      * @param A random bool
      */
     bool
-    value() override
+    value()
     {
         return distribution_(this->gen());
     }
@@ -123,7 +123,7 @@ private:
  * @brief A random real
  */
 template<typename T=double>
-class random_real final : public random_object<T> {
+class random_real : public random_object<T> {
 public:
     /**
      * @brief Constructor, range: [0, 1)
@@ -152,7 +152,7 @@ public:
      * @param A random real value
      */
     T
-    value() override
+    value()
     {
         return distribution_(this->gen());
     }
@@ -166,7 +166,7 @@ private:
  */
 template<typename T,
          typename Container>
-class random_choice final : public random_object<T> {
+class random_choice : public random_object<T> {
 public:
     /**
      * @brief Constructor
@@ -181,7 +181,7 @@ public:
      * @returns A random choice
      */
     T
-    value() override
+    value()
     {
         const auto index = distribution_(this->gen());
         long long count = 0;
@@ -206,7 +206,7 @@ private:
  */
 template<typename T,
          typename Container>
-class random_container final : public random_object<Container> {
+class random_container : public random_object<Container> {
 public:
     /**
      * @brief Constructor
@@ -237,7 +237,7 @@ public:
      * @returns A random container
      */
     Container
-    value() override
+    value()
     {
         const auto size = distribution_(this->gen());
         std::vector<T> result;
@@ -256,7 +256,7 @@ private:
  * @brief A random permutation of a given container
  */
 template<typename Container>
-class random_permutation final : public random_object<Container> {
+class random_permutation : public random_object<Container> {
 public:
     /**
      * @brief Constructor
@@ -271,7 +271,7 @@ public:
      * @returns A random permutation
      */
     Container
-    value() override
+    value()
     {
         std::shuffle(std::begin(container_), std::end(container_), this->gen());
         return container_;
