@@ -81,7 +81,7 @@ public:
     {}
     /**
      * @brief Returns a random integer
-     * @param A random integer
+     * @returns A random integer
      */
     T
     value()
@@ -107,7 +107,7 @@ public:
     {}
     /**
      * @brief Returns a random bool
-     * @param A random bool
+     * @returns A random bool
      */
     bool
     value()
@@ -148,8 +148,8 @@ public:
         : random_object<T>(), distribution_(minimum, maximum)
     {}
     /**
-     * @brief Returns a random real value
-     * @param A random real value
+     * @brief Returns a random real
+     * @returns A random real
      */
     T
     value()
