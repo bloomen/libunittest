@@ -18,10 +18,12 @@ xml_escape(const std::string& data);
 /**
  * @brief Generates the ISO8601 time stamp from a time point object
  * @param time_point The time point object
+ * @param Whether to convert to local time (if false converts to UTC)
  * @returns The ISO8601 time stamp (e.g. 2013-06-29T14:12:05)
  */
 std::string
-make_iso_timestamp(const std::chrono::system_clock::time_point& time_point);
+make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
+                   bool local_time=true);
 /**
  * @brief An overload doing nothing to finish template recursion
  * @param stream An output stream

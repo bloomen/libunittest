@@ -370,5 +370,5 @@ void test_misc::test_make_iso_timestamp()
 {
     const time_t value = 1234567890;
     const auto time_point = std::chrono::system_clock::from_time_t(value);
-    assert_equal("2009-02-14T00:31:30", unittest::make_iso_timestamp(time_point), SPOT);
+    assert_equal("2009-02-13T23:31:30", unittest::make_iso_timestamp(time_point, false), SPOT);
 }

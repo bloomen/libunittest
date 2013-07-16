@@ -21,10 +21,15 @@ xml_escape(const std::string& data)
 }
 
 std::string
-make_iso_timestamp(const std::chrono::system_clock::time_point& time_point)
+make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
+                   bool local_time)
 {
     const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
-    struct tm timeinfo = *std::localtime(&rawtime);
+    struct tm timeinfo;
+    if (local_time)
+        timeinfo = *std::localtime(&rawtime);
+    else
+        timeinfo = *std::gmtime(&rawtime);
     char buffer[20];
     std::strftime(buffer, 20, "%FT%X", &timeinfo);
     return buffer;
