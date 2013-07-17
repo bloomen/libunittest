@@ -47,7 +47,6 @@ protected:
         return generator_;
     }
 
-private:
     std::mt19937 generator_;
 
 };
@@ -164,28 +163,28 @@ private:
 /**
  * @brief A random choice from a given container
  */
-template<typename T,
+template<typename Element,
          typename Container>
-class random_choice : public random_object<T> {
+class random_choice : public random_object<Element> {
 public:
     /**
      * @brief Constructor
      * @param container The container to choose from
      */
     random_choice(const Container& container)
-        : random_object<T>(), container_(container),
+        : random_object<Element>(), container_(container),
           distribution_(0, container_.size() - 1)
     {}
     /**
      * @brief Returns a random choice
      * @returns A random choice
      */
-    T
+    Element
     value()
     {
         const auto index = distribution_(this->gen());
         long long count = 0;
-        T result;
+        Element result;
         for (auto& value : container_) {
             if (count==index) {
                 result = value;
@@ -204,7 +203,7 @@ private:
 /**
  * @brief A random container
  */
-template<typename T,
+template<typename Element,
          typename Container>
 class random_container : public random_object<Container> {
 public:
@@ -213,7 +212,7 @@ public:
      * @param rand The random object used to fill the container
      * @param size The container size
      */
-    random_container(random_object<T>& rand,
+    random_container(random_object<Element>& rand,
                      long long size)
         : random_object<Container>(),
           rand_(&rand),
@@ -225,7 +224,7 @@ public:
      * @param min_size The minimum container size (including)
      * @param max_size The maximum container size (including)
      */
-    random_container(random_object<T>& rand,
+    random_container(random_object<Element>& rand,
                      long long min_size,
                      long long max_size)
         : random_object<Container>(),
@@ -240,7 +239,7 @@ public:
     value()
     {
         const auto size = distribution_(this->gen());
-        std::vector<T> result;
+        std::vector<Element> result;
         result.reserve(size);
         for (long long i=0; i<size; ++i)
             result.push_back(rand_->value());
@@ -248,7 +247,7 @@ public:
     }
 
 private:
-    random_object<T>* rand_;
+    random_object<Element>* rand_;
     std::uniform_int_distribution<long long> distribution_;
 
 };
@@ -279,6 +278,62 @@ public:
 
 private:
     Container container_;
+
+};
+/**
+ * @brief A random combination
+ */
+template<typename Element1,
+         typename Container1,
+         typename Element2,
+         typename Container2>
+class random_combination : public random_object<std::vector<std::pair<Element1, Element2>>> {
+public:
+    /**
+     * @brief Constructor
+     * @param container1 A container
+     * @param container2 Another container
+     */
+    random_combination(const Container1& container1,
+                       const Container2& container2)
+        : random_object<std::vector<std::pair<Element1, Element2>>>(),
+          permutation1_(container1),
+          permutation2_(container2)
+    {}
+    /**
+     * @brief Sets a new random seed
+     * @param seed The random seed
+     */
+    void
+    seed(int seed)
+    {
+        permutation1_.seed(seed);
+        permutation2_.seed(seed);
+        this->generator_.seed(seed);
+    }
+    /**
+     * @brief Returns a random combination
+     * @returns A random combination
+     */
+    std::vector<std::pair<Element1, Element2>>
+    value()
+    {
+        const auto perm1 = permutation1_.value();
+        const auto perm2 = permutation2_.value();
+        std::vector<std::pair<Element1, Element2>> combination;
+        combination.reserve(perm1.size() * perm2.size());
+        for (auto& value1 : perm1) {
+            for (auto& value2 : perm2) {
+                combination.push_back(std::make_pair(value1, value2));
+            }
+        }
+        std::shuffle(std::begin(combination), std::end(combination), this->gen());
+        return std::move(combination);
+    }
+
+private:
+    random_permutation<Container1> permutation1_;
+    random_permutation<Container2> permutation2_;
 
 };
 

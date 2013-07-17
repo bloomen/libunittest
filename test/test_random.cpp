@@ -76,3 +76,19 @@ void test_random::test_random_permutation()
         assert_equal(6, perm_vector[0] + perm_vector[1] + perm_vector[2], SPOT);
     }
 }
+
+void test_random::test_random_combination()
+{
+    const std::vector<int> vector1 = {1, 2, 3};
+    const std::vector<double> vector2 = {5, 6};
+    unittest::random_combination<int, std::vector<int>,
+                                 double, std::vector<double>> rand_combo(vector1, vector2);
+    for (int i=0; i<100; ++i) {
+        const auto combo = rand_combo.value();
+        assert_equal<unsigned>(6, combo.size(), SPOT);
+        for (auto& value : combo) {
+            assert_in_container(value.first, vector1, SPOT);
+            assert_in_container(value.second, vector2, SPOT);
+        }
+    }
+}
