@@ -272,8 +272,24 @@ public:
      */
     random_shuffle(const Container& container)
         : random_object<Container>(),
-          vector_(std::begin(container), std::end(container))
+          vector_(std::begin(container), std::end(container)),
+          size_(container.size())
     {}
+    /**
+     * @brief Constructor
+     * @param container The container
+     * @param size The size of the shuffled container
+     */
+    random_shuffle(const Container& container,
+                   long long size)
+        : random_object<Container>(),
+          vector_(std::begin(container), std::end(container)),
+          size_(size)
+    {
+        long long max_size = container.size();
+        if (size<1 || size>max_size)
+            throw std::invalid_argument("argument 'size' out of range");
+    }
     /**
      * @brief Returns a random shuffle
      * @returns A random shuffle
@@ -281,12 +297,14 @@ public:
     Container
     value()
     {
-        std::shuffle(vector_.begin(), vector_.end(), this->gen());
-        return {vector_.begin(), vector_.end()};
+        auto begin = vector_.begin();
+        std::shuffle(begin, vector_.end(), this->gen());
+        return {begin, begin + size_};
     }
 
 private:
     std::vector<typename Container::value_type> vector_;
+    long long size_;
 
 };
 /**
@@ -316,24 +334,22 @@ public:
      * @brief Constructor
      * @param container1 A container
      * @param container2 Another container
+     * @param size The number of combinations
      */
     random_combination(const Container1& container1,
-                       const Container2& container2)
+                       const Container2& container2,
+                       long long size)
         : random_object<combo_type>(),
-          shuffle1_(container1),
-          shuffle2_(container2),
-          combination_(container1.size() * container2.size())
-    {}
-    /**
-     * @brief Sets a new random seed
-     * @param seed The random seed
-     */
-    void
-    seed(int seed)
+          container1_(container1),
+          container2_(container2),
+          granter_(container1.size() * container2.size(), false),
+          size_(size)
     {
-        shuffle1_.seed(seed);
-        shuffle2_.seed(seed);
-        this->generator_.seed(seed);
+        long long max_size = granter_.size();
+        if (size<1 || size>max_size)
+            throw std::invalid_argument("argument 'size' out of range");
+        for (long long i=0; i<size_; ++i)
+            granter_[i] = true;
     }
     /**
      * @brief Returns a random combination
@@ -342,21 +358,25 @@ public:
     combo_type
     value()
     {
-        auto iter = combination_.begin();
-        for (auto& value1 : shuffle1_.value()) {
-            for (auto& value2 : shuffle2_.value()) {
-                *iter = std::make_pair(value1, value2);
-                ++iter;
+        long long index = 0;
+        combo_type combination;
+        combination.reserve(size_);
+        std::shuffle(granter_.begin(), granter_.end(), this->gen());
+        for (auto& value1 : container1_) {
+            for (auto& value2 : container2_) {
+                if (granter_[index])
+                    combination.push_back(std::make_pair(value1, value2));
+                ++index;
             }
         }
-        std::shuffle(combination_.begin(), combination_.end(), this->gen());
-        return combination_;
+        return std::move(combination);
     }
 
 private:
-    random_shuffle<Container1> shuffle1_;
-    random_shuffle<Container2> shuffle2_;
-    combo_type combination_;
+    Container1 container1_;
+    Container2 container2_;
+    std::vector<bool> granter_;
+    long long size_;
 
 };
 

@@ -1,5 +1,6 @@
 #include "test_random.h"
 #include <list>
+#include <map>
 #define SPOT UNITTEST_SPOT
 
 void test_random::test_random_int()
@@ -82,10 +83,10 @@ void test_random::test_random_combination()
     const std::vector<int> vector1 = {1, 2, 3};
     const std::vector<double> vector2 = {5, 6};
     unittest::random_combination<std::vector<int>,
-                                 std::vector<double>> rand_combo(vector1, vector2);
+                                 std::vector<double>> rand_combo(vector1, vector2, 4);
     for (int i=0; i<100; ++i) {
         const auto combo = rand_combo.value();
-        assert_equal<unsigned>(6, combo.size(), SPOT);
+        assert_equal<unsigned>(4, combo.size(), SPOT);
         for (auto& value : combo) {
             assert_in_container(value.first, vector1, SPOT);
             assert_in_container(value.second, vector2, SPOT);
