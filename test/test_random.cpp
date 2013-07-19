@@ -34,7 +34,7 @@ void test_random::test_random_real()
 void test_random::test_random_choice()
 {
     const std::string characters("abc");
-    unittest::random_choice<char, std::string> random(characters);
+    unittest::random_choice<std::string> random(characters);
     for (int i=0; i<100; ++i) {
         assert_in_container(random.value(), characters, SPOT);
     }
@@ -43,11 +43,11 @@ void test_random::test_random_choice()
 void test_random::test_random_container_string()
 {
     const std::string characters("abc");
-    unittest::random_choice<char, std::string> random(characters);
+    unittest::random_choice<std::string> random(characters);
     const unsigned length = 5;
     const unsigned min_length = 3;
-    unittest::random_container<char, std::string> random_contA(random, length);
-    unittest::random_container<char, std::string> random_contB(random, min_length, length);
+    unittest::random_container<std::string> random_contA(random, length);
+    unittest::random_container<std::string> random_contB(random, min_length, length);
     assert_random_container_fixed(random_contA, characters, length, SPOT);
     assert_random_container_range(random_contB, characters, min_length, length, SPOT);
 }
@@ -58,16 +58,16 @@ void test_random::test_random_container_list()
     unittest::random_int<> random(1, 3);
     const unsigned length = 5;
     const unsigned min_length = 3;
-    unittest::random_container<int, decltype(a_list)> random_contA(random, length);
-    unittest::random_container<int, decltype(a_list)> random_contB(random, min_length, length);
+    unittest::random_container<decltype(a_list)> random_contA(random, length);
+    unittest::random_container<decltype(a_list)> random_contB(random, min_length, length);
     assert_random_container_fixed(random_contA, a_list, length, SPOT);
     assert_random_container_range(random_contB, a_list, min_length, length, SPOT);
 }
 
-void test_random::test_random_permutation()
+void test_random::test_random_shuffle()
 {
     const std::vector<int> vector = {1, 2, 3};
-    unittest::random_permutation<std::vector<int>> random(vector);
+    unittest::random_shuffle<std::vector<int>> random(vector);
     for (int i=0; i<100; ++i) {
         const auto perm_vector = random.value();
         assert_in_container(perm_vector[0], vector, SPOT);
@@ -81,8 +81,8 @@ void test_random::test_random_combination()
 {
     const std::vector<int> vector1 = {1, 2, 3};
     const std::vector<double> vector2 = {5, 6};
-    unittest::random_combination<int, std::vector<int>,
-                                 double, std::vector<double>> rand_combo(vector1, vector2);
+    unittest::random_combination<std::vector<int>,
+                                 std::vector<double>> rand_combo(vector1, vector2);
     for (int i=0; i<100; ++i) {
         const auto combo = rand_combo.value();
         assert_equal<unsigned>(6, combo.size(), SPOT);

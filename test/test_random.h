@@ -12,7 +12,7 @@ struct test_random : unittest::testcase<> {
         UNITTEST_RUN(test_random_choice)
         UNITTEST_RUN(test_random_container_string)
         UNITTEST_RUN(test_random_container_list)
-        UNITTEST_RUN(test_random_permutation)
+        UNITTEST_RUN(test_random_shuffle)
         UNITTEST_RUN(test_random_combination)
     }
 
@@ -22,7 +22,7 @@ struct test_random : unittest::testcase<> {
     void test_random_choice();
     void test_random_container_string();
     void test_random_container_list();
-    void test_random_permutation();
+    void test_random_shuffle();
     void test_random_combination();
 
 private:
