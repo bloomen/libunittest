@@ -46,7 +46,8 @@ public:
         fail(join(make_displayed_fail_message(assertion, text), args...));
     }
     /**
-     * @brief Asserts that a value is true
+     * @brief Asserts that a value is true.
+     *  Operators needed: None
      * @param value A value
      * @param message If given, is appended to the default fail message
      */
@@ -62,7 +63,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a value is false
+     * @brief Asserts that a value is false.
+     *  Operators needed: None
      * @param value A value
      * @param message If given, is appended to the default fail message
      */
@@ -78,7 +80,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that two values are equal
+     * @brief Asserts that two values are equal.
+     *  Operators needed: ==, <<
      * @param expected The expected value
      * @param actual The actual value
      * @param message If given, is appended to the default fail message
@@ -97,7 +100,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that two values are not equal
+     * @brief Asserts that two values are not equal.
+     *  Operators needed: ==, <<
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -129,13 +133,14 @@ public:
                   const Args&... message) const
     {
         if (!(epsilon > 0)) {
-            const std::string text = "The epsilon of " + str(epsilon) + " is not greater than zero";
+            const std::string text = "epsilon not greater than zero";
             fail(caller, text, message...);
         }
     }
     /**
      * @brief Asserts that two values are approximately equal up to some
-     *  epsilon. The assertions succeeds if |a - b| < epsilon
+     *  epsilon. The assertions succeeds if |a - b| < epsilon.
+     *  Operators needed: <, >, <<
      * @param expected The expected value
      * @param actual The actual value
      * @param epsilon The epsilon
@@ -159,7 +164,8 @@ public:
     }
     /**
      * @brief Asserts that two values are not approximately equal up to some
-     *  epsilon. The assertions succeeds if |a - b| < epsilon is false
+     *  epsilon. The assertions succeeds if |a - b| < epsilon is false.
+     *  Operators needed: <, >, <<
      * @param first A value
      * @param second Another value
      * @param epsilon The epsilon
@@ -182,7 +188,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that the first value is greater than the second
+     * @brief Asserts that the first value is greater than the second.
+     *  Operators needed: >, <<
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -201,7 +208,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that the first value is greater than or equal to the second
+     * @brief Asserts that the first value is greater than or equal to the second.
+     *  Operators needed: <, <<
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -220,7 +228,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that the first value is lesser than the second
+     * @brief Asserts that the first value is lesser than the second.
+     *  Operators needed: <, <<
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -239,7 +248,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that the first value is lesser than or equal to the second
+     * @brief Asserts that the first value is lesser than or equal to the second.
+     *  Operators needed: >, <<
      * @param first A value
      * @param second Another value
      * @param message If given, is appended to the default fail message
@@ -274,12 +284,13 @@ public:
                        const Args&... message) const
     {
         if (!(lower < upper)) {
-            const std::string text = "The lower bound of " + str(lower) + " is not smaller than the upper bound of " + str(upper);
+            const std::string text = "lower bound not smaller than upper bound";
             fail(caller, text, message...);
         }
     }
     /**
-     * @brief Asserts that a value is in a given range with excluding bounds
+     * @brief Asserts that a value is in a given range with excluding bounds.
+     *  Operators needed: <, >, <<
      * @param value A value
      * @param lower The lower bound
      * @param upper The upper bound
@@ -302,7 +313,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a value is not in a given range with excluding bounds
+     * @brief Asserts that a value is not in a given range with excluding bounds.
+     *  Operators needed: <, >, <<
      * @param value A value
      * @param lower The lower bound
      * @param upper The upper bound
@@ -325,7 +337,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a value is in a container
+     * @brief Asserts that a value is in a container.
+     *  Operators needed: ==
      * @param value A value
      * @param container A container
      * @param message If given, is appended to the default fail message
@@ -339,12 +352,13 @@ public:
                         const Args&... message) const
     {
         if (!is_contained(value, container)) {
-            const std::string text = str(value) + " not in container";
+            const std::string text = "value not in container";
             fail(__func__, text, message...);
         }
     }
     /**
-     * @brief Asserts that a value is not in a container
+     * @brief Asserts that a value is not in a container.
+     *  Operators needed: ==
      * @param value A value
      * @param container A container
      * @param message If given, is appended to the default fail message
@@ -358,13 +372,14 @@ public:
                             const Args&... message) const
     {
         if (is_contained(value, container)) {
-            const std::string text = str(value) + " in container";
+            const std::string text = "value in container";
             fail(__func__, text, message...);
         }
     }
     /**
      * @brief Asserts that a value is approx. in a container up to some epsilon.
-     *  The assertion succeeds if |a - b| < epsilon for at least one element
+     *  The assertion succeeds if |a - b| < epsilon for at least one element.
+     *  Operators needed: <, >
      * @param value A value
      * @param container A container
      * @param epsilon The epsilon
@@ -382,13 +397,14 @@ public:
     {
         check_epsilon(epsilon, __func__, message...);
         if (!is_approx_contained(value, container, epsilon)) {
-            const std::string text = str(value) + " not approx. in container with epsilon = " + str(epsilon);
+            const std::string text = "value not approx. in container";
             fail(__func__, text, message...);
         }
     }
     /**
      * @brief Asserts that a value is not approx. in a container up to some
-     *  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements
+     *  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements.
+     *  Operators needed: <, >
      * @param value A value
      * @param container A container
      * @param epsilon The epsilon
@@ -406,12 +422,13 @@ public:
     {
         check_epsilon(epsilon, __func__, message...);
         if (is_approx_contained(value, container, epsilon)) {
-            const std::string text = str(value) + " approx. in container with epsilon = " + str(epsilon);
+            const std::string text = "value approx. in container";
             fail(__func__, text, message...);
         }
     }
     /**
-     * @brief Asserts that two containers are equal
+     * @brief Asserts that two containers are equal.
+     *  Operators needed: ==
      * @param expected The expected container
      * @param actual The actual container
      * @param message If given, is appended to the default fail message
@@ -430,7 +447,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that two containers are not equal
+     * @brief Asserts that two containers are not equal.
+     *  Operators needed: ==
      * @param first A container
      * @param second Another container
      * @param message If given, is appended to the default fail message
@@ -450,7 +468,8 @@ public:
     }
     /**
      * @brief Asserts that two containers are approx. equal up to some epsilon.
-     *  The assertion succeeds if |a - b| < epsilon for all pairs of elements
+     *  The assertion succeeds if |a - b| < epsilon for all pairs of elements.
+     *  Operators needed: <, >
      * @param expected The expected container
      * @param actual The actual container
      * @param epsilon The epsilon
@@ -468,16 +487,17 @@ public:
     {
         check_epsilon(epsilon, __func__, message...);
         if (!is_containers_approx_equal(expected, actual, epsilon)) {
-            const std::string text = "containers are not approx. equal with epsilon = " + str(epsilon);
+            const std::string text = "containers are not approx. equal";
             fail(__func__, text, message...);
         }
     }
     /**
      * @brief Asserts that two containers are not approx. equal up to some
-     *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at least one
-     *  pair of elements
-     * @param expected The expected container
-     * @param actual The actual container
+     *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+     *  least one pair of elements.
+     *  Operators needed: <, >
+     * @param first A container
+     * @param second Another container
      * @param epsilon The epsilon
      * @param message If given, is appended to the default fail message
      */
@@ -486,19 +506,20 @@ public:
              typename V,
              typename... Args>
     void
-    assert_approx_not_equal_containers(const Container1& expected,
-                                       const Container2& actual,
+    assert_approx_not_equal_containers(const Container1& first,
+                                       const Container2& second,
                                        const V& epsilon,
                                        const Args&... message) const
     {
         check_epsilon(epsilon, __func__, message...);
-        if (is_containers_approx_equal(expected, actual, epsilon)) {
-            const std::string text = "containers are approx. equal with epsilon = " + str(epsilon);
+        if (is_containers_approx_equal(first, second, epsilon)) {
+            const std::string text = "containers are approx. equal";
             fail(__func__, text, message...);
         }
     }
     /**
-     * @brief Asserts that all container elements match a given condition
+     * @brief Asserts that all container elements match a given condition.
+     *  Operators needed: None
      * @param container A container
      * @param condition A condition returning a boolean that can be applied to
      *  each container element
@@ -518,7 +539,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that not all container elements match a given condition
+     * @brief Asserts that not all container elements match a given condition.
+     *  Operators needed: None
      * @param container A container
      * @param condition A condition returning a boolean that can be applied to
      *  each container element
@@ -538,7 +560,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that any container element matches a given condition
+     * @brief Asserts that any container element matches a given condition.
+     *  Operators needed: None
      * @param container A container
      * @param condition A condition returning a boolean that can be applied to
      *  each container element
@@ -558,7 +581,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that none of the container elements match a given condition
+     * @brief Asserts that none of the container elements match a given condition.
+     *  Operators needed: None
      * @param container A container
      * @param condition A condition returning a boolean that can be applied to
      *  each container element
@@ -578,7 +602,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a string matches a regular expression
+     * @brief Asserts that a string matches a regular expression.
+     *  Operators needed: <<
      * @param string A string
      * @param regex The regular expression
      * @param message If given, is appended to the default fail message
@@ -595,7 +620,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a string matches a regular expression
+     * @brief Asserts that a string matches a regular expression.
+     *  Operators needed: <<
      * @param string A string
      * @param regex The regular expression
      * @param message If given, is appended to the default fail message
@@ -612,7 +638,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a string does not match a regular expression
+     * @brief Asserts that a string does not match a regular expression.
+     *  Operators needed: <<
      * @param string A string
      * @param regex The regular expression
      * @param message If given, is appended to the default fail message
@@ -629,7 +656,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a string does not match a regular expression
+     * @brief Asserts that a string does not match a regular expression.
+     *  Operators needed: <<
      * @param string A string
      * @param regex The regular expression
      * @param message If given, is appended to the default fail message
@@ -646,7 +674,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a functor throws Exception
+     * @brief Asserts that a functor throws Exception.
+     *  Operators needed: None
      * @param functor The functor
      * @param message If given, is appended to the default fail message
      */
@@ -683,7 +712,8 @@ public:
         }
     }
     /**
-     * @brief Asserts that a functor does not throw any exception
+     * @brief Asserts that a functor does not throw any exception.
+     *  Operators needed: None
      * @param functor The functor
      * @param message If given, is appended to the default fail message
      */
