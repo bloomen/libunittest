@@ -1,3 +1,8 @@
+3.2.1
+
+- improved random functionality and bug fixes 
+- better documentation
+
 3.2.0
 
 - simplified test registration and introduced new macro: UNITTEST_CLASS
