@@ -8,3 +8,4 @@ examples/minimal/unittest_example
 libunittest.xml
 html
 doxyfile
+errors.log
