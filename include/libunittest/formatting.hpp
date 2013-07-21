@@ -44,6 +44,7 @@ public:
      * @brief Converts a given value to string by taking into account
      * 	the maximum string length and the maximum value precision
      * @param value The value
+     * @returns A string
      */
     template<typename T>
     std::string

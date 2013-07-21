@@ -42,6 +42,10 @@ public:
     }
 
 protected:
+    /**
+     * @brief Returns a reference to the random generator
+     * @returns A reference to the random generator
+     */
     std::mt19937&
     gen()
     {
@@ -254,6 +258,9 @@ make_random_real(const T& minimum,
 template<typename Container>
 class random_choice : public random_object<typename Container::value_type> {
 public:
+    /**
+     * @brief The type of the container elements
+     */
     typedef typename Container::value_type elem_type;
     /**
      * @brief Constructor
@@ -304,6 +311,9 @@ make_random_choice(const Container& container)
 template<typename Container>
 class random_container : public random_object<Container> {
 public:
+    /**
+     * @brief The type of the container elements
+     */
     typedef typename Container::value_type elem_type;
     /**
      * @brief Constructor
@@ -494,6 +504,9 @@ make_random_shuffle(const Container& container,
 template<typename Container1,
          typename Container2>
 struct combo {
+    /**
+     * @brief The type of the random combination
+     */
     typedef
     std::vector<
         std::pair<
@@ -510,6 +523,9 @@ template<typename Container1,
          typename Container2>
 class random_combination : public random_object<typename combo<Container1, Container2>::type> {
 public:
+    /**
+     * @brief The type of the random combination
+     */
     typedef typename combo<Container1, Container2>::type combo_type;
     /**
      * @brief Constructor

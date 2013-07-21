@@ -104,13 +104,33 @@ public:
     xml_filename(const std::string& value);
 
 protected:
-
+    /**
+     * @brief Whether the output is verbose
+     */
     bool verbose_;
+    /**
+     * @brief Whether to stop running after the first test fails
+     */
     bool failure_stop_;
+    /**
+     * @brief Whether to generate XML output
+     */
     bool generate_xml_;
+    /**
+     * @brief Whether to handle exceptions
+     */
     bool handle_exceptions_;
+    /**
+     * @brief A name filter on the full test name
+     */
     std::string name_filter_;
+    /**
+     * @brief A test to be run
+     */
     std::string test_name_;
+    /**
+     * @brief The XML output file name
+     */
     std::string xml_filename_;
 
 };
