@@ -38,7 +38,7 @@ public:
     virtual void
     seed(int seed)
     {
-        generator_.seed(seed);
+        gen().seed(seed);
     }
 
 protected:
@@ -48,6 +48,7 @@ protected:
         return generator_;
     }
 
+private:
     std::mt19937 generator_;
 
 };
@@ -339,7 +340,7 @@ public:
     seed(int seed)
     {
         rand_->seed(seed);
-        this->generator_.seed(seed);
+        this->gen().seed(seed);
     }
     /**
      * @brief Returns a random container
