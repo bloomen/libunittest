@@ -13,6 +13,7 @@ all :
 	@$(ECHO) "Running doxygen for libunittest-$(VERSION) ..."
 	@$(SED) $(TEMPLATE) > $(DOXYFILE)
 	@$(DOXYGEN) >/dev/null
+	@$(ECHO) "Entry point: html/index.html"
 
 clean :
 	$(RM) $(DOXYFILE) html/
