@@ -1,11 +1,11 @@
 #pragma once
 /**
  * @brief Registers a test class. To be called prior to UNITTEST_RUN
- * @param klass The test class
+ * @param test_class The test class
  */
-#define UNITTEST_CLASS(klass) \
-typedef klass __unittest_class__; \
-const std::string __unittest_class_name__ = #klass;
+#define UNITTEST_CLASS(test_class) \
+typedef test_class __unittest_class__; \
+const std::string __unittest_class_name__ = #test_class;
 /**
  * @brief A test run (thread-safe)
  * @param method The test method
