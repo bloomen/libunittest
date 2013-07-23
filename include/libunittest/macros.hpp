@@ -4,21 +4,21 @@
  * @param test_class The test class
  */
 #define UNITTEST_CLASS(test_class) \
-typedef test_class __unittest_class__; \
-const std::string __unittest_class_name__ = #test_class;
+typedef test_class __test_class__; \
+const std::string __test_class_name__ = #test_class;
 /**
  * @brief A test run (thread-safe)
- * @param method The test method
+ * @param test_method The test method
  */
-#define UNITTEST_RUN(method) \
-unittest::testrun(&__unittest_class__::method, __unittest_class_name__, #method);
+#define UNITTEST_RUN(test_method) \
+unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_method);
 /**
  * @brief A test run with a test context (thread-safe)
- * @param context The test context
- * @param method The test method
+ * @param test_context The test context
+ * @param test_method The test method
  */
-#define UNITTEST_RUNCXT(context, method) \
-unittest::testrun(context, &__unittest_class__::method, __unittest_class_name__, #method);
+#define UNITTEST_RUNCXT(test_context, test_method) \
+unittest::testrun(test_context, &__test_class__::test_method, __test_class_name__, #test_method);
 /**
  * @brief Defines a string with info about the current file name
  *  and the current line number
