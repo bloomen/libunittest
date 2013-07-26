@@ -1,3 +1,7 @@
+/**
+ * @brief The testrun functions and the testrunner class
+ * @file testrun.hpp
+ */
 #pragma once
 #include <libunittest/testfailure.hpp>
 #include <libunittest/pimplpattern.hpp>

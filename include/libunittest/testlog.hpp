@@ -1,3 +1,7 @@
+/**
+ * @brief The testlog class and functions working on it
+ * @file testlog.hpp
+ */
 #pragma once
 #include <libunittest/teststatus.hpp>
 #include <string>

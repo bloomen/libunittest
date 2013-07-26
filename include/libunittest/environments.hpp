@@ -1,3 +1,7 @@
+/**
+ * @brief A collection of environment functions
+ * @file environments.hpp
+ */
 #pragma once
 #include <libunittest/argparser.hpp>
 #include <libunittest/testsuite.hpp>

@@ -1,3 +1,7 @@
+/**
+ * @brief The userargs class to control application behavior
+ * @file userargs.hpp
+ */
 #pragma once
 #include <string>
 /**

@@ -1,3 +1,7 @@
+/**
+ * @brief An enumeration for the test status
+ * @file teststatus.hpp
+ */
 #pragma once
 /**
  * @brief Unit testing in C++

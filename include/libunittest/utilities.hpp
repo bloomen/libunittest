@@ -1,3 +1,7 @@
+/**
+ * @brief Utilities used throughout this library
+ * @file utilities.hpp
+ */
 #pragma once
 #include <ostream>
 #include <string>

@@ -1,3 +1,7 @@
+/**
+ * @brief A collection of classes and factory functions to create random objects
+ * @file random.hpp
+ */
 #pragma once
 #include <vector>
 #include <random>

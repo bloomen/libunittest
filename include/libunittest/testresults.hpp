@@ -1,3 +1,7 @@
+/**
+ * @brief The testresults class and functions working on it
+ * @file testresults.hpp
+ */
 #pragma once
 #include <libunittest/testlog.hpp>
 #include <ostream>

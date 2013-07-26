@@ -1,3 +1,7 @@
+/**
+ * @brief The formatting class defining a formatting interface
+ * @file formatting.hpp
+ */
 #pragma once
 #include <string>
 #include <sstream>

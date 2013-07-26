@@ -1,3 +1,7 @@
+/**
+ * @brief An argument parser and corresponding exception class
+ * @file argparser.hpp
+ */
 #pragma once
 #include <libunittest/userargs.hpp>
 #include <libunittest/pimplpattern.hpp>

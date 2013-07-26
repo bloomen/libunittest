@@ -1,3 +1,7 @@
+/**
+ * @brief The private implementation pattern
+ * @file pimplpattern.hpp
+ */
 #pragma once
 #include <memory>
 /**

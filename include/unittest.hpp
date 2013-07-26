@@ -1,9 +1,9 @@
-#pragma once
 /**
- * @brief A portable C++ library for unit testing
+ * @brief A portable C++ library for unit testing -
  *        http://sourceforge.net/projects/libunittest
  * @file unittest.hpp
  */
+#pragma once
 #include <libunittest/argparser.hpp>
 #include <libunittest/assertions.hpp>
 #include <libunittest/call.hpp>

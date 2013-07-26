@@ -1,3 +1,7 @@
+/**
+ * @brief The testcase class from which to derive when implementing a test class
+ * @file testcase.hpp
+ */
 #pragma once
 #include <libunittest/assertions.hpp>
 #include <string>

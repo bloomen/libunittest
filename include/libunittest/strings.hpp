@@ -1,3 +1,7 @@
+/**
+ * @brief A collection of useful strings
+ * @file strings.hpp
+ */
 #pragma once
 #include <string>
 /**

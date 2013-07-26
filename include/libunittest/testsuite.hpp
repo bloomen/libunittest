@@ -1,3 +1,7 @@
+/**
+ * @brief The test suite collecting test information
+ * @file testsuite.hpp
+ */
 #pragma once
 #include <libunittest/testresults.hpp>
 #include <libunittest/testlog.hpp>

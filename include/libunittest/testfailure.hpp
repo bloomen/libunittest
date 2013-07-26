@@ -1,3 +1,7 @@
+/**
+ * @brief The testfailure class to indicate test failures
+ * @file testfailure.hpp
+ */
 #pragma once
 #include <string>
 #include <stdexcept>

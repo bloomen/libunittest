@@ -1,3 +1,7 @@
+/**
+ * @brief Version information for libunittest
+ * @file version.hpp
+ */
 #pragma once
 #include <tuple>
 #include <string>

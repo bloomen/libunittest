@@ -1,3 +1,7 @@
+/**
+ * @brief The assertions class providing a collection of test assertions
+ * @file assertions.hpp
+ */
 #pragma once
 #include <libunittest/utilities.hpp>
 #include <libunittest/formatting.hpp>

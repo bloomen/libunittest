@@ -1,3 +1,7 @@
+/**
+ * @brief A collection of helper macros
+ * @file macros.hpp
+ */
 #pragma once
 /**
  * @brief Registers a test class. To be called prior to UNITTEST_RUN
