@@ -691,7 +691,7 @@ public:
                  const Args&... message) const
     {
         bool caught = false;
-        if (testsuite::instance()->get_handle_exceptions()) {
+        if (testsuite::instance()->get_arguments().handle_exceptions()) {
             try {
                 functor();
             } catch (const Exception&) {
@@ -727,7 +727,7 @@ public:
     assert_no_throw(Functor functor,
                     const Args&... message) const
     {
-        if (testsuite::instance()->get_handle_exceptions()) {
+        if (testsuite::instance()->get_arguments().handle_exceptions()) {
             try {
                 functor();
             } catch (const std::exception& e) {

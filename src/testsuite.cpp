@@ -11,34 +11,17 @@ namespace unittest {
 template<>
 struct implementation<testsuite> {
 
-    bool verbose_;
     bool keep_running_;
-    bool failure_stop_;
-    long n_tests_;
-    long n_successes_;
-    long n_failures_;
-    long n_errors_;
-    long n_skipped_;
-    std::vector<testlog> testlogs_;
-    std::string name_filter_;
-    std::string test_name_;
-    bool handle_exceptions_;
     std::chrono::high_resolution_clock::time_point start_;
     std::chrono::high_resolution_clock::time_point end_;
+    userargs arguments_;
+    testresults results_;
 
     implementation()
-    	: verbose_(false), keep_running_(true), failure_stop_(false), n_tests_(0),
-    	  n_successes_(0), n_failures_(0), n_errors_(0), n_skipped_(0), testlogs_(0),
-    	  name_filter_(""), test_name_(""), handle_exceptions_(true),
+    	: keep_running_(true),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
     	  end_(std::chrono::high_resolution_clock::time_point::min())
     {}
-
-    double
-    get_duration() const
-    {
-        return duration_in_seconds(end_ - start_);
-    }
 
     void
     set_keep_running(bool keep_running)
@@ -55,18 +38,11 @@ struct implementation<testsuite> {
     }
 
     testresults
-    get_results() const
+    get_results()
     {
-        testresults results;
-        results.successful = n_tests_==n_successes_;
-        results.n_tests = n_tests_;
-        results.n_successes = n_successes_;
-        results.n_failures = n_failures_;
-        results.n_errors = n_errors_;
-        results.n_skipped = n_skipped_;
-        results.duration = get_duration();
-        results.testlogs = testlogs_;
-        return results;
+        results_.successful = results_.n_tests==results_.n_successes;
+        results_.duration = duration_in_seconds(end_ - start_);
+        return results_;
     }
 
 };
@@ -89,49 +65,17 @@ testsuite::testsuite()
 {}
 
 void
-testsuite::set_verbose(bool verbose)
+testsuite::set_arguments(const userargs& arguments)
 {
-    static std::mutex set_verbose_mutex_;
-    std::lock_guard<std::mutex> lock(set_verbose_mutex_);
-    impl_->verbose_ = verbose;
+    static std::mutex set_arguments_mutex_;
+    std::lock_guard<std::mutex> lock(set_arguments_mutex_);
+    impl_->arguments_ = arguments;
 }
 
-void
-testsuite::set_failure_stop(bool failure_stop)
+userargs&
+testsuite::get_arguments() const
 {
-    static std::mutex set_failure_stop_mutex_;
-    std::lock_guard<std::mutex> lock(set_failure_stop_mutex_);
-    impl_->failure_stop_ = failure_stop;
-}
-
-void
-testsuite::set_name_filter(const std::string& name_filter)
-{
-    static std::mutex set_name_filter_mutex_;
-    std::lock_guard<std::mutex> lock(set_name_filter_mutex_);
-    impl_->name_filter_ = name_filter;
-}
-
-void
-testsuite::set_test_name(const std::string& test_name)
-{
-    static std::mutex set_test_name_mutex_;
-    std::lock_guard<std::mutex> lock(set_test_name_mutex_);
-    impl_->test_name_ = test_name;
-}
-
-void
-testsuite::set_handle_exceptions(bool handle_exceptions)
-{
-    static std::mutex set_handle_exceptions_mutex_;
-    std::lock_guard<std::mutex> lock(set_handle_exceptions_mutex_);
-    impl_->handle_exceptions_ = handle_exceptions;
-}
-
-bool
-testsuite::get_handle_exceptions() const
-{
-    return impl_->handle_exceptions_;
+    return impl_->arguments_;
 }
 
 testresults
@@ -145,7 +89,7 @@ testsuite::make_keep_running(const testlog& log)
 {
     static std::mutex make_keep_running_mutex_;
     std::lock_guard<std::mutex> lock(make_keep_running_mutex_);
-    if (!log.successful && impl_->failure_stop_)
+    if (!log.successful && get_arguments().failure_stop())
         impl_->set_keep_running(false);
 }
 
@@ -172,14 +116,14 @@ testsuite::collect(const testlog& log)
     static std::mutex collect_mutex_;
     std::lock_guard<std::mutex> lock(collect_mutex_);
     switch (log.status) {
-    case teststatus::success: ++impl_->n_successes_; break;
-    case teststatus::failure: ++impl_->n_failures_;  break;
-    case teststatus::error: ++impl_->n_errors_;      break;
-    default: ++impl_->n_skipped_;                    break;
+    case teststatus::success: ++impl_->results_.n_successes; break;
+    case teststatus::failure: ++impl_->results_.n_failures;  break;
+    case teststatus::error: ++impl_->results_.n_errors;      break;
+    default: ++impl_->results_.n_skipped;                    break;
     }
     if (log.status!=teststatus::skipped) {
-        ++impl_->n_tests_;
-        impl_->testlogs_.push_back(std::move(log));
+        ++impl_->results_.n_tests;
+        impl_->results_.testlogs.push_back(std::move(log));
     }
 }
 
@@ -191,14 +135,8 @@ testsuite::is_test_run(const std::string& class_name,
     	return false;
     } else {
     	const std::string full_name = make_full_test_name(class_name, test_name);
-    	return is_test_executed(full_name, impl_->test_name_, impl_->name_filter_);
+    	return is_test_executed(full_name, get_arguments().test_name(), get_arguments().name_filter());
     }
-}
-
-bool
-testsuite::is_verbose() const
-{
-    return impl_->verbose_;
 }
 
 } // unittest

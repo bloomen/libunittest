@@ -45,7 +45,7 @@ public:
     execute(TestCase& test,
             void (TestCase::*method)())
     {
-        if (testsuite::instance()->get_handle_exceptions()) {
+        if (testsuite::instance()->get_arguments().handle_exceptions()) {
             try {
                 (test.*method)();
                 log_success();

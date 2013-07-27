@@ -33,7 +33,7 @@ testrunner::testrunner(const std::string& class_name,
         impl_->start_ = std::chrono::high_resolution_clock::now();
         impl_->log_.class_name = class_name;
         impl_->log_.test_name = test_name;
-        write_test_start_message(std::cout, impl_->log_, suite->is_verbose());
+        write_test_start_message(std::cout, impl_->log_, suite->get_arguments().verbose());
     }
 }
 
@@ -41,7 +41,7 @@ testrunner::~testrunner()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
-        write_test_end_message(std::cout, impl_->log_, suite->is_verbose());
+        write_test_end_message(std::cout, impl_->log_, suite->get_arguments().verbose());
         impl_->log_.successful = impl_->log_.status==teststatus::success;
         suite->make_keep_running(impl_->log_);
         const auto end = std::chrono::high_resolution_clock::now();
