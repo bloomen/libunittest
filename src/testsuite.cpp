@@ -23,28 +23,6 @@ struct implementation<testsuite> {
     	  end_(std::chrono::high_resolution_clock::time_point::min())
     {}
 
-    void
-    set_keep_running(bool keep_running)
-    {
-        static std::mutex set_keep_running_mutex_;
-        std::lock_guard<std::mutex> lock(set_keep_running_mutex_);
-        keep_running_ = keep_running;
-    }
-
-    bool
-    get_keep_running() const
-    {
-        return keep_running_;
-    }
-
-    testresults
-    get_results()
-    {
-        results_.successful = results_.n_tests==results_.n_successes;
-        results_.duration = duration_in_seconds(end_ - start_);
-        return results_;
-    }
-
 };
 
 testsuite*
@@ -81,7 +59,10 @@ testsuite::get_arguments() const
 testresults
 testsuite::get_results() const
 {
-    return impl_->get_results();
+    testresults results(impl_->results_);
+    results.successful = results.n_tests==results.n_successes;
+    results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
+    return results;
 }
 
 void
@@ -90,7 +71,7 @@ testsuite::make_keep_running(const testlog& log)
     static std::mutex make_keep_running_mutex_;
     std::lock_guard<std::mutex> lock(make_keep_running_mutex_);
     if (!log.successful && get_arguments().failure_stop())
-        impl_->set_keep_running(false);
+        impl_->keep_running_ = false;
 }
 
 void
@@ -131,7 +112,7 @@ bool
 testsuite::is_test_run(const std::string& class_name,
                        const std::string& test_name) const
 {
-    if (!impl_->get_keep_running()) {
+    if (!impl_->keep_running_) {
     	return false;
     } else {
     	const std::string full_name = make_full_test_name(class_name, test_name);
