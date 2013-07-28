@@ -35,7 +35,7 @@ struct implementation<argparser> {
     }
 
     std::vector<std::string>
-    expand_arguments(int argc, char **argv)
+    expand_arguments(int argc, char **argv) const
     {
         std::vector<std::string> args;
         for (int i=1; i<argc; ++i) {
