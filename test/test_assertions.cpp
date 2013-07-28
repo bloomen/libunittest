@@ -206,3 +206,17 @@ void test_assertions::test_assert_no_throw()
 {
     assert_no_throw(std::bind(test::is_value_one, 1), SPOT);
 }
+
+void test_assertions::test_check_epsilon()
+{
+    check_epsilon(0.5, __func__);
+    assert_fail(std::bind(&test::check_epsilon<int>, *this, 0, __func__), SPOT);
+    assert_fail(std::bind(&test::check_epsilon<double>, *this, -1, __func__), SPOT);
+}
+
+void test_assertions::test_check_range_bounds()
+{
+    check_range_bounds(0.5, 1, __func__);
+    assert_fail(std::bind(&test::check_range_bounds<int, int>, *this, 1, 1, __func__), SPOT);
+    assert_fail(std::bind(&test::check_range_bounds<double, double>, *this, 2, 1, __func__), SPOT);
+}

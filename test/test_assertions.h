@@ -34,6 +34,8 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_not_regex_match)
         UNITTEST_RUN(test_assert_throw)
         UNITTEST_RUN(test_assert_no_throw)
+        UNITTEST_RUN(test_check_epsilon)
+        UNITTEST_RUN(test_check_range_bounds)
     }
 
     void test_assert_true();
@@ -64,6 +66,8 @@ struct test_assertions : unittest::testcase<> {
     void test_assert_not_regex_match();
     void test_assert_throw();
     void test_assert_no_throw();
+    void test_check_epsilon();
+    void test_check_range_bounds();
 
 private:
     template<typename Functor>
