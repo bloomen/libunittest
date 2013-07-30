@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <stdexcept>
+#include <type_traits>
 /**
  * @brief Unit testing in C++
  */
@@ -61,22 +62,49 @@ private:
 
 };
 /**
- * @brief A random integer
+ * @brief The distribution type container
  */
-template<typename T=int>
-class random_int : public random_object<T> {
+template<typename T,
+         bool is_integral>
+struct distribution;
+/**
+ * @brief The distribution type container for integral types
+ */
+template<typename T>
+struct distribution<T, true> {
+    /**
+     * @brief The distribution type for integral types
+     */
+    typedef typename std::uniform_int_distribution<T> type;
+};
+/**
+ * @brief The distribution type container for non-integral types
+ */
+template<typename T>
+struct distribution<T, false> {
+  /**
+   * @brief The distribution type for non-integral types
+   */
+  typedef typename std::uniform_real_distribution<double> type;
+};
+/**
+ * @brief A random value. The lower bounds are including. The upper bounds are
+ *  including for integral types and excluding for real types
+ */
+template<typename T>
+class random_value : public random_object<T> {
 public:
     /**
      * @brief Constructor, range: [0, 1]
      */
-    random_int()
+    random_value()
         : random_object<T>(), distribution_(0, 1)
     {}
     /**
      * @brief Constructor, range: [0, maximum]
-     * @param maximum The upper bound (including)
+     * @param maximum The upper bound
      */
-    random_int(const T& maximum)
+    random_value(const T& maximum)
         : random_object<T>(), distribution_(0, maximum)
     {
         if (!(maximum>0))
@@ -84,19 +112,19 @@ public:
     }
     /**
      * @brief Constructor, range: [minimum, maximum]
-     * @param minimum The lower bound (including)
-     * @param maximum The upper bound (including)
+     * @param minimum The lower bound
+     * @param maximum The upper bound
      */
-    random_int(const T& minimum,
-               const T& maximum)
+    random_value(const T& minimum,
+                 const T& maximum)
         : random_object<T>(), distribution_(minimum, maximum)
     {
         if (!(minimum<maximum))
             throw std::invalid_argument("minimum must be lesser than maximum");
     }
     /**
-     * @brief Returns a random integer
-     * @returns A random integer
+     * @brief Returns a random value
+     * @returns A random value
      */
     T
     value()
@@ -105,53 +133,53 @@ public:
     }
 
 private:
-    std::uniform_int_distribution<T> distribution_;
+    typename distribution<T, std::is_integral<T>::value>::type distribution_;
 
 };
 /**
- * @brief Factory function for random_int, range: [0, 1]
- * @returns An instance of random_int
+ * @brief Factory function for random_value, range: [0, 1]
+ * @returns An instance of random_value
  */
-template<typename T=int>
-random_int<T>
-make_random_int()
+template<typename T>
+random_value<T>
+make_random_value()
 {
-    return random_int<T>();
+    return random_value<T>();
 }
 /**
- * @brief Factory function for random_int, range: [0, maximum]
- * @param maximum The upper bound (including)
- * @returns An instance of random_int
+ * @brief Factory function for random_value, range: [0, maximum]
+ * @param maximum The upper bound
+ * @returns An instance of random_value
  */
-template<typename T=int>
-random_int<T>
-make_random_int(const T& maximum)
+template<typename T>
+random_value<T>
+make_random_value(const T& maximum)
 {
-    return random_int<T>(maximum);
+    return random_value<T>(maximum);
 }
 /**
- * @brief Factory function for random_int, range: [minimum, maximum]
- * @param minimum The lower bound (including)
- * @param maximum The upper bound (including)
- * @returns An instance of random_int
+ * @brief Factory function for random_value, range: [minimum, maximum]
+ * @param minimum The lower bound
+ * @param maximum The upper bound
+ * @returns An instance of random_value
  */
-template<typename T=int>
-random_int<T>
-make_random_int(const T& minimum,
-                const T& maximum)
+template<typename T>
+random_value<T>
+make_random_value(const T& minimum,
+                  const T& maximum)
 {
-    return random_int<T>(minimum, maximum);
+    return random_value<T>(minimum, maximum);
 }
 /**
  * @brief A random bool
  */
 template<>
-class random_int<bool> : public random_object<bool> {
+class random_value<bool> : public random_object<bool> {
 public:
     /**
      * @brief Constructor
      */
-    random_int()
+    random_value()
         : random_object<bool>()
     {}
     /**
@@ -169,93 +197,11 @@ private:
 
 };
 /**
- * @brief Factory function for random_int<bool> (true, false)
- * @returns An instance of random_int<bool>
+ * @brief Factory function for random_value<bool> (true, false)
+ * @returns An instance of random_value<bool>
  */
-random_int<bool>
+random_value<bool>
 make_random_bool();
-/**
- * @brief A random real
- */
-template<typename T=double>
-class random_real : public random_object<T> {
-public:
-    /**
-     * @brief Constructor, range: [0, 1)
-     */
-    random_real()
-        : random_object<T>(), distribution_(0, 1)
-    {}
-    /**
-     * @brief Constructor, range: [0, maximum)
-     * @param maximum The upper bound (excluding)
-     */
-    random_real(const T& maximum)
-        : random_object<T>(), distribution_(0, maximum)
-    {
-        if (!(maximum>0))
-            throw std::invalid_argument("maximum must be greater than zero");
-    }
-    /**
-     * @brief Constructor, range: [minimum, maximum)
-     * @param minimum The lower bound (including)
-     * @param maximum The upper bound (excluding)
-     */
-    random_real(const T& minimum,
-                const T& maximum)
-        : random_object<T>(), distribution_(minimum, maximum)
-    {
-        if (!(minimum<maximum))
-            throw std::invalid_argument("minimum must be lesser than maximum");
-    }
-    /**
-     * @brief Returns a random real
-     * @returns A random real
-     */
-    T
-    value()
-    {
-        return distribution_(this->gen());
-    }
-
-private:
-    std::uniform_real_distribution<T> distribution_;
-
-};
-/**
- * @brief Factory function for random_real, range: [0, 1)
- * @returns An instance of random_real
- */
-template<typename T=double>
-random_real<T>
-make_random_real()
-{
-    return random_real<T>();
-}
-/**
- * @brief Factory function for random_real, range: [0, maximum)
- * @param maximum The upper bound (excluding)
- * @returns An instance of random_real
- */
-template<typename T=double>
-random_real<T>
-make_random_real(const T& maximum)
-{
-    return random_real<T>(maximum);
-}
-/**
- * @brief Factory function for random_real, range: [minimum, maximum)
- * @param minimum The lower bound (including)
- * @param maximum The upper bound (excluding)
- * @returns An instance of random_real
- */
-template<typename T=double>
-random_real<T>
-make_random_real(const T& minimum,
-                 const T& maximum)
-{
-    return random_real<T>(minimum, maximum);
-}
 /**
  * @brief A random choice from a given container
  */
@@ -265,25 +211,25 @@ public:
     /**
      * @brief The type of the container elements
      */
-    typedef typename Container::value_type elem_type;
+    typedef typename Container::value_type element_type;
     /**
      * @brief Constructor
      * @param container The container to choose from
      */
     random_choice(const Container& container)
-        : random_object<elem_type>(), container_(container),
+        : random_object<element_type>(), container_(container),
           distribution_(0, container_.size() - 1)
     {}
     /**
      * @brief Returns a random choice
      * @returns A random choice
      */
-    elem_type
+    element_type
     value()
     {
         const auto index = distribution_(this->gen());
         long long count = 0;
-        elem_type result(*std::begin(container_));
+        element_type result(*std::begin(container_));
         for (auto& value : container_) {
             if (count==index) {
                 return value;
@@ -318,13 +264,13 @@ public:
     /**
      * @brief The type of the container elements
      */
-    typedef typename Container::value_type elem_type;
+    typedef typename Container::value_type element_type;
     /**
      * @brief Constructor
      * @param rand The random object used to fill the container
      * @param size The container size
      */
-    random_container(random_object<elem_type>& rand,
+    random_container(random_object<element_type>& rand,
                      long long size)
         : random_object<Container>(),
           rand_(&rand),
@@ -336,7 +282,7 @@ public:
      * @param min_size The minimum container size (including)
      * @param max_size The maximum container size (including)
      */
-    random_container(random_object<elem_type>& rand,
+    random_container(random_object<element_type>& rand,
                      long long min_size,
                      long long max_size)
         : random_object<Container>(),
@@ -364,14 +310,14 @@ public:
     value()
     {
         const auto size = distribution_(this->gen());
-        std::vector<elem_type> result(size);
+        std::vector<element_type> result(size);
         for (long long i=0; i<size; ++i)
             result[i] = rand_->value();
         return {result.begin(), result.end()};
     }
 
 private:
-    random_object<elem_type>* rand_;
+    random_object<element_type>* rand_;
     std::uniform_int_distribution<long long> distribution_;
 
 };
@@ -503,7 +449,7 @@ make_random_shuffle(const Container& container,
     return random_shuffle<Container>(container, size);
 }
 /**
- * @brief Defines the combination type used in random_combination
+ * @brief Container for the combination type used in random_combination
  */
 template<typename Container1,
          typename Container2>
@@ -526,11 +472,9 @@ struct combo {
 template<typename Container1,
          typename Container2>
 class random_combination : public random_object<typename combo<Container1, Container2>::type> {
-public:
-    /**
-     * @brief The type of the random combination
-     */
+
     typedef typename combo<Container1, Container2>::type combo_type;
+public:
     /**
      * @brief Constructor
      * @param container1 A container

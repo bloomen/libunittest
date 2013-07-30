@@ -2,10 +2,10 @@
 
 namespace unittest {
 
-random_int<bool>
+random_value<bool>
 make_random_bool()
 {
-    return random_int<bool>();
+    return random_value<bool>();
 }
 
 } // unittest

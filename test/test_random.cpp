@@ -4,9 +4,9 @@
 
 void test_random::test_random_int()
 {
-    auto randomA = unittest::make_random_int(3);
-    auto randomB = unittest::make_random_int<long>(2, 4);
-    auto randomC = unittest::make_random_int<long long>(-9, -2);
+    auto randomA = unittest::make_random_value(3);
+    auto randomB = unittest::make_random_value<long>(2, 4);
+    auto randomC = unittest::make_random_value<long long>(-9, -2);
     for (int i=0; i<100; ++i) {
         assert_in_range(randomA.value(), -1, 4, SPOT);
         assert_in_range(randomB.value(), 1, 5, SPOT);
@@ -16,11 +16,11 @@ void test_random::test_random_int()
 
 void test_random::test_random_int_throw()
 {
-    auto functor1 = [](){ unittest::make_random_int(-1); };
+    auto functor1 = [](){ unittest::make_random_value(-1); };
     assert_throw<std::invalid_argument>(functor1, SPOT);
-    auto functor2 = [](){ unittest::make_random_int(1, 1); };
+    auto functor2 = [](){ unittest::make_random_value(1, 1); };
     assert_throw<std::invalid_argument>(functor2, SPOT);
-    auto functor3 = [](){ unittest::make_random_int(9, 1); };
+    auto functor3 = [](){ unittest::make_random_value(9, 1); };
     assert_throw<std::invalid_argument>(functor3, SPOT);
 }
 
@@ -35,8 +35,8 @@ void test_random::test_random_bool()
 
 void test_random::test_random_real()
 {
-    auto randomA = unittest::make_random_real(3.);
-    auto randomB = unittest::make_random_real<float>(1.5, 4.2);
+    auto randomA = unittest::make_random_value(3.);
+    auto randomB = unittest::make_random_value<float>(1.5, 4.2);
     for (int i=0; i<100; ++i) {
         assert_in_range(randomA.value(), -0.01, 3, SPOT);
         assert_in_range(randomB.value(), 1.49, 4.2, SPOT);
@@ -45,11 +45,11 @@ void test_random::test_random_real()
 
 void test_random::test_random_real_throw()
 {
-    auto functor1 = [](){ unittest::make_random_real(-1.); };
+    auto functor1 = [](){ unittest::make_random_value(-1.); };
     assert_throw<std::invalid_argument>(functor1, SPOT);
-    auto functor2 = [](){ unittest::make_random_real(1., 1.); };
+    auto functor2 = [](){ unittest::make_random_value(1., 1.); };
     assert_throw<std::invalid_argument>(functor2, SPOT);
-    auto functor3 = [](){ unittest::make_random_real(9., 1.); };
+    auto functor3 = [](){ unittest::make_random_value(9., 1.); };
     assert_throw<std::invalid_argument>(functor3, SPOT);
 }
 
@@ -94,7 +94,7 @@ void test_random::test_random_container_string()
 
 void test_random::test_random_container_list()
 {
-    auto random = unittest::make_random_int(1, 3);
+    auto random = unittest::make_random_value(1, 3);
     const unsigned length = 5;
     const unsigned min_length = 3;
     auto random_contA = unittest::make_random_container<std::list<int>>(random, length);
@@ -106,7 +106,7 @@ void test_random::test_random_container_list()
 
 void test_random::test_random_container_vector()
 {
-    auto random = unittest::make_random_int(1, 3);
+    auto random = unittest::make_random_value(1, 3);
     const unsigned length = 5;
     const unsigned min_length = 3;
     auto random_contA = unittest::make_random_vector(random, length);
@@ -119,12 +119,12 @@ void test_random::test_random_container_vector()
 void test_random::test_random_container_throw()
 {
     auto functor1 = [](){
-        auto random = unittest::make_random_int(1, 3);
+        auto random = unittest::make_random_value(1, 3);
         unittest::make_random_container<std::list<int>>(random, 1, 1);
     };
     assert_throw<std::invalid_argument>(functor1, SPOT);
     auto functor2 = [](){
-        auto random = unittest::make_random_int(1, 3);
+        auto random = unittest::make_random_value(1, 3);
         unittest::make_random_container<std::list<int>>(random, 3, 1);
     };
     assert_throw<std::invalid_argument>(functor2, SPOT);
