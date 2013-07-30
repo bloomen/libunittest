@@ -62,7 +62,7 @@ private:
 
 };
 /**
- * @brief The distribution type container
+ * @brief Container of the distribution type used in random_value
  */
 template<typename T,
          bool is_integral>
@@ -85,7 +85,7 @@ struct distribution<T, false> {
   /**
    * @brief The distribution type for non-integral types
    */
-  typedef typename std::uniform_real_distribution<double> type;
+  typedef typename std::uniform_real_distribution<T> type;
 };
 /**
  * @brief A random value. The lower bounds are including. The upper bounds are
