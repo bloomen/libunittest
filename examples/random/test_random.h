@@ -22,6 +22,3 @@ struct test_random : unittest::testcase<> {
     void test_random_shuffle();
 
 };
-
-//TODO:
-//- write function for output of containers
