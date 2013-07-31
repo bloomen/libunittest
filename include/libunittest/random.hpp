@@ -453,7 +453,7 @@ make_random_shuffle(const Container& container,
  */
 template<typename Container1,
          typename Container2>
-struct combo {
+struct combination {
     /**
      * @brief The type of the random combination
      */
@@ -471,9 +471,9 @@ struct combo {
  */
 template<typename Container1,
          typename Container2>
-class random_combination : public random_object<typename combo<Container1, Container2>::type> {
+class random_combination : public random_object<typename combination<Container1, Container2>::type> {
 
-    typedef typename combo<Container1, Container2>::type combo_type;
+    typedef typename combination<Container1, Container2>::type combination_type;
 public:
     /**
      * @brief Constructor
@@ -484,7 +484,7 @@ public:
     random_combination(const Container1& container1,
                        const Container2& container2,
                        long long size)
-        : random_object<combo_type>(),
+        : random_object<combination_type>(),
           container1_(container1),
           container2_(container2),
           granter_(container1.size() * container2.size(), false),
@@ -500,11 +500,11 @@ public:
      * @brief Returns a random combination
      * @returns A random combination
      */
-    combo_type
+    combination_type
     value()
     {
         long long index = 0;
-        combo_type combination;
+        combination_type combination;
         combination.reserve(size_);
         shuffle(granter_.begin(), granter_.end(), this->gen());
         for (auto& value1 : container1_) {
