@@ -143,7 +143,7 @@ public:
     }
     /**
      * @brief Asserts that two values are approximately equal up to some
-     *  epsilon. The assertions succeeds if |a - b| < epsilon.
+     *  epsilon. The assertion succeeds if |a - b| < epsilon.
      *  Operators needed: <, >, <<
      * @param expected The expected value
      * @param actual The actual value
@@ -168,7 +168,7 @@ public:
     }
     /**
      * @brief Asserts that two values are not approximately equal up to some
-     *  epsilon. The assertions succeeds if |a - b| < epsilon is false.
+     *  epsilon. The assertion succeeds if |a - b| < epsilon is false.
      *  Operators needed: <, >, <<
      * @param first A value
      * @param second Another value
