@@ -92,7 +92,7 @@ write_error_info(std::ostream& stream,
                 std::string flag("FAIL");
                 if (status==teststatus::error)
                     flag = "ERROR";
-                stream << flag << ": " << log.class_name << "." << log.test_name;
+                stream << flag << ": " << make_full_test_name(log.class_name, log.test_name);
                 stream << "\n";
                 write_horizontal_bar(stream, '-');
                 stream << "\n";
