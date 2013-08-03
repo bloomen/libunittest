@@ -22,7 +22,7 @@ struct implementation<argparser> {
         stream << "-x          Enables the generation of the XML output\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n test     A certain test to be run superseding the name filter\n";
-        stream << "-t timeout  A time out for the tests without static time outs\n";
+        stream << "-t timeout  A time out in seconds for tests without static time outs\n";
         stream << "-o xmlfile  The XML output file name (default: libunittest.xml)\n";
         stream << std::flush;
     }
