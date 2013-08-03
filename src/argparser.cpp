@@ -90,7 +90,7 @@ void argparser::parse(int argc, char **argv)
             }
         } else if (args[i]=="-t") {
             if (++i<length) {
-                time_out(atof(args[i]));
+                time_out(atof(args[i].c_str()));
             } else {
                 impl_->help_and_throw("Option '-t' needs a time out");
             }
