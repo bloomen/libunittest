@@ -8,6 +8,24 @@
 
 namespace unittest {
 
+void
+observe_and_wait(const std::future<void>& future,
+                 double time_out)
+{
+    if (time_out>0) {
+        const auto wait_ms = std::chrono::milliseconds(100);
+        const double wait_sec = duration_in_seconds(wait_ms);
+        double duration(wait_sec);
+        while (future.wait_for(wait_ms)!=std::future_status::ready) {
+            if (duration>time_out) {
+                throw testfailure(join("test has timed out after ", time_out, "s"));
+            }
+            duration += wait_sec;
+        }
+    }
+    future.wait();
+}
+
 template<>
 struct implementation<testrunner> {
 
