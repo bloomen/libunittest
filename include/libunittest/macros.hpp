@@ -15,7 +15,7 @@ const std::string __test_class_name__ = #test_class;
  * @param test_method The test method
  */
 #define UNITTEST_RUN(test_method) \
-unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_method, 0);
+unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_method, -1.);
 /**
  * @brief A test run (thread-safe)
  * @param test_method The test method
@@ -29,7 +29,7 @@ unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_metho
  * @param test_method The test method
  */
 #define UNITTEST_RUNCXT(test_context, test_method) \
-unittest::testrun(test_context, &__test_class__::test_method, __test_class_name__, #test_method, 0);
+unittest::testrun(test_context, &__test_class__::test_method, __test_class_name__, #test_method, -1.);
 /**
  * @brief A test run with a test context (thread-safe)
  * @param test_context The test context
