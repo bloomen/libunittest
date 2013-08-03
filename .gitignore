@@ -5,6 +5,7 @@ build/libunittest.so*
 test/unittest_test
 examples/standard/unittest_example
 examples/minimal/unittest_example
+examples/random/unittest_example
 libunittest.xml
 html
 doxyfile
