@@ -20,9 +20,10 @@ struct implementation<argparser> {
         stream << "-s          Stops running tests after the first test fails\n";
         stream << "-e          Turns off exception handling\n";
         stream << "-x          Enables the generation of the XML output\n";
-        stream << "-f filter   Specifies a filter applied to the beginning of the test names\n";
-        stream << "-t test     Specifies a certain test to run superseding the name filter\n";
-        stream << "-o xmlfile  Specifies the XML output file name (default: libunittest.xml)\n";
+        stream << "-f filter   A filter applied to the beginning of the test names\n";
+        stream << "-n test     A certain test to be run superseding the name filter\n";
+        stream << "-t timeout  A time out for the tests without static time outs\n";
+        stream << "-o xmlfile  The XML output file name (default: libunittest.xml)\n";
         stream << std::flush;
     }
 
@@ -81,11 +82,17 @@ void argparser::parse(int argc, char **argv)
             } else {
             	impl_->help_and_throw("Option '-f' needs a filter string");
             }
-        } else if (args[i]=="-t") {
+        } else if (args[i]=="-n") {
             if (++i<length) {
                 test_name(args[i]);
             } else {
-            	impl_->help_and_throw("Option '-t' needs a test name");
+                impl_->help_and_throw("Option '-n' needs a test name");
+            }
+        } else if (args[i]=="-t") {
+            if (++i<length) {
+                time_out(atof(args[i]));
+            } else {
+                impl_->help_and_throw("Option '-t' needs a time out");
             }
         } else if (args[i]=="-o") {
             if (++i<length) {

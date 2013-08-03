@@ -4,7 +4,7 @@ namespace unittest {
 
 userargs::userargs()
     : verbose_(false), failure_stop_(false), generate_xml_(false), handle_exceptions_(true),
-      name_filter_(""), test_name_(""), xml_filename_("libunittest.xml")
+      name_filter_(""), test_name_(""), time_out_(0), xml_filename_("libunittest.xml")
 {}
 
 userargs::~userargs()
@@ -80,6 +80,18 @@ void
 userargs::test_name(const std::string& value)
 {
     test_name_ = value;
+}
+
+double
+userargs::time_out() const
+{
+    return time_out_;
+}
+
+void
+userargs::time_out(double value)
+{
+    time_out_ = value;
 }
 
 std::string
