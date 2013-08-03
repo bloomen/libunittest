@@ -94,7 +94,8 @@ private:
     testrun(ContextClass&,
             void (TestCase::*)(),
             const std::string&,
-            const std::string&);
+            const std::string&,
+            double);
 
     void
     set_test_context(TestContext *context)
