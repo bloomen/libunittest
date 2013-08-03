@@ -71,9 +71,11 @@ public:
     void
     execute(TestCase& test,
             void (TestCase::*method)(),
-            double time_out = 0)
+            double time_out)
     {
         auto suite = testsuite::instance();
+        if (!(time_out > 0))
+            time_out = suite->get_arguments().time_out();
         if (suite->get_arguments().handle_exceptions()) {
             try {
                 bare_testrun(test, method, time_out);
@@ -118,7 +120,7 @@ void
 testrun(void (TestCase::*method)(),
         const std::string& class_name,
         const std::string& test_name,
-        double time_out = 0)
+        double time_out)
 {
     testrunner runner(class_name, test_name);
     if (runner.is_executed()) {
@@ -143,7 +145,7 @@ testrun(TestContext& context,
         void (TestCase::*method)(),
         const std::string& class_name,
         const std::string& test_name,
-        double time_out = 0)
+        double time_out)
 {
     testrunner runner(class_name, test_name);
     if (runner.is_executed()) {
