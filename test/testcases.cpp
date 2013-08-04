@@ -2,23 +2,10 @@
 #include "test_misc.h"
 #include "test_argparser.h"
 #include "test_random.h"
-#include "test_run.h"
-using namespace unittest;
 
 void unittest::run_all_tests() {
-    call<test_assertions>();
-    call<test_misc>();
-    call<test_argparser>();
-    call<test_random>();
-    call<test_run>();
-
-//    std::thread t1(call<test_assertions>);
-//    std::thread t2(call<test_misc>);
-//    std::thread t3(call<test_argparser>);
-//    std::thread t4(call<test_random>);
-//
-//    t4.join();
-//    t3.join();
-//    t2.join();
-//    t1.join();
+    unittest::call<test_assertions>();
+    unittest::call<test_misc>();
+    unittest::call<test_argparser>();
+    unittest::call<test_random>();
 }
