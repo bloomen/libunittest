@@ -18,11 +18,13 @@ namespace unittest {
  *  the operation is finished. It throws exception testfailure in case the
  *  given maximum run time is exceeded.
  * @param future The asynchronous operation
- * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
+ * @param resolution_ms The temporal resolution in number of milliseconds
  */
 void
 observe_and_wait(const std::future<void>& future,
-                 double timeout);
+                 double timeout_sec,
+                 int resolution_ms=100);
 /**
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run

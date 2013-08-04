@@ -10,15 +10,16 @@ namespace unittest {
 
 void
 observe_and_wait(const std::future<void>& future,
-                 double timeout)
+                 double timeout_sec,
+                 int resolution_ms)
 {
-    if (timeout > 0) {
-        const auto wait_ms = std::chrono::milliseconds(100);
+    if (timeout_sec > 0) {
+        const auto wait_ms = std::chrono::milliseconds(resolution_ms);
         const double wait_sec = duration_in_seconds(wait_ms);
         double duration(wait_sec);
         while (future.wait_for(wait_ms)!=std::future_status::ready) {
-            if (duration > timeout)
-                throw testfailure(join("test has timed out after ", timeout, "s"));
+            if (duration > timeout_sec)
+                throw testfailure(join("test has timed out after ", timeout_sec, "s"));
             duration += wait_sec;
         }
     }
