@@ -12,7 +12,7 @@ namespace unittest {
 /**
  * @brief The exception class to indicate test failures
  */
-class testfailure : public std::runtime_error {
+class testfailure final : public std::runtime_error {
 public:
     /**
      * @brief Constructor

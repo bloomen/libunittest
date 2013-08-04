@@ -71,7 +71,7 @@ struct distribution;
  * @brief The distribution type container for integral types
  */
 template<typename T>
-struct distribution<T, true> {
+struct distribution<T, true> final {
     /**
      * @brief The distribution type for integral types
      */
@@ -81,7 +81,7 @@ struct distribution<T, true> {
  * @brief The distribution type container for non-integral types
  */
 template<typename T>
-struct distribution<T, false> {
+struct distribution<T, false> final {
   /**
    * @brief The distribution type for non-integral types
    */
@@ -92,7 +92,7 @@ struct distribution<T, false> {
  *  including for integral types and excluding for real types
  */
 template<typename T>
-class random_value : public random_object<T> {
+class random_value final : public random_object<T> {
 public:
     /**
      * @brief Constructor, range: [0, 1]
@@ -127,7 +127,7 @@ public:
      * @returns A random value
      */
     T
-    value()
+    value() override
     {
         return distribution_(this->gen());
     }
@@ -174,7 +174,7 @@ make_random_value(const T& minimum,
  * @brief A random bool
  */
 template<>
-class random_value<bool> : public random_object<bool> {
+class random_value<bool> final : public random_object<bool> {
 public:
     /**
      * @brief Constructor
@@ -187,7 +187,7 @@ public:
      * @returns A random bool
      */
     bool
-    value()
+    value() override
     {
         return distribution_(this->gen()) & 1;
     }
@@ -206,7 +206,7 @@ make_random_bool();
  * @brief A random choice from a given container
  */
 template<typename Container>
-class random_choice : public random_object<typename Container::value_type> {
+class random_choice final : public random_object<typename Container::value_type> {
 public:
     /**
      * @brief The type of the container elements
@@ -225,7 +225,7 @@ public:
      * @returns A random choice
      */
     element_type
-    value()
+    value() override
     {
         const auto index = distribution_(this->gen());
         long long count = 0;
@@ -259,7 +259,7 @@ make_random_choice(const Container& container)
  * @brief A random container
  */
 template<typename Container>
-class random_container : public random_object<Container> {
+class random_container final : public random_object<Container> {
 public:
     /**
      * @brief The type of the container elements
@@ -297,7 +297,7 @@ public:
      * @param seed The random seed
      */
     void
-    seed(int seed)
+    seed(int seed) override
     {
         rand_->seed(seed);
         this->gen().seed(seed);
@@ -307,7 +307,7 @@ public:
      * @returns A random container
      */
     Container
-    value()
+    value() override
     {
         const auto size = distribution_(this->gen());
         std::vector<element_type> result(size);
@@ -381,7 +381,7 @@ make_random_vector(random_object<T>& rand,
  * @brief A random shuffle of a given container
  */
 template<typename Container>
-class random_shuffle : public random_object<Container> {
+class random_shuffle final : public random_object<Container> {
 public:
     /**
      * @brief Constructor
@@ -412,7 +412,7 @@ public:
      * @returns A random shuffle
      */
     Container
-    value()
+    value() override
     {
         auto first = vector_.begin();
         shuffle(first, vector_.end(), this->gen());
@@ -453,7 +453,7 @@ make_random_shuffle(const Container& container,
  */
 template<typename Container1,
          typename Container2>
-struct combination {
+struct combination final {
     /**
      * @brief The type of the random combination
      */
@@ -471,7 +471,7 @@ struct combination {
  */
 template<typename Container1,
          typename Container2>
-class random_combination : public random_object<typename combination<Container1, Container2>::type> {
+class random_combination final : public random_object<typename combination<Container1, Container2>::type> {
 
     typedef typename combination<Container1, Container2>::type combination_type;
 public:
@@ -501,7 +501,7 @@ public:
      * @returns A random combination
      */
     combination_type
-    value()
+    value() override
     {
         long long index = 0;
         combination_type combination;

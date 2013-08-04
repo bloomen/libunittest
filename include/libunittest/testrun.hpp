@@ -27,7 +27,7 @@ observe_and_wait(const std::future<void>& future,
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run
  */
-class testrunner : public pimplpattern<testrunner> {
+class testrunner final : public pimplpattern<testrunner> {
 public:
     /**
      * @brief Constructor preparing for a test run
@@ -92,7 +92,7 @@ private:
  * @brief
  */
 template<typename TestCase>
-struct testfunctor {
+struct testfunctor final {
     /**
      * @brief
      */
@@ -151,7 +151,7 @@ protected:
  * @brief
  */
 template<typename TestCase>
-struct testrun_free : testrun_base<TestCase> {
+struct testrun_free final : testrun_base<TestCase> {
     /**
      * @brief
      */
@@ -181,7 +181,7 @@ struct testrun_free : testrun_base<TestCase> {
  */
 template<typename TestContext,
          typename TestCase>
-struct testrun_context : testrun_base<TestCase> {
+struct testrun_context final : testrun_base<TestCase> {
     /**
      * @brief
      */

@@ -15,7 +15,7 @@ namespace unittest {
 /**
  * @brief The test suite collecting test information (singleton, thread-safe)
  */
-class testsuite : public pimplpattern<testsuite> {
+class testsuite final : public pimplpattern<testsuite> {
 public:
     /**
      * @brief Returns a pointer to the instance of this class
