@@ -1,7 +1,7 @@
 #pragma once
 #include "unittest.hpp"
 
-struct test_argparser : unittest::testcase<> {
+struct test_argparser final : unittest::testcase<> {
 
     static void run()
     {
@@ -11,6 +11,7 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_failure_stop)
         UNITTEST_RUN(test_generate_xml)
         UNITTEST_RUN(test_handle_exceptions)
+        UNITTEST_RUN(test_timeout)
         UNITTEST_RUN(test_verbose_failure_stop)
         UNITTEST_RUN(test_verbose_generate_xml)
         UNITTEST_RUN(test_failure_stop_generate_xml)
@@ -32,6 +33,7 @@ struct test_argparser : unittest::testcase<> {
     void test_failure_stop();
     void test_generate_xml();
     void test_handle_exceptions();
+    void test_timeout();
     void test_verbose_failure_stop();
     void test_verbose_generate_xml();
     void test_failure_stop_generate_xml();

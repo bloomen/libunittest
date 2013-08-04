@@ -1,7 +1,7 @@
 #pragma once
 #include "unittest.hpp"
 
-struct test_random : unittest::testcase<> {
+struct test_random final : unittest::testcase<> {
 
     static void run()
     {

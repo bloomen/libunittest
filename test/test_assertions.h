@@ -1,7 +1,7 @@
 #pragma once
 #include "unittest.hpp"
 
-struct test_assertions : unittest::testcase<> {
+struct test_assertions final : unittest::testcase<> {
 
     static void run()
     {

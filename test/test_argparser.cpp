@@ -24,6 +24,7 @@ void test_argparser::test_no_arguments()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -38,6 +39,7 @@ void test_argparser::test_verbose()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -52,6 +54,7 @@ void test_argparser::test_failure_stop()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -66,6 +69,7 @@ void test_argparser::test_generate_xml()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -80,6 +84,7 @@ void test_argparser::test_handle_exceptions()
     assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -95,12 +100,13 @@ void test_argparser::test_name_filter()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
 void test_argparser::test_test_name()
 {
-    arguments_[1] = (char*)"-t";
+    arguments_[1] = (char*)"-n";
     arguments_[2] = (char*)"test_me";
     argparser args;
     args.parse(3, arguments_);
@@ -110,6 +116,23 @@ void test_argparser::test_test_name()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
+    assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+}
+
+void test_argparser::test_timeout()
+{
+    arguments_[1] = (char*)"-t";
+    arguments_[2] = (char*)"3.5";
+    argparser args;
+    args.parse(3, arguments_);
+    assert_equal(false, args.verbose(), SPOT);
+    assert_equal(false, args.failure_stop(), SPOT);
+    assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal("", args.name_filter(), SPOT);
+    assert_equal("", args.test_name(), SPOT);
+    assert_equal(3.5, args.timeout(), SPOT);
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
@@ -125,6 +148,7 @@ void test_argparser::test_xml_filename()
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
 }
 
@@ -141,6 +165,7 @@ void test_argparser::test_verbose_failure_stop()
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
     }
 }
@@ -158,6 +183,7 @@ void test_argparser::test_verbose_generate_xml()
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
     }
 }
@@ -175,6 +201,7 @@ void test_argparser::test_failure_stop_generate_xml()
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
     }
 }
@@ -195,6 +222,7 @@ void test_argparser::test_verbose_failure_stop_generate_xml()
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
     }
 }
@@ -206,18 +234,21 @@ void test_argparser::test_all_arguments()
     arguments_[3] = (char*)"-xe";
     arguments_[4] = (char*)"-f";
     arguments_[5] = (char*)"stuff";
-    arguments_[6] = (char*)"-t";
+    arguments_[6] = (char*)"-n";
     arguments_[7] = (char*)"test_me";
-    arguments_[8] = (char*)"-o";
-    arguments_[9] = (char*)"stuff.xml";
+    arguments_[8] = (char*)"-t";
+    arguments_[9] = (char*)"10";
+    arguments_[10] = (char*)"-o";
+    arguments_[11] = (char*)"stuff.xml";
     argparser args;
-    args.parse(10, arguments_);
+    args.parse(12, arguments_);
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
+    assert_equal(10, args.timeout(), SPOT);
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
 }
 
@@ -242,6 +273,7 @@ void test_argparser::test_copy_constructor()
     args.handle_exceptions(false);
     args.name_filter("test_stuff");
     args.test_name("test_me");
+    args.timeout(12.3);
     args.xml_filename("mytest.xml");
     argparser args2(args);
     assert_equal(true, args2.verbose(), SPOT);
@@ -250,6 +282,7 @@ void test_argparser::test_copy_constructor()
     assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
+    assert_equal(12.3, args2.timeout(), SPOT);
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);
 }
 
@@ -262,6 +295,7 @@ void test_argparser::test_assignment_operator()
     args.handle_exceptions(false);
     args.name_filter("test_stuff");
     args.test_name("test_me");
+    args.timeout(12.3);
     args.xml_filename("mytest.xml");
     argparser args2 = args;
     assert_equal(true, args2.verbose(), SPOT);
@@ -270,5 +304,6 @@ void test_argparser::test_assignment_operator()
     assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
+    assert_equal(12.3, args2.timeout(), SPOT);
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);
 }
