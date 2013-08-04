@@ -24,30 +24,6 @@ void
 observe_and_wait(const std::future<void>& future,
                  double timeout);
 /**
- * @brief
- */
-template<typename TestCase>
-struct testfunctor {
-    /**
-     * @brief
-     */
-    testfunctor(TestCase& test,
-                void (TestCase::*method)())
-        : test_(&test),
-          method_(method)
-    {}
-    /**
-     * @brief
-     */
-    void operator()() {
-        std::mem_fn(method_)(*test_);
-    }
-
-private:
-    TestCase* test_;
-    void (TestCase::*method_)();
-};
-/**
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run
  */
@@ -116,11 +92,35 @@ private:
  * @brief
  */
 template<typename TestCase>
-struct testrun_free {
+struct testfunctor {
     /**
      * @brief
      */
-    testrun_free(void (TestCase::*method)(),
+    testfunctor(TestCase& test,
+                void (TestCase::*method)())
+        : test_(&test),
+          method_(method)
+    {}
+    /**
+     * @brief
+     */
+    void operator()() {
+        (test_->*method_)();
+    }
+
+private:
+    TestCase* test_;
+    void (TestCase::*method_)();
+};
+/**
+ * @brief
+ */
+template<typename TestCase>
+struct testrun_base {
+    /**
+     * @brief
+     */
+    testrun_base(void (TestCase::*method)(),
                  const std::string& class_name,
                  const std::string& test_name)
         : method_(method), class_name_(class_name), test_name_(test_name)
@@ -128,29 +128,60 @@ struct testrun_free {
     /**
      * @brief
      */
+    virtual
+    ~testrun_base()
+    {}
+
+protected:
+    /**
+     * @brief
+     */
+    void (TestCase::*method_)();
+    /**
+     * @brief
+     */
+    std::string class_name_;
+    /**
+     * @brief
+     */
+    std::string test_name_;
+
+};
+/**
+ * @brief
+ */
+template<typename TestCase>
+struct testrun_free : testrun_base<TestCase> {
+    /**
+     * @brief
+     */
+    testrun_free(void (TestCase::*method)(),
+                 const std::string& class_name,
+                 const std::string& test_name)
+        : testrun_base<TestCase>(method, class_name, test_name)
+    {}
+    /**
+     * @brief
+     */
     void operator()()
     {
-        testrunner runner(class_name_, test_name_);
+        testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
             TestCase test;
             test.set_up();
-            testfunctor<TestCase> functor(test, method_);
+            testfunctor<TestCase> functor(test, this->method_);
             runner.execute(functor);
             test.tear_down();
         }
     }
 
-private:
-    void (TestCase::*method_)();
-    std::string class_name_;
-    std::string test_name_;
 };
 /**
  * @brief
  */
 template<typename TestContext,
          typename TestCase>
-struct testrun_context {
+struct testrun_context : testrun_base<TestCase> {
     /**
      * @brief
      */
@@ -158,19 +189,19 @@ struct testrun_context {
                     void (TestCase::*method)(),
                     const std::string& class_name,
                     const std::string& test_name)
-        : context_(context), method_(method), class_name_(class_name), test_name_(test_name)
+        : testrun_base<TestCase>(method, class_name, test_name), context_(context)
     {}
     /**
      * @brief
      */
     void operator()()
     {
-        testrunner runner(class_name_, test_name_);
+        testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
             TestCase test;
             test.set_test_context(context_);
             test.set_up();
-            testfunctor<TestCase> functor(test, method_);
+            testfunctor<TestCase> functor(test, this->method_);
             runner.execute(functor);
             test.tear_down();
         }
@@ -178,9 +209,6 @@ struct testrun_context {
 
 private:
     TestContext* context_;
-    void (TestCase::*method_)();
-    std::string class_name_;
-    std::string test_name_;
 };
 /**
  * @brief

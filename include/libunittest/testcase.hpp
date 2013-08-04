@@ -90,7 +90,7 @@ private:
 
     template<typename TestCase,
              typename ContextClass>
-    friend class testrun_functor_context;
+    friend class testrun_context;
 
     void
     set_test_context(TestContext *context)
