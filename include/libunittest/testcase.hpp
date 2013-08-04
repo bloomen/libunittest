@@ -88,14 +88,9 @@ public:
 
 private:
 
-    template<typename ContextClass,
-             typename TestCase>
-    friend void
-    testrun(ContextClass&,
-            void (TestCase::*)(),
-            const std::string&,
-            const std::string&,
-            double);
+    template<typename TestCase,
+             typename ContextClass>
+    friend class testrun_functor_context;
 
     void
     set_test_context(TestContext *context)

@@ -106,4 +106,11 @@ testrunner::log_unknown_error()
     impl_->log_.error_type = "Unknown exception";
 }
 
+void
+update_timeout(double& timeout)
+{
+    if (!(timeout > 0))
+        timeout = testsuite::instance()->get_arguments().timeout();
+}
+
 } // unittest

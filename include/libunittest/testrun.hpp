@@ -24,20 +24,29 @@ void
 observe_and_wait(const std::future<void>& future,
                  double timeout);
 /**
- * @brief A bare test run that is called by the testrunner
- * @param test An instance of a test class
- * @param method A test method belonging to the test class
- * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @brief
  */
 template<typename TestCase>
-void
-bare_testrun(TestCase& test,
-             void (TestCase::*method)(),
-             double timeout)
-{
-    std::future<void> future = std::async(std::launch::async, std::bind(method, test));
-    observe_and_wait(future, timeout);
-}
+struct testfunctor {
+    /**
+     * @brief
+     */
+    testfunctor(TestCase& test,
+                void (TestCase::*method)())
+        : test_(&test),
+          method_(method)
+    {}
+    /**
+     * @brief
+     */
+    void operator()() {
+        std::mem_fn(method_)(*test_);
+    }
+
+private:
+    TestCase* test_;
+    void (TestCase::*method_)();
+};
 /**
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run
@@ -63,22 +72,17 @@ public:
     is_executed();
     /**
      * @brief Executes the test method
-     * @param test An instance of a test class
-     * @param method A test method belonging to the test class
+     * @param Functor A functor taking no arguments
      * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
      */
-    template<typename TestCase>
+    template<typename Functor>
     void
-    execute(TestCase& test,
-            void (TestCase::*method)(),
-            double timeout)
+    execute(Functor functor)
     {
         auto suite = testsuite::instance();
-        if (!(timeout > 0))
-            timeout = suite->get_arguments().timeout();
         if (suite->get_arguments().handle_exceptions()) {
             try {
-                bare_testrun(test, method, timeout);
+                functor();
                 log_success();
             } catch (const testfailure& e) {
                 log_failure(e);
@@ -88,7 +92,7 @@ public:
                 log_unknown_error();
             }
         } else {
-            bare_testrun(test, method, timeout);
+            functor();
             log_success();
         }
     }
@@ -109,6 +113,81 @@ private:
 
 };
 /**
+ * @brief
+ */
+template<typename TestCase>
+struct testrun_free {
+    /**
+     * @brief
+     */
+    testrun_free(void (TestCase::*method)(),
+                 const std::string& class_name,
+                 const std::string& test_name)
+        : method_(method), class_name_(class_name), test_name_(test_name)
+    {}
+    /**
+     * @brief
+     */
+    void operator()()
+    {
+        testrunner runner(class_name_, test_name_);
+        if (runner.is_executed()) {
+            TestCase test;
+            test.set_up();
+            testfunctor<TestCase> functor(test, method_);
+            runner.execute(functor);
+            test.tear_down();
+        }
+    }
+
+private:
+    void (TestCase::*method_)();
+    std::string class_name_;
+    std::string test_name_;
+};
+/**
+ * @brief
+ */
+template<typename TestContext,
+         typename TestCase>
+struct testrun_context {
+    /**
+     * @brief
+     */
+    testrun_context(TestContext* context,
+                    void (TestCase::*method)(),
+                    const std::string& class_name,
+                    const std::string& test_name)
+        : context_(context), method_(method), class_name_(class_name), test_name_(test_name)
+    {}
+    /**
+     * @brief
+     */
+    void operator()()
+    {
+        testrunner runner(class_name_, test_name_);
+        if (runner.is_executed()) {
+            TestCase test;
+            test.set_test_context(context_);
+            test.set_up();
+            testfunctor<TestCase> functor(test, method_);
+            runner.execute(functor);
+            test.tear_down();
+        }
+    }
+
+private:
+    TestContext* context_;
+    void (TestCase::*method_)();
+    std::string class_name_;
+    std::string test_name_;
+};
+/**
+ * @brief
+ */
+void
+update_timeout(double& timeout);
+/**
  * @brief A test run (thread-safe)
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
@@ -122,13 +201,10 @@ testrun(void (TestCase::*method)(),
         const std::string& test_name,
         double timeout)
 {
-    testrunner runner(class_name, test_name);
-    if (runner.is_executed()) {
-        TestCase test;
-        test.set_up();
-        runner.execute(test, method, timeout);
-        test.tear_down();
-    }
+    update_timeout(timeout);
+    testrun_free<TestCase> functor(method, class_name, test_name);
+    std::future<void> future = std::async(std::launch::async, functor);
+    observe_and_wait(future, timeout);
 }
 /**
  * @brief A test run with a test context (thread-safe)
@@ -147,14 +223,10 @@ testrun(TestContext& context,
         const std::string& test_name,
         double timeout)
 {
-    testrunner runner(class_name, test_name);
-    if (runner.is_executed()) {
-        TestCase test;
-        test.set_test_context(&context);
-        test.set_up();
-        runner.execute(test, method, timeout);
-        test.tear_down();
-    }
+    update_timeout(timeout);
+    testrun_context<TestContext, TestCase> functor(&context, method, class_name, test_name);
+    std::future<void> future = std::async(std::launch::async, functor);
+    observe_and_wait(future, timeout);
 }
 
 } // unittest
