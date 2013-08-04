@@ -697,7 +697,7 @@ public:
             } catch (const Exception&) {
                 caught = true;
             } catch (const std::exception& e) {
-                const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": ", e.what());
+                const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
                 fail(__func__, text, message...);
             } catch (...) {
                 const std::string text = "An unexpected, unknown exception was thrown";
@@ -731,7 +731,7 @@ public:
             try {
                 functor();
             } catch (const std::exception& e) {
-                const std::string text = join("An exception was thrown: ", typeid(e).name(), ": ", e.what());
+                const std::string text = join("An exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
                 fail(__func__, text, message...);
             } catch (...) {
                 const std::string text = "An unknown exception was thrown";
