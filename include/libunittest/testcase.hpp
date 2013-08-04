@@ -24,7 +24,7 @@ public:
      * @brief Constructor
      */
     testcase()
-        : assertions(), context_(nullptr)
+        : assertions(), context_(std::nullptr_t)
     {}
     /**
      * @brief Destructor
