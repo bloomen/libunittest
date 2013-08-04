@@ -18,25 +18,25 @@ namespace unittest {
  *  the operation is finished. It throws exception testfailure in case the
  *  given maximum run time is exceeded.
  * @param future The asynchronous operation
- * @param time_out The maximum allowed run time in seconds (ignored if <= 0)
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 void
 observe_and_wait(const std::future<void>& future,
-                 double time_out);
+                 double timeout);
 /**
  * @brief A bare test run that is called by the testrunner
  * @param test An instance of a test class
  * @param method A test method belonging to the test class
- * @param time_out The maximum allowed run time in seconds (ignored if <= 0)
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 template<typename TestCase>
 void
 bare_testrun(TestCase& test,
              void (TestCase::*method)(),
-             double time_out)
+             double timeout)
 {
     std::future<void> future = std::async(std::launch::async, std::bind(method, test));
-    observe_and_wait(future, time_out);
+    observe_and_wait(future, timeout);
 }
 /**
  * @brief The test runner that is called by the testrun function. It executes
@@ -65,20 +65,20 @@ public:
      * @brief Executes the test method
      * @param test An instance of a test class
      * @param method A test method belonging to the test class
-     * @param time_out The maximum allowed run time in seconds (ignored if <= 0)
+     * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
      */
     template<typename TestCase>
     void
     execute(TestCase& test,
             void (TestCase::*method)(),
-            double time_out)
+            double timeout)
     {
         auto suite = testsuite::instance();
-        if (!(time_out > 0))
-            time_out = suite->get_arguments().time_out();
+        if (!(timeout > 0))
+            timeout = suite->get_arguments().timeout();
         if (suite->get_arguments().handle_exceptions()) {
             try {
-                bare_testrun(test, method, time_out);
+                bare_testrun(test, method, timeout);
                 log_success();
             } catch (const testfailure& e) {
                 log_failure(e);
@@ -88,7 +88,7 @@ public:
                 log_unknown_error();
             }
         } else {
-            bare_testrun(test, method, time_out);
+            bare_testrun(test, method, timeout);
             log_success();
         }
     }
@@ -113,20 +113,20 @@ private:
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
- * @param time_out The maximum allowed run time in seconds (ignored if <= 0)
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 template<typename TestCase>
 void
 testrun(void (TestCase::*method)(),
         const std::string& class_name,
         const std::string& test_name,
-        double time_out)
+        double timeout)
 {
     testrunner runner(class_name, test_name);
     if (runner.is_executed()) {
         TestCase test;
         test.set_up();
-        runner.execute(test, method, time_out);
+        runner.execute(test, method, timeout);
         test.tear_down();
     }
 }
@@ -136,7 +136,7 @@ testrun(void (TestCase::*method)(),
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
- * @param time_out The maximum allowed run time in seconds (ignored if <= 0)
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 template<typename TestContext,
          typename TestCase>
@@ -145,14 +145,14 @@ testrun(TestContext& context,
         void (TestCase::*method)(),
         const std::string& class_name,
         const std::string& test_name,
-        double time_out)
+        double timeout)
 {
     testrunner runner(class_name, test_name);
     if (runner.is_executed()) {
         TestCase test;
         test.set_test_context(&context);
         test.set_up();
-        runner.execute(test, method, time_out);
+        runner.execute(test, method, timeout);
         test.tear_down();
     }
 }

@@ -95,17 +95,17 @@ public:
     virtual void
     test_name(const std::string& value);
     /**
-     * @brief Sets the time out for the tests without static time outs
+     * @brief Sets the timeout for those tests without static timeouts
      * @param value The value
      */
     virtual void
-    time_out(double value);
+    timeout(double value);
     /**
-     * @brief Returns the test time out
-     * @returns The test time out
+     * @brief Returns the test timeout
+     * @returns The test timeout
      */
     virtual double
-    time_out() const;
+    timeout() const;
     /**
      * @brief Returns the XML output file name
      * @returns The XML output file name
@@ -145,9 +145,9 @@ protected:
      */
     std::string test_name_;
     /**
-     * @brief The test time out
+     * @brief The test timeout
      */
-    double time_out_;
+    double timeout_;
     /**
      * @brief The XML output file name
      */
