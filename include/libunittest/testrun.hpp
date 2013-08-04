@@ -91,12 +91,15 @@ private:
 
 };
 /**
- * @brief
+ * @brief Stores an instance of the test class and the test to be run.
+ *  By using the ()-operator the test is executed.
  */
 template<typename TestCase>
 struct testfunctor final {
     /**
-     * @brief
+     * @brief Constructor storing instance and method
+     * @param test An instance of the test class
+     * @param method The test to be run
      */
     testfunctor(TestCase& test,
                 void (TestCase::*method)())
@@ -104,7 +107,7 @@ struct testfunctor final {
           method_(method)
     {}
     /**
-     * @brief
+     * @brief Executes the test
      */
     void operator()() {
         (test_->*method_)();
@@ -115,55 +118,62 @@ private:
     void (TestCase::*method_)();
 };
 /**
- * @brief
+ * @brief A class for storing test information
  */
 template<typename TestCase>
-struct testrun_base {
+struct testrun_store {
     /**
-     * @brief
+     * @brief Constructor storing test information
+     * @param method A pointer to the test method
+     * @param class_name The name of test class
+     * @param test_name The name of the test method
      */
-    testrun_base(void (TestCase::*method)(),
-                 const std::string& class_name,
-                 const std::string& test_name)
+    testrun_store(void (TestCase::*method)(),
+                  const std::string& class_name,
+                  const std::string& test_name)
         : method_(method), class_name_(class_name), test_name_(test_name)
     {}
     /**
-     * @brief
+     * @brief Destructor
      */
     virtual
-    ~testrun_base()
+    ~testrun_store()
     {}
 
 protected:
     /**
-     * @brief
+     * @brief A pointer to the test
      */
     void (TestCase::*method_)();
     /**
-     * @brief
+     * @brief The name of test class
      */
     std::string class_name_;
     /**
-     * @brief
+     * @brief The name of the test
      */
     std::string test_name_;
 
 };
 /**
- * @brief
+ * @brief A free test run without a test context providing
+ *  the ()-operator to run the test
  */
 template<typename TestCase>
-struct testrun_free final : testrun_base<TestCase> {
+struct testrun_free final : testrun_store<TestCase> {
     /**
-     * @brief
+     * @brief Constructor assigning test information
+     * @param method A pointer to the test method
+     * @param class_name The name of test class
+     * @param test_name The name of the test method
      */
     testrun_free(void (TestCase::*method)(),
                  const std::string& class_name,
                  const std::string& test_name)
-        : testrun_base<TestCase>(method, class_name, test_name)
+        : testrun_store<TestCase>(method, class_name, test_name)
     {}
     /**
-     * @brief
+     * @brief Runs the test
      */
     void operator()()
     {
@@ -179,22 +189,27 @@ struct testrun_free final : testrun_base<TestCase> {
 
 };
 /**
- * @brief
+ * @brief A test run within a test context providing
+ *  the ()-operator to run the test
  */
 template<typename TestContext,
          typename TestCase>
-struct testrun_context final : testrun_base<TestCase> {
+struct testrun_context final : testrun_store<TestCase> {
     /**
-     * @brief
+     * @brief Constructor assigning test information
+     * @param context A pointer to the test context
+     * @param method A pointer to the test method
+     * @param class_name The name of test class
+     * @param test_name The name of the test method
      */
     testrun_context(TestContext* context,
                     void (TestCase::*method)(),
                     const std::string& class_name,
                     const std::string& test_name)
-        : testrun_base<TestCase>(method, class_name, test_name), context_(context)
+        : testrun_store<TestCase>(method, class_name, test_name), context_(context)
     {}
     /**
-     * @brief
+     * @brief Runs the test
      */
     void operator()()
     {
@@ -213,10 +228,12 @@ private:
     TestContext* context_;
 };
 /**
- * @brief
+ * @brief Updates the local timeout by assigning the global timeout
+ *  from the test suite if the local one is not greater than zero
+ * @param local_timeout The local timeout in seconds
  */
 void
-update_timeout(double& timeout);
+update_local_timeout(double& local_timeout);
 /**
  * @brief A test run (thread-safe)
  * @param method A pointer to the method to be run
@@ -231,7 +248,7 @@ testrun(void (TestCase::*method)(),
         const std::string& test_name,
         double timeout)
 {
-    update_timeout(timeout);
+    update_local_timeout(timeout);
     testrun_free<TestCase> functor(method, class_name, test_name);
     std::future<void> future = std::async(std::launch::async, functor);
     observe_and_wait(future, timeout);
@@ -253,7 +270,7 @@ testrun(TestContext& context,
         const std::string& test_name,
         double timeout)
 {
-    update_timeout(timeout);
+    update_local_timeout(timeout);
     testrun_context<TestContext, TestCase> functor(&context, method, class_name, test_name);
     std::future<void> future = std::async(std::launch::async, functor);
     observe_and_wait(future, timeout);

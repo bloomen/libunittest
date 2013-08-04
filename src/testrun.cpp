@@ -108,10 +108,10 @@ testrunner::log_unknown_error()
 }
 
 void
-update_timeout(double& timeout)
+update_local_timeout(double& local_timeout)
 {
-    if (!(timeout > 0))
-        timeout = testsuite::instance()->get_arguments().timeout();
+    if (!(local_timeout > 0))
+        local_timeout = testsuite::instance()->get_arguments().timeout();
 }
 
 } // unittest
