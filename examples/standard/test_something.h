@@ -24,7 +24,7 @@ struct test_something : unittest::testcase<test_context> {
         UNITTEST_CLASS(test_something)
         test_context context; //a test context that some tests are run within
         UNITTEST_RUNCXT(context, test_has_context)
-        UNITTEST_RUNCXT_TIME(context, test_correct_message, 3.5) //a run with a time out
+        UNITTEST_RUNCXT_TIME(context, test_correct_message, 3.5) //a run with a timeout of 3.5s
         UNITTEST_RUN(test_no_context)
     }
 
