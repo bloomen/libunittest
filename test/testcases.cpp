@@ -2,6 +2,7 @@
 #include "test_misc.h"
 #include "test_argparser.h"
 #include "test_random.h"
+#include "test_run.h"
 using namespace unittest;
 
 void unittest::run_all_tests() {
@@ -9,6 +10,7 @@ void unittest::run_all_tests() {
     call<test_misc>();
     call<test_argparser>();
     call<test_random>();
+    call<test_run>();
 
 //    std::thread t1(call<test_assertions>);
 //    std::thread t2(call<test_misc>);
