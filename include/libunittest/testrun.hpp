@@ -50,8 +50,7 @@ public:
     is_executed();
     /**
      * @brief Executes the test method
-     * @param Functor A functor taking no arguments
-     * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+     * @param functor A functor taking no arguments
      */
     template<typename Functor>
     void
