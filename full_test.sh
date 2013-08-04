@@ -36,7 +36,7 @@ run "unit tests"
 cd ..
 
 cd examples
-folders='minimal standard'
+folders='minimal standard random'
 for folder in $folders;do
     separator
     cd $folder
