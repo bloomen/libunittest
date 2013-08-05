@@ -143,7 +143,7 @@ is_approx_equal(InputIterator1 first1,
 }
 /**
  * @brief Checks if a value is in a given range.
- *  The bounds are including
+ *  The bounds are included
  * @param value A value
  * @param lower The lower bound
  * @param upper The upper bound
