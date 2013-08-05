@@ -12,5 +12,5 @@ let pos=$pos+2
 minor=${string:$pos:1}
 let pos=$pos+2
 patch=${string:$pos:1}
-version="${major}.${minor}.${patch}"
+version="${major}.${minor}.${patch}dev"
 echo $version
