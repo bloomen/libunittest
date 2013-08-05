@@ -78,11 +78,10 @@ private:
     {
         for (int i=0; i<100; ++i) {
             const auto rand_cont = random_object.value();
-            assert_in_range(rand_cont.size(), min_length-1, max_length+1, spot);
+            assert_in_range(rand_cont.size(), min_length, max_length, spot);
             for (auto& value : rand_cont)
                 assert_in_container(value, container, spot);
         }
     }
 
 };
-

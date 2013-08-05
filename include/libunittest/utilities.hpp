@@ -143,7 +143,7 @@ is_approx_equal(InputIterator1 first1,
 }
 /**
  * @brief Checks if a value is in a given range.
- *  The bounds are excluding
+ *  The bounds are including
  * @param value A value
  * @param lower The lower bound
  * @param upper The upper bound
@@ -157,7 +157,7 @@ is_in_range(const T& value,
             const U& lower,
             const V& upper)
 {
-    return value > lower && value < upper;
+    return !(value < lower) && !(value > upper);
 }
 /**
  * @brief Checks if a value is in a container

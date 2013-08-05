@@ -1,6 +1,7 @@
 #include "test_assertions.h"
 typedef test_assertions test;
 #define SPOT UNITTEST_SPOT
+using unittest::feps;
 
 bool test_assertions::is_value_one(double value)
 {
@@ -82,16 +83,16 @@ void test_assertions::test_assert_lesser_equal()
 void test_assertions::test_assert_in_range()
 {
     assert_in_range(1.5, 1, 2, SPOT);
-    assert_in_range(1.01, 1, 2, SPOT);
-    assert_in_range(1.99, 1, 2, SPOT);
+    assert_in_range(1, 1, 2, SPOT);
+    assert_in_range(2, 1, 2, SPOT);
     assert_fail(std::bind(&test::assert_in_range<int, int, int>, *this, 3, 1, 2), SPOT);
 }
 
 void test_assertions::test_assert_not_in_range()
 {
     assert_not_in_range(3, 1, 2, SPOT);
-    assert_not_in_range(1, 1, 2, SPOT);
-    assert_not_in_range(2, 1, 2, SPOT);
+    assert_not_in_range(1.-feps, 1, 2, SPOT);
+    assert_not_in_range(2.+feps, 1, 2, SPOT);
     assert_fail(std::bind(&test::assert_not_in_range<double, int, int>, *this, 1.5, 1, 2), SPOT);
 }
 
@@ -217,6 +218,7 @@ void test_assertions::test_check_epsilon()
 void test_assertions::test_check_range_bounds()
 {
     check_range_bounds(0.5, 1, __func__);
-    assert_fail(std::bind(&test::check_range_bounds<int, int>, *this, 1, 1, __func__), SPOT);
-    assert_fail(std::bind(&test::check_range_bounds<double, double>, *this, 2, 1, __func__), SPOT);
+    check_range_bounds(1, 1, __func__);
+    assert_fail(std::bind(&test::check_range_bounds<int, int>, *this, 2, 1, __func__), SPOT);
+    assert_fail(std::bind(&test::check_range_bounds<double, double>, *this, 1+feps, 1, __func__), SPOT);
 }

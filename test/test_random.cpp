@@ -8,9 +8,9 @@ void test_random::test_random_int()
     auto randomB = unittest::make_random_value<long>(2, 4);
     auto randomC = unittest::make_random_value<long long>(-9, -2);
     for (int i=0; i<100; ++i) {
-        assert_in_range(randomA.value(), -1, 4, SPOT);
-        assert_in_range(randomB.value(), 1, 5, SPOT);
-        assert_in_range(randomC.value(), -10, -1, SPOT);
+        assert_in_range(randomA.value(), 0, 3, SPOT);
+        assert_in_range(randomB.value(), 2, 4, SPOT);
+        assert_in_range(randomC.value(), -9, -2, SPOT);
     }
 }
 
@@ -38,8 +38,8 @@ void test_random::test_random_real()
     auto randomA = unittest::make_random_value(3.);
     auto randomB = unittest::make_random_value<float>(1.5, 4.2);
     for (int i=0; i<100; ++i) {
-        assert_in_range(randomA.value(), -0.01, 3, SPOT);
-        assert_in_range(randomB.value(), 1.49, 4.2, SPOT);
+        assert_in_range(randomA.value(), 0, 3+1e-6, SPOT);
+        assert_in_range(randomB.value(), 1.5, 4.2+1e-6, SPOT);
     }
 }
 
@@ -155,7 +155,7 @@ void test_random::test_random_shuffle_list()
         ++first;
         sum += *first;
         assert_in_container(*first, a_list, SPOT);
-        assert_in_range(sum, 2, 6, SPOT);
+        assert_in_range(sum, 3, 5, SPOT);
     }
 }
 

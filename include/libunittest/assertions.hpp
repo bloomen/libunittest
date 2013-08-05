@@ -287,13 +287,13 @@ public:
                        const std::string& caller,
                        const Args&... message) const
     {
-        if (!(lower < upper)) {
-            const std::string text = "lower bound not smaller than upper bound";
+        if (lower > upper) {
+            const std::string text = "lower bound cannot be greater than upper bound";
             fail(caller, text, message...);
         }
     }
     /**
-     * @brief Asserts that a value is in a given range with excluding bounds.
+     * @brief Asserts that a value is in a given range with included bounds.
      *  Operators needed: <, >, <<
      * @param value A value
      * @param lower The lower bound
@@ -312,12 +312,12 @@ public:
     {
         check_range_bounds(lower, upper, __func__, message...);
         if (!is_in_range(value, lower, upper)) {
-            const std::string text = str(value) + " not in range (" + str(lower) + ", " + str(upper) + ")";
+            const std::string text = str(value) + " not in range [" + str(lower) + ", " + str(upper) + "]";
             fail(__func__, text, message...);
         }
     }
     /**
-     * @brief Asserts that a value is not in a given range with excluding bounds.
+     * @brief Asserts that a value is not in a given range with included bounds.
      *  Operators needed: <, >, <<
      * @param value A value
      * @param lower The lower bound
@@ -336,7 +336,7 @@ public:
     {
         check_range_bounds(lower, upper, __func__, message...);
         if (is_in_range(value, lower, upper)) {
-            const std::string text = str(value) + " in range (" + str(lower) + ", " + str(upper) + ")";
+            const std::string text = str(value) + " in range [" + str(lower) + ", " + str(upper) + "]";
             fail(__func__, text, message...);
         }
     }
