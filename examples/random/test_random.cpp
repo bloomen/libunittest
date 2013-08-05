@@ -1,5 +1,6 @@
 #include "test_random.h"
 #define SPOT UNITTEST_SPOT
+using unittest::feps;
 
 void test_random::test_random_int()
 {
@@ -7,8 +8,8 @@ void test_random::test_random_int()
     random.seed(42); // let's you set the random seed (default is 1)
     auto rand_value1 = random.value(); // a random int in [0, 10]
     auto rand_value2 = random.value(); // another random int [0, 10]
-    assert_in_range(rand_value1, -1, 11, SPOT);
-    assert_in_range(rand_value2, -1, 11, SPOT);
+    assert_in_range(rand_value1, -feps, 10+feps, SPOT);
+    assert_in_range(rand_value2, -feps, 10+feps, SPOT);
 }
 
 void test_random::test_random_bool()
@@ -26,8 +27,8 @@ void test_random::test_random_double()
     auto random = unittest::make_random_value<double>(2, 5);
     auto rand_value1 = random.value(); // a random double in [2, 5)
     auto rand_value2 = random.value(); // another random double in [2, 5)
-    assert_in_range(rand_value1, 1.9, 5, SPOT);
-    assert_in_range(rand_value2, 1.9, 5, SPOT);
+    assert_in_range(rand_value1, 2-feps, 5, SPOT);
+    assert_in_range(rand_value2, 2-feps, 5, SPOT);
 }
 
 void test_random::test_random_choice()
@@ -45,7 +46,7 @@ void test_random::test_random_vector()
                                         // random doubles from the interval of [0, 1)
     assert_equal<unsigned>(10, rand_vector.size(), SPOT);
     for (auto& value : rand_vector) {
-        assert_in_range(value, -0.1, 1, SPOT);
+        assert_in_range(value, -feps, 1, SPOT);
     }
 }
 
