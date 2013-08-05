@@ -8,7 +8,7 @@ else
 CXX = g++
 endif
 
-FLAGS = -O0 -g3 -Wall -std=c++0x -pthread -Wno-unused-variable
+FLAGS = -O0 -g3 -Wall -std=c++0x -pthread
 
 INCS = -I"../../include" 
 LIBS = -L"../../build" -lunittest
