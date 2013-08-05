@@ -8,10 +8,19 @@
 #include <chrono>
 #include <sstream>
 #include <regex>
+#include <limits>
 /**
  * @brief Unit testing in C++
  */
 namespace unittest {
+/**
+ * @brief Machine epsilon of float
+ */
+const float feps = std::numeric_limits<float>::epsilon();
+/**
+ * @brief Machine epsilon of double
+ */
+const float deps = std::numeric_limits<double>::epsilon();
 /**
  * @brief Escapes a string for use in an XML document
  * @param data Some string
