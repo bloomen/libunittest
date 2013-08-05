@@ -45,14 +45,15 @@ unittest::testresults test_misc::make_sample_results()
 
 void test_misc::test_get_version_tuple()
 {
-    const std::tuple<int,int,int> version(unittest::get_version_tuple());
+    const std::tuple<int,int,int,std::string> version(unittest::get_version_tuple());
 }
 
 void test_misc::test_get_version_string()
 {
     int a, b, c;
-    std::tie(a, b, c) = unittest::get_version_tuple();
-    assert_equal(unittest::join(a, ".", b, ".", c), unittest::get_version_string());
+    std::string flag;
+    std::tie(a, b, c, flag) = unittest::get_version_tuple();
+    assert_equal(unittest::join(a, ".", b, ".", c, flag), unittest::get_version_string());
 }
 
 void test_misc::test_join()

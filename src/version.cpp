@@ -3,17 +3,19 @@
 
 namespace unittest {
 
-std::tuple<int,int,int>
+std::tuple<int,int,int,std::string>
 get_version_tuple()
 {
-    return std::make_tuple(3, 2, 1);
+    return std::make_tuple(3, 2, 1, "dev");
 }
 
 std::string
 get_version_string()
 {
-    const auto vs = get_version_tuple();
-    return join(std::get<0>(vs), ".", std::get<1>(vs), ".", std::get<2>(vs));
+    int a, b, c;
+    std::string flag;
+    std::tie(a, b, c, flag) = unittest::get_version_tuple();
+    return join(a, ".", b, ".", c, flag);
 }
 
 } // unittest
