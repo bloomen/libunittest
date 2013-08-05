@@ -1,4 +1,4 @@
-#include "unittest.hpp"
+#include "libunittest/unittest.hpp"
 
 struct test_stuff : unittest::testcase<> {
     static void run()
