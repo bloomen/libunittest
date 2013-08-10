@@ -1,4 +1,4 @@
-PROG = unittest_example
+PROG = unittest
 
 UNAME = $(shell uname)
 
@@ -10,8 +10,8 @@ endif
 
 FLAGS = -O0 -g3 -Wall -std=c++0x -pthread
 
-INCS = -I"../../include" 
-LIBS = -L"../../build" -lunittest
+INCS = -I"../include" 
+LIBS = -L"../build" -lunittest
 SRCS = *.cpp
 
 CHMOD = chmod
@@ -19,9 +19,9 @@ RM = rm -f
 
 all :
 	$(CXX) $(FLAGS) $(INCS) $(SRCS) $(LIBS) -o $(PROG)
-	$(CHMOD) u+x run_example.sh
+	$(CHMOD) u+x run.sh
 
 clean :
 	$(RM) $(PROG)
-	$(CHMOD) u-x run_example.sh
+	$(CHMOD) u-x run.sh
 	
