@@ -83,6 +83,7 @@ check :
 distcheck :
 	@$(ECHO) "Running distribution check on $(PROGVER) ..."
 	@$(MAKE) -s dist || exit 1
+	@$(RM) -r $(PROGVER)
 	@$(UNTAR) $(DISTDIR)/$(PROGVER).tar.gz || exit 1
 	@$(MAKE) -C $(PROGVER) check || exit 1
 	@$(MAKE) -C $(PROGVER) install INSTALLDIR=local || exit 1
