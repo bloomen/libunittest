@@ -43,17 +43,10 @@ unittest::testresults test_misc::make_sample_results()
     return std::move(results);
 }
 
-void test_misc::test_get_version_tuple()
-{
-    const std::tuple<int,int,int,std::string> version(unittest::get_version_tuple());
-}
-
 void test_misc::test_get_version_string()
 {
-    int a, b, c;
-    std::string flag;
-    std::tie(a, b, c, flag) = unittest::get_version_tuple();
-    assert_equal(unittest::join(a, ".", b, ".", c, flag), unittest::get_version_string());
+    const unsigned size = 5;
+    assert_greater_equal(unittest::get_version_string().size(), size);
 }
 
 void test_misc::test_join()
