@@ -9,6 +9,7 @@ Features:
 - option to only run specific tests without recompiling
 - option to turn off exception handling for debugging purposes 
 - supports test contexts which multiple tests can be run within
+- supports to set timeouts for specific tests or all tests
 - functionality to easily produce random values and containers 
 - portable across various operating systems
 - tests can be run in parallel
@@ -26,9 +27,8 @@ the resulting directory and execute:
 chmod u+x install.sh
 ./install.sh [install_directory]
 
-If install_directory is not given than libunittest will be installed in a 
-standard system location (/usr) requiring root privileges. Please note that 
-libunittest is only installed if all unit tests pass. 
+If install_directory is not given then libunittest will be installed in a 
+standard system location (/usr/local) requiring root privileges. 
 
 libunittest is being developed by Christian Blume. Contact Christian at
 chr.blume@gmail.com for any questions or comments.
