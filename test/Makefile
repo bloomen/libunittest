@@ -10,8 +10,11 @@ endif
 
 FLAGS = -O0 -g3 -Wall -std=c++0x -pthread
 
-INCS = -I"../include" 
-LIBS = -L"../lib" -lunittest
+INCDIR = ../include
+LIBDIR = ../lib
+
+INCS = -I"$(INCDIR)" 
+LIBS = -L"$(LIBDIR)" -lunittest
 SRCS = *.cpp
 
 CHMOD = chmod
@@ -19,9 +22,12 @@ RM = rm -f
 
 all :
 	$(CXX) $(FLAGS) $(INCS) $(SRCS) $(LIBS) -o $(PROG)
-	$(CHMOD) u+x run.sh
+
+run :
+	@LD_LIBRARY_PATH=$(LIBDIR):$(LD_LIBRARY_PATH) \
+	 DYLD_LIBRARY_PATH=$(LIBDIR):$(DYLD_LIBRARY_PATH) \
+	 ./$(PROG) $(ARGS) || exit 1
 
 clean :
 	$(RM) $(PROG)
-	$(CHMOD) u-x run.sh
 	

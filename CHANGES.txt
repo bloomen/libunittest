@@ -6,6 +6,7 @@
 - move unittest.hpp into libunittest to prevent name clashes with other libs
 - need g++4.7 now (for std::future, and override/final specifiers)
 - removed unnecessary get_version_tuple() function
+- new installation and testing procedure (see README.txt)
 
 3.2.1
 

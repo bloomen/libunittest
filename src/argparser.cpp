@@ -13,7 +13,7 @@ struct implementation<argparser> {
     write_help(std::ostream& stream) const
     {
         stream << "This is your testing application using libunittest-";
-        stream << get_version_string() << "\n\n";
+        stream << version << "\n\n";
         stream << "Available options are:\n";
         stream << "-h          Displays this help message\n";
         stream << "-v          Sets verbose output for running tests\n";

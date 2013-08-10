@@ -8,7 +8,7 @@ struct test_misc final : unittest::testcase<context> {
     static void run()
     {
         UNITTEST_CLASS(test_misc)
-        UNITTEST_RUN(test_get_version_string)
+        UNITTEST_RUN(test_version)
         UNITTEST_RUN(test_join)
         UNITTEST_RUN(test_write_to_stream)
         UNITTEST_RUN(test_write_to_stream_overload)
@@ -39,7 +39,7 @@ struct test_misc final : unittest::testcase<context> {
         UNITTEST_RUN(test_make_iso_timestamp)
     }
 
-    void test_get_version_string();
+    void test_version();
     void test_join();
     void test_write_to_stream();
     void test_write_to_stream_overload();

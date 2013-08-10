@@ -43,10 +43,10 @@ unittest::testresults test_misc::make_sample_results()
     return std::move(results);
 }
 
-void test_misc::test_get_version_string()
+void test_misc::test_version()
 {
     const unsigned size = 5;
-    assert_greater_equal(unittest::get_version_string().size(), size);
+    assert_greater_equal(unittest::version.size(), size);
 }
 
 void test_misc::test_join()

@@ -8,5 +8,4 @@ examples/minimal/unittest
 examples/random/unittest
 libunittest.xml
 html
-doxyfile
 errors.log
