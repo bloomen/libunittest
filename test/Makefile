@@ -1,4 +1,4 @@
-PROG = unittest_test
+PROG = unittest
 
 UNAME = $(shell uname)
 
@@ -19,9 +19,9 @@ RM = rm -f
 
 all :
 	$(CXX) $(FLAGS) $(INCS) $(SRCS) $(LIBS) -o $(PROG)
-	$(CHMOD) u+x run_test.sh
+	$(CHMOD) u+x run.sh
 
 clean :
 	$(RM) $(PROG)
-	$(CHMOD) u-x run_test.sh
+	$(CHMOD) u-x run.sh
 	
