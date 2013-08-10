@@ -11,14 +11,17 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
+LD = clang++
 else
 CXX = g++
+LD = g++
 endif
 
-FLAGS = -O2 -Wall -std=c++0x -pthread -shared -fPIC
+CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC
+LDFLAGS = -pthread -shared
 
 INCDIR = include
-SRCS = src/*.cpp
+OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
 
 RM = rm -f
 MKDIR = mkdir -p
@@ -33,11 +36,15 @@ DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
 BUILDDIRS = test examples/standard examples/random examples/minimal doc
 
-all :
-	@$(MAKE) -s version
-	@$(ECHO) "Compiling $(PROGVER) ..."  
+default : $(PROG)
+all : default
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
+
+$(PROG) : version $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
-	$(CXX) $(FLAGS) -I./$(INCDIR) $(SRCS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
+	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
 
@@ -90,4 +97,5 @@ version :
 clean :
 	@$(ECHO) "Cleaning up ..."
 	@$(RM) -r $(LIBDIR)
+	@$(RM) $(OBJECTS)
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $$dir $@ ; done
