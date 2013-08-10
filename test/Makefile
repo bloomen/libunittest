@@ -4,7 +4,7 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
-LD = clang++
+LD = clang++ -stdlib=libc++
 else
 CXX = g++
 LD = g++

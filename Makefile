@@ -11,14 +11,14 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
-LD = clang++
+LD = clang++ -stdlib=libc++
 else
 CXX = g++
 LD = g++
 endif
 
 CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC
-LDFLAGS = -pthread -shared
+LDFLAGS = -shared
 
 INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
