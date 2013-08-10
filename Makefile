@@ -61,6 +61,7 @@ install :
 	@$(LN) $(LIBNAME).$(VERSION) $(INSTALLDIR)/lib/$(LIBNAME)
 
 dist :
+	@$(MAKE) -s clean
 	@$(MAKE) -s version
 	@$(RM) -r $(PROGVER)
 	@$(MKDIR) $(PROGVER)
