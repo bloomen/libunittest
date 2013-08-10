@@ -1,6 +1,6 @@
 .cproject
 .project
-dist
+distribution
 build/libunittest.so*
 test/unittest_test
 examples/standard/unittest_example
