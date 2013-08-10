@@ -1,11 +1,11 @@
 .cproject
 .project
 distribution
-build/libunittest.so*
-test/unittest_test
-examples/standard/unittest_example
-examples/minimal/unittest_example
-examples/random/unittest_example
+lib
+test/unittest
+examples/standard/unittest
+examples/minimal/unittest
+examples/random/unittest
 libunittest.xml
 html
 doxyfile
