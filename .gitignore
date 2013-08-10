@@ -2,6 +2,7 @@
 .project
 distribution
 lib
+*.o
 test/unittest
 examples/standard/unittest
 examples/minimal/unittest
