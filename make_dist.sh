@@ -30,10 +30,13 @@ for f in $chmods;do
     chmod -x $f
 done
 
-tar cfz $dir.tar.gz $dir
-mkdir -p dist
-mv $dir.tar.gz dist
+dist_folder=dist
+dist_file=$dir.tar.gz
+ 
+tar cfz $dist_file $dir
+mkdir -p $dist_folder
+mv $dist_file $dist_folder
 
 rm -rf $dir
 
-echo "Created dist/$dir.tar.gz"
+echo "Created $dist_folder/$dist_file"

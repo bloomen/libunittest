@@ -3,15 +3,14 @@
 # Usage: chmod u+x install.sh
 #        ./install.sh [install_directory]
 # If install_directory is not given than libunittest will be installed in a 
-# standard system location (/usr) requiring root privileges. Please note that 
-# libunittest is only installed if all unit tests pass. 
+# standard system location (/usr/local) requiring root privileges.
 set -e
 version=$(bash version.sh)
 
 dir=$1
 
 if [ "x$dir" = "x" ]; then
-	dir=/usr
+	dir=/usr/local
 fi
 
 echo "Compiling libunittest-$version ... "
@@ -22,15 +21,6 @@ rm -f libunittest.so*
 make
 mv libunittest.so libunittest.so.$version
 ln -s libunittest.so.$version libunittest.so
-cd ..
-
-echo
-echo "Testing ..."
-
-cd test
-make clean >/dev/null
-make
-./run_test.sh
 cd ..
 
 echo
