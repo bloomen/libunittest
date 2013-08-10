@@ -1,3 +1,12 @@
+3.3.0
+
+- added option to set a timeout for test runs 
+- added generic random_value template class replacing random_real/int
+- added example for generating random objects in unit tests (test/random)
+- move unittest.hpp into libunittest to prevent name clashes with other libs
+- need g++4.7 now (for std::future, and override/final specifiers)
+- removed unnecessary get_version_tuple() function
+
 3.2.1
 
 - improved random functionality and bug fixes 
