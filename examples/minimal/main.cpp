@@ -20,10 +20,10 @@ void unittest::run_all_tests()
 }
 
 int main(int argc, char **argv) {
-    return unittest::make_default_environment(argc, argv);
+    return unittest::process(argc, argv);
 }
 
-/* Screen output with './unittest_example -v':
+/* Screen output with './unittest -v':
 test_stuff.test_value_is_true ... ok
 
 --------------------------------------------------

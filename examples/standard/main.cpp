@@ -1,5 +1,5 @@
 #include "libunittest/unittest.hpp"
 
 int main(int argc, char **argv) {
-    return unittest::make_default_environment(argc, argv);
+    return unittest::process(argc, argv);
 }
