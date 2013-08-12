@@ -30,10 +30,10 @@ make install [INSTALLDIR=/path/to/install]
 If INSTALLDIR is not given then libunittest will be installed in a 
 standard system location (/usr/local) requiring root privileges. 
 
-The default compiler/linker on MacOS is clang++ and g++ on any other platform 
-such as Linux. In order to set a different compiler and/or linker, do:
+The default compiler on MacOS is clang++ and g++ on any other platform 
+such as Linux. In order to set a different compiler, do:
 
-make CXX=compiler [CXXFLAGS=flags] LD=linker [LDFLAGS=flags]
+make CXX=compiler [CXXFLAGS=cxxflags] [LDFLAGS=ldflags]
 
 To build and run the tests, do:
 
