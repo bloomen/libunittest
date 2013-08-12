@@ -1,4 +1,4 @@
-VERSION = 3.3.0dev
+VERSION = 3.3.0
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
