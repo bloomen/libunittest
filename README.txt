@@ -21,8 +21,8 @@ libunittest has been successfully tested with:
 * g++ -std=c++0x  (on Linux with GCC4.7)
 * clang++ -std=c++0x -stdlib=libc++  (on MacOSX with Clang3.2)
 
-In order to build and install libunittest simply unpack the archive, enter 
-the resulting directory and do: 
+In order to build and install libunittest simply unpack the distribution 
+archive, enter the resulting directory and do: 
 
 make
 make install [INSTALLDIR=/path/to/install]
