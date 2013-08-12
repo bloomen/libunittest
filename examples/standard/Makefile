@@ -4,10 +4,8 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
-LD = clang++ -stdlib=libc++
 else
 CXX = g++
-LD = g++
 endif
 
 CXXFLAGS = -O0 -g3 -Wall -std=c++0x -pthread
@@ -30,7 +28,7 @@ all : default
 
 $(PROG) : $(OBJECTS)
 	@$(MAKE) -s -C ../.. version
-	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROG)
+	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROG)
 
 run :
 	@LD_LIBRARY_PATH=$(LIBDIR):$(LD_LIBRARY_PATH) \
