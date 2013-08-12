@@ -5,7 +5,7 @@
 - added example for generating random objects in unit tests (examples/random)
 - move unittest.hpp into libunittest to prevent name clashes with other libs
 - need g++4.7 now (for std::future, and override/final specifiers)
-- removed unnecessary get_version_tuple() function
+- removed unnecessary get_version_tuple() and get_version_string() functions
 - new installation and testing procedure (see README.txt)
 - renamed make_default_environment() to process() for easier setup
 
