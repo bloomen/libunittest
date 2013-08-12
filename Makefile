@@ -11,10 +11,8 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
-LD = clang++ -stdlib=libc++
 else
 CXX = g++
-LD = g++
 endif
 
 CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC
@@ -44,25 +42,22 @@ all : default
 
 $(PROG) : version $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
-	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
+	$(CXX) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
 
-install :
-	@$(MAKE) -s version
+install : version
 	@$(ECHO) "Installing $(PROGVER) to $(INSTALLDIR) ..."
 	@$(MKDIR) $(INSTALLDIR)	
+	@$(MKDIR) $(INSTALLDIR)/lib
 	@$(MKDIR) $(INSTALLDIR)/include	
 	@$(MKDIR) $(INSTALLDIR)/include/$(PROG)	
-	@$(MKDIR) $(INSTALLDIR)/lib
-	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)	
 	@$(CP) $(LIBDIR)/$(LIBNAME).$(VERSION) $(INSTALLDIR)/lib
+	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)	
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(INSTALLDIR)/lib/$(LIBNAME)
 
-dist :
-	@$(MAKE) -s clean
-	@$(MAKE) -s version
+dist : clean version
 	@$(RM) -r $(PROGVER)
 	@$(MKDIR) $(PROGVER)
 	@$(CP) -r $(DISTDATA) $(PROGVER)
@@ -73,13 +68,11 @@ dist :
 	@$(RM) -r $(PROGVER)
 	@$(ECHO) "Created $(DISTDIR)/$(PROGVER).tar.gz"
 
-check :
-	@$(MAKE) -s version
+check : clean version
 	@$(ECHO) "Running check on $(PROGVER) ..."
-	@$(MAKE) clean || exit 1
 	@$(MAKE) || exit 1
 	@for dir in $(BUILDDIRS); do $(MAKE) -C $$dir || exit 1; $(MAKE) -C $$dir run || exit 1; done
-	@$(ECHO) "All tests passed!"
+	@$(ECHO) "($@) All tests passed!"
 
 distcheck :
 	@$(ECHO) "Running distribution check on $(PROGVER) ..."
@@ -91,10 +84,10 @@ distcheck :
 	@if [ ! -f $(PROGVER)/local/lib/libunittest.so ]; then exit 1; fi
 	@if [ ! -f $(PROGVER)/local/include/libunittest/unittest.hpp ]; then exit 1; fi
 	@$(RM) -r $(PROGVER)
-	@$(ECHO) "All tests passed!"
+	@$(ECHO) "($@) All tests passed!"
 
 version :	
-	@$(ECHO) "#include<string>\nnamespace unittest {\n/**\n * @brief The libunittest version\n */\nconst std::string version = \"$(VERSION)\";\n}" > $(INCDIR)/$(PROG)/$(VERSIONFILE)
+	@$(ECHO) "/**\n * @brief Auto-generated version file. Do not edit!\n * @file version.hpp\n */\n#pragma once\n#include<string>\n/**\n * @brief Unit testing in C++\n */\nnamespace unittest {\n/**\n * @brief The libunittest version\n */\nconst std::string version = \"$(VERSION)\";\n\n} // unittest" > $(INCDIR)/$(PROG)/$(VERSIONFILE)
 
 clean :
 	@$(ECHO) "Cleaning up ..."

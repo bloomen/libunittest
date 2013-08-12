@@ -8,6 +8,7 @@ RM = rm -rf
 
 all :
 	@$(RM) $(ERRLOG)
+	@$(MAKE) -s -C .. version
 	@$(ECHO) "Running doxygen ..."
 	@$(DOXYGEN) >/dev/null 2>$(ERRLOG)
 	@if [ -s $(ERRLOG) ]; then cat $(ERRLOG); exit 1; fi 

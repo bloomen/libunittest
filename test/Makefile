@@ -29,6 +29,7 @@ all : default
 	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
 
 $(PROG) : $(OBJECTS)
+	@$(MAKE) -s -C .. version
 	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROG)
 
 run :
