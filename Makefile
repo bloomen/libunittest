@@ -27,6 +27,7 @@ MV = mv
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
 BUILDDIRS = test examples/standard examples/random examples/minimal doc
+TODOSFILES = COPYING.txt README.txt CHANGES.txt doc/doxyfile
 
 default : $(PROG)
 all : default
@@ -56,6 +57,7 @@ dist : clean version
 	@$(MKDIR) $(PROGVER)
 	@$(CP) -r $(DISTDATA) $(PROGVER)
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $(PROGVER)/$$dir clean; done
+	@for file in $(TODOSFILES); do sed -i "s/$$/\r/g" $(PROGVER)/$$file; done
 	@$(TAR) $(PROGVER).tar.gz $(PROGVER)
 	@$(MKDIR) $(DISTDIR)
 	@$(MV) $(PROGVER).tar.gz $(DISTDIR)
