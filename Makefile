@@ -7,19 +7,13 @@ VERSIONFILE = version.hpp
 LIBDIR = lib
 INSTALLDIR = /usr/local
 
-UNAME = $(shell uname)
-
-ifeq ($(UNAME), Darwin)
-CXX = clang++ -stdlib=libc++ -U__STRICT_ANSI__
-else
 CXX = g++
-endif
-
-CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC
+CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC -fmessage-length=0
 LDFLAGS = -shared
 
 INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
+FULLVERFILE = $(INCDIR)/$(PROG)/$(VERSIONFILE)
 
 RM = rm -f
 MKDIR = mkdir -p
@@ -40,13 +34,13 @@ all : default
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
 
-$(PROG) : version $(OBJECTS)
+$(PROG) : $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
 	$(CXX) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
 
-install : version
+install : 
 	@$(ECHO) "Installing $(PROGVER) to $(INSTALLDIR) ..."
 	@$(MKDIR) $(INSTALLDIR)	
 	@$(MKDIR) $(INSTALLDIR)/lib
@@ -68,7 +62,7 @@ dist : clean version
 	@$(RM) -r $(PROGVER)
 	@$(ECHO) "Created $(DISTDIR)/$(PROGVER).tar.gz"
 
-check : clean version
+check : clean 
 	@$(ECHO) "Running check on $(PROGVER) ..."
 	@$(MAKE) || exit 1
 	@for dir in $(BUILDDIRS); do $(MAKE) -C $$dir || exit 1; $(MAKE) -C $$dir run || exit 1; done
@@ -87,7 +81,22 @@ distcheck :
 	@$(ECHO) "($@) All tests passed!"
 
 version :	
-	@$(ECHO) "/**\n * @brief Auto-generated version file. Do not edit!\n * @file version.hpp\n */\n#pragma once\n#include<string>\n/**\n * @brief Unit testing in C++\n */\nnamespace unittest {\n/**\n * @brief The libunittest version\n */\nconst std::string version = \"$(VERSION)\";\n\n} // unittest" > $(INCDIR)/$(PROG)/$(VERSIONFILE)
+	@$(ECHO) "/**" > $(FULLVERFILE)
+	@$(ECHO) " * @brief Auto-generated version file. Do not edit!" >> $(FULLVERFILE)
+	@$(ECHO) " * @file version.hpp" >> $(FULLVERFILE)
+	@$(ECHO) " */" >> $(FULLVERFILE)
+	@$(ECHO) "#pragma once" >> $(FULLVERFILE)
+	@$(ECHO) "#include <string>" >> $(FULLVERFILE)
+	@$(ECHO) "/**" >> $(FULLVERFILE)
+	@$(ECHO) " * @brief Unit testing in C++" >> $(FULLVERFILE)
+	@$(ECHO) " */" >> $(FULLVERFILE)
+	@$(ECHO) "namespace unittest {" >> $(FULLVERFILE)
+	@$(ECHO) "/**" >> $(FULLVERFILE)
+	@$(ECHO) " * @brief The libunittest version" >> $(FULLVERFILE)
+	@$(ECHO) " */" >> $(FULLVERFILE)
+	@$(ECHO) "const std::string version = \"$(VERSION)\";" >> $(FULLVERFILE)
+	@$(ECHO)  >> $(FULLVERFILE)
+	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
 
 clean :
 	@$(ECHO) "Cleaning up ..."
