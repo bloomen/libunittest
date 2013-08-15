@@ -18,22 +18,19 @@ Features:
 
 libunittest has been successfully tested with:
 
-* g++ -std=c++0x  (on Linux with GCC4.7)
-* clang++ -std=c++0x -stdlib=libc++  (on MacOSX with Clang3.2)
+CXX=g++ (on Linux with GCC4.7)
+CXX=g++ (on Cygwin/Windows with GCC4.7)
+CXX='clang++ -stdlib=libc++ -U__STRICT_ANSI__' (on MacOSX with Clang3.2)
 
 In order to build and install libunittest simply unpack the distribution 
 archive, enter the resulting directory and do: 
 
-make
+make [CXX=compiler]
 make install [INSTALLDIR=/path/to/install]
 
-If INSTALLDIR is not given then libunittest will be installed in a 
+The default compiler is g++ which is used if no compiler is given. 
+If INSTALLDIR is not given then libunittest will be installed in a  
 standard system location (/usr/local) requiring root privileges. 
-
-The default compiler on MacOS is clang++ and g++ on any other platform 
-such as Linux. In order to set a different compiler, do:
-
-make CXX=compiler [CXXFLAGS=cxxflags] [LDFLAGS=ldflags]
 
 To build and run the tests, do:
 
