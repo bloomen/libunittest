@@ -1,3 +1,8 @@
+3.4.0
+
+- added command line option '-d' to perform a dry run
+- renamed random_object<T>::value() to random_object<T>::get() 
+
 3.3.0
 
 - added option to set a timeout for test runs 
