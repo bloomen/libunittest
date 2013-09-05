@@ -8,9 +8,9 @@ void test_random::test_random_int()
     auto randomB = unittest::make_random_value<long>(2, 4);
     auto randomC = unittest::make_random_value<long long>(-9, -2);
     for (int i=0; i<100; ++i) {
-        assert_in_range(randomA.value(), 0, 3, SPOT);
-        assert_in_range(randomB.value(), 2, 4, SPOT);
-        assert_in_range(randomC.value(), -9, -2, SPOT);
+        assert_in_range(randomA.get(), 0, 3, SPOT);
+        assert_in_range(randomB.get(), 2, 4, SPOT);
+        assert_in_range(randomC.get(), -9, -2, SPOT);
     }
 }
 
@@ -29,7 +29,7 @@ void test_random::test_random_bool()
     auto random = unittest::make_random_bool();
     const std::vector<bool> container = {true, false};
     for (int i=0; i<100; ++i) {
-        assert_in_container(random.value(), container, SPOT);
+        assert_in_container(random.get(), container, SPOT);
     }
 }
 
@@ -38,8 +38,8 @@ void test_random::test_random_real()
     auto randomA = unittest::make_random_value(3.);
     auto randomB = unittest::make_random_value<float>(1.5, 4.2);
     for (int i=0; i<100; ++i) {
-        assert_in_range(randomA.value(), 0, 3+1e-6, SPOT);
-        assert_in_range(randomB.value(), 1.5, 4.2+1e-6, SPOT);
+        assert_in_range(randomA.get(), 0, 3+1e-6, SPOT);
+        assert_in_range(randomB.get(), 1.5, 4.2+1e-6, SPOT);
     }
 }
 
@@ -58,7 +58,7 @@ void test_random::test_random_choice_string()
     const std::string characters("abc");
     auto random = unittest::make_random_choice(characters);
     for (int i=0; i<100; ++i) {
-        assert_in_container(random.value(), characters, SPOT);
+        assert_in_container(random.get(), characters, SPOT);
     }
 }
 
@@ -67,7 +67,7 @@ void test_random::test_random_choice_vector()
     const std::vector<double> vector = {1, 2, 3};
     auto random = unittest::make_random_choice(vector);
     for (int i=0; i<100; ++i) {
-        assert_in_container(random.value(), vector, SPOT);
+        assert_in_container(random.get(), vector, SPOT);
     }
 }
 
@@ -76,7 +76,7 @@ void test_random::test_random_choice_list()
     const std::list<int> a_list = {1, 2, 3};
     auto random = unittest::make_random_choice(a_list);
     for (int i=0; i<100; ++i) {
-        assert_in_container(random.value(), a_list, SPOT);
+        assert_in_container(random.get(), a_list, SPOT);
     }
 }
 
@@ -135,7 +135,7 @@ void test_random::test_random_shuffle_vector()
     const std::vector<int> vector = {1, 2, 3};
     auto random = unittest::make_random_shuffle(vector);
     for (int i=0; i<100; ++i) {
-        const auto perm_vector = random.value();
+        const auto perm_vector = random.get();
         assert_in_container(perm_vector[0], vector, SPOT);
         assert_in_container(perm_vector[1], vector, SPOT);
         assert_in_container(perm_vector[2], vector, SPOT);
@@ -148,7 +148,7 @@ void test_random::test_random_shuffle_list()
     const std::list<double> a_list = {1, 2, 3};
     auto random = unittest::make_random_shuffle(a_list, 2);
     for (int i=0; i<100; ++i) {
-        const auto perm_list = random.value();
+        const auto perm_list = random.get();
         auto first = std::begin(perm_list);
         auto sum = *first;
         assert_in_container(*first, a_list, SPOT);
@@ -180,7 +180,7 @@ void test_random::test_random_combination_vector()
     const std::vector<double> vector2 = {5, 6};
     auto rand_combo = unittest::make_random_combination(vector1, vector2, 4);
     for (int i=0; i<100; ++i) {
-        const auto combo = rand_combo.value();
+        const auto combo = rand_combo.get();
         assert_equal<unsigned>(4, combo.size(), SPOT);
         for (auto& value : combo) {
             assert_in_container(value.first, vector1, SPOT);
@@ -195,7 +195,7 @@ void test_random::test_random_combination_list()
     const std::list<double> list2 = {5, 6};
     auto rand_combo = unittest::make_random_combination(list1, list2, 3);
     for (int i=0; i<100; ++i) {
-        const auto combo = rand_combo.value();
+        const auto combo = rand_combo.get();
         assert_equal<unsigned>(3, combo.size(), SPOT);
         for (auto& value : combo) {
             assert_in_container(value.first, list1, SPOT);

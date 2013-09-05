@@ -60,7 +60,7 @@ private:
                                        const std::string& spot)
     {
         for (int i=0; i<100; ++i) {
-            const auto rand_cont = random_object.value();
+            const auto rand_cont = random_object.get();
             assert_equal(length, rand_cont.size(), spot);
             for (auto& value : rand_cont)
                 assert_in_container(value, container, spot);
@@ -77,7 +77,7 @@ private:
                                        const std::string& spot)
     {
         for (int i=0; i<100; ++i) {
-            const auto rand_cont = random_object.value();
+            const auto rand_cont = random_object.get();
             assert_in_range(rand_cont.size(), min_length, max_length, spot);
             for (auto& value : rand_cont)
                 assert_in_container(value, container, spot);

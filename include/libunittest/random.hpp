@@ -31,11 +31,11 @@ public:
     ~random_object()
     {}
     /**
-     * @brief Supposed to return a random value
-     * @returns A random value
+     * @brief Supposed to return a random object
+     * @returns A random object
      */
     virtual T
-    value() = 0;
+    get() = 0;
     /**
      * @brief Sets a new random seed
      * @param seed The random seed
@@ -127,7 +127,7 @@ public:
      * @returns A random value
      */
     T
-    value() override
+    get() override
     {
         return distribution_(this->gen());
     }
@@ -187,7 +187,7 @@ public:
      * @returns A random bool
      */
     bool
-    value() override
+    get() override
     {
         return distribution_(this->gen()) & 1;
     }
@@ -225,7 +225,7 @@ public:
      * @returns A random choice
      */
     element_type
-    value() override
+    get() override
     {
         const auto index = distribution_(this->gen());
         long long count = 0;
@@ -307,12 +307,12 @@ public:
      * @returns A random container
      */
     Container
-    value() override
+    get() override
     {
         const auto size = distribution_(this->gen());
         std::vector<element_type> result(size);
         for (long long i=0; i<size; ++i)
-            result[i] = rand_->value();
+            result[i] = rand_->get();
         return {result.begin(), result.end()};
     }
 
@@ -412,7 +412,7 @@ public:
      * @returns A random shuffle
      */
     Container
-    value() override
+    get() override
     {
         auto first = vector_.begin();
         shuffle(first, vector_.end(), this->gen());
@@ -501,7 +501,7 @@ public:
      * @returns A random combination
      */
     combination_type
-    value() override
+    get() override
     {
         long long index = 0;
         combination_type combination;
