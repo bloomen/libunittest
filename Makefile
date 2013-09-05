@@ -1,4 +1,4 @@
-VERSION = 3.3.0
+VERSION = 3.4.0
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
@@ -84,7 +84,7 @@ distcheck :
 
 version :	
 	@$(ECHO) "/**" > $(FULLVERFILE)
-	@$(ECHO) " * @brief Auto-generated version file. Do not edit!" >> $(FULLVERFILE)
+	@$(ECHO) " * @brief Auto-generated version file" >> $(FULLVERFILE)
 	@$(ECHO) " * @file version.hpp" >> $(FULLVERFILE)
 	@$(ECHO) " */" >> $(FULLVERFILE)
 	@$(ECHO) "#pragma once" >> $(FULLVERFILE)
