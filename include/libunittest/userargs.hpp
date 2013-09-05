@@ -149,6 +149,10 @@ protected:
      */
     bool handle_exceptions_;
     /**
+     * @brief Whether to perform a dry run
+     */
+    bool dry_run_;
+    /**
      * @brief A name filter on the full test name
      */
     std::string name_filter_;
@@ -164,10 +168,6 @@ protected:
      * @brief The XML output file name
      */
     std::string xml_filename_;
-    /**
-     * @brief Whether to perform a dry run
-     */
-    bool dry_run_;
 };
 
 } // unittest
