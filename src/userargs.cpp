@@ -3,8 +3,9 @@
 namespace unittest {
 
 userargs::userargs()
-    : verbose_(false), failure_stop_(false), generate_xml_(false), handle_exceptions_(true),
-      name_filter_(""), test_name_(""), timeout_(-1), xml_filename_("libunittest.xml")
+    : verbose_(false), failure_stop_(false), generate_xml_(false),
+      handle_exceptions_(true), name_filter_(""), test_name_(""),
+      timeout_(-1), xml_filename_("libunittest.xml"), dry_run_(false)
 {}
 
 userargs::~userargs()
@@ -104,6 +105,18 @@ void
 userargs::xml_filename(const std::string& value)
 {
     xml_filename_ = value;
+}
+
+bool
+userargs::dry_run() const
+{
+    return dry_run_;
+}
+
+void
+userargs::dry_run(bool value)
+{
+    dry_run_ = value;
 }
 
 } // unittest

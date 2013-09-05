@@ -57,20 +57,24 @@ public:
     execute(Functor functor)
     {
         auto suite = testsuite::instance();
-        if (suite->get_arguments().handle_exceptions()) {
-            try {
+        if (suite->get_arguments().dry_run()) {
+            log_success();
+        } else {
+            if (suite->get_arguments().handle_exceptions()) {
+                try {
+                    functor();
+                    log_success();
+                } catch (const testfailure& e) {
+                    log_failure(e);
+                } catch (const std::exception& e) {
+                    log_error(e);
+                } catch (...) {
+                    log_unknown_error();
+                }
+            } else {
                 functor();
                 log_success();
-            } catch (const testfailure& e) {
-                log_failure(e);
-            } catch (const std::exception& e) {
-                log_error(e);
-            } catch (...) {
-                log_unknown_error();
             }
-        } else {
-            functor();
-            log_success();
         }
     }
 

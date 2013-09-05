@@ -118,6 +118,18 @@ public:
      */
     virtual void
     xml_filename(const std::string& value);
+    /**
+     * @brief Returns whether to perform a dry run
+     * @returns Whether to perform a dry run
+     */
+    virtual bool
+    dry_run() const;
+    /**
+     * @brief Sets whether to perform a dry run (default: false)
+     * @param value The value
+     */
+    virtual void
+    dry_run(bool value);
 
 protected:
     /**
@@ -152,7 +164,10 @@ protected:
      * @brief The XML output file name
      */
     std::string xml_filename_;
-
+    /**
+     * @brief Whether to perform a dry run
+     */
+    bool dry_run_;
 };
 
 } // unittest

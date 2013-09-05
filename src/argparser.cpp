@@ -20,6 +20,7 @@ struct implementation<argparser> {
         stream << "-s          Stops running tests after the first test fails\n";
         stream << "-e          Turns off exception handling\n";
         stream << "-x          Enables the generation of the XML output\n";
+        stream << "-d          A dry run without actually executing any tests\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n name     A certain test to be run superseding the name filter\n";
         stream << "-t timeout  A timeout in seconds for tests without local timeouts\n";
@@ -76,6 +77,8 @@ void argparser::parse(int argc, char **argv)
             generate_xml(true);
         } else if (args[i]=="-e") {
             handle_exceptions(false);
+        } else if (args[i]=="-d") {
+            dry_run(true);
         } else if (args[i]=="-f") {
             if (++i<length) {
                 name_filter(args[i]);

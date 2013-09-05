@@ -81,6 +81,7 @@ void test_misc::test_userargs_defaults()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -94,6 +95,7 @@ void test_misc::test_userargs_set_get()
     args.failure_stop(true);
     args.generate_xml(true);
     args.handle_exceptions(false);
+    args.dry_run(true);
     args.name_filter("test_me");
     args.test_name("test_me_more");
     args.timeout(10);
@@ -102,6 +104,7 @@ void test_misc::test_userargs_set_get()
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
+    assert_equal(true, args.dry_run(), SPOT);
     assert_equal("test_me", args.name_filter(), SPOT);
     assert_equal("test_me_more", args.test_name(), SPOT);
     assert_equal(10, args.timeout(), SPOT);

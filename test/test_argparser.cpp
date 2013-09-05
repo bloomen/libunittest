@@ -22,6 +22,7 @@ void test_argparser::test_no_arguments()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -37,6 +38,7 @@ void test_argparser::test_verbose()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -52,6 +54,7 @@ void test_argparser::test_failure_stop()
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -67,6 +70,7 @@ void test_argparser::test_generate_xml()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -82,6 +86,23 @@ void test_argparser::test_handle_exceptions()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
+    assert_equal("", args.name_filter(), SPOT);
+    assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
+    assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+}
+
+void test_argparser::test_dry_run()
+{
+    arguments_[1] = (char*)"-d";
+    argparser args;
+    args.parse(2, arguments_);
+    assert_equal(false, args.verbose(), SPOT);
+    assert_equal(false, args.failure_stop(), SPOT);
+    assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(true, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -98,6 +119,7 @@ void test_argparser::test_name_filter()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -114,6 +136,7 @@ void test_argparser::test_test_name()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -130,6 +153,7 @@ void test_argparser::test_timeout()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(3.5, args.timeout(), SPOT);
@@ -146,6 +170,7 @@ void test_argparser::test_xml_filename()
     assert_equal(false, args.failure_stop(), SPOT);
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -163,6 +188,7 @@ void test_argparser::test_verbose_failure_stop()
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -181,6 +207,7 @@ void test_argparser::test_verbose_generate_xml()
         assert_equal(false, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -199,6 +226,7 @@ void test_argparser::test_failure_stop_generate_xml()
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -220,6 +248,7 @@ void test_argparser::test_verbose_failure_stop_generate_xml()
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -240,12 +269,14 @@ void test_argparser::test_all_arguments()
     arguments_[9] = (char*)"10";
     arguments_[10] = (char*)"-o";
     arguments_[11] = (char*)"stuff.xml";
+    arguments_[12] = (char*)"-d";
     argparser args;
-    args.parse(12, arguments_);
+    args.parse(13, arguments_);
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
+    assert_equal(true, args.dry_run(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
     assert_equal(10, args.timeout(), SPOT);
@@ -271,6 +302,7 @@ void test_argparser::test_copy_constructor()
     args.failure_stop(true);
     args.generate_xml(true);
     args.handle_exceptions(false);
+    args.dry_run(true);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.timeout(12.3);
@@ -280,6 +312,7 @@ void test_argparser::test_copy_constructor()
     assert_equal(true, args2.failure_stop(), SPOT);
     assert_equal(true, args2.generate_xml(), SPOT);
     assert_equal(false, args2.handle_exceptions(), SPOT);
+    assert_equal(true, args2.dry_run(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal(12.3, args2.timeout(), SPOT);
@@ -293,6 +326,7 @@ void test_argparser::test_assignment_operator()
     args.failure_stop(true);
     args.generate_xml(true);
     args.handle_exceptions(false);
+    args.dry_run(true);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.timeout(12.3);
@@ -302,6 +336,7 @@ void test_argparser::test_assignment_operator()
     assert_equal(true, args2.failure_stop(), SPOT);
     assert_equal(true, args2.generate_xml(), SPOT);
     assert_equal(false, args2.handle_exceptions(), SPOT);
+    assert_equal(true, args2.dry_run(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal(12.3, args2.timeout(), SPOT);
