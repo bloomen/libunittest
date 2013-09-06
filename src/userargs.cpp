@@ -4,8 +4,8 @@ namespace unittest {
 
 userargs::userargs()
     : verbose_(false), failure_stop_(false), generate_xml_(false),
-      handle_exceptions_(true), name_filter_(""), test_name_(""),
-      timeout_(-1), xml_filename_("libunittest.xml"), dry_run_(false)
+      handle_exceptions_(true), dry_run_(false), name_filter_(""),
+      test_name_(""), timeout_(-1), xml_filename_("libunittest.xml")
 {}
 
 userargs::~userargs()
