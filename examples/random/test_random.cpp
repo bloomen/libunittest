@@ -1,6 +1,5 @@
 #include "test_random.h"
 #define SPOT UNITTEST_SPOT
-using unittest::feps;
 
 void test_random::test_random_int()
 {
