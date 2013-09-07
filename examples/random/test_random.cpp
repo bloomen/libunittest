@@ -27,8 +27,8 @@ void test_random::test_random_double()
     auto random = unittest::make_random_value<double>(2, 5);
     auto rand_value1 = random.get(); // a random double in [2, 5)
     auto rand_value2 = random.get(); // another random double in [2, 5)
-    assert_in_range(rand_value1, 2, 5+feps, SPOT);
-    assert_in_range(rand_value2, 2, 5+feps, SPOT);
+    assert_in_range(rand_value1, 2, 5, SPOT);
+    assert_in_range(rand_value2, 2, 5, SPOT);
 }
 
 void test_random::test_random_choice()
@@ -46,7 +46,7 @@ void test_random::test_random_vector()
                                       // random doubles from the interval of [0, 1)
     assert_equal<unsigned>(10, rand_vector.size(), SPOT);
     for (auto& value : rand_vector) {
-        assert_in_range(value, 0, 1+feps, SPOT);
+        assert_in_range(value, 0, 1, SPOT);
     }
 }
 
