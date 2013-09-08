@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     return unittest::process(argc, argv);
 }
 
-/* Screen output with './unittest -v':
+/* Screen output with './unittest.exe -v':
 test_stuff.test_value_is_true ... ok
 
 --------------------------------------------------
@@ -31,4 +31,3 @@ Ran 1 tests in 0.00045s
 
 OK
 */
-
