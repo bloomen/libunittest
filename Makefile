@@ -52,12 +52,13 @@ install :
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(INSTALLDIR)/lib/$(LIBNAME)
 
-dist : clean version
+dist : version
 	@$(RM) -r $(PROGVER)
 	@$(MKDIR) $(PROGVER)
 	@$(CP) -r $(DISTDATA) $(PROGVER)
-	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $(PROGVER)/$$dir clean; done
-	@for file in $(TODOSFILES); do sed -i "s/$$/\r/g" $(PROGVER)/$$file; done
+	@$(MAKE) clean -s -C $(PROGVER)
+	@for file in $(TODOSFILES); do awk 'sub("$$", "\r")' $(PROGVER)/$$file > $(PROGVER)/$$file.dos ; done
+	@for file in $(TODOSFILES); do mv $(PROGVER)/$$file.dos $(PROGVER)/$$file ; done
 	@$(TAR) $(PROGVER).tar.gz $(PROGVER)
 	@$(MKDIR) $(DISTDIR)
 	@$(MV) $(PROGVER).tar.gz $(DISTDIR)
@@ -77,8 +78,8 @@ distcheck :
 	@$(UNTAR) $(DISTDIR)/$(PROGVER).tar.gz || exit 1
 	@$(MAKE) -C $(PROGVER) check || exit 1
 	@$(MAKE) -C $(PROGVER) install INSTALLDIR=local || exit 1
-	@if [ ! -f $(PROGVER)/local/lib/libunittest.so ]; then exit 1; fi
-	@if [ ! -f $(PROGVER)/local/include/libunittest/unittest.hpp ]; then exit 1; fi
+	@if [ ! -f $(PROGVER)/local/lib/$(LIBNAME) ]; then exit 1; fi
+	@if [ ! -f $(PROGVER)/local/include/$(PROG)/unittest.hpp ]; then exit 1; fi
 	@$(RM) -r $(PROGVER)
 	@$(ECHO) "($@) All tests passed!"
 
