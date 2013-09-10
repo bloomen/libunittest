@@ -2,6 +2,7 @@ VERSION = 3.4.1
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
+PROGVERTAR = $(PROGVER).tar.gz
 LIBNAME = $(PROG).so
 VERSIONFILE = version.hpp
 LIBDIR = lib
@@ -20,9 +21,9 @@ MKDIR = mkdir -p
 LN = ln -s
 ECHO = echo
 CP = cp
+MV = mv
 TAR = tar cfz
 UNTAR = tar xfz
-MV = mv
 
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
@@ -58,12 +59,12 @@ dist : version
 	@$(CP) -r $(DISTDATA) $(PROGVER)
 	@$(MAKE) clean -s -C $(PROGVER)
 	@for file in $(TODOSFILES); do awk 'sub("$$", "\r")' $(PROGVER)/$$file > $(PROGVER)/$$file.dos ; done
-	@for file in $(TODOSFILES); do mv $(PROGVER)/$$file.dos $(PROGVER)/$$file ; done
-	@$(TAR) $(PROGVER).tar.gz $(PROGVER)
+	@for file in $(TODOSFILES); do $(MV) $(PROGVER)/$$file.dos $(PROGVER)/$$file ; done
+	@$(TAR) $(PROGVERTAR) $(PROGVER)
 	@$(MKDIR) $(DISTDIR)
-	@$(MV) $(PROGVER).tar.gz $(DISTDIR)
+	@$(MV) $(PROGVERTAR) $(DISTDIR)
 	@$(RM) -r $(PROGVER)
-	@$(ECHO) "Created $(DISTDIR)/$(PROGVER).tar.gz"
+	@$(ECHO) "Created $(DISTDIR)/$(PROGVERTAR)"
 
 check : clean 
 	@$(ECHO) "Running check on $(PROGVER) ..."
@@ -75,7 +76,7 @@ distcheck :
 	@$(ECHO) "Running distribution check on $(PROGVER) ..."
 	@$(MAKE) -s dist || exit 1
 	@$(RM) -r $(PROGVER)
-	@$(UNTAR) $(DISTDIR)/$(PROGVER).tar.gz || exit 1
+	@$(UNTAR) $(DISTDIR)/$(PROGVERTAR) || exit 1
 	@$(MAKE) -C $(PROGVER) check || exit 1
 	@$(MAKE) -C $(PROGVER) install INSTALLDIR=local || exit 1
 	@if [ ! -f $(PROGVER)/local/lib/$(LIBNAME) ]; then exit 1; fi
