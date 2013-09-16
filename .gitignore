@@ -10,4 +10,3 @@ examples/random/unittest
 libunittest.xml
 html
 errors.log
-version.hpp
