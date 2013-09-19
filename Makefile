@@ -30,8 +30,8 @@ DEBRULES = debian/rules
 COPYING = COPYING.txt
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
-BUILDDIRS = test examples/standard examples/random examples/minimal doc
-TODOSFILES = $(COPYING) README.txt CHANGES.txt doc/doxyfile
+BUILDDIRS = test examples/standard examples/random examples/minimal doc/doxygen
+TODOSFILES = $(COPYING) README.txt CHANGES.txt doc/doxygen/doxyfile
 
 default : $(PROG)
 all : default
@@ -120,8 +120,9 @@ deb :
 	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
 	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
 	@$(BUILDDEB)
-	@$(RM) ../$(PROG)*.changes
-	@$(MV) ../$(PROG)-$(VERSION)*.deb $(DISTDIR)
+	@$(RM) ../$(PROG)_$(VERSION)_*.changes
+	@$(MKDIR) $(DISTDIR)
+	@$(MV) ../$(PROG)-dev_$(VERSION)_*.deb $(DISTDIR)
  
 clean :
 	@$(ECHO) "Cleaning up ..."
