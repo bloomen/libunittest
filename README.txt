@@ -1,4 +1,5 @@
 libunittest is a portable C++ library for unit testing making use of C++11.
+http://sourceforge.net/projects/libunittest/
 
 Features:
 
@@ -32,20 +33,24 @@ The default compiler is g++ which is used if no compiler is given.
 If INSTALLDIR is not given then libunittest will be installed in a  
 standard system location (/usr/local) requiring root privileges. 
 
+Please check out the examples shipped with this library.
+
 To build and run the tests, do:
 
 make -C test
 make -C test run
 
-To build the documentation, do:
+To build the doxygen documentation, do:
 
-make -C doc
+make -C doc/doxygen
 
 To invoke a complete library check, do:
 
 make check
 
-Please also check out the examples shipped with this library.
+To build a debian package, do:
+
+make deb
 
 libunittest is being developed by Christian Blume. Contact Christian at
 chr.blume@gmail.com for any questions or comments.

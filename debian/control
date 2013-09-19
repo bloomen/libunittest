@@ -9,4 +9,4 @@ Package: libunittest-dev
 Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}
-Description: libunittest is a portable C++ library for unit testing making use of C++11.
+Description: libunittest is a portable C++ library for unit testing making use of C++11. http://sourceforge.net/projects/libunittest/
