@@ -118,8 +118,8 @@ deb :
 	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
 	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
 	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
-	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
-	@$(BUILDDEB)
+	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) -f $(LIBNAME) && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
+	@$(BUILDDEB) || exit 1
 	@$(RM) ../$(PROG)_$(VERSION)_*.changes
 	@$(MKDIR) $(DISTDIR)
 	@$(MV) ../$(PROG)-dev_$(VERSION)_*.deb $(DISTDIR)
