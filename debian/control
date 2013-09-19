@@ -1,0 +1,12 @@
+Source: libunittest
+Section: libdevel
+Priority: optional
+Maintainer: Christian Blume <chr.blume@gmail.com>
+Build-Depends: g++ (>= 4.7)
+Standards-Version: 3.8.1
+
+Package: libunittest-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends}
+Description: libunittest is a portable C++ library for unit testing making use of C++11.

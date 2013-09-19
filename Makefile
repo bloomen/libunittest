@@ -24,11 +24,14 @@ CP = cp
 MV = mv
 TAR = tar cfz
 UNTAR = tar xfz
+BUILDDEB = dpkg-buildpackage -rfakeroot -b
 
+DEBRULES = debian/rules
+COPYING = COPYING.txt
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
 BUILDDIRS = test examples/standard examples/random examples/minimal doc
-TODOSFILES = COPYING.txt README.txt CHANGES.txt doc/doxyfile
+TODOSFILES = $(COPYING) README.txt CHANGES.txt doc/doxyfile
 
 default : $(PROG)
 all : default
@@ -102,8 +105,27 @@ version :
 	@$(ECHO)  >> $(FULLVERFILE)
 	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
 
+deb :
+	@$(CP) $(COPYING) debian/copyright
+	@$(ECHO) "#!/usr/bin/make -f" > $(DEBRULES)
+	@$(ECHO) "# -*- makefile -*-" >> $(DEBRULES)
+	@$(ECHO) "include /usr/share/cdbs/1/rules/debhelper.mk" >> $(DEBRULES)
+	@$(ECHO) "CXXFLAGS += -std=c++0x" >> $(DEBRULES)
+	@$(ECHO) "LDFLAGS += -shared" >> $(DEBRULES)
+	@$(ECHO) "include /usr/share/cdbs/1/class/makefile.mk" >> $(DEBRULES)
+	@$(ECHO) "install/$(PROG)-dev::" >> $(DEBRULES)
+	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
+	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
+	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
+	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
+	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
+	@$(BUILDDEB)
+	@$(RM) ../$(PROG)*.changes
+	@$(MV) ../$(PROG)-$(VERSION)*.deb $(DISTDIR)
+ 
 clean :
 	@$(ECHO) "Cleaning up ..."
 	@$(RM) -r $(LIBDIR)
 	@$(RM) $(OBJECTS)
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $$dir $@ ; done
+ 
