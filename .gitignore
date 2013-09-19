@@ -10,3 +10,8 @@ examples/random/unittest
 libunittest.xml
 html
 errors.log
+debian/libunittest-dev*
+debian/copyright
+debian/files
+debian/rules
+debian/stamp-makefile-build
