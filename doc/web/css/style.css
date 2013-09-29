@@ -98,7 +98,10 @@ li {
 	margin-left: 10px;
 }
 p a {
-	color: #585858;
+    color: #585858;
+}
+li a {
+    color: #585858;
 }
 .date {
 	float: left;
