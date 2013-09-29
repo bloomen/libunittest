@@ -123,6 +123,10 @@ deb :
 	@$(RM) ../$(PROG)_$(VERSION)_*.changes
 	@$(MKDIR) $(DISTDIR)
 	@$(MV) ../$(PROG)-dev_$(VERSION)_*.deb $(DISTDIR)
+	
+upload :
+	@$(ECHO) "Uploading version "$(VERSION)
+	@./upload.sh $(VERSION) || exit 1
  
 clean :
 	@$(ECHO) "Cleaning up ..."
