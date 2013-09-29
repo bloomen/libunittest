@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>libunittest C++ library</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+	<div id="header">
+		<div>
+			<ul id="navigation">
+				<li>
+					<a href="index.html">Home</a>
+				</li>
+				<li class="active">
+					<a href="installation.html">Installation</a>
+				</li>
+				<li>
+					<a href="tutorial.html">Tutorial</a>
+				</li>
+				<li>
+					<a href="downloads.html">Downloads</a>
+				</li>
+				<li>
+					<a href="feedback.html">Feedback</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="contents">
+			<h1>Installation</h1>
+				<h2>
+					Prerequisites
+				</h2>
+				<p>
+					Everything that libunittest needs is a C++11 
+					compliant compiler on a UNIX-like operating 
+					system and an implementation of the C++11 
+					standard library. libunittest has been 
+					successfully tested on Linux, MacOS, and 
+					Cygwin/Windows using <incode>g++4.7</incode> and 
+					<incode>clang++3.2</incode>.
+				</p>
+				<h2>
+					Install From Source
+				</h2>
+				<p>
+					It is easy to install libunittest from source. 
+					First <a href="downloads.html">download</a> a 
+					source distribution. Now unpack the tar-ball 
+					you've just downloaded and enter the 
+					resulting directory: 
+					<code>
+					tar xfz libunittest-XXX.tar.gz </br>
+					cd libunittest-XXX
+					</code>
+					libunittest can now be compiled on your machine:
+					<code>
+					make [CXX=compiler]
+					</code>
+					where <incode>CXX</incode> defaults to <incode>g++</incode>. 
+					When using <incode>clang++</incode> in version 3.2, type:
+					<code>
+						make CXX='clang++ -stdlib=libc++ -U__STRICT_ANSI__'
+					</code>
+					Once the compilation 
+					is finished the library can be installed by:
+					<code>
+					make install [INSTALLDIR=/path/to/install]
+					</code>
+					where <incode>INSTALLDIR</incode> defaults to 
+					<incode>/usr/local</incode>.
+				</p>
+				<h2>
+					Install From Debian Package
+				</h2>
+				<p>
+					The libunittest debian packages were compiled 
+					with <incode>g++</incode> and are currently available for x86 
+					architectures. After <a href="downloads.html">
+					downloading</a> a libunittest debian package it can be installed by: 
+					<code>
+						sudo dpkg -i libunittest-dev_XXX_i386.deb
+					</code>
+				</p>
+	</div>
+	<div id="footer">
+	</div>
+</body>
+</html>
