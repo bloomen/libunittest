@@ -29,9 +29,97 @@
 	</div>
 	<div id="contents">
 			<h1>Tutorial</h1>
-				<p>
-					Coming soon ...
-				</p>
+                <h2>Assembling a test project</h2>
+                <p>
+                The first thing you'll need is a <incode>main.cpp</incode> file 
+                which should look like this:
+                <code>
+                    // main.cpp <br>
+                    #include &lt;libunittest/unittest.hpp&gt;<br></br>
+                    int main(int argc, char **argv) {<br>
+                    <t>return unittest::process(argc, argv);</t><br>
+                    }
+                </code>
+                Everything coming from libunittest lives within the 
+                <incode>unittest</incode> namespace. Now you'll need another
+                source file maybe called <incode>testcases.cpp</incode> which
+                containes a list of calls to your test cases:
+                <code>
+                    // testcases.cpp <br>
+                    #include "test_whatever.h"<br><br>
+
+                    void unittest::run_all_tests() {<br>
+                    <t>unittest::call&lt;test_whatever&gt;();</t><br>
+                    }
+                </code>
+                This runs all tests assigned to the test class 
+                <incode>test_whatever</incode>. As you can see, <incode>unittest::run_all_tests()</incode> must
+                be implemented by the user. This may seem tedious at first but
+                this explicit test registration leaves the freedom to run certain
+                tests in parallel using, e.g., std::thread:
+                <code>
+                    std::thread t1(unittest::call&lt;test_whatever&gt;);<br>
+                    std::thread t2(unittest::call&lt;test_something&gt;);<br>
+                    t1.join();<br>
+                    t2.join();<br>
+                </code>
+                Let's have a look at how <incode>test_whatever.h</incode> may look like:
+                <code>
+                    // test_whatever.h <br>
+                    #pragma once<br>
+                    #include &lt;libunittest/unittest.hpp&gt;<br><br>
+                    struct test_whatever : unittest::testcase<> {<br><br>
+
+                        <t>//this static method runs the tests</t><br>
+                        <t>static void run()</t><br>
+                        <t>{</t><br>
+                            <tt>UNITTEST_CLASS(test_whatever)</tt><br>
+                            <tt>UNITTEST_RUN(test_throw)</tt><br>
+                            <tt>UNITTEST_RUN(test_in_range)</tt><br>
+                            <tt>UNITTEST_RUN_TIME(test_in_container, 2)</tt> // with timeout<br>
+                        <t>}</t><br><br>
+
+                        <t>void test_throw();</t><br>
+                        <t>void test_in_range();</t><br>
+                        <t>void test_in_container();</t><br>
+                    };
+                </code>
+                All macros are defined in <incode>libunittest/macros.hpp</incode>.
+                Please also have a look at the examples shipped with the 
+                libunittest source distribution.
+                </p>
+                <h2>Assertions</h2>
+                <p>
+                libunittest comes with a rich set of assertions that your
+                test class has automatic access to once it derives from
+                <incode>unittest::testcase</incode>. All assertions are
+                implemented and documented in <incode>libunittest/assertions.hpp</incode>.
+                </p>
+                <p>
+                The top-three, most used assertions are probably (in pseudo-code):
+                <code>
+                assert_true(value, message...)
+                </code>
+                <code>
+                assert_equal(expected, actual, message...)
+                </code>
+                <code>
+                assert_throw<exception_type>(functor, message...)
+                </code>
+                Please note that <incode>message...</incode> denotes a variable
+                number of template parameters (variadic template) meaning it 
+                does not have to be given at all. If it is given it is appended
+                to the default fail message.
+                
+                </p>
+                <h2>Fixtures and test contexts</h2>
+                <p>
+                Soon ...
+                </p>
+                <h2>Customizing output</h2>
+                <p>
+                Soon ...
+                </p>
 	</div>
 	<div id="footer">
 	</div>
