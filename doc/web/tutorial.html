@@ -56,13 +56,7 @@
                 <incode>test_whatever</incode>. As you can see, <incode>unittest::run_all_tests()</incode> must
                 be implemented by the user. This may seem tedious at first but
                 this explicit test registration leaves the freedom to run certain
-                tests in parallel using, e.g., std::thread:
-                <code>
-                    std::thread t1(unittest::call&lt;test_whatever&gt;);<br>
-                    std::thread t2(unittest::call&lt;test_something&gt;);<br>
-                    t1.join();<br>
-                    t2.join();<br>
-                </code>
+                tests in parallel.
                 Let's have a look at how <incode>test_whatever.h</incode> may look like:
                 <code>
                     // test_whatever.h <br>
@@ -104,7 +98,7 @@
                 assert_equal(expected, actual, message...)
                 </code>
                 <code>
-                assert_throw<exception_type>(functor, message...)
+                assert_throw&lt;exception_type&gt;(functor, message...)
                 </code>
                 Please note that <incode>message...</incode> denotes a variable
                 number of template parameters (variadic template) meaning it 

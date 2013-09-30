@@ -57,16 +57,24 @@ img {
 	padding: 54px 40px;
 }
 code {
+   color: #000;
    display:block;
    font: 1em 'Courier New', Courier, Fixed, monospace;
    font-size : 100%;
    overflow : auto;
    text-align:left;
    padding : 0px 20px 0 30px;
-   margin:1em 0 1em 0;
+   margin:1em 0em 1em 0;
    line-height:17px;
 }
+code t {
+   padding-left: 2em;
+}
+code tt {
+   padding-left: 4em;
+}
 incode {
+   color: #000;
    font: 1em 'Courier New', Courier, Fixed, monospace;
    font-size : 100%;
 }
