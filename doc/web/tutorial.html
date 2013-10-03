@@ -164,12 +164,11 @@
 				<a name="fixtures"></a>
                 <h2>Fixtures and test contexts</h2>
                 
-				<p> Test fixtures are certain preqrequisites that 
-				need to be fullfilled prior to running tests. Also, 
-				you'll see cases in which an explicit clean-up 
-				becomes necessary once fixtures are used. In 
-				libunittest there are two different ways of defining 
-				fixtures which can even be combined: </p>
+				<p> Test fixtures are certain ressources that tests
+				can rely on. Fixtures often make an explicit clean-up 
+				step necessary. In libunittest there are two 
+				different ways of defining fixtures which can even 
+				be combined: </p>
 				
 				<p> 1) <b>Regular fixtures</b> defined within the test 
 				class. Set up and tear down are executed before and 
@@ -437,7 +436,7 @@
 					There are a few more targets the master <incode>Makefile</incode> provides:
 					<li>
 
-						<incode>make check</incode> - performs a 
+						<incode>make check</incode> - Performs a 
 						complete library check. Builds the library, 
 						builds and executes tests and examples and 
 						compiles the doxygen documentation.
@@ -446,7 +445,7 @@
 					
 					<li>
 
-						<incode>make distcheck</incode> - just like the 
+						<incode>make distcheck</incode> - Just like the 
 						<incode>check</incode> target but builds a source distribution first.
 
 					</li>
