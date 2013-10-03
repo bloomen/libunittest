@@ -157,7 +157,7 @@
                 
 				Please note that <incode>message...</incode> denotes 
 				a variable number of template parameters (variadic 
-				template) and can also be omitted. If it is given 
+				template) and can also be omitted. If given 
 				it is appended to the default fail message.
                 </p>
 
@@ -234,7 +234,7 @@
 						<tt>std::fill(data_.begin(), data_.end(), 42);</tt><br>
 					<t>}</t><br><br>
 				
-					<t>~test_context() {</t><br>
+					<t>~test_context() {</t><br> 
 						<tt>data_.clear();</tt><br>					
 					<t>}</t><br><br>
 
@@ -251,46 +251,240 @@
 
 					<t>static void run() {</t><br>
                         <tt>UNITTEST_CLASS(my_test)</tt><br> 
-                        <tt>my_context context;</tt><br> 
+                        <tt>test_context context;</tt><br> 
                         <tt>UNITTEST_RUNCXT(context, test_something)</tt><br>
                         <tt>UNITTEST_RUNCXT(context, test_something_else)</tt><br>
 					<t>}</t><br><br>
 
 					<t>void test_something() {</t><br>
 							<tt>auto context = get_test_context();</tt> // pointer to context<br>
-							<tt>const auto data = context->get_data();</tt><br>
-							<tt>assert_equal(1000000, data.size());</tt><br>
+							<tt>assert_equal(1000000, context->get_data().size());</tt><br>
 					<t>}</t><br><br>
 
 					<t>void test_something_else();</t><br>
 				};
 				</code>
 
-				The test context can also be passed through <incode>
-				run()</incode> and then be shared by multiple test 
-				cases. I would recommend to always start with 
-				regular fixtures. If those become too expensive move 
-				on to test contexts but try to avoid side-effects 
-				between tests.
+				It is important to define a possible tear 
+				down  of the test context using the destructor to 
+				ensure proper clean up. The test context can also be 
+				passed through <incode>run()</incode> and then be 
+				shared by multiple test cases.  </p>
+
+				<p>
+				
+				I would recommend to always start off with regular 
+				fixtures. If those become too expensive move on to 
+				test contexts but try to avoid side-effects between 
+				tests. You can also always combine regular fixures 
+				with test contexts.
 				
 				</p>
 
 				<a name="random"></a>
                 <h2>Random values and containers</h2>
                 <p>
-                Coming soon ...
+                
+				Using random functionality can be a convenient way 
+				of generating test data. libunittest provides 
+				easy-to-use classes to generate random values and 
+				containers. All random stuff can be found in 
+				<incode>libunittest/random.hpp</incode>. All random classes
+				have a common abstract base class called <incode>random_object</incode>
+				which has a simple public interface (in pseudo code):
+				<li>
+					<incode>seed(value)</incode> - Let's you set a new random seed. The default seed is 1.
+				</li>
+                
+				<li>
+					<incode>get()</incode> - Returns a new random value or container at every call and is implemented by every deriving class. 
+				</li>
+                </p>
+                <p>
+					Let's check out an example:
+					<code>
+						auto random = unittest::make_random_value&lt;int&gt;(10); <br>
+						random.seed(42); // let's you set the random seed (default is 1)<br>
+						int rand_value1 = random.get(); // a random int in [0, 10]<br>
+						int rand_value2 = random.get(); // another random int in [0, 10]<br>
+					</code>
+                </p>
+                
+                <p>
+				Here's an overview of the random classes (in pseudo code) with brief descriptions:
+				<li>
+					<incode>random_value&lt;T&gt;</incode> 
+					represents a random value where <incode>T</incode> 
+					can be something like <incode>int</incode>, 
+					<incode>double</incode>, or <incode>bool</incode>. Available constructors
+					are:
+					<code>
+						random_value() // value between 0 and 1 <br>
+						random_value(maximum) // value between 0 and max <br>
+						random_value(minimum, maximum) // value between min and max <br>
+					</code>
+					The corresponding factory functions are:
+					<code>
+						make_random_value&lt;T&gt;(...)
+					</code>
+				</li>
+                
+				<li>
+					<incode>random_choice&lt;Container&gt;</incode> let's you pick a random element from a given container 
+					such as <incode>std::vector</incode> or <incode>std::list</incode>. The available constructor is:
+					<code>
+						random_choice(container)
+					</code>
+					The corresponding factory function is:
+					<code>
+						make_random_choice(container)
+					</code>
+				</li>
+                
+				<li>
+					<incode>random_container&lt;Container&gt;</incode> 
+					generates a random container from a given random object.
+					Available constructors are:
+					<code>
+						random_container(random_object, size)
+						random_container(random_object, min_size, max_size) 
+					</code>
+					The corresponding factory functions are:
+					<code>
+						make_random_container(...) <br>
+						make_random_vector(...) // for convenience
+					</code>					
+				</li>
+                
+				<li>
+					<incode>random_shuffle&lt;Container&gt;</incode> 
+					generates a shuffled version of a given container.
+					Available constructors are:
+					<code>
+						random_shuffle(container)<br>
+						random_shuffle(container, size) 
+					</code>
+					The corresponding factory functions are:
+					<code>
+						make_random_shuffle(...)
+					</code>					
+				</li>
+                
+				<li>
+					<incode>random_combination&lt;Container1, Container2&gt;</incode>
+					generates random pairs of two containers.
+					Available constructor is:
+					<code>
+						random_combination(container1, container2, size)<br>
+					</code>
+					The corresponding factory function is:
+					<code>
+						make_random_combination(container1, container2, size) 
+					</code>					
+				</li>
+                
                 </p>
 
 				<a name="output"></a>
                 <h2>Customizing output</h2>
                 <p>
-                Coming soon ...
+					There are a few ways of custimizing the output
+					of test runs in libunittest. First of all, your
+					compiled test application comes with a help section
+					that you can trigger by:
+					<code>
+						./test_application -h
+					</code> This will show you how to run tests in 
+					verbose mode, how to enable XML output, etc.
+
+					</code>
                 </p>
+
+				<p>
+				
+				<incode>unittest::testcase</incode> comes with a few 
+				virtual methods which somewhat control the output on test fail and error (in pseudo code):
+				<code>
+					string make_displayed_fail_message(assertion, text);<br>
+					int max_displayed_string_length();<br>
+					int max_displayed_value_precision();<br>
+				</code>
+				Simply override these methods in your test class.
+				
+				</p>
+				
+				<p>
+				
+				Last but not least, you can go ahead and write your own
+				environment function that you would call in your main 
+				file instead of <incode>unittest::process()</incode>. Check out 
+				<incode>libunittest/environments.hpp</incode> to see how 
+				the implementation looks like today.
+				
+				</p>
 
 				<a name="developer"></a>
                 <h2>Developer notes</h2>
                 <p>
-                Coming soon ...
+					If you'd like to contribute to libunittest then 
+					this section will be interesting for you. First 
+					you'd want to <a href="http://sourceforge.net/p/libunittest/code/ci/master/tree" target="_blank">check out</a> the code.
+                </p>
+                <p>
+					In order to build and install please have a look at the <a href="installation.html">installation instructions.</a>
+                </p>
+                <p>
+					There are a few more targets the master <incode>Makefile</incode> provides:
+					<li>
+
+						<incode>make check</incode> - performs a 
+						complete library check. Builds the library, 
+						builds and executes tests and examples and 
+						compiles the doxygen documentation.
+
+					</li>
+					
+					<li>
+
+						<incode>make distcheck</incode> - just like the 
+						<incode>check</incode> target but builds a source distribution first.
+
+					</li>
+
+					<li>
+
+						<incode>make version</incode> - Generates a new version file in case the version was incremented.
+
+					</li>
+
+					<li>
+
+						<incode>make dist</incode> - Builds a source distribution.
+
+					</li>
+                
+					<li>
+
+						<incode>make deb</incode> - Builds a debian package.
+
+					</li>
+                
+					<li>
+
+						<incode>make clean</incode> - Major clean-up.
+
+					</li>
+                
+                </p>
+                
+                <p>
+					Whether you're developing a new feature or 
+					fixing a bug, please always and in any case make 
+					sure you test the stuff you're writing. You can 
+					easily add your tests to the existing test 
+					suite. Also consider providing an example on how 
+					to use your new feature. And finally, you're 
+					code is only complete if it is properly documented.
                 </p>
 	</div>
 </body>

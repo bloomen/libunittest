@@ -85,6 +85,12 @@ h1 {
 	margin: 0 0 30px;
 	margin-left: 80px;
 }
+h1 a {
+	padding-left: 4em;
+	color: #f99600;
+	font-size: 20px;
+	text-decoration: none;
+}
 h2 {
 	color: #2c2c2c;
 	font-size: 24px;
