@@ -265,9 +265,10 @@
 				};
 				</code>
 
-				It is important to define a possible tear 
-				down  of the test context using the destructor to 
-				ensure proper clean up. The test context can also be 
+				It is important to define a possible tear down  of 
+				the test context using the destructor to ensure 
+				proper clean up (explicit destructor not necessary 
+				here due to RAII). The test context can also be 
 				passed through <incode>run()</incode> and then be 
 				shared by multiple test cases.  </p>
 

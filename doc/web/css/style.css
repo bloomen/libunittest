@@ -85,8 +85,10 @@ h1 {
 	margin: 0 0 30px;
 	margin-left: 80px;
 }
-h1 a {
+h1 t {
 	padding-left: 4em;
+}
+h1 t a {
 	color: #f99600;
 	font-size: 20px;
 	text-decoration: none;
