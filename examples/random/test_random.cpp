@@ -6,7 +6,7 @@ void test_random::test_random_int()
     auto random = unittest::make_random_value<int>(10);
     random.seed(42); // let's you set the random seed (default is 1)
     auto rand_value1 = random.get(); // a random int in [0, 10]
-    auto rand_value2 = random.get(); // another random int [0, 10]
+    auto rand_value2 = random.get(); // another random int in [0, 10]
     assert_in_range(rand_value1, 0, 10, SPOT);
     assert_in_range(rand_value2, 0, 10, SPOT);
 }

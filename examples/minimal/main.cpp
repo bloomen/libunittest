@@ -1,4 +1,4 @@
-#include "libunittest/unittest.hpp"
+#include <libunittest/unittest.hpp>
 
 struct test_stuff : unittest::testcase<> {
     static void run()
@@ -14,8 +14,7 @@ struct test_stuff : unittest::testcase<> {
     }
 };
 
-void unittest::run_all_tests()
-{
+void unittest::run_all_tests() {
     unittest::call<test_stuff>();
 }
 
