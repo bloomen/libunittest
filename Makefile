@@ -1,4 +1,4 @@
-VERSION = 3.5.0dev
+VERSION = 3.5.0
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
@@ -119,11 +119,12 @@ deb :
 	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
 	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
 	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) -f $(LIBNAME) && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
+	@chmod u+x $(DEBRULES) || exit 1
 	@$(BUILDDEB) || exit 1
 	@$(RM) ../$(PROG)_$(VERSION)_*.changes
 	@$(MKDIR) $(DISTDIR)
 	@$(MV) ../$(PROG)-dev_$(VERSION)_*.deb $(DISTDIR)
-	
+
 upload :
 	@$(ECHO) "Uploading version "$(VERSION)
 	@./upload.sh $(VERSION) || exit 1
@@ -133,4 +134,3 @@ clean :
 	@$(RM) -r $(LIBDIR)
 	@$(RM) $(OBJECTS)
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $$dir $@ ; done
- 
