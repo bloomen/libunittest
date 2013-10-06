@@ -263,5 +263,14 @@ is_regex_matched(const std::string& value,
 bool
 is_regex_matched(const std::string& value,
                  const std::regex& regex);
+/**
+ * @brief Calls each function of a given vector of functions
+ * @param functions The vector of functions
+ * @param n_threads The number of concurrent threads, ignored if <= 1
+ * @returns The number of function calls
+ */
+int
+call_functions(const std::vector<std::function<void()>>& functions,
+               int n_threads=1);
 
 } // unittest

@@ -130,6 +130,18 @@ public:
      */
     virtual void
     dry_run(bool value);
+    /**
+     * @brief Returns the number of concurrent threads
+     * @returns The number of concurrent threads
+     */
+    virtual int
+    concurrent_threads() const;
+    /**
+     * @brief Sets the number of concurrent threads (default: 0)
+     * @param value The value
+     */
+    virtual void
+    concurrent_threads(int value);
 
 protected:
     /**
@@ -152,6 +164,10 @@ protected:
      * @brief Whether to perform a dry run
      */
     bool dry_run_;
+    /**
+     * @brief The number of concurrent threads
+     */
+    int concurrent_threads_;
     /**
      * @brief A name filter on the full test name
      */

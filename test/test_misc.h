@@ -1,5 +1,5 @@
 #pragma once
-#include "libunittest/unittest.hpp"
+#include <libunittest/unittest.hpp>
 
 struct context {};
 
@@ -37,6 +37,9 @@ struct test_misc final : unittest::testcase<context> {
         UNITTEST_RUN(test_formatting_str)
         UNITTEST_RUN(test_xml_escape)
         UNITTEST_RUN(test_make_iso_timestamp)
+        UNITTEST_RUN(test_call_functions_empty_vector)
+        UNITTEST_RUN(test_call_functions_vector_size_one)
+        UNITTEST_RUN(test_call_functions_vector_size_two)
     }
 
     void test_version();
@@ -67,6 +70,9 @@ struct test_misc final : unittest::testcase<context> {
     void test_formatting_str();
     void test_xml_escape();
     void test_make_iso_timestamp();
+    void test_call_functions_empty_vector();
+    void test_call_functions_vector_size_one();
+    void test_call_functions_vector_size_two();
 
 private:
     unittest::testresults make_sample_results();

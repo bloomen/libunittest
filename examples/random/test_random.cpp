@@ -1,6 +1,8 @@
 #include "test_random.h"
 #define SPOT UNITTEST_SPOT
 
+UNITTEST_REGISTER(test_random)
+
 void test_random::test_random_int()
 {
     auto random = unittest::make_random_value<int>(10);

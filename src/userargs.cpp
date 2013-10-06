@@ -4,8 +4,9 @@ namespace unittest {
 
 userargs::userargs()
     : verbose_(false), failure_stop_(false), generate_xml_(false),
-      handle_exceptions_(true), dry_run_(false), name_filter_(""),
-      test_name_(""), timeout_(-1), xml_filename_("libunittest.xml")
+      handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
+      name_filter_(""), test_name_(""), timeout_(-1),
+      xml_filename_("libunittest.xml")
 {}
 
 userargs::~userargs()
@@ -117,6 +118,18 @@ void
 userargs::dry_run(bool value)
 {
     dry_run_ = value;
+}
+
+int
+userargs::concurrent_threads() const
+{
+    return concurrent_threads_;
+}
+
+void
+userargs::concurrent_threads(int value)
+{
+    concurrent_threads_ = value;
 }
 
 } // unittest

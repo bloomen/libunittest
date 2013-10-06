@@ -1,6 +1,8 @@
 #include "test_something.h"
 #define SPOT UNITTEST_SPOT
 
+UNITTEST_REGISTER(test_something)
+
 void test_something::test_has_context()
 {
     //in case the test is run within a context, you can always

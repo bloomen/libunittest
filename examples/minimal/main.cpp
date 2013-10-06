@@ -1,6 +1,7 @@
 #include <libunittest/unittest.hpp>
 
 struct test_stuff : unittest::testcase<> {
+
     static void run()
     {
         UNITTEST_CLASS(test_stuff)
@@ -9,14 +10,11 @@ struct test_stuff : unittest::testcase<> {
 
     void test_value_is_true()
     {
-        bool value = true;
-        assert_true(value);
+        assert_true(true);
     }
 };
 
-void unittest::run_all_tests() {
-    unittest::call<test_stuff>();
-}
+UNITTEST_REGISTER(test_stuff)
 
 int main(int argc, char **argv) {
     return unittest::process(argc, argv);

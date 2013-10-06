@@ -3,6 +3,8 @@ typedef test_assertions test;
 #define SPOT UNITTEST_SPOT
 using unittest::feps;
 
+UNITTEST_REGISTER(test_assertions)
+
 bool test_assertions::is_value_one(double value)
 {
     if (value<0) throw std::invalid_argument("wrong input");

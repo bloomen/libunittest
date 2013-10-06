@@ -6,7 +6,6 @@
 #pragma once
 #include <libunittest/argparser.hpp>
 #include <libunittest/assertions.hpp>
-#include <libunittest/call.hpp>
 #include <libunittest/environments.hpp>
 #include <libunittest/formatting.hpp>
 #include <libunittest/testcase.hpp>
@@ -16,6 +15,7 @@
 #include <libunittest/testrun.hpp>
 #include <libunittest/teststatus.hpp>
 #include <libunittest/testsuite.hpp>
+#include <libunittest/testregistry.hpp>
 #include <libunittest/userargs.hpp>
 #include <libunittest/utilities.hpp>
 #include <libunittest/version.hpp>

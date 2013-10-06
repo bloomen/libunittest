@@ -2,6 +2,8 @@
 #include <list>
 #define SPOT UNITTEST_SPOT
 
+UNITTEST_REGISTER(test_random)
+
 void test_random::test_random_int()
 {
     auto randomA = unittest::make_random_value(3);

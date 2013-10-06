@@ -1,6 +1,8 @@
 #include "test_whatever.h"
 #define SPOT UNITTEST_SPOT
 
+UNITTEST_REGISTER(test_whatever)
+
 void test_whatever::test_throw()
 {
     auto functor = [](){ throw std::bad_cast(); };

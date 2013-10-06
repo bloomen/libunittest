@@ -2,6 +2,8 @@
 #define SPOT UNITTEST_SPOT
 using unittest::argparser;
 
+UNITTEST_REGISTER(test_argparser)
+
 test_argparser::test_argparser()
     : max_argc_(20)
 {
@@ -103,6 +105,24 @@ void test_argparser::test_dry_run()
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal(true, args.dry_run(), SPOT);
+    assert_equal("", args.name_filter(), SPOT);
+    assert_equal("", args.test_name(), SPOT);
+    assert_equal(-1, args.timeout(), SPOT);
+    assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+}
+
+void test_argparser::test_concurrent_threads()
+{
+    arguments_[1] = (char*)"-p";
+    arguments_[2] = (char*)"3";
+    argparser args;
+    args.parse(3, arguments_);
+    assert_equal(false, args.verbose(), SPOT);
+    assert_equal(false, args.failure_stop(), SPOT);
+    assert_equal(false, args.generate_xml(), SPOT);
+    assert_equal(true, args.handle_exceptions(), SPOT);
+    assert_equal(false, args.dry_run(), SPOT);
+    assert_equal(3, args.concurrent_threads(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -270,13 +290,16 @@ void test_argparser::test_all_arguments()
     arguments_[10] = (char*)"-o";
     arguments_[11] = (char*)"stuff.xml";
     arguments_[12] = (char*)"-d";
+    arguments_[13] = (char*)"-p";
+    arguments_[14] = (char*)"3";
     argparser args;
-    args.parse(13, arguments_);
+    args.parse(15, arguments_);
     assert_equal(true, args.verbose(), SPOT);
     assert_equal(true, args.failure_stop(), SPOT);
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal(true, args.dry_run(), SPOT);
+    assert_equal(3, args.concurrent_threads(), SPOT);
     assert_equal("stuff", args.name_filter(), SPOT);
     assert_equal("test_me", args.test_name(), SPOT);
     assert_equal(10, args.timeout(), SPOT);
@@ -303,6 +326,7 @@ void test_argparser::test_copy_constructor()
     args.generate_xml(true);
     args.handle_exceptions(false);
     args.dry_run(true);
+    args.concurrent_threads(3);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.timeout(12.3);
@@ -313,6 +337,7 @@ void test_argparser::test_copy_constructor()
     assert_equal(true, args2.generate_xml(), SPOT);
     assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal(true, args2.dry_run(), SPOT);
+    assert_equal(3, args2.concurrent_threads(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal(12.3, args2.timeout(), SPOT);
@@ -327,6 +352,7 @@ void test_argparser::test_assignment_operator()
     args.generate_xml(true);
     args.handle_exceptions(false);
     args.dry_run(true);
+    args.concurrent_threads(3);
     args.name_filter("test_stuff");
     args.test_name("test_me");
     args.timeout(12.3);
@@ -337,6 +363,7 @@ void test_argparser::test_assignment_operator()
     assert_equal(true, args2.generate_xml(), SPOT);
     assert_equal(false, args2.handle_exceptions(), SPOT);
     assert_equal(true, args2.dry_run(), SPOT);
+    assert_equal(3, args2.concurrent_threads(), SPOT);
     assert_equal("test_stuff", args2.name_filter(), SPOT);
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal(12.3, args2.timeout(), SPOT);

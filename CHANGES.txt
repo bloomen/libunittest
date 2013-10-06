@@ -1,3 +1,12 @@
+3.5.0
+
+- removed the need to explicitly register test classes. This is now done by
+    calling the macro UNITTEST_REGISTER(test_class). Please check the examples
+- added command line option '-p number' which let's you set the number
+    of threads for the parallel execution of all registered test cases   
+- added a complete web documentation under doc/web.index.html whose latest
+    version is online at http://libunittest.sourceforge.net
+
 3.4.1
 
 - removed unnecessary unittest::feps from the random example

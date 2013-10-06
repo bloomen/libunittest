@@ -65,7 +65,7 @@ public:
     make_displayed_fail_message(const std::string& assertion,
                                 const std::string& text) const override
     {
-        return join(text, " (", assertion, ") ");
+        return join(text, "  (", assertion, ") ");
     }
     /**
      * @brief Returns the maximum displayed string length

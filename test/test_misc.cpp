@@ -1,6 +1,8 @@
 #include "test_misc.h"
 #define SPOT UNITTEST_SPOT
 
+UNITTEST_REGISTER(test_misc)
+
 unittest::testresults test_misc::make_sample_results()
 {
     unittest::testlog log1;
@@ -82,6 +84,7 @@ void test_misc::test_userargs_defaults()
     assert_equal(false, args.generate_xml(), SPOT);
     assert_equal(true, args.handle_exceptions(), SPOT);
     assert_equal(false, args.dry_run(), SPOT);
+    assert_equal(0, args.concurrent_threads(), SPOT);
     assert_equal("", args.name_filter(), SPOT);
     assert_equal("", args.test_name(), SPOT);
     assert_equal(-1, args.timeout(), SPOT);
@@ -96,6 +99,7 @@ void test_misc::test_userargs_set_get()
     args.generate_xml(true);
     args.handle_exceptions(false);
     args.dry_run(true);
+    args.concurrent_threads(3);
     args.name_filter("test_me");
     args.test_name("test_me_more");
     args.timeout(10);
@@ -105,6 +109,7 @@ void test_misc::test_userargs_set_get()
     assert_equal(true, args.generate_xml(), SPOT);
     assert_equal(false, args.handle_exceptions(), SPOT);
     assert_equal(true, args.dry_run(), SPOT);
+    assert_equal(3, args.concurrent_threads(), SPOT);
     assert_equal("test_me", args.name_filter(), SPOT);
     assert_equal("test_me_more", args.test_name(), SPOT);
     assert_equal(10, args.timeout(), SPOT);
@@ -307,7 +312,7 @@ void test_misc::test_testcase_fail_overload()
     try {
         fail(assertion, msg, text);
     } catch (const unittest::testfailure& e) {
-        assert_equal(unittest::join(msg, " (", assertion, ") ", text), e.what(), SPOT);
+        assert_equal(unittest::join(msg, "  (", assertion, ") ", text), e.what(), SPOT);
         caught = true;
     }
     if (!caught)
@@ -371,4 +376,31 @@ void test_misc::test_make_iso_timestamp()
     const time_t value = 1234567890;
     const auto time_point = std::chrono::system_clock::from_time_t(value);
     assert_equal("2009-02-13T23:31:30", unittest::make_iso_timestamp(time_point, false), SPOT);
+}
+
+void test_misc::test_call_functions_empty_vector()
+{
+    std::vector<std::function<void()>> functions;
+    assert_equal(0, unittest::call_functions(functions), SPOT);
+    assert_equal(0, unittest::call_functions(functions, 0), SPOT);
+    assert_equal(0, unittest::call_functions(functions, 2), SPOT);
+}
+
+void test_misc::test_call_functions_vector_size_one()
+{
+    std::function<void()> function = [](){ int a = 1; ++a; };
+    std::vector<std::function<void()>> functions = {function};
+    assert_equal(1, unittest::call_functions(functions), SPOT);
+    assert_equal(1, unittest::call_functions(functions, 0), SPOT);
+    assert_equal(1, unittest::call_functions(functions, 2), SPOT);
+}
+
+void test_misc::test_call_functions_vector_size_two()
+{
+    std::function<void()> function = [](){ int a = 1; ++a; };
+    std::vector<std::function<void()>> functions = {function, function};
+    assert_equal(2, unittest::call_functions(functions), SPOT);
+    assert_equal(2, unittest::call_functions(functions, 0), SPOT);
+    assert_equal(2, unittest::call_functions(functions, 2), SPOT);
+    assert_equal(2, unittest::call_functions(functions, 3), SPOT);
 }

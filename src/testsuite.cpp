@@ -16,6 +16,7 @@ struct implementation<testsuite> {
     std::chrono::high_resolution_clock::time_point end_;
     userargs arguments_;
     testresults results_;
+    std::vector<std::function<void()>> test_runs_;
 
     implementation()
     	: keep_running_(true),
@@ -54,6 +55,12 @@ userargs&
 testsuite::get_arguments() const
 {
     return impl_->arguments_;
+}
+
+std::vector<std::function<void()>>
+testsuite::get_test_runs() const
+{
+    return impl_->test_runs_;
 }
 
 testresults
@@ -118,6 +125,11 @@ testsuite::is_test_run(const std::string& class_name,
     	const std::string full_name = make_full_test_name(class_name, test_name);
     	return is_test_executed(full_name, get_arguments().test_name(), get_arguments().name_filter());
     }
+}
+
+void
+testsuite::add_test_run(const std::function<void()>& test_run) {
+    impl_->test_runs_.push_back(test_run);
 }
 
 } // unittest

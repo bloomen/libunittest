@@ -1,4 +1,5 @@
 #include <libunittest/utilities.hpp>
+#include <thread>
 
 namespace unittest {
 
@@ -66,6 +67,35 @@ is_regex_matched(const std::string& value,
                  const std::regex& regex)
 {
     return std::regex_match(value, regex);
+}
+
+int
+call_functions(const std::vector<std::function<void()>>& functions,
+               int n_threads)
+{
+    const int n_runs = functions.size();
+    if (n_threads > n_runs)
+        n_threads = n_runs;
+
+    int counter = 0;
+    if (n_threads > 1 && n_runs > 1) {
+        while (counter < n_runs) {
+            if (n_threads > n_runs - counter)
+                n_threads = n_runs - counter;
+            std::vector<std::thread> threads(n_threads);
+            for (auto& thread : threads)
+                thread = std::thread(functions[counter++]);
+            for (auto& thread : threads)
+                thread.join();
+        }
+    } else {
+        for (auto& function : functions) {
+            function();
+            ++counter;
+        }
+    }
+
+    return counter;
 }
 
 } // unittest

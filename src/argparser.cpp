@@ -21,6 +21,7 @@ struct implementation<argparser> {
         stream << "-e          Turns off exception handling\n";
         stream << "-x          Enables the generation of the XML output\n";
         stream << "-d          A dry run without actually executing any tests\n";
+        stream << "-p number   Runs test cases in parallel with a given number of threads\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n name     A certain test to be run superseding the name filter\n";
         stream << "-t timeout  A timeout in seconds for tests without local timeouts\n";
@@ -101,7 +102,13 @@ void argparser::parse(int argc, char **argv)
             if (++i<length) {
                 xml_filename(args[i]);
             } else {
-            	impl_->help_and_throw("Option '-o' needs an XML file name");
+                impl_->help_and_throw("Option '-o' needs an XML file name");
+            }
+        } else if (args[i]=="-p") {
+            if (++i<length) {
+                concurrent_threads(atoi(args[i].c_str()));
+            } else {
+                impl_->help_and_throw("Option '-p' needs the number of threads");
             }
         } else {
         	impl_->help_and_throw(join("Unknown argument '", args[i], "'"));

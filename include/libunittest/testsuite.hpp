@@ -36,6 +36,12 @@ public:
     userargs&
     get_arguments() const;
     /**
+     * @brief Returns a vector of the registered test runs
+     * @returns A vector of the registered test runs
+     */
+    std::vector<std::function<void()>>
+    get_test_runs() const;
+    /**
      * @brief Returns the accumulated test results
      * @returns The test results
      */
@@ -44,6 +50,9 @@ public:
 
 private:
     friend class testrunner;
+
+    template<typename T>
+    friend class testregistry;
 
     testsuite();
 
@@ -67,6 +76,9 @@ private:
     bool
     is_test_run(const std::string& class_name,
                 const std::string& test_name) const;
+
+    void
+    add_test_run(const std::function<void()>& test_run);
 
 };
 
