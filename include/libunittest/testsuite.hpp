@@ -36,10 +36,10 @@ public:
     userargs&
     get_arguments() const;
     /**
-     * @brief Returns a vector of the registered test runs
-     * @returns A vector of the registered test runs
+     * @brief Returns a reference to the vector of registered test runs
+     * @returns A reference to the vector of registered test runs
      */
-    std::vector<std::function<void()>>
+    std::vector<std::function<void()>>&
     get_test_runs() const;
     /**
      * @brief Returns the accumulated test results

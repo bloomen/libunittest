@@ -57,7 +57,7 @@ testsuite::get_arguments() const
     return impl_->arguments_;
 }
 
-std::vector<std::function<void()>>
+std::vector<std::function<void()>>&
 testsuite::get_test_runs() const
 {
     return impl_->test_runs_;
