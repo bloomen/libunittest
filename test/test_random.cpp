@@ -221,3 +221,20 @@ void test_random::test_random_combination_throw()
     };
     assert_throw<std::invalid_argument>(functor2, SPOT);
 }
+
+void test_random::test_random_value_copy_constructor()
+{
+    auto random1 = unittest::make_random_value<double>();
+    random1.get();
+    unittest::random_value<double> random2(random1);
+    assert_equal(random1.get(), random2.get(), SPOT);
+}
+
+void test_random::test_random_value_assignment_operator()
+{
+    auto random1 = unittest::make_random_value<double>();
+    random1.get();
+    random1.get();
+    unittest::random_value<double> random2 = random1;
+    assert_equal(random1.get(), random2.get(), SPOT);
+}

@@ -24,6 +24,8 @@ struct test_random final : unittest::testcase<> {
         UNITTEST_RUN(test_random_combination_vector)
         UNITTEST_RUN(test_random_combination_list)
         UNITTEST_RUN(test_random_combination_throw)
+        UNITTEST_RUN(test_random_value_copy_constructor)
+        UNITTEST_RUN(test_random_value_assignment_operator)
     }
 
     void test_random_int();
@@ -48,6 +50,9 @@ struct test_random final : unittest::testcase<> {
     void test_random_combination_vector();
     void test_random_combination_list();
     void test_random_combination_throw();
+
+    void test_random_value_copy_constructor();
+    void test_random_value_assignment_operator();
 
 private:
 
