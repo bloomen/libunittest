@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace unittest {
+namespace internals {
 
 template<>
 struct implementation<testsuite> {
@@ -132,4 +133,5 @@ testsuite::add_test_run(const std::function<void()>& test_run) {
     impl_->test_runs_.push_back(test_run);
 }
 
+} // internals
 } // unittest

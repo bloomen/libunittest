@@ -9,6 +9,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief Registers the static run method of a test class at the testsuite
  */
 template<typename TestCase>
@@ -19,9 +23,10 @@ public:
      */
     testregistry()
     {
-        testsuite::instance()->add_test_run(TestCase::run);
+        internals::testsuite::instance()->add_test_run(TestCase::run);
     }
 
 };
 
+} // internals
 } // unittest

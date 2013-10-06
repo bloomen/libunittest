@@ -14,13 +14,9 @@
  */
 namespace unittest {
 /**
- * @brief Machine epsilon of float
+ * @brief Internal functionality, not relevant for most users
  */
-const float feps = std::numeric_limits<float>::epsilon();
-/**
- * @brief Machine epsilon of double
- */
-const float deps = std::numeric_limits<double>::epsilon();
+namespace internals {
 /**
  * @brief Escapes a string for use in an XML document
  * @param data Some string
@@ -58,24 +54,6 @@ write_to_stream(std::ostream& stream,
 {
     stream << arg;
     write_to_stream(stream, args...);
-}
-/**
- * @brief Joins an arbitrary number of input arguments to a single string. All
- *  arguments must implement the << operator
- * @param arg An argument
- * @param args An arbitrary number of arguments, can be omitted
- * @returns The joined string
- */
-template<typename T,
-         typename... Args>
-std::string
-join(const T& arg,
-     const Args&... args)
-{
-    std::ostringstream stream;
-    stream << arg;
-    write_to_stream(stream, args...);
-    return std::move(stream.str());
 }
 /**
  * @brief Writes a horizontal bar to the given output stream
@@ -272,5 +250,34 @@ is_regex_matched(const std::string& value,
 int
 call_functions(const std::vector<std::function<void()>>& functions,
                int n_threads=1);
+
+} // internals
+
+/**
+ * @brief Joins an arbitrary number of input arguments to a single string.
+ *  All arguments must implement the << operator
+ * @param arg An argument
+ * @param args An arbitrary number of arguments, can be omitted
+ * @returns The joined string
+ */
+template<typename T,
+         typename... Args>
+std::string
+join(const T& arg,
+     const Args&... args)
+{
+    std::ostringstream stream;
+    stream << arg;
+    internals::write_to_stream(stream, args...);
+    return std::move(stream.str());
+}
+/**
+ * @brief Machine epsilon of float
+ */
+const float feps = std::numeric_limits<float>::epsilon();
+/**
+ * @brief Machine epsilon of double
+ */
+const float deps = std::numeric_limits<double>::epsilon();
 
 } // unittest

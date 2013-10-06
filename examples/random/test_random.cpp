@@ -34,9 +34,9 @@ void test_random::test_random_double()
 
 void test_random::test_random_choice()
 {
-    auto random = unittest::make_random_choice(unittest::letters_lower);
+    auto random = unittest::make_random_choice(unittest::strings::letters_lower);
     auto rand_value = random.get(); // a random, lower-case letter
-    assert_in_container(rand_value, unittest::letters_lower, SPOT);
+    assert_in_container(rand_value, unittest::strings::letters_lower, SPOT);
 }
 
 void test_random::test_random_vector()

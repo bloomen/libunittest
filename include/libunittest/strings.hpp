@@ -9,6 +9,10 @@
  */
 namespace unittest {
 /**
+ * @brief A collection of strings useful for testing
+ */
+namespace strings {
+/**
  * @brief binary digits
  */
 const std::string bin_digits = "01";
@@ -45,4 +49,5 @@ const std::string letters_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
  */
 const std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+} // strings
 } // unittest

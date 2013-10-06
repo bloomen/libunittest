@@ -1,6 +1,7 @@
 #include "test_argparser.h"
 #define SPOT UNITTEST_SPOT
-using unittest::argparser;
+using unittest::internals::argparser;
+using unittest::internals::argparser_error;
 
 UNITTEST_REGISTER(test_argparser)
 
@@ -314,7 +315,7 @@ void test_argparser::test_argparser_errors()
     for (auto value : values) {
         arguments_[1] = value;
         argparser args;
-        assert_throw<unittest::argparser_error>(std::bind(&argparser::parse, args, 2, arguments_), SPOT);
+        assert_throw<argparser_error>(std::bind(&argparser::parse, args, 2, arguments_), SPOT);
     }
 }
 

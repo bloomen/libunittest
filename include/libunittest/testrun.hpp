@@ -14,6 +14,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief Observes the progress of an asynchronous operation and waits until
  *  the operation is finished. It throws exception testfailure in case the
  *  given maximum run time is exceeded.
@@ -237,6 +241,9 @@ private:
  */
 void
 update_local_timeout(double& local_timeout);
+
+} // internals
+
 /**
  * @brief A test run (thread-safe)
  * @param method A pointer to the method to be run
@@ -251,10 +258,10 @@ testrun(void (TestCase::*method)(),
         const std::string& test_name,
         double timeout)
 {
-    update_local_timeout(timeout);
-    testrun_free<TestCase> functor(method, class_name, test_name);
+    internals::update_local_timeout(timeout);
+    internals::testrun_free<TestCase> functor(method, class_name, test_name);
     std::future<void> future = std::async(std::launch::async, functor);
-    observe_and_wait(future, timeout);
+    internals::observe_and_wait(future, timeout);
 }
 /**
  * @brief A test run with a test context (thread-safe)
@@ -273,10 +280,10 @@ testrun(TestContext& context,
         const std::string& test_name,
         double timeout)
 {
-    update_local_timeout(timeout);
-    testrun_context<TestContext, TestCase> functor(&context, method, class_name, test_name);
+    internals::update_local_timeout(timeout);
+    internals::testrun_context<TestContext, TestCase> functor(&context, method, class_name, test_name);
     std::future<void> future = std::async(std::launch::async, functor);
-    observe_and_wait(future, timeout);
+    internals::observe_and_wait(future, timeout);
 }
 
 } // unittest

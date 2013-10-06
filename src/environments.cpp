@@ -11,20 +11,20 @@ namespace unittest {
 int
 process(int argc, char **argv)
 {
-    argparser arguments;
+    internals::argparser arguments;
     try {
         arguments.parse(argc, argv);
-    } catch (const argparser_error& e) {
+    } catch (const internals::argparser_error& e) {
         std::cout << "ArgumentError: " << e.what();
         std::exit(EXIT_FAILURE);
     }
 
-    auto suite = testsuite::instance();
+    auto suite = internals::testsuite::instance();
     suite->set_arguments(arguments);
 
     const auto test_runs = suite->get_test_runs();
     const int n_threads = arguments.concurrent_threads();
-    call_functions(test_runs, n_threads);
+    internals::call_functions(test_runs, n_threads);
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results);

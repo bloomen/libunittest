@@ -10,6 +10,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief A formatting interface
  */
 class formatting {
@@ -66,4 +70,5 @@ public:
 
 };
 
+} // internals
 } // unittest

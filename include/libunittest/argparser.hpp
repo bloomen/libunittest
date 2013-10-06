@@ -12,6 +12,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief An argument parser
  */
 class argparser final : public userargs,
@@ -42,4 +46,5 @@ public:
     argparser_error(const std::string& message);
 };
 
+} // internals
 } // unittest

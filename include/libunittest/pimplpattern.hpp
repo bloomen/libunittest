@@ -9,6 +9,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief Forward declaration of the implementation class
  */
 template<typename T>
@@ -47,4 +51,5 @@ template<typename T>
 pimplpattern<T>::~pimplpattern()
 {}
 
+} // internal
 } // unittest

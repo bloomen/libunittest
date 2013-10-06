@@ -3,6 +3,7 @@
 #include <libunittest/utilities.hpp>
 
 namespace unittest {
+namespace internals {
 
 testresults::testresults()
     : successful(true), n_tests(0), n_successes(0), n_failures(0),
@@ -104,4 +105,5 @@ write_error_info(std::ostream& stream,
     }
 }
 
+} // internals
 } // unittest

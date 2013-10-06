@@ -1,7 +1,7 @@
 #include "test_whatever.h"
 #define SPOT UNITTEST_SPOT
 
-UNITTEST_REGISTER(test_whatever)
+UNITTEST_REGISTER(test_whatever) // this registers the test class
 
 void test_whatever::test_throw()
 {

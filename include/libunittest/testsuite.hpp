@@ -13,6 +13,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief The test suite collecting test information (singleton, thread-safe)
  */
 class testsuite final : public pimplpattern<testsuite> {
@@ -82,4 +86,5 @@ private:
 
 };
 
+} // internals
 } // unittest

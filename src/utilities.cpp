@@ -2,6 +2,7 @@
 #include <thread>
 
 namespace unittest {
+namespace internals {
 
 std::string
 xml_escape(const std::string& data)
@@ -98,4 +99,5 @@ call_functions(const std::vector<std::function<void()>>& functions,
     return counter;
 }
 
+} // internals
 } // unittest

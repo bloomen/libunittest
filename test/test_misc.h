@@ -75,6 +75,6 @@ struct test_misc final : unittest::testcase<context> {
     void test_call_functions_vector_size_two();
 
 private:
-    unittest::testresults make_sample_results();
+    unittest::internals::testresults make_sample_results();
 
 };

@@ -9,6 +9,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief High level user arguments to control application behavior
  */
 class userargs {
@@ -186,4 +190,5 @@ protected:
     std::string xml_filename_;
 };
 
+} // internals
 } // unittest

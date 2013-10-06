@@ -7,6 +7,7 @@
 #include <typeinfo>
 
 namespace unittest {
+namespace internals {
 
 void
 observe_and_wait(const std::future<void>& future,
@@ -114,4 +115,5 @@ update_local_timeout(double& local_timeout)
         local_timeout = testsuite::instance()->get_arguments().timeout();
 }
 
+} // internals
 } // unittest

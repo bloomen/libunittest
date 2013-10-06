@@ -5,6 +5,7 @@
 #include <sstream>
 
 namespace unittest {
+namespace internals {
 
 template<>
 struct implementation<argparser> {
@@ -120,4 +121,5 @@ argparser_error::argparser_error(const std::string& message)
     : std::runtime_error(message)
 {}
 
+} // internals
 } // unittest

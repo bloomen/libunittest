@@ -1,6 +1,7 @@
 #include <libunittest/userargs.hpp>
 
 namespace unittest {
+namespace internals {
 
 userargs::userargs()
     : verbose_(false), failure_stop_(false), generate_xml_(false),
@@ -132,4 +133,5 @@ userargs::concurrent_threads(int value)
     concurrent_threads_ = value;
 }
 
+} // internals
 } // unittest

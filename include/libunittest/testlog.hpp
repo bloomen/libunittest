@@ -11,6 +11,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief Stores logging info about a single test
  */
 struct testlog {
@@ -88,4 +92,5 @@ is_test_executed(const std::string& full_test_name,
                  const std::string& exact_name,
                  const std::string& filter_name);
 
+} // internals
 } // unittest

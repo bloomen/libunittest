@@ -2,6 +2,7 @@
 #include <libunittest/teststatus.hpp>
 
 namespace unittest {
+namespace internals {
 
 testlog::testlog()
     : class_name(""), test_name(""), successful(true),
@@ -72,4 +73,5 @@ is_test_executed(const std::string& full_test_name,
     return true;
 }
 
+} // internals
 } // unittest

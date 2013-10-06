@@ -8,6 +8,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief An enumeration for the test status
  */
 enum teststatus : unsigned int {
@@ -17,4 +21,5 @@ enum teststatus : unsigned int {
     skipped = 3
 };
 
+} // internals
 } // unittest

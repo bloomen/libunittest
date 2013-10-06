@@ -12,6 +12,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief Stores the test results
  */
 struct testresults {
@@ -79,4 +83,5 @@ void
 write_error_info(std::ostream& stream,
                  const testresults& results);
 
+} // internals
 } // unittest

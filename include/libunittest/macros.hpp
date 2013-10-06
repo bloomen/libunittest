@@ -61,4 +61,4 @@ unittest::join(" @", __FILE__, ":", __LINE__, ". ")
  * @param test_class The test class
  */
 #define UNITTEST_REGISTER(test_class) \
-static unittest::testregistry<test_class> UNITTEST_JOIN(registered_##test_class, __LINE__);
+static unittest::internals::testregistry<test_class> UNITTEST_JOIN(registered_##test_class, __LINE__);

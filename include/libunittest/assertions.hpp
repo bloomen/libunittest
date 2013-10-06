@@ -14,6 +14,10 @@
  */
 namespace unittest {
 /**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
+/**
  * @brief A collection of assertions
  */
 class assertions : public formatting {
@@ -744,4 +748,5 @@ public:
 
 };
 
+} // internals
 } // unittest

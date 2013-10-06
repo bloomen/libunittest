@@ -3,7 +3,10 @@
 - removed the need to explicitly register test classes. This is now done by
     calling the macro UNITTEST_REGISTER(test_class). Please check the examples
 - added command line option '-p number' which let's you set the number
-    of threads for the parallel execution of all registered test cases   
+    of threads for the parallel execution of all registered test cases
+- introduced two new namespaces under unittest: 1) internals, for internal
+    funcionality that is not relevant to most users 2) strings, a collection
+    of strings useful for testing    
 - added a complete web documentation under doc/web.index.html whose latest
     version is online at http://libunittest.sourceforge.net
 

@@ -2,6 +2,7 @@
 #include <libunittest/testfailure.hpp>
 
 namespace unittest {
+namespace internals {
 
 assertions::assertions()
     : formatting()
@@ -16,4 +17,5 @@ assertions::fail(const std::string& message) const
     throw testfailure(message);
 }
 
+} // internals
 } // unittest

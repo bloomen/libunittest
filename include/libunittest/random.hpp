@@ -1,5 +1,5 @@
 /**
- * @brief A collection of classes and factory functions to create random objects
+ * @brief A collection of classes and factory functions for random functionality
  * @file random.hpp
  */
 #pragma once
@@ -61,6 +61,11 @@ private:
     std::mt19937 generator_;
 
 };
+
+/**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
 /**
  * @brief Container of the distribution type used in random_value
  */
@@ -87,6 +92,9 @@ struct distribution<T, false> final {
    */
   typedef typename std::uniform_real_distribution<T> type;
 };
+
+} // internals
+
 /**
  * @brief A random value. The lower bounds are including. The upper bounds are
  *  including for integral types and excluding for real types
@@ -133,7 +141,7 @@ public:
     }
 
 private:
-    typename distribution<T, std::is_integral<T>::value>::type distribution_;
+    typename internals::distribution<T, std::is_integral<T>::value>::type distribution_;
 
 };
 /**
@@ -448,6 +456,11 @@ make_random_shuffle(const Container& container,
 {
     return random_shuffle<Container>(container, size);
 }
+
+/**
+ * @brief Internal functionality, not relevant for most users
+ */
+namespace internals {
 /**
  * @brief Container for the combination type used in random_combination
  */
@@ -466,14 +479,17 @@ struct combination final {
                >
     type;
 };
+
+} // internals
+
 /**
  * @brief A random combination of two containers
  */
 template<typename Container1,
          typename Container2>
-class random_combination final : public random_object<typename combination<Container1, Container2>::type> {
+class random_combination final : public random_object<typename internals::combination<Container1, Container2>::type> {
 
-    typedef typename combination<Container1, Container2>::type combination_type;
+    typedef typename internals::combination<Container1, Container2>::type combination_type;
 public:
     /**
      * @brief Constructor
