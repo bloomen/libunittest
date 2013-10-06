@@ -10,7 +10,7 @@ examples/random/unittest.exe
 libunittest.xml
 html
 errors.log
-debian/libunittest-dev/
+debian/libunittest-dev/*
 debian/libunittest-dev.debhelper.log
 debian/libunittest-dev.substvars
 debian/copyright
