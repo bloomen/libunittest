@@ -50,6 +50,9 @@
 					<a href="#output">Customizing output</a>
 				</li>
 				<li>
+					<a href="#miscellaneous">Miscellaneous</a>
+				</li>
+				<li>
 					<a href="#developer">Developer notes</a>
 				</li>
 				</p>
@@ -67,23 +70,8 @@
                     }
                 </code>
                 Everything coming from libunittest lives within the 
-                <incode>unittest</incode> namespace. Next you'll need another
-                source file possibly called <incode>testcases.cpp</incode> which
-                contains a list of calls to your test cases:
-                <code>
-                    // testcases.cpp <br>
-                    #include "test_whatever.h"<br><br>
-
-                    void unittest::run_all_tests() {<br>
-                    <t>unittest::call&lt;test_whatever&gt;();</t><br>
-                    }
-                </code>
-                This runs all tests assigned to the test class 
-                <incode>test_whatever</incode>. As you can see, <incode>unittest::run_all_tests()</incode> must
-                be implemented by the user. This may seem tedious at first but
-                this explicit test registration leaves the freedom to run certain
-                tests in parallel using all cores on your machine.
-                Let's have a look at how <incode>test_whatever.h</incode> may look like:
+                <incode>unittest</incode> namespace. A test class, let's call it 
+                <incode>test_whatever</incode>, may look like this:
                 <code>
                     // test_whatever.h <br>
                     #pragma once<br>
@@ -95,7 +83,7 @@
                             <tt>UNITTEST_CLASS(test_whatever)</tt> // must appear first<br> 
                             <tt>UNITTEST_RUN(test_throw)</tt><br>
                             <tt>UNITTEST_RUN(test_in_range)</tt><br>
-                            <tt>UNITTEST_RUN_TIME(test_in_container, 2)</tt> // with timeout<br>
+                            <tt>UNITTEST_RUN_TIME(test_in_container, 2)</tt> // 2sec timeout<br>
                         <t>}</t><br><br>
 
                         <t>void test_in_container();</t><br>
@@ -115,6 +103,8 @@
                     #include "test_whatever.h"<br>
 					#define SPOT UNITTEST_SPOT<br><br>
 
+					UNITTEST_REGISTER(test_whatever)<br><br> 
+
 					void test_whatever::test_in_container() {<br>
 						<t>auto container = my_awesome_function();</t><br>
 						<t>auto element = 3.14;</t><br>
@@ -122,11 +112,13 @@
 					}<br><br>
 					
 					...
-				</code> Here it is asserted that the number <incode>3.14</incode> is 
+				</code> <incode>UNITTEST_REGISTER</incode> registers the test class at 
+				the global registry. The given test asserts that the number <incode>3.14</incode> is 
 				found in the container returned from the function to 
 				test. The macro <incode>UNITTEST_SPOT</incode> 
 				defines a simple string containing information about 
-				the current file and line number.
+				the current file and line number. For this example it has been 
+				renamed to <incode>SPOT</incode> for easier usage.
                 </p>
                 
                 <a name="assertions"></a>
@@ -164,7 +156,7 @@
 				<a name="fixtures"></a>
                 <h2>Fixtures and test contexts</h2>
                 
-				<p> Test fixtures are certain ressources that tests
+				<p> Test fixtures are certain resources that tests
 				can rely on. Fixtures often make an explicit clean-up 
 				step necessary. In libunittest there are two 
 				different ways of defining fixtures which can even 
@@ -223,7 +215,7 @@
 				test can be an expensive task. Therefore, 
 				libunittest supports the idea of test contexts. A 
 				test context is only instantiated once and can then be 
-				used by multiple tests. Here's how you do it:
+				used by multiple tests. Here's how you'd do it:
 				<code>
 				#pragma once<br>
 				#include &lt;libunittest/unittest.hpp&gt;<br><br>
@@ -267,10 +259,9 @@
 
 				It is important to define a possible tear down  of 
 				the test context using the destructor to ensure 
-				proper clean up (explicit destructor not necessary 
-				here due to RAII). The test context can also be 
-				passed through <incode>run()</incode> and then be 
-				shared by multiple test cases.  </p>
+				proper clean up. In this example an explicit 
+				destructor is actually not necessary and
+				only there for demonstration purposes.
 
 				<p>
 				
@@ -419,9 +410,37 @@
 				Last but not least, you can go ahead and write your own
 				environment function that you would call in your main 
 				file instead of <incode>unittest::process()</incode>. Check out 
-				<incode>libunittest/environments.hpp</incode> to see how 
+				<incode>libunittest/environments.hpp</incode> and 
+				<incode>src/environments.cpp</incode> to see how 
 				the implementation looks like today.
 				
+				</p>
+
+				<a name="miscellaneous"></a>
+                <h2>Miscellaneous</h2>
+                <p>
+				<li>
+					You can run test cases in parallel by typing:
+					<code>
+						./test_application -p number
+					</code> 
+					where number denotes the number of threads to use.
+				</li>
+				<li>
+					There is a very useful function, namely <incode>unittest::join(arg, args...)</incode>, 
+					which joins an arbitrary number of arguments of arbitrary type to a single string.
+				</li>
+				<li>
+					You can find a collection of strings useful for testing under the
+					namespace <incode>unittest::strings</incode> and defined in the
+					file <incode>libunittest/strings.hpp</incode>.
+				</li>
+				<li>
+					Internal functionality important for the libunittest
+					core but not relevant for most users can be found
+					under the namespace <incode>unittest::internals</incode>.
+				</li>
+
 				</p>
 
 				<a name="developer"></a>
