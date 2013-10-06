@@ -18,13 +18,6 @@ template<typename T>
 class random_object {
 public:
     /**
-     * @brief Constructor initializing the Mersenne-Twister generator
-     *  with a default random seed of one
-     */
-    random_object()
-        : generator_(1)
-    {}
-    /**
      * @brief Destructor
      */
     virtual
@@ -47,6 +40,13 @@ public:
     }
 
 protected:
+    /**
+     * @brief Constructor initializing the Mersenne-Twister generator
+     *  with a default random seed of one
+     */
+    random_object()
+        : generator_(1)
+    {}
     /**
      * @brief Returns a reference to the random generator
      * @returns A reference to the random generator
