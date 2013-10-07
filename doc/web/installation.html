@@ -53,18 +53,18 @@
 					tar xfz libunittest-XXX.tar.gz </br>
 					cd libunittest-XXX
 					</code>
-					libunittest can now be compiled on your machine:
+					where <incode>XXX</incode> stands for some version string.
+					libunittest can now be compiled:
 					<code>
 					make [CXX=compiler]
 					</code>
 					where <incode>CXX</incode> defaults to <incode>g++</incode>. 
-					When using <incode>clang++</incode> in version 3.2, type:
+					When using <incode>clang++</incode>, type:
 					<code>
 						make CXX='clang++ -stdlib=libc++ -U__STRICT_ANSI__'
 					</code>
-					The additional flags above may not be required anymore 
-					by newer versions of <incode>clang</incode>. 
-					Once the compilation 
+					Installation instructions for <incode>libc++</incode> can be found 
+					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. Once the compilation 
 					is finished the library can be installed:
 					<code>
 					make install [INSTALLDIR=/path/to/install]
@@ -82,6 +82,7 @@
 					<code>
 						dpkg -i libunittest-dev_XXX_i386.deb
 					</code>
+					where <incode>XXX</incode> stands for some version string.
 				</p>
 	</div>
 </body>
