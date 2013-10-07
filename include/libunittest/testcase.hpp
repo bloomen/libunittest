@@ -23,7 +23,7 @@ class nocontext {};
  */
 template<typename TestCase,
          typename ContextClass>
-class testrun_context;
+struct testrun_context;
 
 } // internals
 
@@ -104,7 +104,7 @@ private:
 
     template<typename TestCase,
              typename ContextClass>
-    friend class internals::testrun_context;
+    friend struct internals::testrun_context;
 
     void
     set_test_context(TestContext *context)
