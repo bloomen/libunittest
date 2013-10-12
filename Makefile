@@ -1,4 +1,4 @@
-VERSION = 3.5.0
+VERSION = 3.5.1dev
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
@@ -30,8 +30,8 @@ DEBRULES = debian/rules
 COPYING = COPYING.txt
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
-BUILDDIRS = test examples/standard examples/random examples/minimal doc/doxygen
-TODOSFILES = $(COPYING) README.txt CHANGES.txt doc/doxygen/doxyfile
+BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal doc/doxygen
+TODOSFILES = $(COPYING) README.txt CHANGES.txt examples/README.txt doc/doxygen/doxyfile
 
 default : $(PROG)
 all : default

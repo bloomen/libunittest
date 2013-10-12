@@ -1,3 +1,9 @@
+libunittest (3.5.1dev) unstable; urgency=low
+
+  * under development
+
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 12 Oct 2013 22:05:02 +0100
+
 libunittest (3.5.0) unstable; urgency=low
 
   * removed the need to explicitly register test classes. This is now done by
@@ -10,11 +16,10 @@ libunittest (3.5.0) unstable; urgency=low
   * added a complete web documentation under doc/web.index.html whose latest
     version is online at http://libunittest.sourceforge.net
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 06 Oct 2013 22:05:02 +0200
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 06 Oct 2013 22:05:02 +0100
 
 libunittest (3.4.1) unstable; urgency=low
 
   * initial package
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 18 Sep 2013 22:05:02 +0200
- 
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 18 Sep 2013 22:05:02 +0100
