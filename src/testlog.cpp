@@ -48,7 +48,7 @@ std::string
 make_full_test_name(const std::string& class_name,
                     const std::string& test_name)
 {
-    return class_name + "." + test_name;
+    return class_name.length() ? class_name + "." + test_name : test_name;
 }
 
 bool

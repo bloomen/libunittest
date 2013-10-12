@@ -1,10 +1,46 @@
-#include "test_random.h"
+#include <libunittest/unittest.hpp>
+#include <libunittest/shortcuts.hpp>
 #include <list>
-#define SPOT UNITTEST_SPOT
 
-UNITTEST_REGISTER(test_random)
+template<typename RandomCont,
+         typename OrigContainer,
+         typename T>
+void assert_random_container_fixed(const unittest::testcase<>& obj,
+                                   RandomCont& random_object,
+                                   const OrigContainer& container,
+                                   const T& length,
+                                   const std::string& spot)
+{
+    for (int i=0; i<100; ++i) {
+        const auto rand_cont = random_object.get();
+        obj.assert_equal(length, rand_cont.size(), spot);
+        for (auto& value : rand_cont)
+            obj.assert_in_container(value, container, spot);
+    }
+}
 
-void test_random::test_random_int()
+template<typename RandomCont,
+         typename OrigContainer,
+         typename T>
+void assert_random_container_range(const unittest::testcase<>& obj,
+                                   RandomCont& random_object,
+                                   const OrigContainer& container,
+                                   const T& min_length,
+                                   const T& max_length,
+                                   const std::string& spot)
+{
+    for (int i=0; i<100; ++i) {
+        const auto rand_cont = random_object.get();
+        obj.assert_in_range(rand_cont.size(), min_length, max_length, spot);
+        for (auto& value : rand_cont)
+            obj.assert_in_container(value, container, spot);
+    }
+}
+
+COLLECTION(test_random)
+{
+
+TEST(test_random_int)
 {
     auto randomA = unittest::make_random_value(3);
     auto randomB = unittest::make_random_value<long>(2, 4);
@@ -16,7 +52,7 @@ void test_random::test_random_int()
     }
 }
 
-void test_random::test_random_int_throw()
+TEST(test_random_int_throw)
 {
     auto functor1 = [](){ unittest::make_random_value(-1); };
     assert_throw<std::invalid_argument>(functor1, SPOT);
@@ -26,7 +62,7 @@ void test_random::test_random_int_throw()
     assert_throw<std::invalid_argument>(functor3, SPOT);
 }
 
-void test_random::test_random_bool()
+TEST(test_random_bool)
 {
     auto random = unittest::make_random_bool();
     const std::vector<bool> container = {true, false};
@@ -35,7 +71,7 @@ void test_random::test_random_bool()
     }
 }
 
-void test_random::test_random_real()
+TEST(test_random_real)
 {
     auto randomA = unittest::make_random_value(3.);
     auto randomB = unittest::make_random_value<float>(1.5, 4.2);
@@ -45,7 +81,7 @@ void test_random::test_random_real()
     }
 }
 
-void test_random::test_random_real_throw()
+TEST(test_random_real_throw)
 {
     auto functor1 = [](){ unittest::make_random_value(-1.); };
     assert_throw<std::invalid_argument>(functor1, SPOT);
@@ -55,7 +91,7 @@ void test_random::test_random_real_throw()
     assert_throw<std::invalid_argument>(functor3, SPOT);
 }
 
-void test_random::test_random_choice_string()
+TEST(test_random_choice_string)
 {
     const std::string characters("abc");
     auto random = unittest::make_random_choice(characters);
@@ -64,7 +100,7 @@ void test_random::test_random_choice_string()
     }
 }
 
-void test_random::test_random_choice_vector()
+TEST(test_random_choice_vector)
 {
     const std::vector<double> vector = {1, 2, 3};
     auto random = unittest::make_random_choice(vector);
@@ -73,7 +109,7 @@ void test_random::test_random_choice_vector()
     }
 }
 
-void test_random::test_random_choice_list()
+TEST(test_random_choice_list)
 {
     const std::list<int> a_list = {1, 2, 3};
     auto random = unittest::make_random_choice(a_list);
@@ -82,7 +118,7 @@ void test_random::test_random_choice_list()
     }
 }
 
-void test_random::test_random_container_string()
+TEST(test_random_container_string)
 {
     const std::string characters("abc");
     auto random = unittest::make_random_choice(characters);
@@ -90,11 +126,11 @@ void test_random::test_random_container_string()
     const unsigned min_length = 3;
     auto random_contA = unittest::make_random_container<std::string>(random, length);
     auto random_contB = unittest::make_random_container<std::string>(random, min_length, length);
-    assert_random_container_fixed(random_contA, characters, length, SPOT);
-    assert_random_container_range(random_contB, characters, min_length, length, SPOT);
+    assert_random_container_fixed(*this, random_contA, characters, length, SPOT);
+    assert_random_container_range(*this, random_contB, characters, min_length, length, SPOT);
 }
 
-void test_random::test_random_container_list()
+TEST(test_random_container_list)
 {
     auto random = unittest::make_random_value(1, 3);
     const unsigned length = 5;
@@ -102,11 +138,11 @@ void test_random::test_random_container_list()
     auto random_contA = unittest::make_random_container<std::list<int>>(random, length);
     auto random_contB = unittest::make_random_container<std::list<int>>(random, min_length, length);
     const std::list<int> a_list = {1, 2, 3};
-    assert_random_container_fixed(random_contA, a_list, length, SPOT);
-    assert_random_container_range(random_contB, a_list, min_length, length, SPOT);
+    assert_random_container_fixed(*this, random_contA, a_list, length, SPOT);
+    assert_random_container_range(*this, random_contB, a_list, min_length, length, SPOT);
 }
 
-void test_random::test_random_container_vector()
+TEST(test_random_container_vector)
 {
     auto random = unittest::make_random_value(1, 3);
     const unsigned length = 5;
@@ -114,11 +150,11 @@ void test_random::test_random_container_vector()
     auto random_contA = unittest::make_random_vector(random, length);
     auto random_contB = unittest::make_random_vector(random, min_length, length);
     const std::vector<int> vector = {1, 2, 3};
-    assert_random_container_fixed(random_contA, vector, length, SPOT);
-    assert_random_container_range(random_contB, vector, min_length, length, SPOT);
+    assert_random_container_fixed(*this, random_contA, vector, length, SPOT);
+    assert_random_container_range(*this, random_contB, vector, min_length, length, SPOT);
 }
 
-void test_random::test_random_container_throw()
+TEST(test_random_container_throw)
 {
     auto functor1 = [](){
         auto random = unittest::make_random_value(1, 3);
@@ -132,7 +168,7 @@ void test_random::test_random_container_throw()
     assert_throw<std::invalid_argument>(functor2, SPOT);
 }
 
-void test_random::test_random_shuffle_vector()
+TEST(test_random_shuffle_vector)
 {
     const std::vector<int> vector = {1, 2, 3};
     auto random = unittest::make_random_shuffle(vector);
@@ -145,7 +181,7 @@ void test_random::test_random_shuffle_vector()
     }
 }
 
-void test_random::test_random_shuffle_list()
+TEST(test_random_shuffle_list)
 {
     const std::list<double> a_list = {1, 2, 3};
     auto random = unittest::make_random_shuffle(a_list, 2);
@@ -161,7 +197,7 @@ void test_random::test_random_shuffle_list()
     }
 }
 
-void test_random::test_random_shuffle_throw()
+TEST(test_random_shuffle_throw)
 {
 
     auto functor1 = [](){
@@ -176,7 +212,7 @@ void test_random::test_random_shuffle_throw()
     assert_throw<std::invalid_argument>(functor2, SPOT);
 }
 
-void test_random::test_random_combination_vector()
+TEST(test_random_combination_vector)
 {
     const std::vector<int> vector1 = {1, 2, 3};
     const std::vector<double> vector2 = {5, 6};
@@ -191,7 +227,7 @@ void test_random::test_random_combination_vector()
     }
 }
 
-void test_random::test_random_combination_list()
+TEST(test_random_combination_list)
 {
     const std::list<int> list1 = {1, 2, 3};
     const std::list<double> list2 = {5, 6};
@@ -206,7 +242,7 @@ void test_random::test_random_combination_list()
     }
 }
 
-void test_random::test_random_combination_throw()
+TEST(test_random_combination_throw)
 {
     auto functor1 = []() {
         const std::list<int> list1 = {1, 2, 3};
@@ -222,7 +258,7 @@ void test_random::test_random_combination_throw()
     assert_throw<std::invalid_argument>(functor2, SPOT);
 }
 
-void test_random::test_random_value_copy_constructor()
+TEST(test_random_value_copy_constructor)
 {
     auto random1 = unittest::make_random_value<double>();
     random1.get();
@@ -230,11 +266,13 @@ void test_random::test_random_value_copy_constructor()
     assert_equal(random1.get(), random2.get(), SPOT);
 }
 
-void test_random::test_random_value_assignment_operator()
+TEST(test_random_value_assignment_operator)
 {
     auto random1 = unittest::make_random_value<double>();
     random1.get();
     random1.get();
     unittest::random_value<double> random2 = random1;
     assert_equal(random1.get(), random2.get(), SPOT);
+}
+
 }

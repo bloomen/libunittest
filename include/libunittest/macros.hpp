@@ -4,7 +4,8 @@
  */
 #pragma once
 /**
- * @brief Registers a test class. To be called prior to UNITTEST_RUN
+ * @brief Registers a test class within TestCase::run().
+ *  To be called prior to UNITTEST_RUN
  * @param test_class The test class
  */
 #define UNITTEST_CLASS(test_class) \
@@ -15,7 +16,7 @@ const std::string __test_class_name__ = #test_class;
  * @param test_method The test method
  */
 #define UNITTEST_RUN(test_method) \
-unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_method, -1.);
+UNITTEST_RUN_TIME(test_method, -1.)
 /**
  * @brief A test run (thread-safe)
  * @param test_method The test method
@@ -29,7 +30,7 @@ unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_metho
  * @param test_method The test method
  */
 #define UNITTEST_RUNCXT(test_context, test_method) \
-unittest::testrun(test_context, &__test_class__::test_method, __test_class_name__, #test_method, -1.);
+UNITTEST_RUNCXT_TIME(test_context, test_method, -1.)
 /**
  * @brief A test run with a test context (thread-safe)
  * @param test_context The test context
@@ -49,16 +50,81 @@ unittest::join(" @", __FILE__, ":", __LINE__, ". ")
  * @param symbol1 A symbol
  * @param symbol2 Another symbol
  */
-#define UNITTEST_JOIN(symbol1, symbol2) UNITTEST_DO_JOIN(symbol1, symbol2)
+#define __UNITTEST_JOIN(symbol1, symbol2) \
+__UNITTEST_DO_JOIN(symbol1, symbol2)
 /**
  * @brief Joins two symbols. Just for internals
  * @param symbol1 A symbol
  * @param symbol2 Another symbol
  */
-#define UNITTEST_DO_JOIN(symbol1, symbol2) symbol1##symbol2
+#define __UNITTEST_DO_JOIN(symbol1, symbol2) \
+symbol1##symbol2
 /**
- * @brief Registers a test class
+ * @brief Registers a test class at the global registry
  * @param test_class The test class
  */
 #define UNITTEST_REGISTER(test_class) \
-static unittest::internals::testregistry<test_class> UNITTEST_JOIN(__registered_##test_class, __LINE__);
+static unittest::internals::testregistry<test_class> __UNITTEST_JOIN(__registered_##test_class, __LINE__);
+/**
+ * @brief Sets up a plain test
+ * @param test_name The name of the test
+ */
+#define UNITTEST_TEST(test_name) \
+UNITTEST_TEST_TIME(test_name, -1.)
+/**
+ * @brief Sets up a plain test with a timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ */
+#define UNITTEST_TEST_TIME(test_name, timeout) \
+struct test_name : unittest::testcase<> { \
+    static void run() \
+    { \
+        __testcollection_type__ collection; \
+        unittest::testrun(&test_name::test, collection.get_name(), #test_name, timeout); \
+    } \
+    void test(); \
+}; \
+UNITTEST_REGISTER(test_name) \
+void test_name::test()
+/**
+ * @brief Sets up a plain test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ */
+#define UNITTEST_TEST_FIXTURE(fixture, test_name) \
+UNITTEST_TEST_FIXTURE_TIME(fixture, test_name, -1.)
+/**
+ * @brief Sets up a plain test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ */
+#define UNITTEST_TEST_FIXTURE_TIME(fixture, test_name, timeout) \
+struct test_name : unittest::testcase<>, fixture { \
+    test_name() : fixture() {} \
+    static void run() \
+    { \
+        __testcollection_type__ collection; \
+        unittest::testrun(&test_name::test, collection.get_name(), #test_name, timeout); \
+    } \
+    void test(); \
+}; \
+UNITTEST_REGISTER(test_name) \
+void test_name::test()
+/**
+ * @brief A test collection
+ * @param name The name of the test collection
+ */
+#define UNITTEST_COLLECTION(name) \
+namespace collection_##name { \
+    struct collection_child final : unittest::internals::testcollection { \
+        std::string \
+        get_name() const override \
+        { \
+            return #name; \
+        } \
+    }; \
+    typedef collection_child __testcollection_type__; \
+} \
+namespace collection_##name

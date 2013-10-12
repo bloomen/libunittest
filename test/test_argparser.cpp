@@ -1,24 +1,28 @@
-#include "test_argparser.h"
-#define SPOT UNITTEST_SPOT
+#include <libunittest/unittest.hpp>
+#include <libunittest/shortcuts.hpp>
 using unittest::internals::argparser;
 using unittest::internals::argparser_error;
 
-UNITTEST_REGISTER(test_argparser)
+struct fixture {
+    int max_argc_;
+    char **arguments_;
+    fixture()
+        : max_argc_(20)
+    {
+        arguments_ = new char*[max_argc_];
+        arguments_[0] = (char*)"unittest_app";
+    }
+    ~fixture()
+    {
+        delete[] arguments_;
+        arguments_ = nullptr;
+    }
+};
 
-test_argparser::test_argparser()
-    : max_argc_(20)
+COLLECTION(test_argparser)
 {
-    arguments_ = new char*[max_argc_];
-    arguments_[0] = (char*)"unittest_app";
-}
 
-test_argparser::~test_argparser()
-{
-    delete[] arguments_;
-    arguments_ = nullptr;
-}
-
-void test_argparser::test_no_arguments()
+TEST_FIXTURE(fixture, test_no_arguments)
 {
     argparser args;
     assert_equal(false, args.verbose(), SPOT);
@@ -32,7 +36,7 @@ void test_argparser::test_no_arguments()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_verbose()
+TEST_FIXTURE(fixture, test_verbose)
 {
     arguments_[1] = (char*)"-v";
     argparser args;
@@ -48,7 +52,7 @@ void test_argparser::test_verbose()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_failure_stop()
+TEST_FIXTURE(fixture, test_failure_stop)
 {
     arguments_[1] = (char*)"-s";
     argparser args;
@@ -64,7 +68,7 @@ void test_argparser::test_failure_stop()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_generate_xml()
+TEST_FIXTURE(fixture, test_generate_xml)
 {
     arguments_[1] = (char*)"-x";
     argparser args;
@@ -80,7 +84,7 @@ void test_argparser::test_generate_xml()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_handle_exceptions()
+TEST_FIXTURE(fixture, test_handle_exceptions)
 {
     arguments_[1] = (char*)"-e";
     argparser args;
@@ -96,7 +100,7 @@ void test_argparser::test_handle_exceptions()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_dry_run()
+TEST_FIXTURE(fixture, test_dry_run)
 {
     arguments_[1] = (char*)"-d";
     argparser args;
@@ -112,7 +116,7 @@ void test_argparser::test_dry_run()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_concurrent_threads()
+TEST_FIXTURE(fixture, test_concurrent_threads)
 {
     arguments_[1] = (char*)"-p";
     arguments_[2] = (char*)"3";
@@ -130,7 +134,7 @@ void test_argparser::test_concurrent_threads()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_name_filter()
+TEST_FIXTURE(fixture, test_name_filter)
 {
     arguments_[1] = (char*)"-f";
     arguments_[2] = (char*)"stuff";
@@ -147,7 +151,7 @@ void test_argparser::test_name_filter()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_test_name()
+TEST_FIXTURE(fixture, test_test_name)
 {
     arguments_[1] = (char*)"-n";
     arguments_[2] = (char*)"test_me";
@@ -164,7 +168,7 @@ void test_argparser::test_test_name()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_timeout()
+TEST_FIXTURE(fixture, test_timeout)
 {
     arguments_[1] = (char*)"-t";
     arguments_[2] = (char*)"3.5";
@@ -181,7 +185,7 @@ void test_argparser::test_timeout()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_xml_filename()
+TEST_FIXTURE(fixture, test_xml_filename)
 {
     arguments_[1] = (char*)"-o";
     arguments_[2] = (char*)"stuff.xml";
@@ -198,7 +202,7 @@ void test_argparser::test_xml_filename()
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_verbose_failure_stop()
+TEST_FIXTURE(fixture, test_verbose_failure_stop)
 {
     const std::vector<char*> values = {(char*)"-vs", (char*)"-sv"};
     for (auto value : values) {
@@ -217,7 +221,7 @@ void test_argparser::test_verbose_failure_stop()
     }
 }
 
-void test_argparser::test_verbose_generate_xml()
+TEST_FIXTURE(fixture, test_verbose_generate_xml)
 {
     const std::vector<char*> values = {(char*)"-vx", (char*)"-xv"};
     for (auto value : values) {
@@ -236,7 +240,7 @@ void test_argparser::test_verbose_generate_xml()
     }
 }
 
-void test_argparser::test_failure_stop_generate_xml()
+TEST_FIXTURE(fixture, test_failure_stop_generate_xml)
 {
     const std::vector<char*> values = {(char*)"-sx", (char*)"-xs"};
     for (auto value : values) {
@@ -255,7 +259,7 @@ void test_argparser::test_failure_stop_generate_xml()
     }
 }
 
-void test_argparser::test_verbose_failure_stop_generate_xml()
+TEST_FIXTURE(fixture, test_verbose_failure_stop_generate_xml)
 {
     const std::vector<char*> values = {
             (char*)"-vsx", (char*)"-vxs", (char*)"-svx",
@@ -277,7 +281,7 @@ void test_argparser::test_verbose_failure_stop_generate_xml()
     }
 }
 
-void test_argparser::test_all_arguments()
+TEST_FIXTURE(fixture, test_all_arguments)
 {
     arguments_[1] = (char*)"-v";
     arguments_[2] = (char*)"-s";
@@ -307,7 +311,7 @@ void test_argparser::test_all_arguments()
     assert_equal("stuff.xml", args.xml_filename(), SPOT);
 }
 
-void test_argparser::test_argparser_errors()
+TEST_FIXTURE(fixture, test_argparser_errors)
 {
     const std::vector<char*> values = {
             (char*)"-g", (char*)"-f", (char*)"-t", (char*)"-o"
@@ -319,7 +323,7 @@ void test_argparser::test_argparser_errors()
     }
 }
 
-void test_argparser::test_copy_constructor()
+TEST_FIXTURE(fixture, test_copy_constructor)
 {
     argparser args;
     args.verbose(true);
@@ -345,7 +349,7 @@ void test_argparser::test_copy_constructor()
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);
 }
 
-void test_argparser::test_assignment_operator()
+TEST_FIXTURE(fixture, test_assignment_operator)
 {
     argparser args;
     args.verbose(true);
@@ -369,4 +373,6 @@ void test_argparser::test_assignment_operator()
     assert_equal("test_me", args2.test_name(), SPOT);
     assert_equal(12.3, args2.timeout(), SPOT);
     assert_equal("mytest.xml", args2.xml_filename(), SPOT);
+}
+
 }

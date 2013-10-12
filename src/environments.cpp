@@ -22,9 +22,9 @@ process(int argc, char **argv)
     auto suite = internals::testsuite::instance();
     suite->set_arguments(arguments);
 
-    const auto test_runs = suite->get_test_runs();
+    const auto class_runs = suite->get_class_runs();
     const int n_threads = arguments.concurrent_threads();
-    internals::call_functions(test_runs, n_threads);
+    internals::call_functions(class_runs, n_threads);
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results);

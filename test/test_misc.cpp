@@ -1,12 +1,9 @@
-#include "test_misc.h"
-#define SPOT UNITTEST_SPOT
+#include <libunittest/unittest.hpp>
+#include <libunittest/shortcuts.hpp>
 using namespace unittest;
 using namespace unittest::internals;
 
-
-UNITTEST_REGISTER(test_misc)
-
-testresults test_misc::make_sample_results()
+testresults make_sample_results()
 {
     testlog log1;
     log1.class_name = "test_class";
@@ -48,13 +45,16 @@ testresults test_misc::make_sample_results()
     return std::move(results);
 }
 
-void test_misc::test_version()
+COLLECTION(test_misc)
+{
+
+TEST(test_version)
 {
     const unsigned size = 5;
     assert_greater_equal(version.size(), size);
 }
 
-void test_misc::test_join()
+TEST(test_join)
 {
     const std::string value_string("pi");
     assert_equal(value_string, join(value_string), SPOT);
@@ -63,7 +63,7 @@ void test_misc::test_join()
     assert_equal("pi = 3.1415", join(value_string, " = ", value_double), SPOT);
 }
 
-void test_misc::test_write_to_stream()
+TEST(test_write_to_stream)
 {
     std::ostringstream stream;
     const std::string value_string("pi");
@@ -72,14 +72,14 @@ void test_misc::test_write_to_stream()
     assert_equal("pi = 3.1415", stream.str(), SPOT);
 }
 
-void test_misc::test_write_to_stream_overload()
+TEST(test_write_to_stream_overload)
 {
     std::ostringstream stream;
     write_to_stream(stream);
     assert_equal("", stream.str(), SPOT);
 }
 
-void test_misc::test_userargs_defaults()
+TEST(test_userargs_defaults)
 {
     userargs args;
     assert_equal(false, args.verbose(), SPOT);
@@ -94,7 +94,7 @@ void test_misc::test_userargs_defaults()
     assert_equal("libunittest.xml", args.xml_filename(), SPOT);
 }
 
-void test_misc::test_userargs_set_get()
+TEST(test_userargs_set_get)
 {
     userargs args;
     args.verbose(true);
@@ -119,7 +119,7 @@ void test_misc::test_userargs_set_get()
     assert_equal("awesome_tests.xml", args.xml_filename(), SPOT);
 }
 
-void test_misc::test_write_xml_empty()
+TEST(test_write_xml_empty)
 {
     const testresults results;
     std::ostringstream stream;
@@ -136,7 +136,7 @@ void test_misc::test_write_xml_empty()
     assert_equal(expected.str(), stream.str(), SPOT);
 }
 
-void test_misc::test_write_xml_filled()
+TEST(test_write_xml_filled)
 {
     const auto results = make_sample_results();
     std::ostringstream stream;
@@ -160,7 +160,7 @@ void test_misc::test_write_xml_filled()
     assert_equal(expected.str(), stream.str(), SPOT);
 }
 
-void test_misc::test_write_summary_empty()
+TEST(test_write_summary_empty)
 {
     const testresults results;
     std::ostringstream stream;
@@ -172,7 +172,7 @@ void test_misc::test_write_summary_empty()
     assert_equal(expected.str(), stream.str(), SPOT);
 }
 
-void test_misc::test_write_summary_filled()
+TEST(test_write_summary_filled)
 {
     const auto results = make_sample_results();
     std::ostringstream stream;
@@ -184,7 +184,7 @@ void test_misc::test_write_summary_filled()
     assert_equal(expected.str(), stream.str(), SPOT);
 }
 
-void test_misc::test_write_error_info_empty()
+TEST(test_write_error_info_empty)
 {
     const testresults results;
     std::ostringstream stream;
@@ -192,7 +192,7 @@ void test_misc::test_write_error_info_empty()
     assert_equal("", stream.str(), SPOT);
 }
 
-void test_misc::test_write_error_info_filled()
+TEST(test_write_error_info_filled)
 {
     const auto results = make_sample_results();
     std::ostringstream stream;
@@ -210,7 +210,7 @@ void test_misc::test_write_error_info_filled()
     assert_equal(expected.str(), stream.str(), SPOT);
 }
 
-void test_misc::test_write_test_start_message()
+TEST(test_write_test_start_message)
 {
     testlog log;
     log.class_name = "stuff";
@@ -225,7 +225,7 @@ void test_misc::test_write_test_start_message()
     assert_equal("stuff.test_me ... ", stream2.str(), SPOT);
 }
 
-void test_misc::test_write_test_end_message()
+TEST(test_write_test_end_message)
 {
     const std::vector<teststatus> statuses = {
             teststatus::success,
@@ -252,7 +252,7 @@ void test_misc::test_write_test_end_message()
     }
 }
 
-void test_misc::test_write_horizontal_bar()
+TEST(test_write_horizontal_bar)
 {
     std::ostringstream stream;
     write_horizontal_bar(stream, 'x', 3);
@@ -260,7 +260,7 @@ void test_misc::test_write_horizontal_bar()
     assert_throw<std::length_error>(std::bind(write_horizontal_bar, std::ref(stream), 'x', -1), SPOT);
 }
 
-void test_misc::test_teststatus_integrals()
+TEST(test_teststatus_integrals)
 {
     assert_equal<unsigned>(0, teststatus::success, SPOT);
     assert_equal<unsigned>(1, teststatus::failure, SPOT);
@@ -268,7 +268,7 @@ void test_misc::test_teststatus_integrals()
     assert_equal<unsigned>(3, teststatus::skipped, SPOT);
 }
 
-void test_misc::test_testlog_defaults()
+TEST(test_testlog_defaults)
 {
     testlog log;
     assert_equal("", log.class_name, SPOT);
@@ -279,7 +279,7 @@ void test_misc::test_testlog_defaults()
     assert_equal(0, log.duration, SPOT);
 }
 
-void test_misc::test_testresults_defaults()
+TEST(test_testresults_defaults)
 {
     testresults results;
     assert_equal(true, results.successful, SPOT);
@@ -292,7 +292,7 @@ void test_misc::test_testresults_defaults()
     assert_equal<unsigned>(0, results.testlogs.size(), SPOT);
 }
 
-void test_misc::test_testcase_fail()
+TEST(test_testcase_fail)
 {
     const std::string msg("a test failure");
     bool caught = false;
@@ -306,7 +306,7 @@ void test_misc::test_testcase_fail()
         throw testfailure("fail() did not throw 'testfailure'");
 }
 
-void test_misc::test_testcase_fail_overload()
+TEST(test_testcase_fail_overload)
 {
     const std::string assertion("assert_it");
     const std::string msg("a test failure");
@@ -322,28 +322,18 @@ void test_misc::test_testcase_fail_overload()
         throw testfailure("fail() did not throw 'testfailure'");
 }
 
-void test_misc::test_testcase_has_no_context()
-{
-    assert_false(get_test_context(), SPOT);
-}
-
-void test_misc::test_testcase_has_context()
-{
-    assert_true(get_test_context(), SPOT);
-}
-
-void test_misc::test_duration_in_seconds()
+TEST(test_duration_in_seconds)
 {
     const std::chrono::duration<double> duration(1);
     assert_equal(1, duration_in_seconds(duration), SPOT);
 }
 
-void test_misc::test_unittest_spot()
+TEST(test_unittest_spot)
 {
     assert_equal(join(" @", __FILE__, ":", __LINE__, ". "), UNITTEST_SPOT);
 }
 
-void test_misc::test_is_test_executed()
+TEST(test_is_test_executed)
 {
     assert_true(is_test_executed("stuff.test_me", "", ""), SPOT);
     assert_true(is_test_executed("stuff.test_me", "", "stuff"), SPOT);
@@ -352,7 +342,7 @@ void test_misc::test_is_test_executed()
     assert_false(is_test_executed("stuff.test_me", "stuff.test_me_xxx", ""), SPOT);
 }
 
-void test_misc::test_formatting_str()
+TEST(test_formatting_str)
 {
     assert_equal("'albert'", str("albert"), SPOT);
     assert_equal("''", str(""), SPOT);
@@ -361,7 +351,7 @@ void test_misc::test_formatting_str()
     assert_equal("'blöd'", str("blöd"), SPOT);
 }
 
-void test_misc::test_xml_escape()
+TEST(test_xml_escape)
 {
     assert_equal("", xml_escape(""), SPOT);
     assert_equal("stuff", xml_escape("stuff"), SPOT);
@@ -374,14 +364,14 @@ void test_misc::test_xml_escape()
     assert_equal("&gt;", xml_escape(">"), SPOT);
 }
 
-void test_misc::test_make_iso_timestamp()
+TEST(test_make_iso_timestamp)
 {
     const time_t value = 1234567890;
     const auto time_point = std::chrono::system_clock::from_time_t(value);
     assert_equal("2009-02-13T23:31:30", make_iso_timestamp(time_point, false), SPOT);
 }
 
-void test_misc::test_call_functions_empty_vector()
+TEST(test_call_functions_empty_vector)
 {
     std::vector<std::function<void()>> functions;
     assert_equal(0, call_functions(functions), SPOT);
@@ -389,7 +379,7 @@ void test_misc::test_call_functions_empty_vector()
     assert_equal(0, call_functions(functions, 2), SPOT);
 }
 
-void test_misc::test_call_functions_vector_size_one()
+TEST(test_call_functions_vector_size_one)
 {
     std::function<void()> function = [](){ int a = 1; ++a; };
     std::vector<std::function<void()>> functions = {function};
@@ -398,7 +388,7 @@ void test_misc::test_call_functions_vector_size_one()
     assert_equal(1, call_functions(functions, 2), SPOT);
 }
 
-void test_misc::test_call_functions_vector_size_two()
+TEST(test_call_functions_vector_size_two)
 {
     std::function<void()> function = [](){ int a = 1; ++a; };
     std::vector<std::function<void()>> functions = {function, function};
@@ -406,4 +396,14 @@ void test_misc::test_call_functions_vector_size_two()
     assert_equal(2, call_functions(functions, 0), SPOT);
     assert_equal(2, call_functions(functions, 2), SPOT);
     assert_equal(2, call_functions(functions, 3), SPOT);
+}
+
+TEST(test_make_full_test_name)
+{
+    assert_equal("", make_full_test_name("",""), SPOT);
+    assert_equal("a.b", make_full_test_name("a","b"), SPOT);
+    assert_equal("a.", make_full_test_name("a",""), SPOT);
+    assert_equal("b", make_full_test_name("","b"), SPOT);
+}
+
 }

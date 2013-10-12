@@ -17,7 +17,7 @@ struct implementation<testsuite> {
     std::chrono::high_resolution_clock::time_point end_;
     userargs arguments_;
     testresults results_;
-    std::vector<std::function<void()>> test_runs_;
+    std::vector<std::function<void()>> class_runs_;
 
     implementation()
     	: keep_running_(true),
@@ -59,9 +59,9 @@ testsuite::get_arguments() const
 }
 
 std::vector<std::function<void()>>&
-testsuite::get_test_runs() const
+testsuite::get_class_runs() const
 {
-    return impl_->test_runs_;
+    return impl_->class_runs_;
 }
 
 testresults
@@ -129,8 +129,9 @@ testsuite::is_test_run(const std::string& class_name,
 }
 
 void
-testsuite::add_test_run(const std::function<void()>& test_run) {
-    impl_->test_runs_.push_back(test_run);
+testsuite::add_class_run(const std::function<void()>& class_run)
+{
+    impl_->class_runs_.push_back(class_run);
 }
 
 } // internals

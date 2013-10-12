@@ -16,9 +16,11 @@
 #include <libunittest/teststatus.hpp>
 #include <libunittest/testsuite.hpp>
 #include <libunittest/testregistry.hpp>
+#include <libunittest/testcollection.hpp>
 #include <libunittest/userargs.hpp>
 #include <libunittest/utilities.hpp>
 #include <libunittest/version.hpp>
 #include <libunittest/random.hpp>
 #include <libunittest/strings.hpp>
 #include <libunittest/macros.hpp>
+#include <iostream>

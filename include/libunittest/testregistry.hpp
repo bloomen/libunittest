@@ -23,7 +23,7 @@ public:
      */
     testregistry()
     {
-        internals::testsuite::instance()->add_test_run(TestCase::run);
+        internals::testsuite::instance()->add_class_run(TestCase::run);
     }
 
 };

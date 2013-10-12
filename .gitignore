@@ -3,10 +3,7 @@
 distribution
 lib
 *.o
-test/unittest.exe
-examples/standard/unittest.exe
-examples/minimal/unittest.exe
-examples/random/unittest.exe
+unittest.exe
 libunittest.xml
 html
 errors.log

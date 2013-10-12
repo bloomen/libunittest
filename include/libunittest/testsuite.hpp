@@ -40,11 +40,11 @@ public:
     userargs&
     get_arguments() const;
     /**
-     * @brief Returns a reference to the vector of registered test runs
-     * @returns A reference to the vector of registered test runs
+     * @brief Returns a reference to the vector of registered class runs
+     * @returns A reference to the vector of registered class runs
      */
     std::vector<std::function<void()>>&
-    get_test_runs() const;
+    get_class_runs() const;
     /**
      * @brief Returns the accumulated test results
      * @returns The test results
@@ -82,7 +82,7 @@ private:
                 const std::string& test_name) const;
 
     void
-    add_test_run(const std::function<void()>& test_run);
+    add_class_run(const std::function<void()>& class_run);
 
 };
 

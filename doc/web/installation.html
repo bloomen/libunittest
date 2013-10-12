@@ -61,7 +61,7 @@
 					where <incode>CXX</incode> defaults to <incode>g++</incode>. 
 					When using <incode>clang++</incode>, type:
 					<code>
-						make CXX='clang++ -stdlib=libc++ -U__STRICT_ANSI__'
+						make CXX='clang++ -stdlib=libc++'
 					</code>
 					Installation instructions for <incode>libc++</incode> can be found 
 					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. Once the compilation 
@@ -76,9 +76,9 @@
 					Install from debian package
 				</h2>
 				<p>
-					The libunittest debian packages are currently available for intel x86 
+					The libunittest debian packages where compiled using <incode>g++</incode> and are currently available for intel x86 
 					architectures. After <a href="downloads.html">
-					downloading</a>, the libunittest debian package can be installed: 
+					downloading</a>, the debian package can be installed: 
 					<code>
 						dpkg -i libunittest-dev_XXX_i386.deb
 					</code>

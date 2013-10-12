@@ -9,7 +9,7 @@ LIBDIR = lib
 INSTALLDIR = /usr/local
 
 CXX = g++
-CXXFLAGS = -O2 -Wall -std=c++0x -pthread -fPIC -fmessage-length=0
+CXXFLAGS = -O2 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
 LDFLAGS = -shared
 
 INCDIR = include
