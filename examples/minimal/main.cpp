@@ -6,7 +6,8 @@ TEST(test_value_is_true)
     assert_true(true);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     return unittest::process(argc, argv);
 }
 
