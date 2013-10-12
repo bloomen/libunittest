@@ -1,3 +1,11 @@
+3.5.1
+
+- added new macros: UNITTEST_TEST, UNITTEST_TEST_FIXTURE, UNITTEST_TEST_TIME, 
+    UNITTEST_TEST_FIXTURE_TIME, and UNITTEST_COLLECTION and adjusted
+    examples accordingly
+- added libunittest/shortcuts.hpp of shorter aliases for the macros above
+- improved documentation and web doc
+
 3.5.0
 
 - removed the need to explicitly register test classes. This is now done by
