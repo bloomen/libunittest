@@ -1,6 +1,10 @@
-libunittest (3.5.1dev) unstable; urgency=low
+libunittest (3.5.1) unstable; urgency=low
 
-  * under development
+  * added new macros: UNITTEST_TEST, UNITTEST_TEST_FIXTURE, UNITTEST_TEST_TIME, 
+    UNITTEST_TEST_FIXTURE_TIME, and UNITTEST_COLLECTION and adjusted
+    examples accordingly
+  * added libunittest/shortcuts.hpp of shorter aliases for the macros above
+  * improved documentation and web doc
 
  -- Christian Blume <chr.blume@gmail.com>  Wed, 12 Oct 2013 22:05:02 +0100
 
