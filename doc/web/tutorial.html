@@ -33,17 +33,14 @@
 				introduction to libunittest. Note that this tutorial reflects the state of the 
                 <a href="http://sourceforge.net/projects/libunittest/files/latest/download?source=files" target="_blank">latest version</a>				
 				of libunittest. Please also check out 
-				the examples that are shipped with libunittest. </p>
+				the examples and unit tests that are shipped with libunittest. </p>
 			
 				<p>
 				<li>
-					<a href="#assembling">Assembling a test project</a>
+					<a href="#assemblingsimple">Assembling a test project</a>
 				</li>
 				<li>
 					<a href="#assertions">Assertions</a>
-				</li>
-				<li>
-					<a href="#fixtures">Fixtures and test contexts</a>
 				</li>
 				<li>
 					<a href="#random">Random values and containers</a>
@@ -59,7 +56,7 @@
 				</li>
 				</p>
 			
-				<a name="assembling"></a>
+				<a name="assemblingsimple"></a>
                 <h2>Assembling a test project</h2>
                 <p>
                 The first thing you'll need is a <incode>main.cpp</incode> file 
@@ -67,68 +64,49 @@
                 <code>
                     // main.cpp <br>
                     #include &lt;libunittest/unittest.hpp&gt;<br></br>
-                    int main(int argc, char **argv) {<br>
+                    int main(int argc, char **argv)<br> 
+                    {<br>
                     <t>return unittest::process(argc, argv);</t><br>
                     }
                 </code>
                 Everything coming from libunittest lives within the 
-                <incode>unittest</incode> namespace. A test class, let's call it 
-                <incode>test_whatever</incode>, may look like this:
+                <incode>unittest</incode> namespace. There are different ways
+                of writing tests with libunittest depending on your needs
+                and requirements. The simplest way to do it would be to define 
+                a source file like this:
                 <code>
-                    // test_whatever.h <br>
-                    #pragma once<br>
-                    #include &lt;libunittest/unittest.hpp&gt;<br><br>
-                    struct test_whatever : unittest::testcase<> {<br><br>
+                    // test_simple.cpp<br>
+                    #include &lt;libunittest/unittest.hpp&gt;<br>
+                    #include &lt;libunittest/shortcuts.hpp&gt;<br></br>
 
-                        <t>// this static method runs the tests</t><br>
-                        <t>static void run() {</t><br>
-                            <tt>UNITTEST_CLASS(test_whatever)</tt> // must appear first<br> 
-                            <tt>UNITTEST_RUN(test_throw)</tt><br>
-                            <tt>UNITTEST_RUN(test_in_range)</tt><br>
-                            <tt>UNITTEST_RUN_TIME(test_in_container, 2)</tt> // 2sec timeout<br>
-                        <t>}</t><br><br>
-
-                        <t>void test_in_container();</t><br>
-                        <t>void test_in_range();</t><br>
-                        <t>void test_throw();</t><br>
-                    };
+                    TEST(test_value_is_true)<br>
+                    {<br>
+                        <t>assert_true(true, SPOT);</t><br>
+                    }<br><br>
+                                        
+                    struct fixture {<br>
+                        <t>int value;</t><br>
+                        <t>fixture() : value(42) {}</t><br>
+                    }; <br><br>
+    
+                    TEST_FIXTURE(fixture, test_with_fixture)<br>
+                    {<br>
+                        <t>assert_equal(42, value, SPOT);</t><br>
+                    }<br><br>
+                                        
                 </code>
-
-				Quite simple right? All macros are defined in 
-				capital letters and start with <incode>UNITTEST</incode>. 
-				They can be found in <incode> 
-				libunittest/macros.hpp</incode>. The test 
-				implementation should be put in a separate file 
-				called <incode>test_whatever.cpp</incode>:
-                <code>
-                    // test_whatever.cpp <br>
-                    #include "test_whatever.h"<br>
-					#define SPOT UNITTEST_SPOT<br><br>
-
-					UNITTEST_REGISTER(test_whatever)<br><br> 
-
-					void test_whatever::test_in_container() {<br>
-						<t>auto container = my_awesome_function();</t><br>
-						<t>auto element = 3.14;</t><br>
-						<t>assert_in_container(element, container, SPOT);</t><br>
-					}<br><br>
-					
-					...
-				</code> <incode>UNITTEST_REGISTER</incode> registers the test class at 
-				the global registry. The given test asserts that the number <incode>3.14</incode> is 
-				found in the container returned from the function to 
-				test. The macro <incode>UNITTEST_SPOT</incode> 
+				All macros are defined in 
+				capital letters and can be found in <incode>libunittest/macros.hpp</incode>. Shorter aliases (such as <incode>TEST</incode>)
+				are defined in <incode>libunittest/shortcuts.hpp</incode>.
+				The macro <incode>UNITTEST_SPOT</incode> (<incode>SPOT</incode>)
 				defines a simple string containing information about 
-				the current file and line number. For this example it has been 
-				renamed to <incode>SPOT</incode> for easier usage.
-                </p>
+				the current file and line number.
                 
                 <a name="assertions"></a>
                 <h2>Assertions</h2>
                 <p>
                 libunittest comes with a rich set of assertions that your
-                test class has automatic access to once it derives from
-                <incode>unittest::testcase</incode>. All assertions are
+                test has automatic access to. All assertions are
                 implemented and documented in <incode>libunittest/assertions.hpp</incode>.
                 </p>
                 <p>
@@ -154,126 +132,6 @@
 				template) and can also be omitted. If given 
 				it is appended to the default fail message.
                 </p>
-
-				<a name="fixtures"></a>
-                <h2>Fixtures and test contexts</h2>
-                
-				<p> Test fixtures are certain resources that tests
-				can rely on. Fixtures often make an explicit clean-up 
-				step necessary. In libunittest there are two 
-				different ways of defining fixtures which can even 
-				be combined: </p>
-				
-				<br>
-				<p> 1) <b>Regular fixtures</b> defined within the test 
-				class. Set up and tear down are executed before and 
-				after each test. </p>
-
-				<p> A regular fixture can via defined via overriding 
-				<incode>set_up()</incode> and <incode>tear_down()</incode> 
-				methods or via explicit constructor and 
-				destructor of the test class itself. Which way you 
-				choose is kind of a matter of taste. However, here's 
-				how you'd do it the recommended way:
-				
-				<code>
-				#pragma once<br>
-				#include &lt;libunittest/unittest.hpp&gt;<br><br>
-
-				// A test class with a regular fixture <br>
-				struct my_test : unittest::testcase<> { <br><br>
-
-					<t>static void run() {</t><br>
-                        <tt>UNITTEST_CLASS(my_test)</tt><br> 
-                        <tt>UNITTEST_RUN(test_something)</tt><br>
-                        <tt>UNITTEST_RUN(test_something_else)</tt><br>
-					<t>}</t><br><br>
-
-					<t>my_test() {</t> <br>
-						<tt>std::fill(data_.begin(), data_.end(), 42);</tt><br>
-					<t>}</t><br><br>
-				
-					<t>~my_test() {</t><br>
-						<tt>data_.clear();</tt><br>					
-					<t>}</t><br><br>
-
-					<t>void test_something();</t><br>
-					<t>void test_something_else();</t><br><br>
-				
-				private:<br>
-					<t>std::vector&lt;int&gt; data_(10);</t><br>
-				};
-				</code>
-				
-				</p>
-
-				<br>
-				<p>
-				2) <b>Test contexts</b> whose instances are shared by multiple tests. 
-				</p>
-				<p>
-				Tests should be as independent as possible. However, 
-				in some cases setting up a regular fixture for every 
-				test can be an expensive task. Therefore, 
-				libunittest supports the idea of test contexts. A 
-				test context is only instantiated once and can then be 
-				used by multiple tests. Here's how you'd do it:
-				<code>
-				#pragma once<br>
-				#include &lt;libunittest/unittest.hpp&gt;<br><br>
-				
-				struct test_context { <br><br>
-
-					<t>test_context() {</t> <br>
-						<tt>std::fill(data_.begin(), data_.end(), 42);</tt><br>
-					<t>}</t><br><br>
-				
-					<t>~test_context() {</t><br> 
-						<tt>data_.clear();</tt><br>					
-					<t>}</t><br><br>
-
-					<t>std::vector&lt;int&gt;&amp; get_data() const {</t><br>
-						<tt>return data_;</tt><br>
-					<t>}</t><br><br>
-					
-				private:<br>
-					<t>std::vector&lt;int&gt; data_(1000000);</t><br>
-				};<br><br>
-					
-				// A test class with a test context <br>
-				struct my_test : unittest::testcase&lt;test_context&gt; { <br><br>
-
-					<t>static void run() {</t><br>
-                        <tt>UNITTEST_CLASS(my_test)</tt><br> 
-                        <tt>test_context context;</tt><br> 
-                        <tt>UNITTEST_RUNCXT(context, test_something)</tt><br>
-                        <tt>UNITTEST_RUNCXT(context, test_something_else)</tt><br>
-					<t>}</t><br><br>
-
-					<t>void test_something() {</t><br>
-							<tt>auto context = get_test_context();</tt> // pointer to context<br>
-							<tt>assert_equal(1000000, context->get_data().size());</tt><br>
-					<t>}</t><br><br>
-
-					<t>void test_something_else();</t><br>
-				};
-				</code>
-
-				It is important to define a possible tear down  of 
-				the test context using the destructor to ensure 
-				proper clean up. In this example an explicit 
-				destructor is actually not necessary and
-				only there for demonstration purposes.
-
-				<p>
-				
-				I would recommend to always start off with regular 
-				fixtures. If those become too expensive move on to 
-				test contexts but try to avoid side-effects between 
-				tests. You can also always combine regular fixures 
-				with test contexts.
-				
-				</p>
 
 				<a name="random"></a>
                 <h2>Random values and containers</h2>
@@ -426,7 +284,7 @@
 					<code>
 						./test_application -p number
 					</code> 
-					where number denotes the number of threads to use.
+					where number denotes the number of concurrent threads to use.
 				</li>
 				<li>
 					There is a very useful function, namely <incode>unittest::join(arg, args...)</incode>, 

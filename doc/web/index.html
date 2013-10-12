@@ -32,12 +32,26 @@
 				<p>
 					libunittest is a portable C++ library for unit 
 					testing making use of C++11. libunittest got 
-					inspirations from CppUnit, JUnit, and PyUnit and 
+					inspirations from CppUnit, UnitTest++, and PyUnit and 
 					attempts to combine their advantages in a single 
 					testing framework for C++. By relying on the latest C++11 
 					standard, heavy use of templates, and minimal use of 
 					macros, a portable, feature-rich, and 
-					easy-to-use library has been developed.
+					easy-to-use library has been developed. A minimal, single-file example:
+					<code>
+                    #include &lt;libunittest/unittest.hpp&gt;<br>
+                    #include &lt;libunittest/shortcuts.hpp&gt;<br><br>
+
+                    TEST(test_value_is_true)<br>
+                    {<br>
+                        <t>assert_true(true);</t><br>
+                    }<br><br>
+
+                    int main(int argc, char **argv)<br>
+                    {<br>
+                        <t>return unittest::process(argc, argv);</t><br>
+                    }
+					</code>
 				</p>
 				<p>
 				Features include:
@@ -45,7 +59,10 @@
 					unit and integration testing in C++
 					</li>
 					<li>
-					follows the xUnit test patterns
+					perfect for test-driven-development (TDD) in C++
+					</li>
+					<li>
+					follows the xUnit test patterns plus extensions
 					</li>
 					<li>
 					formatted XML output of the test results
