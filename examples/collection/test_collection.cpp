@@ -1,6 +1,19 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 
+
+TEST(test_value_is_false)
+{
+    assert_false(true);
+}
+
+
+TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s
+{
+    assert_true(true);
+}
+
+
 struct fixture {
     std::string message_;
     fixture()
@@ -29,9 +42,4 @@ COLLECTION(test_stuff)
         helper(*this, SPOT);
     }
 
-}
-
-TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s
-{
-    assert_true(true);
 }
