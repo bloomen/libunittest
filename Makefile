@@ -105,7 +105,7 @@ version :
 	@$(ECHO)  >> $(FULLVERFILE)
 	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
 
-deb :
+deb : version
 	@$(CP) $(COPYING) debian/copyright
 	@$(ECHO) "#!/usr/bin/make -f" > $(DEBRULES)
 	@$(ECHO) "# -*- makefile -*-" >> $(DEBRULES)
