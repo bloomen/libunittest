@@ -4,7 +4,7 @@
 
 TEST(test_value_is_false)
 {
-    assert_false(true);
+    assert_false(false);
 }
 
 
