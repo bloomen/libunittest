@@ -1,3 +1,11 @@
+libunittest (3.5.2) unstable; urgency=low
+
+  * improved test application help message
+  * fixed the failing collection example
+  * improved html documentation
+
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 15 Oct 2013 22:05:02 +0100
+
 libunittest (3.5.1) unstable; urgency=low
 
   * added new macros: UNITTEST_TEST, UNITTEST_TEST_FIXTURE, UNITTEST_TEST_TIME, 
