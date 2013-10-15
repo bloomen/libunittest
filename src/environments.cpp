@@ -15,7 +15,7 @@ process(int argc, char **argv)
     try {
         arguments.parse(argc, argv);
     } catch (const internals::argparser_error& e) {
-        std::cout << "ArgumentError: " << e.what();
+        std::cout << "Error: " << e.what();
         std::exit(EXIT_FAILURE);
     }
 

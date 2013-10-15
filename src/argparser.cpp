@@ -11,18 +11,20 @@ template<>
 struct implementation<argparser> {
 
     void
-    write_help(std::ostream& stream) const
+    write_help(std::ostream& stream,
+               const std::string& app_name) const
     {
         stream << "This is your testing application using libunittest-";
         stream << version << "\n\n";
-        stream << "Available options are:\n";
+        stream << "Usage: " << app_name << " [Options]\n\n";
+        stream << "Options:\n";
         stream << "-h          Displays this help message\n";
         stream << "-v          Sets verbose output for running tests\n";
         stream << "-s          Stops running tests after the first test fails\n";
         stream << "-e          Turns off exception handling\n";
         stream << "-x          Enables the generation of the XML output\n";
         stream << "-d          A dry run without actually executing any tests\n";
-        stream << "-p number   Runs test cases in parallel with a given number of threads\n";
+        stream << "-p number   Runs tests in parallel with a given number of threads\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n name     A certain test to be run superseding the name filter\n";
         stream << "-t timeout  A timeout in seconds for tests without local timeouts\n";
@@ -31,10 +33,11 @@ struct implementation<argparser> {
     }
 
     void
-    help_and_throw(const std::string& message) const
+    help_and_throw(const std::string& app_name,
+                   const std::string& message) const
     {
         std::ostringstream stream;
-        write_help(stream);
+        write_help(stream, app_name);
         throw argparser_error(join(message, "\n\n", stream.str()));
     }
 
@@ -63,13 +66,15 @@ argparser::argparser()
       pimplpattern(new implementation<argparser>())
 {}
 
-void argparser::parse(int argc, char **argv)
+void
+argparser::parse(int argc, char **argv)
 {
+    const std::string app_name = argv[0];
     const auto args = impl_->expand_arguments(argc, argv);
     const auto length = args.size();
     for (unsigned i=0; i<length; ++i) {
         if (args[i]=="-h") {
-            impl_->write_help(std::cout);
+            impl_->write_help(std::cout, app_name);
             std::exit(EXIT_SUCCESS);
         } else if (args[i]=="-v") {
             verbose(true);
@@ -85,34 +90,34 @@ void argparser::parse(int argc, char **argv)
             if (++i<length) {
                 name_filter(args[i]);
             } else {
-            	impl_->help_and_throw("Option '-f' needs a filter string");
+            	impl_->help_and_throw(app_name, "Option '-f' needs a filter string");
             }
         } else if (args[i]=="-n") {
             if (++i<length) {
                 test_name(args[i]);
             } else {
-                impl_->help_and_throw("Option '-n' needs a test name");
+                impl_->help_and_throw(app_name, "Option '-n' needs a test name");
             }
         } else if (args[i]=="-t") {
             if (++i<length) {
                 timeout(atof(args[i].c_str()));
             } else {
-                impl_->help_and_throw("Option '-t' needs a timeout");
+                impl_->help_and_throw(app_name, "Option '-t' needs a timeout");
             }
         } else if (args[i]=="-o") {
             if (++i<length) {
                 xml_filename(args[i]);
             } else {
-                impl_->help_and_throw("Option '-o' needs an XML file name");
+                impl_->help_and_throw(app_name, "Option '-o' needs an XML file name");
             }
         } else if (args[i]=="-p") {
             if (++i<length) {
                 concurrent_threads(atoi(args[i].c_str()));
             } else {
-                impl_->help_and_throw("Option '-p' needs the number of threads");
+                impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");
             }
         } else {
-        	impl_->help_and_throw(join("Unknown argument '", args[i], "'"));
+        	impl_->help_and_throw(app_name, join("Unknown option '", args[i], "'"));
         }
     }
 }
