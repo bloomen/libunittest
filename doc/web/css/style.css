@@ -1,13 +1,6 @@
-@font-face {
-	font-family: 'OpenSans';
-	src: url('../fonts/OpenSans-Regular.eot');
-	src: local('☺'), url('../fonts/OpenSans-Regular.woff') format('woff'), url('../fonts/OpenSans-Regular.ttf') format('truetype'), url('../fonts/OpenSans-Regular.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
 body {
 	background-color: #fff;
-	font-family: 'OpenSans';
+	font-family: "Comic Sans MS", cursive, sans-serif;
 	margin: 0;
 }
 img {
@@ -58,13 +51,11 @@ img {
 }
 code {
    color: #006400;
-   display:block;
-   font: 1em 'Courier New', Courier, Fixed, monospace;
-   font-size : 100%;
+   display: block;
    overflow : auto;
-   text-align:left;
+   text-align: left;
    padding : 0px 20px 0 30px;
-   margin:1em 0em 1em 0;
+   margin: 1em 0em 1em 0;
 }
 code t {
    padding-left: 2em;
@@ -74,8 +65,6 @@ code tt {
 }
 incode {
    color: #006400;
-   font: 1em 'Courier New', Courier, Fixed, monospace;
-   font-size : 100%;
 }
 h1 {
 	color: #3e3e3e;
