@@ -41,7 +41,7 @@ img {
 	color: #f99600;
 }
 #contents {
-	background: url(../images/logo.png) no-repeat;
+	background: url(logo.png) no-repeat;
 	background-size: 70px;
 	background-position: 40px 30px;
 	min-height: 510px;
