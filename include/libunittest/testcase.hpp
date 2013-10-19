@@ -38,7 +38,7 @@ public:
      * @brief Constructor
      */
     testcase()
-        : assertions(), context_(nullptr)
+        : context_(nullptr)
     {}
     /**
      * @brief Destructor
@@ -46,15 +46,6 @@ public:
     virtual
     ~testcase()
     {}
-    /**
-     * @brief Returns a pointer to the optional test context
-     * @returns A pointer to the test context, nullptr if not defined
-     */
-    TestContext*
-    get_test_context() const
-    {
-        return context_;
-    }
     /**
      * @brief This is called before each test run. By default, it does not do
      *  anything
@@ -70,34 +61,13 @@ public:
     tear_down()
     {}
     /**
-     * @brief Generates a displayed fail message from assertion name and text
-     * @param assertion The name of the assertion
-     * @param text The assertion text
-     * @returns A displayed fail message
+     * @brief Returns a pointer to the optional test context
+     * @returns A pointer to the test context, nullptr if not defined
      */
-    virtual std::string
-    make_displayed_fail_message(const std::string& assertion,
-                                const std::string& text) const override
+    TestContext*
+    get_test_context() const
     {
-        return join(text, "  (", assertion, ") ");
-    }
-    /**
-     * @brief Returns the maximum displayed string length
-     * @returns The maximum displayed string length
-     */
-    virtual int
-    max_displayed_string_length() const override
-    {
-        return 100;
-    }
-    /**
-     * @brief Returns the maximum displayed precision of numerical values
-     * @returns The maximum displayed value precision
-     */
-    virtual int
-    max_displayed_value_precision() const override
-    {
-        return 10;
+        return context_;
     }
 
 private:
@@ -113,6 +83,42 @@ private:
     }
 
     TestContext *context_;
+};
+/**
+ * @brief The class from which to derive when implementing a test case. This
+ *  is a template specialization for the absent of a test context
+ */
+template<>
+class testcase<internals::nocontext> : public internals::assertions {
+public:
+    /**
+     * @brief Constructor
+     */
+    testcase();
+    /**
+     * @brief Destructor
+     */
+    virtual
+    ~testcase();
+    /**
+     * @brief This is called before each test run. By default, it does not do
+     *  anything
+     */
+    virtual void
+    set_up();
+    /**
+     * @brief This is called after each test run. By default, it does not do
+     *  anything
+     */
+    virtual void
+    tear_down();
+    /**
+     * @brief Returns a null pointer
+     * @returns A null pointer
+     */
+    internals::nocontext*
+    get_test_context() const;
+
 };
 
 } // unittest
