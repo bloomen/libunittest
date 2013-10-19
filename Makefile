@@ -57,7 +57,7 @@ install :
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(INSTALLDIR)/lib/$(LIBNAME)
 
-dist : version
+dist : version versioncheck
 	@$(RM) -r $(PROGVER)
 	@$(MKDIR) $(PROGVER)
 	@$(CP) -r $(DISTDATA) $(PROGVER)
@@ -69,6 +69,9 @@ dist : version
 	@$(MV) $(PROGVERTAR) $(DISTDIR)
 	@$(RM) -r $(PROGVER)
 	@$(ECHO) "Created $(DISTDIR)/$(PROGVERTAR)"
+
+versioncheck : 
+	@if [ $$(cat $(CHANGES) | grep $(VERSION) | wc -l) -eq 0 ]; then echo "$(VERSION) not found in $(CHANGES)!"; exit 1; fi  
 
 check : clean 
 	@$(ECHO) "Running check on $(PROGVER) ..."
@@ -106,7 +109,7 @@ version :
 	@$(ECHO)  >> $(FULLVERFILE)
 	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
 
-deb : version
+deb : version versioncheck
 	@$(CP) $(COPYING) debian/copyright
 	@$(CP) $(CHANGES) debian/changelog
 	@$(ECHO) "#!/usr/bin/make -f" > $(DEBRULES)
