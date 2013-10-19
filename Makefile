@@ -28,10 +28,11 @@ BUILDDEB = dpkg-buildpackage -rfakeroot -b
 
 DEBRULES = debian/rules
 COPYING = COPYING.txt
+CHANGES = CHANGES.txt
 DISTDIR = distribution
-DISTDATA = Makefile COPYING.txt README.txt CHANGES.txt include src test examples doc
+DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples doc
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal doc/doxygen
-TODOSFILES = $(COPYING) README.txt CHANGES.txt examples/README.txt doc/doxygen/doxyfile
+TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
 default : $(PROG)
 all : default
@@ -107,6 +108,7 @@ version :
 
 deb : version
 	@$(CP) $(COPYING) debian/copyright
+	@$(CP) $(CHANGES) debian/changelog
 	@$(ECHO) "#!/usr/bin/make -f" > $(DEBRULES)
 	@$(ECHO) "# -*- makefile -*-" >> $(DEBRULES)
 	@$(ECHO) "include /usr/share/cdbs/1/rules/debhelper.mk" >> $(DEBRULES)
