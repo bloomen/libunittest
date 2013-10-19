@@ -11,6 +11,7 @@ debian/libunittest-dev/*
 debian/libunittest-dev.debhelper.log
 debian/libunittest-dev.substvars
 debian/copyright
+debian/changelog
 debian/files
 debian/rules
 debian/stamp-makefile-build
