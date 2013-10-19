@@ -259,6 +259,15 @@ call_functions(const std::vector<std::function<void()>>& functions,
 std::string
 limit_string_length(const std::string& value,
                     int max_length);
+/**
+ * @brief Builds a string from given filename and line number
+ * @params filename The name of the file
+ * @params linenumber The line number within the file
+ * @returns A string build from given filename and line number
+ */
+std::string
+string_of_file_and_line(const std::string& filename,
+                        int linenumber);
 
 } // internals
 

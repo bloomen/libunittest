@@ -110,5 +110,12 @@ limit_string_length(const std::string& value,
     }
 }
 
+std::string
+string_of_file_and_line(const std::string& filename,
+                        int linenumber)
+{
+    return join(" @", filename, ":", linenumber, ". ");
+}
+
 } // internals
 } // unittest

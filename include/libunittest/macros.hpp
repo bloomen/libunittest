@@ -44,7 +44,7 @@ unittest::testrun(test_context, &__test_class__::test_method, __test_class_name_
  *  and the current line number
  */
 #define UNITTEST_SPOT \
-unittest::join(" @", __FILE__, ":", __LINE__, ". ")
+unittest::internals::string_of_file_and_line(__FILE__, __LINE__)
 /**
  * @brief Joins two symbols. Just for internals
  * @param symbol1 A symbol
