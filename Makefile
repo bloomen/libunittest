@@ -71,7 +71,7 @@ dist : version versioncheck
 	@$(ECHO) "Created $(DISTDIR)/$(PROGVERTAR)"
 
 versioncheck : 
-	@if [ $$(cat $(CHANGES) | grep $(VERSION) | wc -l) -eq 0 ]; then echo "$(VERSION) not found in $(CHANGES)!"; exit 1; fi  
+	@if [ $$(grep $(VERSION) $(CHANGES) | wc -l) -eq 0 ]; then echo "Version $(VERSION) not found in $(CHANGES)!"; exit 1; fi  
 
 check : clean 
 	@$(ECHO) "Running check on $(PROGVER) ..."
