@@ -12,27 +12,27 @@
 typedef test_class __test_class__; \
 const std::string __test_class_name__ = #test_class;
 /**
- * @brief A test run (thread-safe)
+ * @brief A test run
  * @param test_method The test method
  */
 #define UNITTEST_RUN(test_method) \
 UNITTEST_RUN_TIME(test_method, -1.)
 /**
- * @brief A test run (thread-safe)
+ * @brief A test run
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUN_TIME(test_method, timeout) \
 unittest::testrun(&__test_class__::test_method, __test_class_name__, #test_method, timeout);
 /**
- * @brief A test run with a test context (thread-safe)
+ * @brief A test run with a test context
  * @param test_context The test context
  * @param test_method The test method
  */
 #define UNITTEST_RUNCXT(test_context, test_method) \
 UNITTEST_RUNCXT_TIME(test_context, test_method, -1.)
 /**
- * @brief A test run with a test context (thread-safe)
+ * @brief A test run with a test context
  * @param test_context The test context
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)

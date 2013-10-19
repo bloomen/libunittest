@@ -84,41 +84,5 @@ private:
 
     TestContext *context_;
 };
-/**
- * @brief The class from which to derive when implementing a test case. This
- *  is a template specialization for the absent of a test context
- */
-template<>
-class testcase<internals::nocontext> : public internals::assertions {
-public:
-    /**
-     * @brief Constructor
-     */
-    testcase();
-    /**
-     * @brief Destructor
-     */
-    virtual
-    ~testcase();
-    /**
-     * @brief This is called before each test run. By default, it does not do
-     *  anything
-     */
-    virtual void
-    set_up();
-    /**
-     * @brief This is called after each test run. By default, it does not do
-     *  anything
-     */
-    virtual void
-    tear_down();
-    /**
-     * @brief Returns a null pointer
-     * @returns A null pointer
-     */
-    internals::nocontext*
-    get_test_context() const;
-
-};
 
 } // unittest

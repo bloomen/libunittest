@@ -245,7 +245,7 @@ update_local_timeout(double& local_timeout);
 } // internals
 
 /**
- * @brief A test run (thread-safe)
+ * @brief A test run
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
@@ -264,7 +264,7 @@ testrun(void (TestCase::*method)(),
     internals::observe_and_wait(future, timeout);
 }
 /**
- * @brief A test run with a test context (thread-safe)
+ * @brief A test run with a test context
  * @param context The test context
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
