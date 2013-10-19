@@ -250,6 +250,15 @@ is_regex_matched(const std::string& value,
 int
 call_functions(const std::vector<std::function<void()>>& functions,
                int n_threads=1);
+/**
+ * @brief Limits a given string to some maximum length
+ * @param value The string
+ * @param max_length The maximum length
+ * @returns A string not exceeding a length of max_length
+ */
+std::string
+limit_string_length(const std::string& value,
+                    int max_length);
 
 } // internals
 

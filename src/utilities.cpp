@@ -99,5 +99,16 @@ call_functions(const std::vector<std::function<void()>>& functions,
     return counter;
 }
 
+std::string
+limit_string_length(const std::string& value,
+                    int max_length)
+{
+    if (int(value.size()) > max_length) {
+        return value.substr(0, max_length);
+    } else {
+        return value;
+    }
+}
+
 } // internals
 } // unittest
