@@ -4,15 +4,14 @@
 
 TEST(test_value_is_false)
 {
-    assert_false(false);
+    int *ptr = nullptr;
+    assert_false(ptr);
 }
-
 
 TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s
 {
     assert_true(true);
 }
-
 
 struct fixture {
     std::string message_;
