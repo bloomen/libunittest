@@ -261,8 +261,8 @@ limit_string_length(const std::string& value,
                     int max_length);
 /**
  * @brief Builds a string from given filename and line number
- * @params filename The name of the file
- * @params linenumber The line number within the file
+ * @param filename The name of the file
+ * @param linenumber The line number within the file
  * @returns A string build from given filename and line number
  */
 std::string

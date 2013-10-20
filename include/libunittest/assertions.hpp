@@ -750,128 +750,826 @@ public:
 
 // Template specializations for the most common assertions
 
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const bool& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const char& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const short& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const int& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const long long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const unsigned char& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const unsigned short& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const unsigned int& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const unsigned long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const unsigned long long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const float& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const double& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_true(const long double& value, const std::string& message) const;
 
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const bool& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const char& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const short& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const int& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const long& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const long long& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const unsigned char& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const unsigned short& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const unsigned int& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const unsigned long& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const unsigned long long& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const float& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const double& value) const;
+/**
+ * @brief Asserts that a value is true.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_true(const long double& value) const;
 
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const bool& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const char& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const short& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const int& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const long long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const unsigned char& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const unsigned short& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const unsigned int& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const unsigned long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const unsigned long long& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const float& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const double& value, const std::string& message) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_false(const long double& value, const std::string& message) const;
 
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const bool& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const char& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const short& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const int& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const long& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const long long& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const unsigned char& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const unsigned short& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const unsigned int& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const unsigned long& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const unsigned long long& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const float& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const double& value) const;
+/**
+ * @brief Asserts that a value is false.
+ *  Operators needed: None
+ * @param value A value
+ */
 template<> void assertions::assert_false(const long double& value) const;
 
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const bool& expected, const bool& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const char& expected, const char& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const short& expected, const short& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const int& expected, const int& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const long& expected, const long& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const long long& expected, const long long& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const unsigned char& expected, const unsigned char& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const unsigned short& expected, const unsigned short& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const unsigned int& expected, const unsigned int& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const unsigned long& expected, const unsigned long& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const unsigned long long& expected,const unsigned long long& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const float& expected, const float& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const double& expected, const double& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const long double& expected, const long double& actual, const std::string& message) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_equal(const std::string& expected, const std::string& actual, const std::string& message) const;
 
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const bool& expected, const bool& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const char& expected, const char& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const short& expected, const short& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const int& expected, const int& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const long& expected, const long& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const long long& expected, const long long& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const unsigned char& expected, const unsigned char& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const unsigned short& expected, const unsigned short& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const unsigned int& expected, const unsigned int& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const unsigned long& expected, const unsigned long& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const unsigned long long& expected,const unsigned long long& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const float& expected, const float& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const double& expected, const double& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const long double& expected, const long double& actual) const;
+/**
+ * @brief Asserts that two values are equal.
+ *  Operators needed: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
 template<> void assertions::assert_equal(const std::string& expected, const std::string& actual) const;
 
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const bool& first, const bool& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const char& first, const char& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const short& first, const short& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const int& first, const int& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const long& first, const long& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const long long& first, const long long& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const unsigned char& first, const unsigned char& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const unsigned short& first, const unsigned short& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const unsigned int& first, const unsigned int& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const unsigned long& first, const unsigned long& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const unsigned long long& first,const unsigned long long& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const float& first, const float& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const double& first, const double& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const long double& first, const long double& second, const std::string& message) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ * @param message If given, is appended to the default fail message
+ */
 template<> void assertions::assert_not_equal(const std::string& first, const std::string& second, const std::string& message) const;
 
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const bool& first, const bool& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const char& first, const char& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const short& first, const short& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const int& first, const int& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const long& first, const long& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const long long& first, const long long& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const unsigned char& first, const unsigned char& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const unsigned short& first, const unsigned short& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const unsigned int& first, const unsigned int& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const unsigned long& first, const unsigned long& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const unsigned long long& first,const unsigned long long& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const float& first, const float& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const double& first, const double& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const long double& first, const long double& second) const;
+/**
+ * @brief Asserts that two values are not equal.
+ *  Operators needed: ==, <<
+ * @param first A value
+ * @param second Another value
+ */
 template<> void assertions::assert_not_equal(const std::string& first, const std::string& second) const;
 
 } // internals
