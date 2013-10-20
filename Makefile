@@ -137,5 +137,5 @@ upload :
 clean :
 	@$(ECHO) "Cleaning up ..."
 	@$(RM) -r $(LIBDIR)
-	@$(RM) $(OBJECTS)
+	@$(RM) src/*.o
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $$dir $@ ; done
