@@ -3,7 +3,7 @@
 
 struct context {};
 
-struct test_context final : unittest::testcase<context> {
+struct test_context : unittest::testcase<context> {
 
     static void run()
     {
