@@ -1,8 +1,11 @@
-libunittest (3.5.3dev) unstable; urgency=low
+libunittest (3.5.3) unstable; urgency=low
 
-  * under development 
+  * some minor code refactoring
+  * more and improved unit tests  
+  * improved html documentation
+  * switched to standard fonts in html doc
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 19 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 20 Oct 2013 22:05:02 +0100
 
 libunittest (3.5.2) unstable; urgency=low
 
