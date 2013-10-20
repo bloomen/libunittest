@@ -30,4 +30,4 @@ run :
 	@./$(PROG) $(ARGS) || exit 1
 
 clean :
-	$(RM) $(PROG) $(OBJECTS)
+	$(RM) $(PROG) $(OBJECTS) *.xml

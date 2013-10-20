@@ -13,7 +13,7 @@ else
 sftp bloomen,libunittest@web.sourceforge.net << EOF
 cd htdocs
 put doc/web/*
-cd ../debian
+cd debian
 put distribution/libunittest-dev_${version}_i386.deb
 cd /home/frs/project/libunittest
 put distribution/libunittest-${version}.tar.gz
