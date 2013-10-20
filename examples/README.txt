@@ -22,4 +22,7 @@ generate random values and containers with libunittest.
 
 The flexible example demonstrates how to use libunittest in the most flexible
 way possible. It shows how to assemble test classes with and without test 
-contexts. 
+contexts. This kind of test project compiles significantly faster than when
+using the macros TEST and TEST_FIXTURE. Due to flexibility and compile
+time reasons it is recommended to use the testing style demonstrated in this
+example for larger test projects. 
