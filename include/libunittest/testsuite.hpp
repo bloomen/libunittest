@@ -8,6 +8,7 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <string>
+#include <future>
 /**
  * @brief Unit testing in C++
  */
@@ -51,12 +52,20 @@ public:
      */
     testresults
     get_results() const;
+    /**
+     * @brief
+     */
+    std::vector<std::future<void>>&
+    get_lonely_futures();
 
 private:
     friend class testrunner;
 
     template<typename T>
     friend class testregistry;
+
+    friend void
+    observe_and_wait(std::future<void>&&, double, std::atomic<bool>&, int);
 
     testsuite();
 
@@ -83,6 +92,9 @@ private:
 
     void
     add_class_run(const std::function<void()>& class_run);
+
+    void
+    add_lonely_future(std::future<void>&& future);
 
 };
 

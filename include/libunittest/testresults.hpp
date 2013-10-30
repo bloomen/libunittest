@@ -52,6 +52,10 @@ struct testresults {
      */
     double duration;
     /**
+     * @brief
+     */
+    long n_timeouts;
+    /**
      * @brief A vector of testlog instances. One instance for each test
      */
     std::vector<testlog> testlogs;

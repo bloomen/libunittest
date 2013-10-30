@@ -28,13 +28,26 @@ process(int argc, char **argv)
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results);
-    write_summary(std::cout, results);
+
+    const auto& futures = suite->get_lonely_futures();
+    internals::make_futures_happy(std::cout, futures, arguments.verbose());
+
+    const auto full_results = suite->get_results();
+    internals::testresults delta_results;
+    for (auto i=results.testlogs.size(); i<full_results.testlogs.size(); ++i) {
+        delta_results.testlogs.push_back(full_results.testlogs[i]);
+        if (!full_results.testlogs[i].successful)
+            delta_results.successful = false;
+    }
+    write_error_info(std::cout, delta_results);
+
+    write_summary(std::cout, full_results);
     if (arguments.generate_xml()) {
         std::ofstream file(arguments.xml_filename());
-        write_xml(file, results);
+        write_xml(file, full_results);
     }
 
-    return results.successful ? EXIT_SUCCESS : EXIT_FAILURE;
+    return full_results.successful ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 } // unittest

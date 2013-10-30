@@ -117,5 +117,26 @@ string_of_file_and_line(const std::string& filename,
     return join(" @", filename, ":", linenumber, ". ");
 }
 
+
+void
+make_futures_happy(std::ostream& stream,
+                   const std::vector<std::future<void>>& futures,
+                   bool verbose)
+{
+    const auto wait_ms = std::chrono::milliseconds(1);
+    long n_unfinished(0);
+    for (auto& future : futures)
+        if (future.wait_for(wait_ms)!=std::future_status::ready)
+            ++n_unfinished;
+    if (n_unfinished) {
+        if (verbose)
+            stream << "\nWAITING for " << n_unfinished << " tests to finish ... " << std::flush;
+        for (auto& future : futures)
+            future.wait();
+        if (verbose)
+            stream << std::endl;
+    }
+}
+
 } // internals
 } // unittest

@@ -18,6 +18,7 @@ struct implementation<testsuite> {
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
+    std::vector<std::future<void>> lonely_futures_;
 
     implementation()
     	: keep_running_(true),
@@ -114,6 +115,8 @@ testsuite::collect(const testlog& log)
         ++impl_->results_.n_tests;
         impl_->results_.testlogs.push_back(std::move(log));
     }
+    if (log.has_timed_out)
+        ++impl_->results_.n_timeouts;
 }
 
 bool
@@ -132,6 +135,20 @@ void
 testsuite::add_class_run(const std::function<void()>& class_run)
 {
     impl_->class_runs_.push_back(class_run);
+}
+
+void
+testsuite::add_lonely_future(std::future<void>&& future)
+{
+    static std::mutex add_lonely_future_mutex_;
+    std::lock_guard<std::mutex> lock(add_lonely_future_mutex_);
+    impl_->lonely_futures_.push_back(std::move(future));
+}
+
+std::vector<std::future<void>>&
+testsuite::get_lonely_futures()
+{
+    return impl_->lonely_futures_;
 }
 
 } // internals

@@ -9,6 +9,7 @@
 #include <sstream>
 #include <regex>
 #include <limits>
+#include <future>
 /**
  * @brief Unit testing in C++
  */
@@ -268,6 +269,13 @@ limit_string_length(const std::string& value,
 std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber);
+/**
+ * @brief
+ */
+void
+make_futures_happy(std::ostream& stream,
+                   const std::vector<std::future<void>>& futures,
+                   bool verbose);
 
 } // internals
 

@@ -10,8 +10,9 @@ namespace unittest {
 namespace internals {
 
 void
-observe_and_wait(const std::future<void>& future,
+observe_and_wait(std::future<void>&& future,
                  double timeout_sec,
+                 std::atomic<bool>& has_timed_out,
                  int resolution_ms)
 {
     if (timeout_sec > 0) {
@@ -19,12 +20,20 @@ observe_and_wait(const std::future<void>& future,
         const double wait_sec = duration_in_seconds(wait_ms);
         double duration(wait_sec);
         while (future.wait_for(wait_ms)!=std::future_status::ready) {
-            if (duration > timeout_sec)
-                throw testfailure(join("test has timed out after ", timeout_sec, "s"));
+            if (duration > timeout_sec) {
+                has_timed_out = true;
+                auto suite = testsuite::instance();
+                std::string message("T");
+                if (suite->get_arguments().verbose()) message = "TIMEOUT\n";
+                std::cout << message << std::flush;
+                suite->add_lonely_future(std::move(future));
+                break;
+            }
             duration += wait_sec;
         }
+    } else {
+        future.wait();
     }
-    future.wait();
 }
 
 template<>
@@ -99,13 +108,19 @@ testrunner::log_error(const std::exception& e)
     impl_->log_.message = e.what();
     impl_->log_.error_type = typeid(e).name();
 }
-
 void
 testrunner::log_unknown_error()
 {
     impl_->log_.status = teststatus::error;
     impl_->log_.message = "Unknown message";
     impl_->log_.error_type = "Unknown exception";
+}
+
+void
+testrunner::has_timed_out(double timeout)
+{
+    impl_->log_.has_timed_out = true;
+    impl_->log_.timeout = timeout;
 }
 
 void

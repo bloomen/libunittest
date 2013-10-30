@@ -7,7 +7,7 @@ namespace internals {
 
 testresults::testresults()
     : successful(true), n_tests(0), n_successes(0), n_failures(0),
-      n_errors(0), n_skipped(0), duration(0), testlogs(0)
+      n_errors(0), n_skipped(0), duration(0), n_timeouts(0), testlogs(0)
 {}
 
 void
@@ -23,13 +23,17 @@ write_xml(std::ostream& stream,
     stream << "\" tests=\"" << results.n_tests;
     stream << "\" errors=\"" << results.n_errors;
     stream << "\" failures=\"" << results.n_failures;
+    stream << "\" timeouts=\"" << results.n_timeouts;
     stream << "\" skipped=\"" << results.n_skipped;
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
     for (auto& log : results.testlogs) {
         stream << "\t<testcase classname=\"" << xml_escape(log.class_name);
         stream << "\" name=\"" << xml_escape(log.test_name);
-        stream << "\" time=\"" << log.duration << "\"";
+        stream << "\" time=\"" << log.duration;
+        std::string has_timed_out = log.has_timed_out ? "true" : "false";
+        stream << "\" has_timed_out=\"" << has_timed_out;
+        stream << "\" timeout=\"" << log.timeout << "\"";
         if (log.successful) {
             stream << "/>";
             stream << "\n";
@@ -62,8 +66,14 @@ write_summary(std::ostream& stream,
     stream << "\n";
     stream << "Ran " << results.n_tests << " tests in ";
     stream << results.duration << "s\n\n";
+    long n_timeouts(0);
+    for (auto& log : results.testlogs)
+        if (log.has_timed_out) ++n_timeouts;
     if (results.n_tests==results.n_successes) {
-        stream << "OK\n";
+        stream << "OK";
+        if (results.n_timeouts>0)
+            stream << " (timeouts=" << results.n_timeouts <<")";
+        stream << "\n";
     } else {
         stream << "FAILED (";
         if (results.n_failures>0 && results.n_errors>0) {
@@ -74,6 +84,8 @@ write_summary(std::ostream& stream,
         } else if (results.n_errors>0) {
             stream << "errors=" << results.n_errors;
         }
+        if (results.n_timeouts>0)
+            stream << ",timeouts=" << results.n_timeouts;
         stream << ")\n";
     }
     stream << std::flush;
@@ -94,6 +106,8 @@ write_error_info(std::ostream& stream,
                 if (status==teststatus::error)
                     flag = "ERROR";
                 stream << flag << ": " << make_full_test_name(log.class_name, log.test_name);
+                if (log.has_timed_out)
+                    stream << " (TIMEOUT)";
                 stream << "\n";
                 write_horizontal_bar(stream, '-');
                 stream << "\n";

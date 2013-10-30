@@ -9,6 +9,7 @@
 #include <string>
 #include <stdexcept>
 #include <future>
+#include <iostream>
 /**
  * @brief Unit testing in C++
  */
@@ -23,11 +24,13 @@ namespace internals {
  *  given maximum run time is exceeded.
  * @param future The asynchronous operation
  * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
+ * @param has_timed_out Whether a timeout has occurred (note the reference)
  * @param resolution_ms The temporal resolution in number of milliseconds
  */
 void
-observe_and_wait(const std::future<void>& future,
+observe_and_wait(std::future<void>&& future,
                  double timeout_sec,
+                 std::atomic<bool>& has_timed_out,
                  int resolution_ms=100);
 /**
  * @brief The test runner that is called by the testrun function. It executes
@@ -79,6 +82,7 @@ public:
                 functor();
                 log_success();
             }
+            if (functor.has_timed_out()) has_timed_out(functor.timeout());
         }
     }
 
@@ -96,6 +100,9 @@ private:
     void
     log_unknown_error();
 
+    void
+    has_timed_out(double timeout);
+
 };
 /**
  * @brief Stores an instance of the test class and the test to be run.
@@ -109,20 +116,42 @@ struct testfunctor final {
      * @param method The test to be run
      */
     testfunctor(TestCase& test,
-                void (TestCase::*method)())
-        : test_(&test),
-          method_(method)
+                void (TestCase::*method)(),
+                double timeout,
+                std::atomic<bool>* has_timed_out)
+        : test_(&test), method_(method), timeout_(timeout),
+          has_timed_out_(has_timed_out)
     {}
     /**
      * @brief Executes the test
      */
-    void operator()() {
+    void
+    operator()()
+    {
         (test_->*method_)();
+    }
+    /**
+     * @brief
+     */
+    double
+    timeout() const
+    {
+        return timeout_;
+    }
+    /**
+     * @brief
+     */
+    bool
+    has_timed_out() const
+    {
+        return has_timed_out_->load();
     }
 
 private:
     TestCase* test_;
     void (TestCase::*method_)();
+    double timeout_;
+    std::atomic<bool>* has_timed_out_;
 };
 /**
  * @brief A class for storing test information
@@ -137,8 +166,11 @@ struct testrun_store {
      */
     testrun_store(void (TestCase::*method)(),
                   const std::string& class_name,
-                  const std::string& test_name)
-        : method_(method), class_name_(class_name), test_name_(test_name)
+                  const std::string& test_name,
+                  double timeout,
+                  std::atomic<bool>* has_timed_out)
+        : method_(method), class_name_(class_name), test_name_(test_name),
+          timeout_(timeout), has_timed_out_(has_timed_out)
     {}
     /**
      * @brief Destructor
@@ -160,6 +192,14 @@ protected:
      * @brief The name of the test
      */
     std::string test_name_;
+    /**
+     * @brief
+     */
+    double timeout_;
+    /**
+     * @brief
+     */
+    std::atomic<bool>* has_timed_out_;
 
 };
 /**
@@ -176,19 +216,22 @@ struct testrun_free final : testrun_store<TestCase> {
      */
     testrun_free(void (TestCase::*method)(),
                  const std::string& class_name,
-                 const std::string& test_name)
-        : testrun_store<TestCase>(method, class_name, test_name)
+                 const std::string& test_name,
+                 double timeout,
+                 std::atomic<bool>* has_timed_out)
+        : testrun_store<TestCase>(method, class_name, test_name, timeout, has_timed_out)
     {}
     /**
      * @brief Runs the test
      */
-    void operator()()
+    void
+    operator()()
     {
         testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
             TestCase test;
             test.set_up();
-            testfunctor<TestCase> functor(test, this->method_);
+            testfunctor<TestCase> functor(test, this->method_, this->timeout_, this->has_timed_out_);
             runner.execute(functor);
             test.tear_down();
         }
@@ -212,20 +255,24 @@ struct testrun_context final : testrun_store<TestCase> {
     testrun_context(TestContext* context,
                     void (TestCase::*method)(),
                     const std::string& class_name,
-                    const std::string& test_name)
-        : testrun_store<TestCase>(method, class_name, test_name), context_(context)
+                    const std::string& test_name,
+                    double timeout,
+                    std::atomic<bool>* has_timed_out)
+        : testrun_store<TestCase>(method, class_name, test_name, timeout, has_timed_out),
+          context_(context)
     {}
     /**
      * @brief Runs the test
      */
-    void operator()()
+    void
+    operator()()
     {
         testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
             TestCase test;
             test.set_test_context(context_);
             test.set_up();
-            testfunctor<TestCase> functor(test, this->method_);
+            testfunctor<TestCase> functor(test, this->method_, this->timeout_, this->has_timed_out_);
             runner.execute(functor);
             test.tear_down();
         }
@@ -259,9 +306,11 @@ testrun(void (TestCase::*method)(),
         double timeout)
 {
     internals::update_local_timeout(timeout);
-    internals::testrun_free<TestCase> functor(method, class_name, test_name);
+    std::atomic<bool> has_timed_out(false);
+    internals::testrun_free<TestCase>
+        functor(method, class_name, test_name, timeout, &has_timed_out);
     std::future<void> future = std::async(std::launch::async, functor);
-    internals::observe_and_wait(future, timeout);
+    internals::observe_and_wait(std::move(future), timeout, has_timed_out);
 }
 /**
  * @brief A test run with a test context
@@ -281,9 +330,11 @@ testrun(TestContext& context,
         double timeout)
 {
     internals::update_local_timeout(timeout);
-    internals::testrun_context<TestContext, TestCase> functor(&context, method, class_name, test_name);
+    std::atomic<bool> has_timed_out(false);
+    internals::testrun_context<TestContext, TestCase>
+        functor(&context, method, class_name, test_name, timeout, &has_timed_out);
     std::future<void> future = std::async(std::launch::async, functor);
-    internals::observe_and_wait(future, timeout);
+    internals::observe_and_wait(std::move(future), timeout, has_timed_out);
 }
 
 } // unittest

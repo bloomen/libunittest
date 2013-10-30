@@ -50,6 +50,14 @@ struct testlog {
      * @brief The test duration in seconds
      */
     double duration;
+    /**
+     * @brief
+     */
+    bool has_timed_out;
+    /**
+     * @brief
+     */
+    double timeout;
 };
 /**
  * @brief Writes a test start message to the given output stream

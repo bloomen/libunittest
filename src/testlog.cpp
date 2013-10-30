@@ -6,7 +6,8 @@ namespace internals {
 
 testlog::testlog()
     : class_name(""), test_name(""), successful(true),
-      status(teststatus::skipped), message(""), duration(0)
+      status(teststatus::skipped), message(""), duration(0),
+      has_timed_out(false), timeout(-1)
 {}
 
 void
@@ -25,23 +26,25 @@ write_test_end_message(std::ostream& stream,
                        const testlog& log,
                        bool verbose)
 {
-    if (verbose) {
-        switch (log.status) {
-        case teststatus::success: stream << "ok";   break;
-        case teststatus::failure: stream << "FAIL"; break;
-        case teststatus::error: stream << "ERROR";  break;
-        default: break;
+    if (!log.has_timed_out) {
+        if (verbose) {
+            switch (log.status) {
+            case teststatus::success: stream << "ok";   break;
+            case teststatus::failure: stream << "FAIL"; break;
+            case teststatus::error: stream << "ERROR";  break;
+            default: break;
+            }
+            stream << "\n";
+        } else {
+            switch (log.status) {
+            case teststatus::success: stream << "."; break;
+            case teststatus::failure: stream << "F"; break;
+            case teststatus::error: stream << "E";   break;
+            default: break;
+            }
         }
-        stream << "\n";
-    } else {
-        switch (log.status) {
-        case teststatus::success: stream << "."; break;
-        case teststatus::failure: stream << "F"; break;
-        case teststatus::error: stream << "E";   break;
-        default: break;
-        }
+        stream << std::flush;
     }
-    stream << std::flush;
 }
 
 std::string
