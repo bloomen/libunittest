@@ -24,7 +24,8 @@ observe_and_wait(std::future<void>&& future,
                 has_timed_out = true;
                 auto suite = testsuite::instance();
                 std::string message("T");
-                if (suite->get_arguments().verbose()) message = "TIMEOUT\n";
+                if (suite->get_arguments().verbose())
+                    message = "TIMEOUT\n";
                 std::cout << message << std::flush;
                 suite->add_lonely_future(std::move(future));
                 break;
