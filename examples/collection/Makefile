@@ -11,10 +11,6 @@ INCS = -I$(INCDIR)
 LIBS = $(LIBDIR)/libunittest.so
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
-LD_LIBRARY_PATH := $(LIBDIR):$(LD_LIBRARY_PATH)
-DYLD_LIBRARY_PATH := $(LIBDIR):$(DYLD_LIBRARY_PATH)
-PATH := $(LIBDIR):$(PATH)
-
 RM = rm -f
 
 default : $(PROG)
