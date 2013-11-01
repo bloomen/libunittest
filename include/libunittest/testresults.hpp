@@ -81,11 +81,13 @@ write_summary(std::ostream& stream,
 /**
  * @brief Writes the error info to the given output stream
  * @param stream The output stream
- * @param results The test results
+ * @param testlogs The test logs
+ * @param successful Whether all tests passed
  */
 void
 write_error_info(std::ostream& stream,
-                 const testresults& results);
+                 const std::vector<testlog>& testlogs,
+                 bool successful);
 
 } // internals
 } // unittest

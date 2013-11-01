@@ -27,19 +27,19 @@ process(int argc, char **argv)
     internals::call_functions(class_runs, n_threads);
 
     const auto results = suite->get_results();
-    write_error_info(std::cout, results);
-
+    write_error_info(std::cout, results.testlogs, results.successful);
     const auto& futures = suite->get_lonely_futures();
     internals::make_futures_happy(std::cout, futures, arguments.verbose());
-
     const auto full_results = suite->get_results();
-    internals::testresults delta_results;
+
+    std::vector<internals::testlog> delta_testlogs;
+    bool successful = true;
     for (auto i=results.testlogs.size(); i<full_results.testlogs.size(); ++i) {
-        delta_results.testlogs.push_back(full_results.testlogs[i]);
-        if (!full_results.testlogs[i].successful)
-            delta_results.successful = false;
+        delta_testlogs.push_back(full_results.testlogs[i]);
+        if (!delta_testlogs.back().successful)
+            successful = false;
     }
-    write_error_info(std::cout, delta_results);
+    write_error_info(std::cout, delta_testlogs, successful);
 
     write_summary(std::cout, full_results);
     if (arguments.generate_xml()) {

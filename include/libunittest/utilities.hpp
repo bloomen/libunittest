@@ -248,7 +248,7 @@ is_regex_matched(const std::string& value,
  * @param n_threads The number of concurrent threads, ignored if <= 1
  * @returns The number of function calls
  */
-int
+long
 call_functions(const std::vector<std::function<void()>>& functions,
                int n_threads=1);
 /**

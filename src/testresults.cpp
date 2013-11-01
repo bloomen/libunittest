@@ -90,11 +90,12 @@ write_summary(std::ostream& stream,
 
 void
 write_error_info(std::ostream& stream,
-                 const testresults& results)
+                 const std::vector<testlog>& testlogs,
+                 bool successful)
 {
-    if (!results.successful) {
+    if (!successful) {
         stream << "\n";
-        for (auto& log : results.testlogs) {
+        for (auto& log : testlogs) {
             const auto status = log.status;
             if (status==teststatus::failure || status==teststatus::error) {
                 write_horizontal_bar(stream, '=');

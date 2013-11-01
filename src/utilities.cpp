@@ -70,15 +70,15 @@ is_regex_matched(const std::string& value,
     return std::regex_match(value, regex);
 }
 
-int
+long
 call_functions(const std::vector<std::function<void()>>& functions,
                int n_threads)
 {
-    const int n_runs = functions.size();
+    const long n_runs = functions.size();
     if (n_threads > n_runs)
         n_threads = n_runs;
 
-    int counter = 0;
+    long counter = 0;
     if (n_threads > 1 && n_runs > 1) {
         while (counter < n_runs) {
             if (n_threads > n_runs - counter)
