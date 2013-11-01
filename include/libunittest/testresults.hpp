@@ -48,13 +48,13 @@ struct testresults {
      */
     long n_skipped;
     /**
+     * @brief The number of tests that timed out
+     */
+    long n_timeouts;
+    /**
      * @brief The duration of all tests in seconds
      */
     double duration;
-    /**
-     * @brief
-     */
-    long n_timeouts;
     /**
      * @brief A vector of testlog instances. One instance for each test
      */
