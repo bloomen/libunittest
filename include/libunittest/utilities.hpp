@@ -65,7 +65,7 @@ write_to_stream(std::ostream& stream,
 void
 write_horizontal_bar(std::ostream& stream,
                      char character,
-                     int length=50);
+                     int length=79);
 /**
  * @brief Casts a duration value to seconds
  * @param duration The duration value
