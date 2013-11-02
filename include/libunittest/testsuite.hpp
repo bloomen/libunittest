@@ -47,16 +47,17 @@ public:
     std::vector<std::function<void()>>&
     get_class_runs() const;
     /**
+     * @brief Returns a reference to the vector of lonely futures
+     * @returns A reference to the vector of lonely futures
+     */
+    std::vector<std::future<void>>&
+    get_lonely_futures();
+    /**
      * @brief Returns the accumulated test results
      * @returns The test results
      */
     testresults
     get_results() const;
-    /**
-     * @brief
-     */
-    std::vector<std::future<void>>&
-    get_lonely_futures();
 
 private:
     friend class testrunner;

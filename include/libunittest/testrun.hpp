@@ -114,6 +114,8 @@ struct testfunctor final {
      * @brief Constructor storing instance and method
      * @param test An instance of the test class
      * @param method The test to be run
+     * @param timeout The test timeout
+     * @param has_timed_out Whether the test has timed out
      */
     testfunctor(TestCase& test,
                 void (TestCase::*method)(),
@@ -131,7 +133,8 @@ struct testfunctor final {
         (test_->*method_)();
     }
     /**
-     * @brief
+     * @brief Returns the test timeout
+     * @returns The test timeout
      */
     double
     timeout() const
@@ -139,7 +142,8 @@ struct testfunctor final {
         return timeout_;
     }
     /**
-     * @brief
+     * @brief Returns whether the test has timed out
+     * @returns Whether the test has timed out
      */
     bool
     has_timed_out() const
@@ -163,6 +167,8 @@ struct testrun_store {
      * @param method A pointer to the test method
      * @param class_name The name of test class
      * @param test_name The name of the test method
+     * @param timeout The test timeout
+     * @param has_timed_out Whether the test has timed out
      */
     testrun_store(void (TestCase::*method)(),
                   const std::string& class_name,
@@ -193,11 +199,11 @@ protected:
      */
     std::string test_name_;
     /**
-     * @brief
+     * @brief The test timeout
      */
     double timeout_;
     /**
-     * @brief
+     * @brief Whether the test has timed out
      */
     std::atomic<bool>* has_timed_out_;
 
@@ -213,6 +219,8 @@ struct testrun_free final : testrun_store<TestCase> {
      * @param method A pointer to the test method
      * @param class_name The name of test class
      * @param test_name The name of the test method
+     * @param timeout The test timeout
+     * @param has_timed_out Whether the test has timed out
      */
     testrun_free(void (TestCase::*method)(),
                  const std::string& class_name,
@@ -251,6 +259,8 @@ struct testrun_context final : testrun_store<TestCase> {
      * @param method A pointer to the test method
      * @param class_name The name of test class
      * @param test_name The name of the test method
+     * @param timeout The test timeout
+     * @param has_timed_out Whether the test has timed out
      */
     testrun_context(TestContext* context,
                     void (TestCase::*method)(),

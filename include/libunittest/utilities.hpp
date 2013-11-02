@@ -270,12 +270,20 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber);
 /**
- * @brief
+ * @brief Ensures that all futures passed will wait for the threads
+ *  they've spawned until they finish. This makes the futures happy.
+ * @param stream An output stream
+ * @param futures The vector of lonely futures
+ * @param verbose Whether output is verbose
  */
 void
 make_futures_happy(std::ostream& stream,
                    const std::vector<std::future<void>>& futures,
                    bool verbose);
+/**
+ * @brief A utility class to indicate 'no type' property
+ */
+class notype {};
 
 } // internals
 

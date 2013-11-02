@@ -51,11 +51,11 @@ struct testlog {
      */
     double duration;
     /**
-     * @brief
+     * @brief Whether the test has timed out
      */
     bool has_timed_out;
     /**
-     * @brief
+     * @brief The test timeout so the maximum allowed run time
      */
     double timeout;
 };

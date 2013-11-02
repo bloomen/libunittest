@@ -128,13 +128,13 @@ namespace collection_##name { \
     typedef collection_child __testcollection_type__; \
 } \
 namespace collection_##name
-
-class notype {};
 /**
- * @brief
+ * @brief Sets up a templated test with a timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_TEST_TPL_TIME(test_name, timeout) \
-template<typename Type1, typename Type2=notype, typename Type3=notype, typename Type4=notype, typename Type5=notype> \
+template<typename Type1, typename Type2=unittest::internals::notype, typename Type3=unittest::internals::notype, typename Type4=unittest::internals::notype, typename Type5=unittest::internals::notype> \
 struct test_name : unittest::testcase<> { \
     static constexpr double __timeout__ = timeout; \
     static void run(); \
@@ -143,15 +143,19 @@ struct test_name : unittest::testcase<> { \
 template<typename Type1, typename Type2, typename Type3, typename Type4, typename Type5> \
 void test_name<Type1,Type2,Type3,Type4,Type5>::test()
 /**
- * @brief
+ * @brief Sets up a templated test
+ * @param test_name The name of the test
  */
 #define UNITTEST_TEST_TPL(test_name) \
 UNITTEST_TEST_TPL_TIME(test_name, -1.)
 /**
- * @brief
+ * @brief Sets up a templated test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout) \
-template<typename Type1, typename Type2=notype, typename Type3=notype, typename Type4=notype, typename Type5=notype> \
+template<typename Type1, typename Type2=unittest::internals::notype, typename Type3=unittest::internals::notype, typename Type4=unittest::internals::notype, typename Type5=unittest::internals::notype> \
 struct test_name : unittest::testcase<>, fixture { \
     test_name() : fixture() {} \
     static constexpr double __timeout__ = timeout; \
@@ -161,12 +165,14 @@ struct test_name : unittest::testcase<>, fixture { \
 template<typename Type1, typename Type2, typename Type3, typename Type4, typename Type5> \
 void test_name<Type1,Type2,Type3,Type4,Type5>::test()
 /**
- * @brief
+ * @brief Sets up a templated test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
  */
 #define UNITTEST_TEST_TPL_FIXTURE(fixture, test_name) \
 UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, -1.)
 /**
- * @brief
+ * @brief Registers a templated test at the global registry
  */
 #define UNITTEST_REGISTER_TPL(...) \
 template<> \
