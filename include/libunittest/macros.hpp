@@ -61,10 +61,10 @@ __UNITTEST_DO_JOIN(symbol1, symbol2)
 symbol1##symbol2
 /**
  * @brief Registers a test class at the global registry
- * @param test_class The test class
+ * @test_name The name of the test
  */
-#define UNITTEST_REGISTER(test_class) \
-static unittest::internals::testregistry<test_class> __UNITTEST_JOIN(__registered_##test_class, __LINE__);
+#define UNITTEST_REGISTER(test_name) \
+static unittest::internals::testregistry<test_name> __UNITTEST_JOIN(__registered_at_, __LINE__);
 /**
  * @brief Sets up a plain test
  * @param test_name The name of the test
@@ -128,3 +128,51 @@ namespace collection_##name { \
     typedef collection_child __testcollection_type__; \
 } \
 namespace collection_##name
+
+class notype {};
+/**
+ * @brief
+ */
+#define UNITTEST_TEST_TPL_TIME(test_name, timeout) \
+template<typename Type1, typename Type2=notype, typename Type3=notype, typename Type4=notype, typename Type5=notype> \
+struct test_name : unittest::testcase<> { \
+    static constexpr double __timeout__ = timeout; \
+    static void run(); \
+    void test(); \
+}; \
+template<typename Type1, typename Type2, typename Type3, typename Type4, typename Type5> \
+void test_name<Type1,Type2,Type3,Type4,Type5>::test()
+/**
+ * @brief
+ */
+#define UNITTEST_TEST_TPL(test_name) \
+UNITTEST_TEST_TPL_TIME(test_name, -1.)
+/**
+ * @brief
+ */
+#define UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout) \
+template<typename Type1, typename Type2=notype, typename Type3=notype, typename Type4=notype, typename Type5=notype> \
+struct test_name : unittest::testcase<>, fixture { \
+    test_name() : fixture() {} \
+    static constexpr double __timeout__ = timeout; \
+    static void run(); \
+    void test(); \
+}; \
+template<typename Type1, typename Type2, typename Type3, typename Type4, typename Type5> \
+void test_name<Type1,Type2,Type3,Type4,Type5>::test()
+/**
+ * @brief
+ */
+#define UNITTEST_TEST_TPL_FIXTURE(fixture, test_name) \
+UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, -1.)
+/**
+ * @brief
+ */
+#define UNITTEST_REGISTER_TPL(...) \
+template<> \
+void __VA_ARGS__::run() \
+{ \
+    __testcollection_type__ collection; \
+    unittest::testrun(&__VA_ARGS__::test, collection.get_name(), #__VA_ARGS__, __VA_ARGS__::__timeout__); \
+} \
+static unittest::internals::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__);

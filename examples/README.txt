@@ -26,3 +26,8 @@ contexts. This kind of test project compiles significantly faster than when
 using the macros TEST and TEST_FIXTURE. Due to flexibility and compile
 time reasons it is recommended to use the testing style demonstrated in this
 example for larger test projects. 
+
+5)
+
+The templates example demonstrates how two define templated tests using
+the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE.

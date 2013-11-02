@@ -50,4 +50,4 @@ struct test_something : unittest::testcase<test_context> {
 
 };
 
-UNITTEST_REGISTER(test_something) // this registers the test class
+REGISTER(test_something) // this registers the test class

@@ -10,6 +10,12 @@
 #define SPOT \
 UNITTEST_SPOT
 /**
+ * @brief Registers a test class at the global registry
+ * @test_name The name of the test
+ */
+#define REGISTER(test_name) \
+UNITTEST_REGISTER(test_name)
+/**
  * @brief Sets up a plain test
  * @param test_name The name of the test
  */
@@ -43,3 +49,28 @@ UNITTEST_TEST_FIXTURE_TIME(fixture, test_name, timeout)
  */
 #define COLLECTION(name) \
 UNITTEST_COLLECTION(name)
+/**
+ * @brief
+ */
+#define TEST_TPL(test_name) \
+UNITTEST_TEST_TPL(test_name)
+/**
+ * @brief
+ */
+#define TEST_TPL_TIME(test_name, timeout) \
+UNITTEST_TEST_TPL_TIME(test_name, timeout)
+/**
+ * @brief
+ */
+#define TEST_TPL_FIXTURE(fixture, test_name) \
+UNITTEST_TEST_TPL_FIXTURE(fixture, test_name)
+/**
+ * @brief
+ */
+#define TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout) \
+UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout)
+/**
+ * @brief
+ */
+#define REGISTER_TPL(...) \
+UNITTEST_REGISTER_TPL(__VA_ARGS__)

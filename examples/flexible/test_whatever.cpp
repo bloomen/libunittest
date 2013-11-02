@@ -9,8 +9,8 @@ struct test_whatever : unittest::testcase<> {
     {
         UNITTEST_CLASS(test_whatever)
         UNITTEST_RUN(test_throw)
-        UNITTEST_RUN(test_in_range)
         UNITTEST_RUN_TIME(test_in_container, 2) // a timeout of 2s
+        UNITTEST_RUN(test_in_range)
     }
 
     test_whatever() {} // executed before each test
@@ -38,4 +38,4 @@ struct test_whatever : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_whatever) // this registers the test class
+REGISTER(test_whatever) // this registers the test class
