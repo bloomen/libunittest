@@ -185,7 +185,7 @@ struct test_misc : unittest::testcase<> {
     {
         const unittest::internals::testresults results;
         std::ostringstream stream;
-        unittest::internals::write_error_info(stream, results);
+        unittest::internals::write_error_info(stream, results.testlogs, results.successful);
         assert_equal("", stream.str(), SPOT);
     }
 
@@ -193,7 +193,7 @@ struct test_misc : unittest::testcase<> {
     {
         const auto results = make_sample_results();
         std::ostringstream stream;
-        unittest::internals::write_error_info(stream, results);
+        unittest::internals::write_error_info(stream, results.testlogs, results.successful);
         std::ostringstream expected;
         expected << "\n";
         unittest::internals::write_horizontal_bar(expected, '=');
