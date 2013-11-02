@@ -27,7 +27,9 @@ using the macros TEST and TEST_FIXTURE. Due to flexibility and compile
 time reasons it is recommended to use the testing style demonstrated in this
 example for larger test projects. 
 
-5)
+5) templates
 
 The templates example demonstrates how two define templated tests using
-the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE.
+the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE. Note that these tests
+have to be registered manually by using the macro REGISTER_TPL and by passing
+concrete types. Up to five different types are supported: Type1, ..., Type5
