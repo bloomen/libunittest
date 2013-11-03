@@ -25,4 +25,4 @@ struct test_context : unittest::testcase<context> {
 
 };
 
-UNITTEST_REGISTER(test_context)
+REGISTER(test_context)

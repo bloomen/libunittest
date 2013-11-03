@@ -400,4 +400,4 @@ struct test_argparser : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_argparser)
+REGISTER(test_argparser)

@@ -301,4 +301,4 @@ struct test_random : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_random)
+REGISTER(test_random)

@@ -71,4 +71,4 @@ struct test_formatting : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_formatting)
+REGISTER(test_formatting)

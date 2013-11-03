@@ -130,4 +130,4 @@ struct test_utilities : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_utilities)
+REGISTER(test_utilities)

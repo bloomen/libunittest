@@ -268,4 +268,4 @@ struct test_assertions : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_assertions)
+REGISTER(test_assertions)

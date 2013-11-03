@@ -341,4 +341,4 @@ struct test_misc : unittest::testcase<> {
 
 };
 
-UNITTEST_REGISTER(test_misc)
+REGISTER(test_misc)
