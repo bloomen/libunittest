@@ -21,9 +21,11 @@ public:
     /**
      * @brief Constructor
      */
-    testregistry()
+    testregistry(const std::string& class_name)
     {
-        internals::testsuite::instance()->add_class_run(TestCase::run);
+        auto suite = internals::testsuite::instance();
+        suite->add_class_run(TestCase::run);
+        suite->add_class_map(typeid(TestCase).name(), class_name);
     }
 
 };

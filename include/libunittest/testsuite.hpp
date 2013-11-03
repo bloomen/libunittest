@@ -9,6 +9,7 @@
 #include <libunittest/pimplpattern.hpp>
 #include <string>
 #include <future>
+#include <map>
 /**
  * @brief Unit testing in C++
  */
@@ -46,6 +47,13 @@ public:
      */
     std::vector<std::function<void()>>&
     get_class_runs() const;
+    /**
+     * @brief Returns a reference to the mappings from test class IDs to
+     *  test class names
+     * @returns A reference to mappings from test class IDs to test class names
+     */
+    std::map<std::string, std::string>&
+    get_class_maps() const;
     /**
      * @brief Returns a reference to the vector of lonely futures
      * @returns A reference to the vector of lonely futures
@@ -93,6 +101,10 @@ private:
 
     void
     add_class_run(const std::function<void()>& class_run);
+
+    void
+    add_class_map(const std::string& typeid_name,
+                  const std::string& class_name);
 
     void
     add_lonely_future(std::future<void>&& future);

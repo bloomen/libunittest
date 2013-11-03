@@ -32,6 +32,12 @@ public:
      */
     virtual std::string
     get_name() const;
+    /**
+     * @brief Returns the name that is returned by default by get_name()
+     * @returns The name that is returned by default by get_name()
+     */
+    static std::string
+    inactive_name();
 };
 
 } // internals

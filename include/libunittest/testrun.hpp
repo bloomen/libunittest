@@ -158,6 +158,22 @@ private:
     std::atomic<bool>* has_timed_out_;
 };
 /**
+ * @brief Updates the class name according to some heuristics
+ * @param class_name The current class name
+ * @param typeid_name The class' type ID name
+ */
+void
+update_class_name(std::string& class_name,
+                  const std::string& typeid_name);
+/**
+ * @brief Updates the test name according to some heuristics
+ * @param test_name The current test name
+ * @param typeid_name The class' type ID name
+ */
+void
+update_test_name(std::string& test_name,
+                 const std::string& typeid_name);
+/**
  * @brief A class for storing test information
  */
 template<typename TestCase>
@@ -177,7 +193,10 @@ struct testrun_store {
                   std::atomic<bool>* has_timed_out)
         : method_(method), class_name_(class_name), test_name_(test_name),
           timeout_(timeout), has_timed_out_(has_timed_out)
-    {}
+    {
+        update_class_name(class_name_, typeid(TestCase).name());
+        update_test_name(test_name_, typeid(TestCase).name());
+    }
     /**
      * @brief Destructor
      */

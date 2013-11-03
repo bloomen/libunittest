@@ -5,6 +5,7 @@
 #include <memory>
 #include <chrono>
 #include <vector>
+#include <map>
 
 namespace unittest {
 namespace internals {
@@ -18,6 +19,7 @@ struct implementation<testsuite> {
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
+    std::map<std::string, std::string> class_maps_;
     std::vector<std::future<void>> lonely_futures_;
 
     implementation()
@@ -135,6 +137,19 @@ void
 testsuite::add_class_run(const std::function<void()>& class_run)
 {
     impl_->class_runs_.push_back(class_run);
+}
+
+void
+testsuite::add_class_map(const std::string& typeid_name,
+                         const std::string& class_name)
+{
+    impl_->class_maps_[typeid_name] = class_name;
+}
+
+std::map<std::string, std::string>&
+testsuite::get_class_maps() const
+{
+    return impl_->class_maps_;
 }
 
 void

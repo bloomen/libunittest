@@ -2,6 +2,7 @@
 #include <libunittest/utilities.hpp>
 #include <libunittest/teststatus.hpp>
 #include <libunittest/testlog.hpp>
+#include <libunittest/testcollection.hpp>
 #include <chrono>
 #include <iostream>
 #include <typeinfo>
@@ -129,6 +130,28 @@ update_local_timeout(double& local_timeout)
 {
     if (!(local_timeout > 0))
         local_timeout = testsuite::instance()->get_arguments().timeout();
+}
+
+void
+update_class_name(std::string& class_name,
+                  const std::string& typeid_name)
+{
+    if (class_name=="") {
+        auto& maps = testsuite::instance()->get_class_maps();
+        class_name = maps[typeid_name];
+    } else if (class_name==testcollection::inactive_name()) {
+        class_name = "";
+    }
+}
+
+void
+update_test_name(std::string& test_name,
+                 const std::string& typeid_name)
+{
+    if (test_name=="") {
+        auto& maps = testsuite::instance()->get_class_maps();
+        test_name = maps[typeid_name];
+    }
 }
 
 } // internals
