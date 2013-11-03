@@ -1,18 +1,17 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 
-
-COLLECTION(templates)
+COLLECTION(templates_plain)
 {
 
-TEST_TPL(test_simple)
+TEST_TPL(test_sum)
 {
     Type1 a = 2;
     Type2 b = 3; // you can use up to 5 template types: Type1, ..., Type5
     assert_equal(5, a + b, SPOT);
 }
-REGISTER_TPL(test_simple<int, int>) // registers the test by passing concrete types
-REGISTER_TPL(test_simple<int, double>)
+REGISTER(test_sum<int, int>) // registers the test by passing concrete types
+REGISTER(test_sum<int, double>)
 
 
 struct fixture {
@@ -20,15 +19,13 @@ struct fixture {
     fixture()
         : value_(true)
     {}
-    ~fixture()
-    {}
 };
 
 TEST_TPL_FIXTURE(fixture, test_fixture)
 {
     assert_equal(value_, static_cast<Type1>(1));
 }
-REGISTER_TPL(test_fixture<int>)
-REGISTER_TPL(test_fixture<long>)
+REGISTER(test_fixture<int>)
+REGISTER(test_fixture<long>)
 
 }
