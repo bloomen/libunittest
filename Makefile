@@ -31,7 +31,7 @@ COPYING = COPYING.txt
 CHANGES = CHANGES.txt
 DISTDIR = distribution
 DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples doc
-BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal doc/doxygen
+BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
 default : $(PROG)
