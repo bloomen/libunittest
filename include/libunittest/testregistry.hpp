@@ -20,6 +20,7 @@ class testregistry {
 public:
     /**
      * @brief Constructor
+     * @param class_name The name of the test class
      */
     testregistry(const std::string& class_name)
     {
