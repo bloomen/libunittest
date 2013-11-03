@@ -9,7 +9,7 @@
  * @param test_class The test class
  */
 #define UNITTEST_CLASS(test_class) \
-typedef test_class __test_class__; \
+typedef test_class __test_class__;
 /**
  * @brief A test run
  * @param test_method The test method
