@@ -60,7 +60,6 @@ __UNITTEST_DO_JOIN(symbol1, symbol2)
 symbol1##symbol2
 /**
  * @brief Registers a test class at the global registry
- * @test_name The name of the test
  */
 #define UNITTEST_REGISTER(...) \
 static unittest::internals::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__)(#__VA_ARGS__);
