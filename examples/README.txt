@@ -29,7 +29,7 @@ example for larger test projects.
 
 5) templates
 
-The templates example demonstrates how two define templated tests using
-the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE. Note that these tests
-have to be registered manually by using the macro REGISTER_TPL and by passing
-concrete types. Up to five different types are supported: Type1, ..., Type5
+The templates example demonstrates how two define templated tests.
+Tests that use the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE support
+up to five types: Type1, ..., Type5. Defining templated tests using an
+explicit test class is also demonstrated.
