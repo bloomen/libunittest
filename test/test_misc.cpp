@@ -128,7 +128,7 @@ struct test_misc : unittest::testcase<> {
         expected << "<testsuite name=\"libunittest\" ";
         expected << "timestamp=\"2009-02-14T00:31:30\" ";
         expected << "tests=\"0\" errors=\"0\" ";
-        expected << "failures=\"0\" skipped=\"0\" time=\"0.000000\">\n";
+        expected << "failures=\"0\" timeouts=\"0\" skipped=\"0\" time=\"0.000000\">\n";
         expected << "</testsuite>\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
@@ -145,12 +145,12 @@ struct test_misc : unittest::testcase<> {
         expected << "<testsuite name=\"libunittest\" ";
         expected << "timestamp=\"2009-02-14T00:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
-        expected << "failures=\"1\" skipped=\"2\" time=\"6.000000\">\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\">\n";
+        expected << "failures=\"1\" timeouts=\"0\" skipped=\"2\" time=\"6.000000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\" timed_out=\"false\" timeout=\"-1.000000\"/>\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timed_out=\"false\" timeout=\"-1.000000\">\n";
         expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";
         expected << "\t</testcase>\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\" timed_out=\"false\" timeout=\"-1.000000\">\n";
         expected << "\t\t<error type=\"error\" message=\"message3\"/>\n";
         expected << "\t</testcase>\n";
         expected << "</testsuite>\n";
@@ -336,7 +336,7 @@ struct test_misc : unittest::testcase<> {
     void test_collection_get_name()
     {
         unittest::internals::testcollection collection;
-        assert_equal("", collection.get_name(), SPOT);
+        assert_equal(unittest::internals::testcollection::inactive_name(), collection.get_name(), SPOT);
     }
 
 };
