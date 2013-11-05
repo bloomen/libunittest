@@ -1,8 +1,10 @@
-libunittest (3.5.4dev) unstable; urgency=low
+libunittest (3.5.4) unstable; urgency=low
 
-  * under development
+  * improved handling of tests that timed out
+  * added support for test templates
+  * added REGISTER to the macro shortcuts 
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 30 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 05 Nov 2013 22:05:02 +0100
 
 libunittest (3.5.3) unstable; urgency=low
 
