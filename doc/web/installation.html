@@ -36,9 +36,10 @@
 					Everything that libunittest needs is a C++11 
 					compliant compiler and an implementation of the C++11 
 					standard library. libunittest has been 
-					successfully tested on Linux, MacOS, and 
+					successfully tested on Linux, MacOSX, and 
 					Cygwin/Windows using <incode>g++4.7</incode> and 
-					<incode>clang++3.2</incode>.
+					<incode>clang++3.2</incode>. libunittest is expected to
+					compile with VS2013.
 				</p>
 				<h2>
 					Install from source
@@ -64,7 +65,7 @@
 					</code>
 					Installation instructions for <incode>libc++</incode> can be found 
 					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. Once the compilation 
-					is finished the library can be installed:
+					is finished libunittest can be installed:
 					<code>
 					make install [INSTALLDIR=/path/to/install]
 					</code>
@@ -77,7 +78,7 @@
 				<p>
 					The libunittest debian packages where compiled using <incode>g++</incode> and are currently available for intel x86 
 					architectures. After <a href="downloads.html">
-					downloading</a>, the debian package can be installed: 
+					downloading</a>, the libunittest debian package can be installed: 
 					<code>
 						dpkg -i libunittest-dev_XXX_i386.deb
 					</code>
