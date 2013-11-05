@@ -271,7 +271,7 @@ string_of_file_and_line(const std::string& filename,
                         int linenumber);
 /**
  * @brief Ensures that all futures passed will wait for the threads
- *  they've spawned until they finish. This makes the futures happy.
+ *  they've spawned to finish. This makes the futures happy.
  * @param stream An output stream
  * @param futures The vector of lonely futures
  * @param verbose Whether output is verbose

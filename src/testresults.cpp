@@ -82,7 +82,7 @@ write_summary(std::ostream& stream,
             stream << "errors=" << results.n_errors;
         }
         if (results.n_timeouts>0)
-            stream << ",timeouts=" << results.n_timeouts;
+            stream << ", timeouts=" << results.n_timeouts;
         stream << ")\n";
     }
     stream << std::flush;

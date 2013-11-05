@@ -18,6 +18,8 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_call_functions_empty_vector)
         UNITTEST_RUN(test_call_functions_vector_size_one)
         UNITTEST_RUN(test_call_functions_vector_size_two)
+        UNITTEST_RUN(test_make_futures_happy_empty)
+        UNITTEST_RUN(test_make_futures_happy_filled)
     }
 
     void test_limit_string_length()
@@ -126,6 +128,39 @@ struct test_utilities : unittest::testcase<> {
         assert_equal(2, unittest::internals::call_functions(functions, 0), SPOT);
         assert_equal(2, unittest::internals::call_functions(functions, 2), SPOT);
         assert_equal(2, unittest::internals::call_functions(functions, 3), SPOT);
+    }
+
+    void test_make_futures_happy_empty()
+    {
+        std::vector<std::future<void>> futures;
+        std::ostringstream stream1;
+        unittest::internals::make_futures_happy(stream1, futures, false);
+        assert_equal("", stream1.str(), SPOT);
+        std::ostringstream stream2;
+        unittest::internals::make_futures_happy(stream2, futures, true);
+        assert_equal("", stream2.str(), SPOT);
+    }
+
+    void run_make_futures_happy_filled(std::ostream& stream, bool verbose)
+    {
+        auto functor = []() { std::this_thread::sleep_for(std::chrono::milliseconds(10)); };
+        std::vector<std::future<void>> futures;
+        futures.push_back(std::async(std::launch::async, functor));
+        futures.push_back(std::async(std::launch::async, functor));
+        unittest::internals::make_futures_happy(stream, futures, verbose);
+        std::chrono::milliseconds wait_ms(1);
+        for (auto& future : futures)
+            assert_true(std::future_status::ready==future.wait_for(wait_ms), SPOT);
+    }
+
+    void test_make_futures_happy_filled()
+    {
+        std::ostringstream stream1;
+        run_make_futures_happy_filled(stream1, false);
+        assert_equal("", stream1.str(), SPOT);
+        std::ostringstream stream2;
+        run_make_futures_happy_filled(stream2, true);
+        assert_equal("\nWAITING for 2 tests to finish ... \n", stream2.str(), SPOT);
     }
 
 };

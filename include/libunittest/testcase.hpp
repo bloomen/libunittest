@@ -14,10 +14,6 @@ namespace unittest {
  */
 namespace internals {
 /**
- * @brief A placeholder for the absent of a test context
- */
-class nocontext {};
-/**
  * @brief A test run within a test context providing
  *  the ()-operator to run the test
  */
@@ -31,7 +27,7 @@ struct testrun_context;
  * @brief The class from which to derive when implementing a test case. The
  *  test context is optional
  */
-template<typename TestContext=internals::nocontext>
+template<typename TestContext=internals::notype>
 class testcase : public internals::assertions {
 public:
     /**

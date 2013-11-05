@@ -20,6 +20,8 @@ unittest::internals::testresults make_sample_results()
     log2.error_type = "failure";
     log2.message = "message2";
     log2.duration = 2;
+    log2.has_timed_out = true;
+    log2.timeout = 2.4;
 
     unittest::internals::testlog log3;
     log3.class_name = "test_class";
@@ -36,6 +38,7 @@ unittest::internals::testresults make_sample_results()
     results.n_successes = 1;
     results.n_failures = 1;
     results.n_errors = 1;
+    results.n_timeouts = 1;
     results.n_skipped = 2;
     results.duration = 6;
     results.testlogs = {log1, log2, log3};
@@ -145,9 +148,9 @@ struct test_misc : unittest::testcase<> {
         expected << "<testsuite name=\"libunittest\" ";
         expected << "timestamp=\"2009-02-14T00:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
-        expected << "failures=\"1\" timeouts=\"0\" skipped=\"2\" time=\"6.000000\">\n";
+        expected << "failures=\"1\" timeouts=\"1\" skipped=\"2\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\" timed_out=\"false\" timeout=\"-1.000000\"/>\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timed_out=\"false\" timeout=\"-1.000000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timed_out=\"true\" timeout=\"2.400000\">\n";
         expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";
         expected << "\t</testcase>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\" timed_out=\"false\" timeout=\"-1.000000\">\n";
@@ -177,7 +180,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream expected;
         expected << "\n";
         unittest::internals::write_horizontal_bar(expected, '-');
-        expected << "\nRan 3 tests in 6s\n\nFAILED (failures=1, errors=1)\n";
+        expected << "\nRan 3 tests in 6s\n\nFAILED (failures=1, errors=1, timeouts=1)\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
 
@@ -197,7 +200,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream expected;
         expected << "\n";
         unittest::internals::write_horizontal_bar(expected, '=');
-        expected << "\nFAIL: test_class.test2\n";
+        expected << "\nFAIL: test_class.test2 (TIMEOUT)\n";
         unittest::internals::write_horizontal_bar(expected, '-');
         expected << "\nfailure: message2\n\n";
         unittest::internals::write_horizontal_bar(expected, '=');
@@ -331,6 +334,8 @@ struct test_misc : unittest::testcase<> {
         assert_equal("a.b", unittest::internals::make_full_test_name("a","b"), SPOT);
         assert_equal("a.", unittest::internals::make_full_test_name("a",""), SPOT);
         assert_equal("b", unittest::internals::make_full_test_name("","b"), SPOT);
+        assert_equal("a.b", unittest::internals::make_full_test_name(" a "," b  "), SPOT);
+        assert_equal("a.cb", unittest::internals::make_full_test_name("a","  c  b "), SPOT);
     }
 
     void test_collection_get_name()
