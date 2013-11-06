@@ -1,3 +1,9 @@
+libunittest (3.5.5dev) stable; urgency=low
+
+  * under development
+
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 06 Nov 2013 22:05:02 +0100
+
 libunittest (3.5.4) unstable; urgency=low
 
   * improved handling of tests that timed out

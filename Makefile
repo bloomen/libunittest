@@ -1,4 +1,4 @@
-VERSION = 3.5.4
+VERSION = 3.5.5dev
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
@@ -9,7 +9,7 @@ LIBDIR = lib
 INSTALLDIR = /usr/local
 
 CXX = g++
-CXXFLAGS = -g3 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
+CXXFLAGS = -O2 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
 LDFLAGS = -shared
 
 INCDIR = include
