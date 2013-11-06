@@ -284,6 +284,7 @@ make_futures_happy(std::ostream& stream,
  * @brief Gets a value from a map for a given key
  * @param map The map
  * @param key The key
+ * @returns The value
  * @throws std::runtime_error if key not found in map
  */
 template<typename Map>

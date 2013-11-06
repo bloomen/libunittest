@@ -74,7 +74,10 @@ private:
     friend class testregistry;
 
     friend void
-    observe_and_wait(std::future<void>&&, double, std::atomic<bool>&, int);
+    observe_and_wait(std::future<void>&& future,
+                     double timeout_sec,
+                     std::atomic<bool>& has_timed_out,
+                     int resolution_ms);
 
     testsuite();
 
