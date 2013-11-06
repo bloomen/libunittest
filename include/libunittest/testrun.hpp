@@ -177,18 +177,22 @@ private:
  * @brief Updates the class name according to some heuristics
  * @param class_name The current class name
  * @param typeid_name The class' type ID name
+ * @param class_maps Mappings from test class IDs to test class names
  */
 void
 update_class_name(std::string& class_name,
-                  const std::string& typeid_name);
+                  const std::string& typeid_name,
+                  const std::map<std::string, std::string>& class_maps);
 /**
  * @brief Updates the test name according to some heuristics
  * @param test_name The current test name
  * @param typeid_name The class' type ID name
+ * @param class_maps Mappings from test class IDs to test class names
  */
 void
 update_test_name(std::string& test_name,
-                 const std::string& typeid_name);
+                 const std::string& typeid_name,
+                 const std::map<std::string, std::string>& class_maps);
 /**
  * @brief A class for storing test information
  */
@@ -210,8 +214,9 @@ struct testrun_store {
         : method_(method), class_name_(class_name), test_name_(test_name),
           timeout_(timeout), has_timed_out_(has_timed_out)
     {
-        update_class_name(class_name_, typeid(TestCase).name());
-        update_test_name(test_name_, typeid(TestCase).name());
+        const auto& class_maps = testsuite::instance()->get_class_maps();
+        update_class_name(class_name_, typeid(TestCase).name(), class_maps);
+        update_test_name(test_name_, typeid(TestCase).name(), class_maps);
     }
     /**
      * @brief Destructor

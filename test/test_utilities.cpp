@@ -20,6 +20,8 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_call_functions_vector_size_two)
         UNITTEST_RUN(test_make_futures_happy_empty)
         UNITTEST_RUN(test_make_futures_happy_filled)
+        UNITTEST_RUN(test_get_from_map)
+        UNITTEST_RUN(test_get_from_map_key_not_found)
     }
 
     void test_limit_string_length()
@@ -161,6 +163,23 @@ struct test_utilities : unittest::testcase<> {
         std::ostringstream stream2;
         run_make_futures_happy_filled(stream2, true);
         assert_equal("\nWAITING for 2 tests to finish ... \n", stream2.str(), SPOT);
+    }
+
+    void test_get_from_map()
+    {
+        std::map<int, int> map;
+        map[0] = 1;
+        assert_equal(1, unittest::internals::get_from_map(map, 0), SPOT);
+    }
+
+    void test_get_from_map_key_not_found()
+    {
+        auto functor = [](){
+            std::map<int, int> map;
+            map[0] = 1;
+            unittest::internals::get_from_map(map, 2);
+        };
+        assert_throw<std::runtime_error>(functor, SPOT);
     }
 
 };

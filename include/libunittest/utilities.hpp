@@ -281,6 +281,22 @@ make_futures_happy(std::ostream& stream,
                    const std::vector<std::future<void>>& futures,
                    bool verbose);
 /**
+ * @brief Gets a value from a map for a given key
+ * @param map The map
+ * @param key The key
+ * @throws std::runtime_error if key not found in map
+ */
+template<typename Map>
+typename Map::mapped_type
+get_from_map(const Map& map,
+             const typename Map::key_type& key)
+{
+    const auto& element = map.find(key);
+    if (element==map.end())
+        throw std::runtime_error("key not found in map");
+    return element->second;
+}
+/**
  * @brief A utility class to indicate 'no type' property
  */
 class notype {};

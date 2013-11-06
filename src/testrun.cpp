@@ -17,7 +17,7 @@ observe_and_wait(std::future<void>&& future,
                  int resolution_ms)
 {
     if (timeout_sec > 0) {
-        const auto wait_ms = std::chrono::milliseconds(resolution_ms);
+        std::chrono::milliseconds wait_ms(resolution_ms);
         const double wait_sec = duration_in_seconds(wait_ms);
         double duration(wait_sec);
         while (future.wait_for(wait_ms)!=std::future_status::ready) {
@@ -134,11 +134,11 @@ update_local_timeout(double& local_timeout)
 
 void
 update_class_name(std::string& class_name,
-                  const std::string& typeid_name)
+                  const std::string& typeid_name,
+                  const std::map<std::string, std::string>& class_maps)
 {
     if (class_name=="") {
-        auto& maps = testsuite::instance()->get_class_maps();
-        class_name = maps[typeid_name];
+        class_name = get_from_map(class_maps, typeid_name);
     } else if (class_name==testcollection::inactive_name()) {
         class_name = "";
     }
@@ -146,11 +146,11 @@ update_class_name(std::string& class_name,
 
 void
 update_test_name(std::string& test_name,
-                 const std::string& typeid_name)
+                 const std::string& typeid_name,
+                 const std::map<std::string, std::string>& class_maps)
 {
     if (test_name=="") {
-        auto& maps = testsuite::instance()->get_class_maps();
-        test_name = maps[typeid_name];
+        test_name = get_from_map(class_maps, typeid_name);
     }
 }
 
