@@ -19,35 +19,6 @@ namespace unittest {
  */
 namespace internals {
 /**
- * @brief Observes the progress of an asynchronous operation and waits until
- *  the operation is finished. It throws exception testfailure in case the
- *  given maximum run time is exceeded.
- * @param future The asynchronous operation
- * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
- * @param has_timed_out Whether a timeout has occurred (note the reference)
- * @param resolution_ms The temporal resolution in number of milliseconds
- */
-void
-observe_and_wait(std::future<void>&& future,
-                 double timeout_sec,
-                 std::atomic<bool>& has_timed_out,
-                 int resolution_ms=100);
-/**
- * @brief Launches a given functor asynchronously
- * @param functor The functor
- * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
- * @param has_timed_out Whether a timeout has occurred (note the reference)
- */
-template<typename Functor>
-void
-launch_async(Functor&& functor,
-             double timeout_sec,
-             std::atomic<bool>& has_timed_out)
-{
-    std::future<void> future = std::async(std::launch::async, std::move(functor));
-    internals::observe_and_wait(std::move(future), timeout_sec, has_timed_out);
-}
-/**
  * @brief The test runner that is called by the testrun function. It executes
  * 	and controls a test run
  */
@@ -338,6 +309,34 @@ private:
  */
 void
 update_local_timeout(double& local_timeout);
+/**
+ * @brief Observes the progress of an asynchronous operation and waits until
+ *  the operation has finished or timed out
+ * @param future The asynchronous operation
+ * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
+ * @param has_timed_out Whether a timeout has occurred (note the reference)
+ * @param resolution_ms The temporal resolution in number of milliseconds
+ */
+void
+observe_and_wait(std::future<void>&& future,
+                 double timeout_sec,
+                 std::atomic<bool>& has_timed_out,
+                 int resolution_ms=100);
+/**
+ * @brief Launches a given functor
+ * @param functor The functor
+ * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
+ * @param has_timed_out Whether a timeout has occurred (note the reference)
+ */
+template<typename Functor>
+void
+launch_functor(Functor&& functor,
+               double timeout_sec,
+               std::atomic<bool>& has_timed_out)
+{
+    std::future<void> future = std::async(std::launch::async, std::move(functor));
+    internals::observe_and_wait(std::move(future), timeout_sec, has_timed_out);
+}
 
 } // internals
 
@@ -359,7 +358,7 @@ testrun(void (TestCase::*method)(),
     std::atomic<bool> has_timed_out(false);
     internals::testrun_free<TestCase>
         functor(method, class_name, test_name, timeout, &has_timed_out);
-    internals::launch_async(std::move(functor), timeout, has_timed_out);
+    internals::launch_functor(std::move(functor), timeout, has_timed_out);
 }
 /**
  * @brief A test run with a test context
@@ -382,7 +381,7 @@ testrun(TestContext& context,
     std::atomic<bool> has_timed_out(false);
     internals::testrun_context<TestContext, TestCase>
         functor(&context, method, class_name, test_name, timeout, &has_timed_out);
-    internals::launch_async(std::move(functor), timeout, has_timed_out);
+    internals::launch_functor(std::move(functor), timeout, has_timed_out);
 }
 
 } // unittest
