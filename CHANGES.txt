@@ -1,8 +1,10 @@
-libunittest (3.5.5dev) stable; urgency=low
+libunittest (3.5.5) stable; urgency=low
 
-  * under development
+  * some refactoring to increase maintainability
+  * more unit tests
+  * better documentation 
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 06 Nov 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 09 Nov 2013 11:50:00 +0100
 
 libunittest (3.5.4) unstable; urgency=low
 
@@ -10,7 +12,7 @@ libunittest (3.5.4) unstable; urgency=low
   * added support for test templates
   * added REGISTER to the macro shortcuts 
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 05 Nov 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Tue, 05 Nov 2013 22:05:02 +0100
 
 libunittest (3.5.3) unstable; urgency=low
 
@@ -19,7 +21,7 @@ libunittest (3.5.3) unstable; urgency=low
   * improved html documentation
   * switched to standard fonts in html doc
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 20 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 20 Oct 2013 22:05:02 +0100
 
 libunittest (3.5.2) unstable; urgency=low
 
@@ -27,7 +29,7 @@ libunittest (3.5.2) unstable; urgency=low
   * fixed the failing collection example
   * improved html documentation
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 15 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Tue, 15 Oct 2013 22:05:02 +0100
 
 libunittest (3.5.1) unstable; urgency=low
 
@@ -37,7 +39,7 @@ libunittest (3.5.1) unstable; urgency=low
   * added libunittest/shortcuts.hpp of shorter aliases for the macros above
   * improved documentation and web doc
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 12 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 12 Oct 2013 22:05:02 +0100
 
 libunittest (3.5.0) unstable; urgency=low
 
@@ -51,7 +53,7 @@ libunittest (3.5.0) unstable; urgency=low
   * added a complete web documentation under doc/web.index.html whose latest
     version is online at http://libunittest.sourceforge.net
 
- -- Christian Blume <chr.blume@gmail.com>  Wed, 06 Oct 2013 22:05:02 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 06 Oct 2013 22:05:02 +0100
 
 libunittest (3.4.1) unstable; urgency=low
 
