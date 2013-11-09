@@ -73,23 +73,19 @@ struct test_testrun : unittest::testcase<> {
 
     void test_update_class_name_key_not_found()
     {
-        auto functor = [](){
-            std::map<std::string, std::string> maps;
-            maps["a"] = "A";
-            std::string name = "";
-            unittest::internals::update_class_name(name, "b", maps);
-        };
+        std::map<std::string, std::string> maps;
+        maps["a"] = "A";
+        std::string name = "";
+        auto functor = std::bind(unittest::internals::update_test_name, name, "b", maps);
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 
     void test_update_test_name_key_not_found()
     {
-        auto functor = [](){
-            std::map<std::string, std::string> maps;
-            maps["a"] = "A";
-            std::string name = "";
-            unittest::internals::update_test_name(name, "b", maps);
-        };
+        std::map<std::string, std::string> maps;
+        maps["a"] = "A";
+        std::string name = "";
+        auto functor = std::bind(unittest::internals::update_test_name, name, "b", maps);
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 

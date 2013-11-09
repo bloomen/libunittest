@@ -123,6 +123,8 @@ make_futures_happy(std::ostream& stream,
                    const std::vector<std::future<void>>& futures,
                    bool verbose)
 {
+    static std::mutex make_futures_happy_mutex_;
+    std::lock_guard<std::mutex> lock(make_futures_happy_mutex_);
     const auto wait_ms = std::chrono::milliseconds(1);
     long n_unfinished(0);
     for (auto& future : futures)

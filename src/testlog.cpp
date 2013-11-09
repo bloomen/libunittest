@@ -1,6 +1,7 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/teststatus.hpp>
 #include <algorithm>
+#include <mutex>
 
 namespace unittest {
 namespace internals {
@@ -16,6 +17,8 @@ write_test_start_message(std::ostream& stream,
                          const testlog& log,
                          bool verbose)
 {
+    static std::mutex write_test_start_message_mutex_;
+    std::lock_guard<std::mutex> lock(write_test_start_message_mutex_);
     if (verbose) {
         stream << make_full_test_name(log.class_name, log.test_name) << " ... ";
         stream << std::flush;
@@ -27,6 +30,8 @@ write_test_end_message(std::ostream& stream,
                        const testlog& log,
                        bool verbose)
 {
+    static std::mutex write_test_end_message_mutex_;
+    std::lock_guard<std::mutex> lock(write_test_end_message_mutex_);
     if (!log.has_timed_out) {
         if (verbose) {
             switch (log.status) {
@@ -46,6 +51,18 @@ write_test_end_message(std::ostream& stream,
         }
         stream << std::flush;
     }
+}
+
+void
+write_test_timeout_message(std::ostream& stream,
+                           bool verbose)
+{
+    static std::mutex write_test_timeout_message_mutex_;
+    std::lock_guard<std::mutex> lock(write_test_timeout_message_mutex_);
+    std::string message("T");
+    if (verbose)
+        message = "TIMEOUT\n";
+    stream << message << std::flush;
 }
 
 std::string

@@ -136,6 +136,8 @@ testsuite::is_test_run(const std::string& class_name,
 void
 testsuite::add_class_run(const std::function<void()>& class_run)
 {
+    static std::mutex add_class_run_mutex_;
+    std::lock_guard<std::mutex> lock(add_class_run_mutex_);
     impl_->class_runs_.push_back(class_run);
 }
 
@@ -143,6 +145,8 @@ void
 testsuite::add_class_map(const std::string& typeid_name,
                          const std::string& class_name)
 {
+    static std::mutex add_class_map_mutex_;
+    std::lock_guard<std::mutex> lock(add_class_map_mutex_);
     impl_->class_maps_[typeid_name] = class_name;
 }
 
@@ -161,7 +165,7 @@ testsuite::add_lonely_future(std::future<void>&& future)
 }
 
 std::vector<std::future<void>>&
-testsuite::get_lonely_futures()
+testsuite::get_lonely_futures() const
 {
     return impl_->lonely_futures_;
 }

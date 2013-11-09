@@ -15,6 +15,8 @@ write_xml(std::ostream& stream,
           const testresults& results,
           const std::chrono::system_clock::time_point& time_point)
 {
+    static std::mutex write_xml_mutex_;
+    std::lock_guard<std::mutex> lock(write_xml_mutex_);
     stream.setf(std::ios_base::fixed);
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     stream << "\n";
@@ -61,6 +63,8 @@ void
 write_summary(std::ostream& stream,
               const testresults& results)
 {
+    static std::mutex write_summary_mutex_;
+    std::lock_guard<std::mutex> lock(write_summary_mutex_);
     stream << "\n";
     write_horizontal_bar(stream, '-');
     stream << "\n";
@@ -93,6 +97,8 @@ write_error_info(std::ostream& stream,
                  const std::vector<testlog>& testlogs,
                  bool successful)
 {
+    static std::mutex write_error_info_mutex_;
+    std::lock_guard<std::mutex> lock(write_error_info_mutex_);
     if (!successful) {
         stream << "\n";
         for (auto& log : testlogs) {

@@ -59,7 +59,7 @@ public:
      * @returns A reference to the vector of lonely futures
      */
     std::vector<std::future<void>>&
-    get_lonely_futures();
+    get_lonely_futures() const;
     /**
      * @brief Returns the accumulated test results
      * @returns The test results

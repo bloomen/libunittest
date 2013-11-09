@@ -80,6 +80,14 @@ write_test_end_message(std::ostream& stream,
                        const testlog& log,
                        bool verbose);
 /**
+ * @brief Writes a test timeout message to the given output stream
+ * @param stream The output stream
+ * @param verbose Whether to use verbose output
+ */
+void
+write_test_timeout_message(std::ostream& stream,
+                           bool verbose);
+/**
  * @brief Generates the full test name
  * @param class_name The name of the test class
  * @param test_name The name of the test method

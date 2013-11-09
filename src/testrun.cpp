@@ -24,10 +24,7 @@ observe_and_wait(std::future<void>&& future,
             if (duration > timeout_sec) {
                 has_timed_out = true;
                 auto suite = testsuite::instance();
-                std::string message("T");
-                if (suite->get_arguments().verbose())
-                    message = "TIMEOUT\n";
-                std::cout << message << std::flush;
+                write_test_timeout_message(std::cout, suite->get_arguments().verbose());
                 suite->add_lonely_future(std::move(future));
                 break;
             }

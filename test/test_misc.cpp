@@ -62,6 +62,7 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_write_error_info_filled)
         UNITTEST_RUN(test_write_test_start_message)
         UNITTEST_RUN(test_write_test_end_message)
+        UNITTEST_RUN(test_write_test_timeout_message)
         UNITTEST_RUN(test_teststatus_integrals)
         UNITTEST_RUN(test_testlog_defaults)
         UNITTEST_RUN(test_testresults_defaults)
@@ -250,6 +251,16 @@ struct test_misc : unittest::testcase<> {
             unittest::internals::write_test_end_message(stream2, log, true);
             assert_equal(msg_verb[i], stream2.str(), SPOT);
         }
+    }
+
+    void test_write_test_timeout_message()
+    {
+        std::ostringstream stream1;
+        unittest::internals::write_test_timeout_message(stream1, false);
+        assert_equal("T", stream1.str(), SPOT);
+        std::ostringstream stream2;
+        unittest::internals::write_test_timeout_message(stream2, true);
+        assert_equal("TIMEOUT\n", stream2.str(), SPOT);
     }
 
     void test_teststatus_integrals()
