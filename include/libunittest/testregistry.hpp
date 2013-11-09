@@ -13,7 +13,19 @@ namespace unittest {
  */
 namespace internals {
 /**
- * @brief Registers the static run method of a test class at the testsuite
+ * @brief Registers a test class at the testsuite
+ * @param class_name The name of the test class
+ */
+template<typename TestCase>
+void
+register_class(const std::string& class_name)
+{
+    auto suite = internals::testsuite::instance();
+    suite->add_class_run(TestCase::run);
+    suite->add_class_map(typeid(TestCase).name(), class_name);
+}
+/**
+ * @brief Registers a test class at the testsuite
  */
 template<typename TestCase>
 class testregistry {
@@ -24,11 +36,8 @@ public:
      */
     testregistry(const std::string& class_name)
     {
-        auto suite = internals::testsuite::instance();
-        suite->add_class_run(TestCase::run);
-        suite->add_class_map(typeid(TestCase).name(), class_name);
+        register_class<TestCase>(class_name);
     }
-
 };
 
 } // internals

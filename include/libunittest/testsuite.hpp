@@ -70,8 +70,9 @@ public:
 private:
     friend class testrunner;
 
-    template<typename T>
-    friend class testregistry;
+    template<typename TestCase>
+    friend void
+    register_class(const std::string& class_name);
 
     friend void
     observe_and_wait(std::future<void>&& future,
