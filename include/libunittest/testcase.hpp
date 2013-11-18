@@ -14,12 +14,11 @@ namespace unittest {
  */
 namespace internals {
 /**
- * @brief A test run within a test context providing
- *  the ()-operator to run the test
+ * @brief Stores the test to be run and an optional test context.
+ *  By using the ()-operator the test is executed.
  */
-template<typename TestCase,
-         typename ContextClass>
-struct testrun_context;
+template<typename TestCase>
+struct testfunctor;
 
 } // internals
 
@@ -30,6 +29,10 @@ struct testrun_context;
 template<typename TestContext=internals::notype>
 class testcase : public internals::assertions {
 public:
+    /**
+     * @brief The type of the optional test context
+     */
+    typedef TestContext context_type;
     /**
      * @brief Constructor
      */
@@ -60,7 +63,7 @@ public:
      * @brief Returns a pointer to the optional test context
      * @returns A pointer to the test context, nullptr if not defined
      */
-    TestContext*
+    context_type*
     get_test_context() const
     {
         return context_;
@@ -68,17 +71,16 @@ public:
 
 private:
 
-    template<typename TestCase,
-             typename ContextClass>
-    friend struct internals::testrun_context;
+    template<typename TestCase>
+    friend struct internals::testfunctor;
 
     void
-    set_test_context(TestContext *context)
+    set_test_context(context_type *context)
     {
         context_ = context;
     }
 
-    TestContext *context_;
+    context_type *context_;
 };
 
 } // unittest

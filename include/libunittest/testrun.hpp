@@ -92,23 +92,23 @@ private:
 
 };
 /**
- * @brief Stores an instance of the test class and the test to be run.
+ * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
  */
 template<typename TestCase>
 struct testfunctor final {
     /**
-     * @brief Constructor storing instance and method
-     * @param test An instance of the test class
+     * @brief Constructor storing test method and context
+     * @param context A pointer to the test context
      * @param method The test to be run
      * @param timeout The test timeout
      * @param has_timed_out Whether the test has timed out
      */
-    testfunctor(TestCase& test,
+    testfunctor(typename TestCase::context_type* context,
                 void (TestCase::*method)(),
                 double timeout,
                 std::atomic<bool>* has_timed_out)
-        : test_(&test), method_(method), timeout_(timeout),
+        : context_(context), method_(method), timeout_(timeout),
           has_timed_out_(has_timed_out)
     {}
     /**
@@ -117,7 +117,11 @@ struct testfunctor final {
     void
     operator()()
     {
-        (test_->*method_)();
+        TestCase test;
+        test.set_test_context(context_);
+        test.set_up();
+        (test.*method_)();
+        test.tear_down();
     }
     /**
      * @brief Returns the test timeout
@@ -139,7 +143,7 @@ struct testfunctor final {
     }
 
 private:
-    TestCase* test_;
+    typename TestCase::context_type *context_;
     void (TestCase::*method_)();
     double timeout_;
     std::atomic<bool>* has_timed_out_;
@@ -248,11 +252,9 @@ struct testrun_free final : testrun_store<TestCase> {
     {
         testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
-            TestCase test;
-            test.set_up();
-            testfunctor<TestCase> functor(test, this->method_, this->timeout_, this->has_timed_out_);
+            typename TestCase::context_type* null_ptr = 0;
+            testfunctor<TestCase> functor(null_ptr, this->method_, this->timeout_, this->has_timed_out_);
             runner.execute(std::move(functor));
-            test.tear_down();
         }
     }
 
@@ -290,12 +292,8 @@ struct testrun_context final : testrun_store<TestCase> {
     {
         testrunner runner(this->class_name_, this->test_name_);
         if (runner.is_executed()) {
-            TestCase test;
-            test.set_test_context(context_);
-            test.set_up();
-            testfunctor<TestCase> functor(test, this->method_, this->timeout_, this->has_timed_out_);
+            testfunctor<TestCase> functor(context_, this->method_, this->timeout_, this->has_timed_out_);
             runner.execute(std::move(functor));
-            test.tear_down();
         }
     }
 
