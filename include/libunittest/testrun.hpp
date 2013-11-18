@@ -108,7 +108,9 @@ struct testfunctor final {
                 void (TestCase::*method)(),
                 double timeout,
                 std::atomic<bool>* has_timed_out)
-        : context_(context), method_(method), timeout_(timeout),
+        : context_(context),
+          method_(method),
+          timeout_(timeout),
           has_timed_out_(has_timed_out)
     {}
     /**
@@ -149,6 +151,54 @@ private:
     std::atomic<bool>* has_timed_out_;
 };
 /**
+ * @brief A test run providing the ()-operator to run the test
+ */
+template<typename TestCase>
+struct testrun_master final {
+    /**
+     * @brief Constructor assigning test information
+     * @param context A pointer to the test context
+     * @param method A pointer to the test method
+     * @param class_name The name of test class
+     * @param test_name The name of the test method
+     * @param timeout The test timeout
+     * @param has_timed_out Whether the test has timed out
+     */
+    testrun_master(typename TestCase::context_type* context,
+                   void (TestCase::*method)(),
+                   const std::string& class_name,
+                   const std::string& test_name,
+                   double timeout,
+                   std::atomic<bool>* has_timed_out)
+        : context_(context),
+          method_(method),
+          class_name_(class_name),
+          test_name_(test_name),
+          timeout_(timeout),
+          has_timed_out_(has_timed_out)
+    {}
+    /**
+     * @brief Runs the test
+     */
+    void
+    operator()()
+    {
+        testrunner runner(class_name_, test_name_);
+        if (runner.is_executed()) {
+            testfunctor<TestCase> functor(context_, method_, timeout_, has_timed_out_);
+            runner.execute(std::move(functor));
+        }
+    }
+
+private:
+    typename TestCase::context_type* context_;
+    void (TestCase::*method_)();
+    std::string class_name_;
+    std::string test_name_;
+    double timeout_;
+    std::atomic<bool>* has_timed_out_;
+};
+/**
  * @brief Updates the class name according to some heuristics
  * @param class_name The current class name
  * @param typeid_name The class' type ID name
@@ -169,138 +219,6 @@ update_test_name(std::string& test_name,
                  const std::string& typeid_name,
                  const std::map<std::string, std::string>& class_maps);
 /**
- * @brief A class for storing test information
- */
-template<typename TestCase>
-struct testrun_store {
-    /**
-     * @brief Constructor storing test information
-     * @param method A pointer to the test method
-     * @param class_name The name of test class
-     * @param test_name The name of the test method
-     * @param timeout The test timeout
-     * @param has_timed_out Whether the test has timed out
-     */
-    testrun_store(void (TestCase::*method)(),
-                  const std::string& class_name,
-                  const std::string& test_name,
-                  double timeout,
-                  std::atomic<bool>* has_timed_out)
-        : method_(method), class_name_(class_name), test_name_(test_name),
-          timeout_(timeout), has_timed_out_(has_timed_out)
-    {
-        const auto& class_maps = testsuite::instance()->get_class_maps();
-        update_class_name(class_name_, typeid(TestCase).name(), class_maps);
-        update_test_name(test_name_, typeid(TestCase).name(), class_maps);
-    }
-    /**
-     * @brief Destructor
-     */
-    virtual
-    ~testrun_store()
-    {}
-
-protected:
-    /**
-     * @brief A pointer to the test
-     */
-    void (TestCase::*method_)();
-    /**
-     * @brief The name of test class
-     */
-    std::string class_name_;
-    /**
-     * @brief The name of the test
-     */
-    std::string test_name_;
-    /**
-     * @brief The test timeout
-     */
-    double timeout_;
-    /**
-     * @brief Whether the test has timed out
-     */
-    std::atomic<bool>* has_timed_out_;
-
-};
-/**
- * @brief A free test run without a test context providing
- *  the ()-operator to run the test
- */
-template<typename TestCase>
-struct testrun_free final : testrun_store<TestCase> {
-    /**
-     * @brief Constructor assigning test information
-     * @param method A pointer to the test method
-     * @param class_name The name of test class
-     * @param test_name The name of the test method
-     * @param timeout The test timeout
-     * @param has_timed_out Whether the test has timed out
-     */
-    testrun_free(void (TestCase::*method)(),
-                 const std::string& class_name,
-                 const std::string& test_name,
-                 double timeout,
-                 std::atomic<bool>* has_timed_out)
-        : testrun_store<TestCase>(method, class_name, test_name, timeout, has_timed_out)
-    {}
-    /**
-     * @brief Runs the test
-     */
-    void
-    operator()()
-    {
-        testrunner runner(this->class_name_, this->test_name_);
-        if (runner.is_executed()) {
-            typename TestCase::context_type* null_ptr = 0;
-            testfunctor<TestCase> functor(null_ptr, this->method_, this->timeout_, this->has_timed_out_);
-            runner.execute(std::move(functor));
-        }
-    }
-
-};
-/**
- * @brief A test run within a test context providing
- *  the ()-operator to run the test
- */
-template<typename TestContext,
-         typename TestCase>
-struct testrun_context final : testrun_store<TestCase> {
-    /**
-     * @brief Constructor assigning test information
-     * @param context A pointer to the test context
-     * @param method A pointer to the test method
-     * @param class_name The name of test class
-     * @param test_name The name of the test method
-     * @param timeout The test timeout
-     * @param has_timed_out Whether the test has timed out
-     */
-    testrun_context(TestContext* context,
-                    void (TestCase::*method)(),
-                    const std::string& class_name,
-                    const std::string& test_name,
-                    double timeout,
-                    std::atomic<bool>* has_timed_out)
-        : testrun_store<TestCase>(method, class_name, test_name, timeout, has_timed_out),
-          context_(context)
-    {}
-    /**
-     * @brief Runs the test
-     */
-    void
-    operator()()
-    {
-        testrunner runner(this->class_name_, this->test_name_);
-        if (runner.is_executed()) {
-            testfunctor<TestCase> functor(context_, this->method_, this->timeout_, this->has_timed_out_);
-            runner.execute(std::move(functor));
-        }
-    }
-
-private:
-    TestContext* context_;
-};
-/**
  * @brief Updates the local timeout by assigning the global timeout
  *  from the test suite if the local one is not greater than zero
  * @param local_timeout The local timeout in seconds
@@ -320,24 +238,35 @@ observe_and_wait(std::future<void>&& future,
                  double timeout_sec,
                  std::atomic<bool>& has_timed_out,
                  int resolution_ms=100);
-/**
- * @brief Launches a given functor
- * @param functor The functor
- * @param timeout_sec The maximum allowed run time in seconds (ignored if <= 0)
- * @param has_timed_out Whether a timeout has occurred (note the reference)
- */
-template<typename Functor>
-void
-launch_functor(Functor&& functor,
-               double timeout_sec,
-               std::atomic<bool>& has_timed_out)
-{
-    std::future<void> future = std::async(std::launch::async, std::move(functor));
-    internals::observe_and_wait(std::move(future), timeout_sec, has_timed_out);
-}
 
 } // internals
 
+/**
+ * @brief A test run with a test context
+ * @param context The test context
+ * @param method A pointer to the method to be run
+ * @param class_name The name of the test class
+ * @param test_name The name of the current test method
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ */
+template<typename TestCase>
+void
+testrun(typename TestCase::context_type& context,
+        void (TestCase::*method)(),
+        std::string class_name,
+        std::string test_name,
+        double timeout)
+{
+    const auto& class_maps = internals::testsuite::instance()->get_class_maps();
+    internals::update_class_name(class_name, typeid(TestCase).name(), class_maps);
+    internals::update_test_name(test_name, typeid(TestCase).name(), class_maps);
+    internals::update_local_timeout(timeout);
+    std::atomic<bool> has_timed_out(false);
+    internals::testrun_master<TestCase>
+        functor(&context, method, class_name, test_name, timeout, &has_timed_out);
+    std::future<void> future = std::async(std::launch::async, std::move(functor));
+    internals::observe_and_wait(std::move(future), timeout, has_timed_out);
+}
 /**
  * @brief A test run
  * @param method A pointer to the method to be run
@@ -348,38 +277,12 @@ launch_functor(Functor&& functor,
 template<typename TestCase>
 void
 testrun(void (TestCase::*method)(),
-        const std::string& class_name,
-        const std::string& test_name,
+        std::string class_name,
+        std::string test_name,
         double timeout)
 {
-    internals::update_local_timeout(timeout);
-    std::atomic<bool> has_timed_out(false);
-    internals::testrun_free<TestCase>
-        functor(method, class_name, test_name, timeout, &has_timed_out);
-    internals::launch_functor(std::move(functor), timeout, has_timed_out);
-}
-/**
- * @brief A test run with a test context
- * @param context The test context
- * @param method A pointer to the method to be run
- * @param class_name The name of the test class
- * @param test_name The name of the current test method
- * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- */
-template<typename TestContext,
-         typename TestCase>
-void
-testrun(TestContext& context,
-        void (TestCase::*method)(),
-        const std::string& class_name,
-        const std::string& test_name,
-        double timeout)
-{
-    internals::update_local_timeout(timeout);
-    std::atomic<bool> has_timed_out(false);
-    internals::testrun_context<TestContext, TestCase>
-        functor(&context, method, class_name, test_name, timeout, &has_timed_out);
-    internals::launch_functor(std::move(functor), timeout, has_timed_out);
+    typename TestCase::context_type* null_pointer = nullptr;
+    testrun(*null_pointer, method, class_name, test_name, timeout);
 }
 
 } // unittest
