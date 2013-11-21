@@ -68,7 +68,7 @@ public:
     get_results() const;
 
 private:
-    friend class testrunner;
+    friend class testmonitor;
 
     template<typename TestCase>
     friend void
@@ -76,9 +76,9 @@ private:
 
     friend void
     observe_and_wait(std::future<void>&& future,
-                     double timeout_sec,
+                     double timeout,
                      std::atomic<bool>& has_timed_out,
-                     int resolution_ms);
+                     std::chrono::milliseconds resolution);
 
     testsuite();
 

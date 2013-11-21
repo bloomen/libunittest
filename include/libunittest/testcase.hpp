@@ -40,31 +40,31 @@ public:
         : context_(nullptr)
     {}
     /**
-     * @brief Destructor
-     */
-    virtual
-    ~testcase()
-    {}
-    /**
-     * @brief This is called before each test run. By default, it does not do
-     *  anything
+     * @brief This is called before each test run.
      */
     virtual void
     set_up()
     {}
     /**
-     * @brief This is called after each test run. By default, it does not do
-     *  anything
+     * @brief This is called after each test run. Called if set-up and
+     *  actual test were successful.
      */
     virtual void
     tear_down()
     {}
     /**
+     * @brief Destructor. Called after each test even in case of error in
+     *  set-up or actual test.
+     */
+    virtual
+    ~testcase()
+    {}
+    /**
      * @brief Returns a pointer to the optional test context
      * @returns A pointer to the test context, nullptr if not defined
      */
-    context_type*
-    get_test_context() const
+    virtual context_type*
+    get_test_context() const final
     {
         return context_;
     }

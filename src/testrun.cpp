@@ -12,16 +12,15 @@ namespace internals {
 
 void
 observe_and_wait(std::future<void>&& future,
-                 double timeout_sec,
+                 double timeout,
                  std::atomic<bool>& has_timed_out,
-                 int resolution_ms)
+                 std::chrono::milliseconds resolution)
 {
-    if (timeout_sec > 0) {
-        std::chrono::milliseconds wait_ms(resolution_ms);
-        const double wait_sec = duration_in_seconds(wait_ms);
+    if (timeout > 0) {
+        const double wait_sec = duration_in_seconds(resolution);
         double duration(wait_sec);
-        while (future.wait_for(wait_ms)!=std::future_status::ready) {
-            if (duration > timeout_sec) {
+        while (future.wait_for(resolution)!=std::future_status::ready) {
+            if (duration > timeout) {
                 has_timed_out = true;
                 auto suite = testsuite::instance();
                 write_test_timeout_message(std::cout, suite->get_arguments().verbose());
@@ -36,7 +35,7 @@ observe_and_wait(std::future<void>&& future,
 }
 
 template<>
-struct implementation<testrunner> {
+struct implementation<testmonitor> {
 
     testlog log_;
     std::chrono::high_resolution_clock::time_point start_;
@@ -49,9 +48,9 @@ struct implementation<testrunner> {
 
 };
 
-testrunner::testrunner(const std::string& class_name,
-                       const std::string& test_name)
-    : pimplpattern(new implementation<testrunner>())
+testmonitor::testmonitor(const std::string& class_name,
+                         const std::string& test_name)
+    : pimplpattern(new implementation<testmonitor>())
 {
     auto suite = testsuite::instance();
     impl_->is_executed_ = suite->is_test_run(class_name, test_name);
@@ -64,7 +63,7 @@ testrunner::testrunner(const std::string& class_name,
     }
 }
 
-testrunner::~testrunner()
+testmonitor::~testmonitor()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
@@ -79,13 +78,13 @@ testrunner::~testrunner()
 }
 
 bool
-testrunner::is_executed()
+testmonitor::is_executed()
 {
     return impl_->is_executed_;
 }
 
 void
-testrunner::log_success()
+testmonitor::log_success()
 {
     impl_->log_.status = teststatus::success;
     impl_->log_.message = "ok";
@@ -93,7 +92,7 @@ testrunner::log_success()
 }
 
 void
-testrunner::log_failure(const testfailure& e)
+testmonitor::log_failure(const testfailure& e)
 {
     impl_->log_.status = teststatus::failure;
     impl_->log_.message = e.what();
@@ -101,14 +100,14 @@ testrunner::log_failure(const testfailure& e)
 }
 
 void
-testrunner::log_error(const std::exception& e)
+testmonitor::log_error(const std::exception& e)
 {
     impl_->log_.status = teststatus::error;
     impl_->log_.message = e.what();
     impl_->log_.error_type = typeid(e).name();
 }
 void
-testrunner::log_unknown_error()
+testmonitor::log_unknown_error()
 {
     impl_->log_.status = teststatus::error;
     impl_->log_.message = "Unknown message";
@@ -116,7 +115,7 @@ testrunner::log_unknown_error()
 }
 
 void
-testrunner::has_timed_out(double timeout)
+testmonitor::has_timed_out(double timeout)
 {
     impl_->log_.has_timed_out = true;
     impl_->log_.timeout = timeout;
