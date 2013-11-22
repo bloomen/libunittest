@@ -1,5 +1,5 @@
 /**
- * @brief The testrun functions and the testmonitor class
+ * @brief Functionality to run tests
  * @file testrun.hpp
  */
 #pragma once
@@ -106,11 +106,11 @@ struct testfunctor final {
     {
         testmonitor monitor(class_name_, test_name_);
         if (monitor.is_executed()) {
-            auto suite = testsuite::instance();
-            if (suite->get_arguments().dry_run()) {
+            const auto& arguments = testsuite::instance()->get_arguments();
+            if (arguments.dry_run()) {
                 monitor.log_success();
             } else {
-                if (suite->get_arguments().handle_exceptions()) {
+                if (arguments.handle_exceptions()) {
                     try {
                         run();
                         monitor.log_success();
@@ -209,8 +209,9 @@ testrun(typename TestCase::context_type& context,
         double timeout)
 {
     const auto& class_maps = internals::testsuite::instance()->get_class_maps();
-    internals::update_class_name(class_name, typeid(TestCase).name(), class_maps);
-    internals::update_test_name(test_name, typeid(TestCase).name(), class_maps);
+    const std::string class_id = internals::get_type_id<TestCase>();
+    internals::update_class_name(class_name, class_id, class_maps);
+    internals::update_test_name(test_name, class_id, class_maps);
     internals::update_local_timeout(timeout);
     std::atomic<bool> has_timed_out(false);
     internals::testfunctor<TestCase>

@@ -301,6 +301,16 @@ get_from_map(const Map& map,
  * @brief A utility class to indicate 'no type' property
  */
 class notype {};
+/**
+ * @brief Returns a unique type id
+ * @returns A unique type id
+ */
+template<typename TestCase>
+std::string
+get_type_id()
+{
+    return typeid(TestCase).name();
+}
 
 } // internals
 

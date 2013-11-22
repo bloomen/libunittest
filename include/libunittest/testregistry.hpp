@@ -22,7 +22,7 @@ register_class(const std::string& class_name)
 {
     auto suite = internals::testsuite::instance();
     suite->add_class_run(TestCase::run);
-    suite->add_class_map(typeid(TestCase).name(), class_name);
+    suite->add_class_map(internals::get_type_id<TestCase>(), class_name);
 }
 /**
  * @brief Registers a test class at the testsuite
