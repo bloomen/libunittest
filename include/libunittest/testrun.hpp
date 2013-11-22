@@ -6,10 +6,10 @@
 #include <libunittest/testfailure.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <libunittest/testsuite.hpp>
+#include <libunittest/utilities.hpp>
 #include <string>
 #include <stdexcept>
 #include <future>
-#include <iostream>
 /**
  * @brief Unit testing in C++
  */
