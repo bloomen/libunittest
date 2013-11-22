@@ -1,3 +1,10 @@
+libunittest (3.5.7) stable; urgency=low
+
+  * refactored the testrun module and ensured that exceptions are caught
+    that may be thrown in test set-up or tear-down   
+
+ -- Christian Blume <chr.blume@gmail.com>  Fri, 22 Nov 2013 23:15:00 +0100
+
 libunittest (3.5.6) stable; urgency=low
 
   * added lock guards to where ever output streams are used   
