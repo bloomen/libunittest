@@ -22,6 +22,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_make_futures_happy_filled)
         UNITTEST_RUN(test_get_from_map)
         UNITTEST_RUN(test_get_from_map_key_not_found)
+        UNITTEST_RUN(test_get_type_id)
     }
 
     void test_limit_string_length()
@@ -180,6 +181,11 @@ struct test_utilities : unittest::testcase<> {
             unittest::internals::get_from_map(map, 2);
         };
         assert_throw<std::runtime_error>(functor, SPOT);
+    }
+
+    void test_get_type_id()
+    {
+        assert_equal("d", unittest::internals::get_type_id<double>(), SPOT);
     }
 
 };
