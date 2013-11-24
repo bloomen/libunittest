@@ -130,11 +130,11 @@ update_local_timeout(double& local_timeout)
 
 void
 update_class_name(std::string& class_name,
-                  const std::string& typeid_name,
+                  const std::string& class_id,
                   const std::map<std::string, std::string>& class_maps)
 {
     if (class_name=="") {
-        class_name = get_from_map(class_maps, typeid_name);
+        class_name = get_from_map(class_maps, class_id);
     } else if (class_name==testcollection::inactive_name()) {
         class_name = "";
     }
@@ -142,11 +142,11 @@ update_class_name(std::string& class_name,
 
 void
 update_test_name(std::string& test_name,
-                 const std::string& typeid_name,
+                 const std::string& class_id,
                  const std::map<std::string, std::string>& class_maps)
 {
     if (test_name=="") {
-        test_name = get_from_map(class_maps, typeid_name);
+        test_name = get_from_map(class_maps, class_id);
     }
 }
 
