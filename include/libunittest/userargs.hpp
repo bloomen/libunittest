@@ -63,13 +63,13 @@ public:
     virtual void
     generate_xml(bool value);
     /**
-     * @brief Returns whether to handle exceptions
-     * @returns Whether to handle exceptions
+     * @brief Returns whether to handle unknown exceptions
+     * @returns Whether to handle unknown exceptions
      */
     virtual bool
     handle_exceptions() const;
     /**
-     * @brief Sets whether to handle exceptions (default: true)
+     * @brief Sets whether to handle unknown exceptions (default: true)
      * @param value The value
      */
     virtual void
@@ -161,7 +161,7 @@ protected:
      */
     bool generate_xml_;
     /**
-     * @brief Whether to handle exceptions
+     * @brief Whether to handle unknown exceptions
      */
     bool handle_exceptions_;
     /**

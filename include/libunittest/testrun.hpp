@@ -82,6 +82,8 @@ struct testfunctor final {
      * @param method The test to be run
      * @param class_name The name of the test class
      * @param test_name The name of the current test method
+     * @param dry_run Whether a dry run is performed
+     * @param handle_exceptions Whether to handle unknown exceptions
      * @param timeout The test timeout
      * @param has_timed_out Whether the test has timed out
      */
@@ -89,12 +91,16 @@ struct testfunctor final {
                 void (TestCase::*method)(),
                 std::string class_name,
                 std::string test_name,
+                bool dry_run,
+                bool handle_exceptions,
                 double timeout,
                 std::atomic<bool>* has_timed_out)
         : context_(context),
           method_(method),
           class_name_(std::move(class_name)),
           test_name_(std::move(test_name)),
+          dry_run_(dry_run),
+          handle_exceptions_(handle_exceptions),
           timeout_(timeout),
           has_timed_out_(has_timed_out)
     {}
@@ -106,25 +112,11 @@ struct testfunctor final {
     {
         testmonitor monitor(class_name_, test_name_);
         if (monitor.is_executed()) {
-            const auto& arguments = testsuite::instance()->get_arguments();
-            if (arguments.dry_run()) {
+            if (dry_run_) {
                 monitor.log_success();
             } else {
-                if (arguments.handle_exceptions()) {
-                    try {
-                        run();
-                        monitor.log_success();
-                    } catch (const testfailure& e) {
-                        monitor.log_failure(e);
-                    } catch (const std::exception& e) {
-                        monitor.log_error(e);
-                    } catch (...) {
-                        monitor.log_unknown_error();
-                    }
-                } else {
-                    run();
-                    monitor.log_success();
-                }
+                std::unique_ptr<TestCase> test;
+                run(test, monitor);
                 if (has_timed_out_->load())
                     monitor.has_timed_out(timeout_);
             }
@@ -133,19 +125,140 @@ struct testfunctor final {
 
 private:
 
-    void run()
+    void
+    run(std::unique_ptr<TestCase>& test,
+        testmonitor& monitor)
     {
-        TestCase test;
-        test.set_test_context(context_);
-        test.set_up();
-        (test.*method_)();
-        test.tear_down();
+        if (construct(test, monitor)) {
+            if (set_up(test, monitor)) {
+                if (execute(test, monitor)) {
+                    tear_down(test, monitor);
+                }
+            }
+        }
+    }
+
+    bool
+    do_nothing(std::unique_ptr<TestCase>& test,
+               testmonitor& monitor)
+    {
+        return true;
+    }
+
+    bool
+    handle(std::unique_ptr<TestCase>& test,
+           testmonitor& monitor,
+           bool (testfunctor::*function)
+                       (std::unique_ptr<TestCase>&, testmonitor&),
+           bool (testfunctor::*error_callback)
+                       (std::unique_ptr<TestCase>&, testmonitor&))
+    {
+        if (handle_exceptions_) {
+            try {
+                (this->*function)(test, monitor);
+                monitor.log_success();
+                return true;
+            } catch (const testfailure& e) {
+                (this->*error_callback)(test, monitor);
+                monitor.log_failure(e);
+                return false;
+            } catch (const std::exception& e) {
+                (this->*error_callback)(test, monitor);
+                monitor.log_error(e);
+                return false;
+            } catch (...) {
+                (this->*error_callback)(test, monitor);
+                monitor.log_unknown_error();
+                return false;
+            }
+        } else {
+            try {
+                (this->*function)(test, monitor);
+                monitor.log_success();
+                return true;
+            } catch (const testfailure& e) {
+                (this->*error_callback)(test, monitor);
+                monitor.log_failure(e);
+                return false;
+            }
+        }
+    }
+
+    bool
+    construct(std::unique_ptr<TestCase>& test,
+              testmonitor& monitor)
+    {
+        return handle(test, monitor,
+                      &testfunctor<TestCase>::_construct,
+                      &testfunctor<TestCase>::do_nothing);
+    }
+
+    bool
+    _construct(std::unique_ptr<TestCase>& test,
+               testmonitor& monitor)
+    {
+        test = std::move(std::unique_ptr<TestCase>(new TestCase));
+        test->set_test_context(context_);
+        return true;
+    }
+
+    bool
+    set_up(std::unique_ptr<TestCase>& test,
+           testmonitor& monitor)
+    {
+        return handle(test, monitor,
+                      &testfunctor<TestCase>::_set_up,
+                      &testfunctor<TestCase>::tear_down);
+    }
+
+    bool
+    _set_up(std::unique_ptr<TestCase>& test,
+            testmonitor& monitor)
+    {
+        test->set_up();
+        return true;
+    }
+
+    bool
+    execute(std::unique_ptr<TestCase>& test,
+            testmonitor& monitor)
+    {
+        return handle(test, monitor,
+                      &testfunctor<TestCase>::_execute,
+                      &testfunctor<TestCase>::tear_down);
+    }
+
+    bool
+    _execute(std::unique_ptr<TestCase>& test,
+             testmonitor& monitor)
+    {
+        (test.get()->*method_)();
+        return true;
+    }
+
+    bool
+    tear_down(std::unique_ptr<TestCase>& test,
+              testmonitor& monitor)
+    {
+        return handle(test, monitor,
+                      &testfunctor<TestCase>::_tear_down,
+                      &testfunctor<TestCase>::do_nothing);
+    }
+
+    bool
+    _tear_down(std::unique_ptr<TestCase>& test,
+               testmonitor& monitor)
+    {
+        test->tear_down();
+        return true;
     }
 
     typename TestCase::context_type *context_;
     void (TestCase::*method_)();
     std::string class_name_;
     std::string test_name_;
+    bool dry_run_;
+    bool handle_exceptions_;
     double timeout_;
     std::atomic<bool>* has_timed_out_;
 };
@@ -173,9 +286,11 @@ update_test_name(std::string& test_name,
  * @brief Updates the local timeout by assigning the global timeout
  *  from the test suite if the local one is not greater than zero
  * @param local_timeout The local timeout in seconds
+ * @param global_timeout The global timeout in seconds
  */
 void
-update_local_timeout(double& local_timeout);
+update_local_timeout(double& local_timeout,
+                     double global_timeout);
 /**
  * @brief Observes the progress of an asynchronous operation and waits until
  *  the operation has finished or timed out
@@ -208,16 +323,27 @@ testrun(typename TestCase::context_type& context,
         std::string test_name,
         double timeout)
 {
-    const auto& class_maps = internals::testsuite::instance()->get_class_maps();
+    auto suite = internals::testsuite::instance();
+    const auto& class_maps = suite->get_class_maps();
     const std::string class_id = internals::get_type_id<TestCase>();
     internals::update_class_name(class_name, class_id, class_maps);
     internals::update_test_name(test_name, class_id, class_maps);
-    internals::update_local_timeout(timeout);
+    const bool dry_run = suite->get_arguments().dry_run();
+    const bool handle_exceptions = suite->get_arguments().handle_exceptions();
+    const double global_timeout = suite->get_arguments().timeout();
+    internals::update_local_timeout(timeout, global_timeout);
     std::atomic<bool> has_timed_out(false);
-    internals::testfunctor<TestCase>
-        functor(&context, method, class_name, test_name, timeout, &has_timed_out);
-    std::future<void> future = std::async(std::launch::async, std::move(functor));
-    internals::observe_and_wait(std::move(future), timeout, has_timed_out);
+    internals::testfunctor<TestCase> functor(&context, method,
+                                             std::move(class_name),
+                                             std::move(test_name),
+                                             dry_run, handle_exceptions,
+                                             timeout, &has_timed_out);
+    if (handle_exceptions) {
+        std::future<void> future = std::async(std::launch::async, std::move(functor));
+        internals::observe_and_wait(std::move(future), timeout, has_timed_out);
+    } else {
+        functor();
+    }
 }
 /**
  * @brief A test run without a test context

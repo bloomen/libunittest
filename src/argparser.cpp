@@ -21,7 +21,7 @@ struct implementation<argparser> {
         stream << "-h          Displays this help message\n";
         stream << "-v          Sets verbose output for running tests\n";
         stream << "-s          Stops running tests after the first test fails\n";
-        stream << "-e          Turns off exception handling\n";
+        stream << "-e          Turns off handling of unknown exceptions\n";
         stream << "-x          Enables the generation of the XML output\n";
         stream << "-d          A dry run without actually executing any tests\n";
         stream << "-p number   Runs tests in parallel with a given number of threads\n";

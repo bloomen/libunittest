@@ -122,10 +122,11 @@ testmonitor::has_timed_out(double timeout)
 }
 
 void
-update_local_timeout(double& local_timeout)
+update_local_timeout(double& local_timeout,
+                     double global_timeout)
 {
     if (!(local_timeout > 0))
-        local_timeout = testsuite::instance()->get_arguments().timeout();
+        local_timeout = global_timeout;
 }
 
 void

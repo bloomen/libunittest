@@ -34,10 +34,16 @@ public:
      */
     typedef TestContext context_type;
     /**
-     * @brief Constructor
+     * @brief Constructor. Called before each test run.
      */
     testcase()
         : context_(nullptr)
+    {}
+    /**
+     * @brief Destructor. Called after each test run.
+     */
+    virtual
+    ~testcase()
     {}
     /**
      * @brief This is called before each test run.
@@ -46,18 +52,10 @@ public:
     set_up()
     {}
     /**
-     * @brief This is called after each test run. Called if set-up and
-     *  actual test were successful.
+     * @brief This is called after each test run.
      */
     virtual void
     tear_down()
-    {}
-    /**
-     * @brief Destructor. Called after each test even in case of error in
-     *  set-up or actual test.
-     */
-    virtual
-    ~testcase()
     {}
     /**
      * @brief Returns a pointer to the optional test context

@@ -6,10 +6,23 @@ struct test_testrun : unittest::testcase<> {
     static void run()
     {
         UNITTEST_CLASS(test_testrun)
+        UNITTEST_RUN(test_update_local_timeout)
         UNITTEST_RUN(test_update_class_name)
         UNITTEST_RUN(test_update_test_name)
         UNITTEST_RUN(test_update_class_name_key_not_found)
         UNITTEST_RUN(test_update_test_name_key_not_found)
+    }
+
+    void test_update_local_timeout()
+    {
+        auto function = unittest::internals::update_local_timeout;
+        double local_timeout = 1;
+        double global_timeout = 2;
+        function(local_timeout, global_timeout);
+        assert_equal(1, local_timeout, SPOT);
+        local_timeout = 0;
+        function(local_timeout, global_timeout);
+        assert_equal(2, local_timeout, SPOT);
     }
 
     void test_update_class_name()
