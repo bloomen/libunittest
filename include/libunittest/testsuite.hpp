@@ -83,7 +83,7 @@ private:
 
     friend void
     observe_and_wait(std::future<void>&& future,
-                     std::string method_id,
+                     const std::string& method_id,
                      double timeout,
                      std::chrono::milliseconds resolution);
 
@@ -121,7 +121,7 @@ private:
     add_lonely_future(std::future<void>&& future);
 
     void
-    add_timed_out_method_id(std::string method_id);
+    add_timed_out_method_id(const std::string& method_id);
 
 };
 

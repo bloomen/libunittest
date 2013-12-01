@@ -91,6 +91,7 @@ struct testfunctor final {
      * @brief Constructor
      * @param context A pointer to the test context
      * @param method The test to be run
+     * @param method_id The id of the test method
      * @param class_name The name of the test class
      * @param test_name The name of the current test method
      * @param dry_run Whether a dry run is performed
@@ -323,7 +324,7 @@ update_testrun_info(const std::string& class_id,
  */
 void
 observe_and_wait(std::future<void>&& future,
-                 std::string method_id,
+                 const std::string& method_id,
                  double timeout,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(100));
 
@@ -356,7 +357,7 @@ testrun(typename TestCase::context_type& context,
                                              timeout);
     if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), std::move(method_id), timeout);
+        internals::observe_and_wait(std::move(future), method_id, timeout);
     } else {
         functor();
     }

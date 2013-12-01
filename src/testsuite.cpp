@@ -172,11 +172,11 @@ testsuite::get_lonely_futures() const
 }
 
 void
-testsuite::add_timed_out_method_id(std::string method_id)
+testsuite::add_timed_out_method_id(const std::string& method_id)
 {
     static std::mutex add_timed_out_method_id_mutex_;
     std::lock_guard<std::mutex> lock(add_timed_out_method_id_mutex_);
-    impl_->timed_out_method_ids_.push_back(std::move(method_id));
+    impl_->timed_out_method_ids_.push_back(method_id);
 }
 
 bool
