@@ -1,6 +1,7 @@
 libunittest (3.5.8) stable; urgency=low
 
   * fixed an issue with tests that timed out
+  * better handling of command line arguments
   * better wording in code and documentation    
 
  -- Christian Blume <chr.blume@gmail.com>  Sun, 01 Dec 2013 17:40:00 +0100
