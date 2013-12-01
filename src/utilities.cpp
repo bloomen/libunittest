@@ -140,5 +140,19 @@ make_futures_happy(std::ostream& stream,
     }
 }
 
+bool
+is_numeric(const std::string& value)
+{
+    std::istringstream stream(value);
+    double number;
+    stream >> number;
+    stream >> std::ws;
+    if (!stream.fail() && stream.eof()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 } // internals
 } // unittest

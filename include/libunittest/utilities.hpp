@@ -311,6 +311,13 @@ get_type_id()
 {
     return typeid(TestCase).name();
 }
+/**
+ * @brief Checks whether a given string has a valid numeric representation
+ * @param value The string to check
+ * @returns Whether a given string has a valid numeric representation
+ */
+bool
+is_numeric(const std::string& value);
 
 } // internals
 

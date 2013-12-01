@@ -41,6 +41,18 @@ struct implementation<argparser> {
         throw argparser_error(join(message, "\n\n", stream.str()));
     }
 
+    void
+    check_numeric(const std::string& app_name,
+                  const std::string& argument,
+                  const std::string& value)
+    {
+        if (!is_numeric(value)) {
+            const std::string message = join("The value to '", argument,"' must be numeric, not: ", value);
+            help_and_throw(app_name, message);
+        }
+    }
+
+
     std::vector<std::string>
     expand_arguments(int argc, char **argv) const
     {
@@ -100,6 +112,7 @@ argparser::parse(int argc, char **argv)
             }
         } else if (args[i]=="-t") {
             if (++i<length) {
+                impl_->check_numeric(app_name, "-t", args[i]);
                 timeout(atof(args[i].c_str()));
             } else {
                 impl_->help_and_throw(app_name, "Option '-t' needs a timeout");
@@ -112,6 +125,7 @@ argparser::parse(int argc, char **argv)
             }
         } else if (args[i]=="-p") {
             if (++i<length) {
+                impl_->check_numeric(app_name, "-p", args[i]);
                 concurrent_threads(atoi(args[i].c_str()));
             } else {
                 impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");

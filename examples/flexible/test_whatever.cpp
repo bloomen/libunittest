@@ -25,15 +25,20 @@ struct test_whatever : unittest::testcase<> {
         assert_throw<std::bad_cast>(functor, SPOT);
     }
 
+    void test_in_container()
+    {
+        std::chrono::milliseconds dura( 3000 );
+        std::this_thread::sleep_for( dura );
+        const std::vector<int> container = {1, 2, 3};
+        assert_in_container(2, container, SPOT);
+        throw std::bad_alloc();
+    }
+
     void test_in_range()
     {
         assert_in_range(1, 0.9, 1.1, SPOT);
-    }
-
-    void test_in_container()
-    {
-        const std::vector<int> container = {1, 2, 3};
-        assert_in_container(2, container, SPOT);
+        std::chrono::milliseconds dura( 1000 );
+        std::this_thread::sleep_for( dura );
     }
 
 };

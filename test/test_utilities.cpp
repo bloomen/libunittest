@@ -23,6 +23,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_get_from_map)
         UNITTEST_RUN(test_get_from_map_key_not_found)
         UNITTEST_RUN(test_get_type_id)
+        UNITTEST_RUN(test_is_numeric)
     }
 
     void test_limit_string_length()
@@ -186,6 +187,20 @@ struct test_utilities : unittest::testcase<> {
     void test_get_type_id()
     {
         assert_equal("d", unittest::internals::get_type_id<double>(), SPOT);
+    }
+
+    void test_is_numeric()
+    {
+        std::vector<std::string> values_num = {
+                "764", " 132.0", "930 ", " 93.7 "
+        };
+        for (auto& value : values_num)
+            assert_true(unittest::internals::is_numeric(value), SPOT, "value: ", value);
+        std::vector<std::string> values_not_num = {
+                "", "XYZ", "a26", "3.3a", "42 a"
+        };
+        for (auto& value : values_not_num)
+            assert_false(unittest::internals::is_numeric(value), SPOT, "value: ", value);
     }
 
 };
