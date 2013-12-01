@@ -292,6 +292,18 @@ void
 update_local_timeout(double& local_timeout,
                      double global_timeout);
 /**
+ * @brief Updates information needed or a test run
+ * @param class_id The current class' type ID
+ * @param class_name The current class name
+ * @param test_name The current test name
+ * @param local_timeout The local timeout in seconds
+ */
+void
+update_testrun_info(const std::string& class_id,
+                    std::string& class_name,
+                    std::string& test_name,
+                    double& local_timeout);
+/**
  * @brief Observes the progress of an asynchronous operation and waits until
  *  the operation has finished or timed out
  * @param future The asynchronous operation
@@ -323,22 +335,17 @@ testrun(typename TestCase::context_type& context,
         std::string test_name,
         double timeout)
 {
-    auto suite = internals::testsuite::instance();
-    const auto& class_maps = suite->get_class_maps();
     const std::string class_id = internals::get_type_id<TestCase>();
-    internals::update_class_name(class_name, class_id, class_maps);
-    internals::update_test_name(test_name, class_id, class_maps);
-    const bool dry_run = suite->get_arguments().dry_run();
-    const bool handle_exceptions = suite->get_arguments().handle_exceptions();
-    const double global_timeout = suite->get_arguments().timeout();
-    internals::update_local_timeout(timeout, global_timeout);
+    internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const auto& args = internals::testsuite::instance()->get_arguments();
     std::atomic<bool> has_timed_out(false);
     internals::testfunctor<TestCase> functor(&context, method,
                                              std::move(class_name),
                                              std::move(test_name),
-                                             dry_run, handle_exceptions,
+                                             args.dry_run(),
+                                             args.handle_exceptions(),
                                              timeout, &has_timed_out);
-    if (handle_exceptions) {
+    if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
         internals::observe_and_wait(std::move(future), timeout, has_timed_out);
     } else {

@@ -151,5 +151,19 @@ update_test_name(std::string& test_name,
     }
 }
 
+void
+update_testrun_info(const std::string& class_id,
+                    std::string& class_name,
+                    std::string& test_name,
+                    double& local_timeout)
+{
+    auto suite = internals::testsuite::instance();
+    const auto& class_maps = suite->get_class_maps();
+    update_class_name(class_name, class_id, class_maps);
+    update_test_name(test_name, class_id, class_maps);
+    const double global_timeout = suite->get_arguments().timeout();
+    update_local_timeout(local_timeout, global_timeout);
+}
+
 } // internals
 } // unittest
