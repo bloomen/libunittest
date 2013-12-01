@@ -305,11 +305,11 @@ class notype {};
  * @brief Returns a unique type id
  * @returns A unique type id
  */
-template<typename TestCase>
+template<typename T>
 std::string
 get_type_id()
 {
-    return typeid(TestCase).name();
+    return typeid(T).name();
 }
 /**
  * @brief Checks whether a given string has a valid numeric representation

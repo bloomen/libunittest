@@ -187,7 +187,8 @@ struct test_utilities : unittest::testcase<> {
 
     void test_get_type_id()
     {
-        assert_equal("d", unittest::internals::get_type_id<double>(), SPOT);
+        const std::string id = typeid(double).name();
+        assert_equal(id, unittest::internals::get_type_id<double>(), SPOT);
     }
 
     void test_is_numeric()

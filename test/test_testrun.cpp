@@ -6,11 +6,18 @@ struct test_testrun : unittest::testcase<> {
     static void run()
     {
         UNITTEST_CLASS(test_testrun)
+        UNITTEST_RUN(test_make_method_id)
         UNITTEST_RUN(test_update_local_timeout)
         UNITTEST_RUN(test_update_class_name)
         UNITTEST_RUN(test_update_test_name)
         UNITTEST_RUN(test_update_class_name_key_not_found)
         UNITTEST_RUN(test_update_test_name_key_not_found)
+    }
+
+    void test_make_method_id()
+    {
+        const std::string id = typeid(double).name();
+        assert_equal(id + "_m", unittest::internals::make_method_id<double>("_m"));
     }
 
     void test_update_local_timeout()

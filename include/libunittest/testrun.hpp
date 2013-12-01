@@ -71,6 +71,17 @@ public:
 
 };
 /**
+ * @brief Returns a unique method id
+ * @param test_name The name of the test method
+ * @returns A unique method id
+ */
+template<typename TestCase>
+std::string
+make_method_id(const std::string& test_name)
+{
+    return get_type_id<TestCase>() + test_name;
+}
+/**
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
  */
@@ -85,24 +96,23 @@ struct testfunctor final {
      * @param dry_run Whether a dry run is performed
      * @param handle_exceptions Whether to handle unexpected exceptions
      * @param timeout The test timeout
-     * @param has_timed_out Whether the test has timed out
      */
     testfunctor(typename TestCase::context_type* context,
                 void (TestCase::*method)(),
-                std::string class_name,
-                std::string test_name,
+                const std::string& method_id,
+                const std::string& class_name,
+                const std::string& test_name,
                 bool dry_run,
                 bool handle_exceptions,
-                double timeout,
-                std::atomic<bool>* has_timed_out)
+                double timeout)
         : context_(context),
           method_(method),
-          class_name_(std::move(class_name)),
-          test_name_(std::move(test_name)),
+          method_id_(method_id),
+          class_name_(class_name),
+          test_name_(test_name),
           dry_run_(dry_run),
           handle_exceptions_(handle_exceptions),
-          timeout_(timeout),
-          has_timed_out_(has_timed_out)
+          timeout_(timeout)
     {}
     /**
      * @brief Executes the test
@@ -117,7 +127,7 @@ struct testfunctor final {
             } else {
                 std::unique_ptr<TestCase> test;
                 run(test, monitor);
-                if (has_timed_out_->load())
+                if (testsuite::instance()->has_test_timed_out(method_id_))
                     monitor.has_timed_out(timeout_);
             }
         }
@@ -255,12 +265,12 @@ private:
 
     typename TestCase::context_type *context_;
     void (TestCase::*method_)();
+    std::string method_id_;
     std::string class_name_;
     std::string test_name_;
     bool dry_run_;
     bool handle_exceptions_;
     double timeout_;
-    std::atomic<bool>* has_timed_out_;
 };
 /**
  * @brief Updates the class name according to some heuristics
@@ -307,14 +317,14 @@ update_testrun_info(const std::string& class_id,
  * @brief Observes the progress of an asynchronous operation and waits until
  *  the operation has finished or timed out
  * @param future The asynchronous operation
+ * @param method_id The id of the test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- * @param has_timed_out Whether a timeout has occurred (note the reference)
  * @param resolution The temporal resolution in milliseconds
  */
 void
 observe_and_wait(std::future<void>&& future,
+                 std::string method_id,
                  double timeout,
-                 std::atomic<bool>& has_timed_out,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(100));
 
 } // internals
@@ -337,17 +347,16 @@ testrun(typename TestCase::context_type& context,
 {
     const std::string class_id = internals::get_type_id<TestCase>();
     internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const std::string method_id = internals::make_method_id<TestCase>(test_name);
     const auto& args = internals::testsuite::instance()->get_arguments();
-    std::atomic<bool> has_timed_out(false);
-    internals::testfunctor<TestCase> functor(&context, method,
-                                             std::move(class_name),
-                                             std::move(test_name),
+    internals::testfunctor<TestCase> functor(&context, method, method_id,
+                                             class_name, test_name,
                                              args.dry_run(),
                                              args.handle_exceptions(),
-                                             timeout, &has_timed_out);
+                                             timeout);
     if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), timeout, has_timed_out);
+        internals::observe_and_wait(std::move(future), std::move(method_id), timeout);
     } else {
         functor();
     }
