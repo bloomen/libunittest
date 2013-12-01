@@ -1,6 +1,6 @@
 /**
  * @brief A collection of short aliases for selected macros
- * @file macros.hpp
+ * @file shortcuts.hpp
  */
 #pragma once
 /**
