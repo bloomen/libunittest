@@ -143,15 +143,14 @@ make_futures_happy(std::ostream& stream,
 bool
 is_numeric(const std::string& value)
 {
-    std::istringstream stream(value);
-    double number;
-    stream >> number;
-    stream >> std::ws;
-    if (!stream.fail() && stream.eof()) {
-        return true;
-    } else {
-        return false;
+    bool result;
+    try {
+        to_number<double>(value);
+        result = true;
+    } catch (const std::invalid_argument&) {
+        result = false;
     }
+    return result;
 }
 
 } // internals

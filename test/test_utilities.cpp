@@ -24,6 +24,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_get_from_map_key_not_found)
         UNITTEST_RUN(test_get_type_id)
         UNITTEST_RUN(test_is_numeric)
+        UNITTEST_RUN(test_to_number)
     }
 
     void test_limit_string_length()
@@ -201,6 +202,19 @@ struct test_utilities : unittest::testcase<> {
         };
         for (auto& value : values_not_num)
             assert_false(unittest::internals::is_numeric(value), SPOT, "value: ", value);
+    }
+
+    void test_to_number()
+    {
+        assert_equal(764, unittest::internals::to_number<int>("764"), SPOT);
+        assert_equal(132, unittest::internals::to_number<long>("132.0"), SPOT);
+        assert_equal(930, unittest::internals::to_number<float>("930"), SPOT);
+        assert_equal(-93.7, unittest::internals::to_number<double>("-93.7"), SPOT);
+        std::vector<std::string> values_not_num = {
+                "", "XYZ", "a26", "3.3a", "42 a"
+        };
+        for (auto& value : values_not_num)
+            assert_throw<std::invalid_argument>(std::bind(unittest::internals::to_number<int>, value), SPOT, "value: ", value);
     }
 
 };

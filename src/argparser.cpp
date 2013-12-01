@@ -41,17 +41,21 @@ struct implementation<argparser> {
         throw argparser_error(join(message, "\n\n", stream.str()));
     }
 
-    void
-    check_numeric(const std::string& app_name,
-                  const std::string& argument,
-                  const std::string& value)
+    template<typename T>
+    T
+    make_number(const std::string& app_name,
+                const std::string& argument,
+                const std::string& value)
     {
-        if (!is_numeric(value)) {
+        T result;
+        try {
+            result = to_number<T>(value);
+        } catch (const std::invalid_argument&) {
             const std::string message = join("The value to '", argument,"' must be numeric, not: ", value);
             help_and_throw(app_name, message);
         }
+        return result;
     }
-
 
     std::vector<std::string>
     expand_arguments(int argc, char **argv) const
@@ -112,8 +116,7 @@ argparser::parse(int argc, char **argv)
             }
         } else if (args[i]=="-t") {
             if (++i<length) {
-                impl_->check_numeric(app_name, "-t", args[i]);
-                timeout(atof(args[i].c_str()));
+                timeout(impl_->make_number<double>(app_name, "-t", args[i]));
             } else {
                 impl_->help_and_throw(app_name, "Option '-t' needs a timeout");
             }
@@ -125,8 +128,7 @@ argparser::parse(int argc, char **argv)
             }
         } else if (args[i]=="-p") {
             if (++i<length) {
-                impl_->check_numeric(app_name, "-p", args[i]);
-                concurrent_threads(atoi(args[i].c_str()));
+                concurrent_threads(impl_->make_number<int>(app_name, "-p", args[i]));
             } else {
                 impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");
             }

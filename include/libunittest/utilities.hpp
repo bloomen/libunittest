@@ -318,6 +318,26 @@ get_type_id()
  */
 bool
 is_numeric(const std::string& value);
+/**
+ * @brief Converts a given string to a number of type T
+ * @param value The string to convert
+ * @returns The number
+ * @throws std::invalid_argument if given string is not numeric
+ */
+template<typename T>
+T
+to_number(const std::string& value)
+{
+    std::istringstream stream(value);
+    double number;
+    stream >> number;
+    stream >> std::ws;
+    if (!stream.fail() && stream.eof()) {
+        return static_cast<T>(number);
+    } else {
+        throw std::invalid_argument("Not numeric: " + value);
+    }
+}
 
 } // internals
 
