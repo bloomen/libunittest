@@ -117,6 +117,8 @@ struct testfunctor final {
             } else {
                 std::unique_ptr<TestCase> test;
                 run(test, monitor);
+                if (has_timed_out_->load())
+                    monitor.has_timed_out(timeout_);
             }
         }
     }
@@ -133,8 +135,6 @@ private:
                     tear_down(test, monitor);
                 }
             }
-            if (has_timed_out_->load())
-                monitor.has_timed_out(timeout_);
         }
     }
 
