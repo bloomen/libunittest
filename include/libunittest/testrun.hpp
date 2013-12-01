@@ -83,7 +83,7 @@ struct testfunctor final {
      * @param class_name The name of the test class
      * @param test_name The name of the current test method
      * @param dry_run Whether a dry run is performed
-     * @param handle_exceptions Whether to handle unknown exceptions
+     * @param handle_exceptions Whether to handle unexpected exceptions
      * @param timeout The test timeout
      * @param has_timed_out Whether the test has timed out
      */
@@ -117,8 +117,6 @@ struct testfunctor final {
             } else {
                 std::unique_ptr<TestCase> test;
                 run(test, monitor);
-                if (has_timed_out_->load())
-                    monitor.has_timed_out(timeout_);
             }
         }
     }
@@ -135,6 +133,8 @@ private:
                     tear_down(test, monitor);
                 }
             }
+            if (has_timed_out_->load())
+                monitor.has_timed_out(timeout_);
         }
     }
 
