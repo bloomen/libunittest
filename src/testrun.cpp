@@ -97,6 +97,7 @@ testmonitor::log_failure(const testfailure& e)
     impl_->log_.status = teststatus::failure;
     impl_->log_.message = e.what();
     impl_->log_.error_type = "testfailure";
+    impl_->log_.assertion = e.assertion();
 }
 
 void

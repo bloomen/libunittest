@@ -58,6 +58,10 @@ struct testlog {
      * @brief The test timeout so the maximum allowed run time
      */
     double timeout;
+    /**
+     * @brief The name of the assertion if applicable
+     */
+    std::string assertion;
 };
 /**
  * @brief Writes a test start message to the given output stream

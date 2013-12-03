@@ -9,7 +9,7 @@ namespace internals {
 testlog::testlog()
     : class_name(""), test_name(""), successful(true),
       status(teststatus::skipped), message(""), duration(0),
-      has_timed_out(false), timeout(-1)
+      has_timed_out(false), timeout(-1), assertion("")
 {}
 
 void

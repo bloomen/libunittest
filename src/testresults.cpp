@@ -32,6 +32,7 @@ write_xml(std::ostream& stream,
     for (auto& log : results.testlogs) {
         stream << "\t<testcase classname=\"" << xml_escape(log.class_name);
         stream << "\" name=\"" << xml_escape(log.test_name);
+        stream << "\" assertions=\"" << xml_escape(log.assertion);
         stream << "\" time=\"" << log.duration;
         const std::string has_timed_out = log.has_timed_out ? "true" : "false";
         stream << "\" timed_out=\"" << has_timed_out;

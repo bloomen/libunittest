@@ -16,10 +16,20 @@ class testfailure final : public std::runtime_error {
 public:
     /**
      * @brief Constructor
+     * @param assertion The name of the assertion
      * @param message The exception message
      */
-    explicit
-    testfailure(const std::string& message);
+    testfailure(const std::string& assertion,
+                const std::string& message);
+    /**
+     * @brief Returns the name of the assertion
+     * @returns The name of the assertion
+     */
+    std::string
+    assertion() const;
+
+private:
+    std::string assertion_;
 };
 
 } // unittest

@@ -6,6 +6,7 @@
 #include <libunittest/utilities.hpp>
 #include <libunittest/formatting.hpp>
 #include <libunittest/testsuite.hpp>
+#include <libunittest/testfailure.hpp>
 #include <string>
 #include <regex>
 #include <typeinfo>
@@ -32,14 +33,8 @@ public:
     virtual
     ~assertions();
     /**
-     * @brief Throws exception testfailure with a given message
-     * @param message The fail message
-     */
-    virtual void
-    fail(const std::string& message) const;
-    /**
-     * @brief Builds a fail message from the parameters passed and calls
-     * 	the fail(message) overload
+     * @brief Builds a fail message from the parameters passed and throws
+     *  exception testfailure
      * @param assertion The name of the assertion
      * @param text The assertion text
      * @param args An arbitrary number of arguments that are concatenated
@@ -51,7 +46,9 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        fail(join(make_displayed_fail_message(assertion, text), args...));
+        const std::string base_msg = make_displayed_fail_message(assertion, text);
+        const std::string message = join(base_msg, args...);
+        throw testfailure(assertion, message);
     }
     /**
      * @brief Asserts that a value is true.

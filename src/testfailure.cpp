@@ -2,8 +2,16 @@
 
 namespace unittest {
 
-testfailure::testfailure(const std::string& message)
-    : std::runtime_error(message)
+testfailure::testfailure(const std::string& assertion,
+                         const std::string& message)
+    : std::runtime_error(message),
+      assertion_(assertion)
 {}
+
+std::string
+testfailure::assertion() const
+{
+    return assertion_;
+}
 
 } // unittest
