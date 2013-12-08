@@ -38,7 +38,7 @@ public:
                                 const std::string& text) const;
     /**
      * @brief Returns the maximum displayed string length
-     *  (default: 100)
+     *  (default: 500)
      * @returns The maximum displayed string length
      */
     virtual int

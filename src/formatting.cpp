@@ -20,7 +20,7 @@ formatting::make_displayed_fail_message(const std::string& assertion,
 int
 formatting::max_displayed_string_length() const
 {
-    return 100;
+    return 500;
 }
 
 int

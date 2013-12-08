@@ -30,13 +30,15 @@ write_xml(std::ostream& stream,
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
     for (auto& log : results.testlogs) {
-        stream << "\t<testcase classname=\"" << xml_escape(log.class_name);
-        stream << "\" name=\"" << xml_escape(log.test_name);
-        stream << "\" assertions=\"" << xml_escape(log.assertion);
-        stream << "\" time=\"" << log.duration;
-        const std::string has_timed_out = log.has_timed_out ? "true" : "false";
-        stream << "\" timed_out=\"" << has_timed_out;
-        stream << "\" timeout=\"" << log.timeout << "\"";
+        stream << "\t<testcase ";
+        if (log.class_name.size() > 0)
+            stream << "classname=\"" << xml_escape(log.class_name) << "\" ";
+        stream << "name=\"" << xml_escape(log.test_name);
+        if (log.assertion.size() > 0)
+            stream << "\" assertions=\"" << xml_escape(log.assertion);
+        stream << "\" time=\"" << log.duration << "\"";
+        if (log.has_timed_out)
+            stream << " timeout=\"" << log.timeout << "\"";
         if (log.successful) {
             stream << "/>";
             stream << "\n";
@@ -48,7 +50,7 @@ write_xml(std::ostream& stream,
             else
                 stream << "\t\t<error ";
             stream << "type=\"" << xml_escape(log.error_type);
-            stream << "\" message=\"" << xml_escape(log.message) << "\"/>";
+            stream << "\" message=\"" << trim(xml_escape(log.message)) << "\"/>";
             stream << "\n";
             stream << "\t</testcase>";
             stream << "\n";
@@ -116,7 +118,7 @@ write_error_info(std::ostream& stream,
                 stream << "\n";
                 write_horizontal_bar(stream, '-');
                 stream << "\n";
-                stream << log.error_type << ": " << log.message;
+                stream << log.error_type << ": " << trim(log.message);
                 stream << "\n\n";
             }
         }

@@ -153,5 +153,20 @@ is_numeric(const std::string& value)
     return result;
 }
 
+std::string
+trim(std::string value)
+{
+    const std::string chars = " \t\n";
+    std::string check;
+    while (check != value) {
+        check = value;
+        for (auto& ch : chars) {
+            value.erase(0, value.find_first_not_of(ch));
+            value.erase(value.find_last_not_of(ch) + 1);
+        }
+    }
+    return value;
+}
+
 } // internals
 } // unittest

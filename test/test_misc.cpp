@@ -150,11 +150,11 @@ struct test_misc : unittest::testcase<> {
         expected << "timestamp=\"2009-02-14T00:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"2\" time=\"6.000000\">\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\" timed_out=\"false\" timeout=\"-1.000000\"/>\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timed_out=\"true\" timeout=\"2.400000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
         expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";
         expected << "\t</testcase>\n";
-        expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\" timed_out=\"false\" timeout=\"-1.000000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
         expected << "\t\t<error type=\"error\" message=\"message3\"/>\n";
         expected << "\t</testcase>\n";
         expected << "</testsuite>\n";
@@ -297,16 +297,18 @@ struct test_misc : unittest::testcase<> {
 
     void test_testcase_fail()
     {
+        const std::string assertion("assert_something");
         const std::string msg("a test failure");
         bool caught = false;
         try {
-            fail(msg);
+            fail(assertion, msg);
         } catch (const unittest::testfailure& e) {
-            assert_equal(msg, e.what(), SPOT);
+            assert_equal(unittest::join(msg, "  (", assertion, ") "), e.what(), SPOT);
+            assert_equal(assertion, e.assertion(), SPOT);
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure("fail() did not throw 'testfailure'");
+            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
     }
 
     void test_testcase_fail_overload()
@@ -319,10 +321,11 @@ struct test_misc : unittest::testcase<> {
             fail(assertion, msg, text);
         } catch (const unittest::testfailure& e) {
             assert_equal(unittest::join(msg, "  (", assertion, ") ", text), e.what(), SPOT);
+            assert_equal(assertion, e.assertion(), SPOT);
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure("fail() did not throw 'testfailure'");
+            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
     }
 
     void test_unittest_spot()

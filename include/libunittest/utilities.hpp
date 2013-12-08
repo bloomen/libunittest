@@ -338,6 +338,13 @@ to_number(const std::string& value)
         throw std::invalid_argument("Not numeric: " + value);
     }
 }
+/**
+ * @brief Removes leading and trailing white characters
+ * @oaram value The string to trim
+ * @returns The new string
+ */
+std::string
+trim(std::string value);
 
 } // internals
 

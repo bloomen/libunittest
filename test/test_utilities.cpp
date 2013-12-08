@@ -25,6 +25,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_get_type_id)
         UNITTEST_RUN(test_is_numeric)
         UNITTEST_RUN(test_to_number)
+        UNITTEST_RUN(test_trim)
     }
 
     void test_limit_string_length()
@@ -216,6 +217,17 @@ struct test_utilities : unittest::testcase<> {
         };
         for (auto& value : values_not_num)
             assert_throw<std::invalid_argument>(std::bind(unittest::internals::to_number<int>, value), SPOT, "value: ", value);
+    }
+
+    void test_trim()
+    {
+        auto function = unittest::internals::trim;
+        assert_equal("albert", function("albert"), SPOT);
+        assert_equal("albert peter", function("albert peter  "), SPOT);
+        assert_equal("albert  püter", function("albert  püter  "), SPOT);
+        assert_equal("albert  peter", function("   albert  peter  "), SPOT);
+        assert_equal("ölbert  \tpeter", function("\n   ölbert  \tpeter  \t"), SPOT);
+        assert_equal("albert  \npeter", function("\n\t   albert  \npeter  \n\n"), SPOT);
     }
 
 };
