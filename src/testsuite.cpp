@@ -108,18 +108,16 @@ testsuite::collect(const testlog& log)
 {
     static std::mutex collect_mutex_;
     std::lock_guard<std::mutex> lock(collect_mutex_);
+    ++impl_->results_.n_tests;
+    if (log.has_timed_out)
+        ++impl_->results_.n_timeouts;
     switch (log.status) {
     case teststatus::success: ++impl_->results_.n_successes; break;
     case teststatus::failure: ++impl_->results_.n_failures;  break;
     case teststatus::error: ++impl_->results_.n_errors;      break;
     default: ++impl_->results_.n_skipped;                    break;
     }
-    if (log.status!=teststatus::skipped) {
-        ++impl_->results_.n_tests;
-        impl_->results_.testlogs.push_back(std::move(log));
-    }
-    if (log.has_timed_out)
-        ++impl_->results_.n_timeouts;
+    impl_->results_.testlogs.push_back(log);
 }
 
 bool

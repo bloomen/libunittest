@@ -54,11 +54,11 @@ testmonitor::testmonitor(const std::string& class_name,
 {
     auto suite = testsuite::instance();
     impl_->is_executed_ = suite->is_test_run(class_name, test_name);
+    impl_->log_.class_name = class_name;
+    impl_->log_.test_name = test_name;
     if (impl_->is_executed_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();
-        impl_->log_.class_name = class_name;
-        impl_->log_.test_name = test_name;
         write_test_start_message(std::cout, impl_->log_, suite->get_arguments().verbose());
     }
 }

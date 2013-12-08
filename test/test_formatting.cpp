@@ -31,7 +31,7 @@ struct test_formatting : unittest::testcase<> {
     void test_max_displayed_string_length()
     {
         formatting form;
-        assert_equal(100, form.max_displayed_string_length(), SPOT);
+        assert_equal(500, form.max_displayed_string_length(), SPOT);
     }
 
     void test_max_displayed_value_precision()

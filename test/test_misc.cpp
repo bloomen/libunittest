@@ -39,7 +39,7 @@ unittest::internals::testresults make_sample_results()
     results.n_failures = 1;
     results.n_errors = 1;
     results.n_timeouts = 1;
-    results.n_skipped = 2;
+    results.n_skipped = 0;
     results.duration = 6;
     results.testlogs = {log1, log2, log3};
 
@@ -149,7 +149,7 @@ struct test_misc : unittest::testcase<> {
         expected << "<testsuite name=\"libunittest\" ";
         expected << "timestamp=\"2009-02-14T00:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
-        expected << "failures=\"1\" timeouts=\"1\" skipped=\"2\" time=\"6.000000\">\n";
+        expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
         expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";

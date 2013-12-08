@@ -40,7 +40,15 @@ write_xml(std::ostream& stream,
         if (log.has_timed_out)
             stream << " timeout=\"" << log.timeout << "\"";
         if (log.successful) {
-            stream << "/>";
+            if (log.status==teststatus::skipped) {
+                stream << ">";
+                stream << "\n";
+                stream << "\t\t<skipped/>";
+                stream << "\n";
+                stream << "\t</testcase>";
+            } else {
+                stream << "/>";
+            }
             stream << "\n";
         } else {
             stream << ">";
@@ -73,7 +81,7 @@ write_summary(std::ostream& stream,
     stream << "\n";
     stream << "Ran " << results.n_tests << " tests in ";
     stream << results.duration << "s\n\n";
-    if (results.n_tests==results.n_successes) {
+    if (results.n_tests==(results.n_successes + results.n_skipped)) {
         stream << "OK";
         if (results.n_timeouts>0)
             stream << " (timeouts=" << results.n_timeouts <<")";
