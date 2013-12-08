@@ -1,3 +1,22 @@
+libunittest (3.6.0) stable; urgency=low
+
+  * removed 'has_timed_out' as an XML attribute of tag 'testcase'
+  * added new attribute 'assertions' to tag 'testcase' which is filled
+    with the assertion that triggered the failed test
+  * only those attributes of tag 'testcase' are displayed that are provided
+    with information, e.g., classname doesn't show up if there is no class name
+  * tests that were skipped didn't show up in the output XML. Now they do
+    and are marked with the empty tag 'skipped'
+  * added macro UNITTEST_LOGTEXT (or shortcut LOGTEXT) which can be used
+    to provide further information about the current test -> see examples
+  * all info passed to LOGTEXT is forwarded to stdout in case of errors
+    or failures
+  * all info passed to LOGTEXT is forwarded to the output XML and 
+    appears under the new tag 'system-out'
+  * unittest::deps had the wrong type -> changed it to double
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 08 Dec 2013 22:00:00 +0100
+
 libunittest (3.5.8) stable; urgency=low
 
   * fixed an issue with tests that timed out

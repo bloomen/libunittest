@@ -10,7 +10,7 @@
 #define SPOT \
 UNITTEST_SPOT
 /**
- * @bief Logs text for the current test
+ * @brief Logs text for the current test
  */
 #define LOGTEXT(...) \
 UNITTEST_LOGTEXT(__VA_ARGS__)

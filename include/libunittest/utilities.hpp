@@ -340,7 +340,7 @@ to_number(const std::string& value)
 }
 /**
  * @brief Removes leading and trailing white characters
- * @oaram value The string to trim
+ * @param value The string to trim
  * @returns The new string
  */
 std::string
@@ -373,6 +373,6 @@ const float feps = std::numeric_limits<float>::epsilon();
 /**
  * @brief Machine epsilon of double
  */
-const float deps = std::numeric_limits<double>::epsilon();
+const double deps = std::numeric_limits<double>::epsilon();
 
 } // unittest
