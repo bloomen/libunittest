@@ -22,12 +22,25 @@ struct implementation<testsuite> {
     std::map<std::string, std::string> class_maps_;
     std::vector<std::future<void>> lonely_futures_;
     std::vector<std::string> timed_out_method_ids_;
+    std::map<std::string, std::string> logged_texts_;
 
     implementation()
     	: keep_running_(true),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
     	  end_(std::chrono::high_resolution_clock::time_point::min())
     {}
+
+    void
+    assign_logged_texts(std::vector<testlog>& testlogs)
+    {
+        static std::mutex assign_logged_texts_mutex_;
+        std::lock_guard<std::mutex> lock(assign_logged_texts_mutex_);
+        for (auto& log : testlogs) {
+            const auto& element = logged_texts_.find(log.method_id);
+            if (element!=logged_texts_.end())
+                log.text = element->second;
+        }
+    }
 
 };
 
@@ -74,6 +87,7 @@ testsuite::get_results() const
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
     results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
+    impl_->assign_logged_texts(results.testlogs);
     return results;
 }
 
@@ -181,6 +195,15 @@ bool
 testsuite::has_test_timed_out(const std::string& method_id) const
 {
     return is_contained(method_id, impl_->timed_out_method_ids_);
+}
+
+void
+testsuite::log_text(const std::string& method_id,
+                    const std::string& text)
+{
+    static std::mutex log_text_mutex_;
+    std::lock_guard<std::mutex> lock(log_text_mutex_);
+    impl_->logged_texts_[method_id] = text;
 }
 
 } // internals

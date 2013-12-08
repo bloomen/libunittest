@@ -27,9 +27,11 @@ public:
      * @brief Constructor
      * @param class_name The name of the test class
      * @param test_name The name of the current test method
+     * @param method_id The ID of the current test method
      */
     testmonitor(const std::string& class_name,
-                const std::string& test_name);
+                const std::string& test_name,
+                const std::string& method_id);
     /**
      * @brief Destructor
      */
@@ -121,7 +123,7 @@ struct testfunctor final {
     void
     operator()()
     {
-        testmonitor monitor(class_name_, test_name_);
+        testmonitor monitor(class_name_, test_name_, method_id_);
         if (monitor.is_executed()) {
             if (dry_run_) {
                 monitor.log_success();
@@ -210,6 +212,7 @@ private:
     {
         test = std::move(std::unique_ptr<TestCase>(new TestCase));
         test->set_test_context(context_);
+        test->set_method_id(method_id_);
         return true;
     }
 

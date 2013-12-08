@@ -10,6 +10,11 @@
 #define SPOT \
 UNITTEST_SPOT
 /**
+ * @bief Logs text for the current test
+ */
+#define LOGTEXT(...) \
+UNITTEST_LOGTEXT(__VA_ARGS__)
+/**
  * @brief Registers a test class at the global registry
  */
 #define REGISTER(...) \

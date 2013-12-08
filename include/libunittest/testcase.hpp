@@ -66,6 +66,15 @@ public:
     {
         return context_;
     }
+    /**
+     * @brief Returns the current method ID
+     * @returns The current method ID
+     */
+    virtual std::string
+    get_method_id() const final
+    {
+        return method_id_;
+    }
 
 private:
 
@@ -78,7 +87,14 @@ private:
         context_ = context;
     }
 
+    void
+    set_method_id(const std::string& method_id)
+    {
+        method_id_ = method_id;
+    }
+
     context_type *context_;
+    std::string method_id_;
 };
 
 } // unittest

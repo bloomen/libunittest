@@ -49,13 +49,15 @@ struct implementation<testmonitor> {
 };
 
 testmonitor::testmonitor(const std::string& class_name,
-                         const std::string& test_name)
+                         const std::string& test_name,
+                         const std::string& method_id)
     : pimplpattern(new implementation<testmonitor>())
 {
     auto suite = testsuite::instance();
     impl_->is_executed_ = suite->is_test_run(class_name, test_name);
     impl_->log_.class_name = class_name;
     impl_->log_.test_name = test_name;
+    impl_->log_.method_id = method_id;
     if (impl_->is_executed_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();

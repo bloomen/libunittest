@@ -62,6 +62,14 @@ struct testlog {
      * @brief The name of the assertion if applicable
      */
     std::string assertion;
+    /**
+     * @brief The method ID
+     */
+    std::string method_id;
+    /**
+     * @brief The text logged for this test
+     */
+    std::string text;
 };
 /**
  * @brief Writes a test start message to the given output stream

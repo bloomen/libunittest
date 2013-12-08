@@ -73,6 +73,14 @@ public:
      */
     testresults
     get_results() const;
+    /**
+     * @brief Logs text for a given method
+     * @param method_id The method ID
+     * @param text The text to be logged
+     */
+    void
+    log_text(const std::string& method_id,
+             const std::string& text);
 
 private:
     friend class testmonitor;
