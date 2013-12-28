@@ -54,6 +54,8 @@ struct test_random : unittest::testcase<> {
         UNITTEST_RUN(test_random_container_list)
         UNITTEST_RUN(test_random_container_vector)
         UNITTEST_RUN(test_random_container_throw)
+        UNITTEST_RUN(test_random_tuple)
+        UNITTEST_RUN(test_random_pair)
         UNITTEST_RUN(test_random_shuffle_vector)
         UNITTEST_RUN(test_random_shuffle_list)
         UNITTEST_RUN(test_random_shuffle_throw)
@@ -190,6 +192,34 @@ struct test_random : unittest::testcase<> {
             unittest::make_random_container<std::list<int>>(random, 3, 1);
         };
         assert_throw<std::invalid_argument>(functor2, SPOT);
+    }
+
+    void test_random_tuple()
+    {
+        auto rand_float = unittest::make_random_value<double>(2.0, 3.0);
+        auto rand_int   = unittest::make_random_value<int>(4, 8);
+        auto rand_bool  = unittest::make_random_value<bool>();
+        auto random = unittest::make_random_tuple(rand_float, rand_int, rand_bool);
+        const std::vector<bool> container = {true, false};
+        for (int i=0; i<100; ++i) {
+            const auto rand_tuple = random.get();
+            assert_equal<unsigned>(3, std::tuple_size<decltype(rand_tuple)>::value, SPOT);
+            assert_in_range(std::get<0>(rand_tuple), 2.0, 3.0, SPOT);
+            assert_in_range(std::get<1>(rand_tuple), 4, 8, SPOT);
+            assert_in_container(std::get<2>(rand_tuple), container, SPOT);
+        }
+    }
+
+    void test_random_pair()
+    {
+        auto rand_float = unittest::make_random_value<double>(2.0, 3.0);
+        auto rand_int   = unittest::make_random_value<int>(4, 8);
+        auto random = unittest::make_random_pair(rand_float, rand_int);
+        for (int i=0; i<100; ++i) {
+            const auto rand_pair = random.get();
+            assert_in_range(rand_pair.first, 2.0, 3.0, SPOT);
+            assert_in_range(rand_pair.second, 4, 8, SPOT);
+        }
     }
 
     void test_random_shuffle_vector()

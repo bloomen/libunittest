@@ -49,6 +49,35 @@ TEST(test_random_vector)
     }
 }
 
+TEST(test_random_tuple)
+{
+    auto random1 = unittest::make_random_value<double>(2.0, 3.0);
+    auto random2 = unittest::make_random_value<int>(4, 8);
+    auto random3 = unittest::make_random_value<bool>();
+    auto random4 = unittest::make_random_tuple(random1, random2, random3);
+    // if you have generic code working on arbitrary tuples
+    // always test it with empty tuples as well:
+    auto random5 = unittest::make_random_tuple();
+    auto rand_tuple = random4.get();
+    auto empty_tuple = random5.get();
+    assert_equal<unsigned>(3, std::tuple_size<decltype(rand_tuple)>::value, SPOT);
+    assert_equal<unsigned>(0, std::tuple_size<decltype(empty_tuple)>::value, SPOT);
+    const std::vector<bool> container = {true, false};
+    assert_in_range(std::get<0>(rand_tuple), 2.0, 3.0, SPOT);
+    assert_in_range(std::get<1>(rand_tuple), 4, 8, SPOT);
+    assert_in_container(std::get<2>(rand_tuple), container, SPOT);
+}
+
+TEST(test_random_pair)
+{
+    auto random1 = unittest::make_random_value<double>(2.0, 3.0);
+    auto random2 = unittest::make_random_value<int>(4, 8);
+    auto random3 = unittest::make_random_pair(random1, random2);
+    auto rand_pair = random3.get();
+    assert_in_range(rand_pair.first, 2.0, 3.0, SPOT);
+    assert_in_range(rand_pair.second, 4, 8, SPOT);
+}
+
 TEST(test_random_shuffle)
 {
     const std::vector<int> container = {1, 2, 3, 4};

@@ -7,6 +7,7 @@
 #include <random>
 #include <stdexcept>
 #include <type_traits>
+#include <libunittest/tuplemap.hpp>
 /**
  * @brief Unit testing in C++
  */
@@ -384,6 +385,129 @@ make_random_vector(random_object<T>& rand,
                    long long max_size)
 {
     return random_container<std::vector<T>>(rand, min_size, max_size);
+}
+/**
+ * @brief A random tuple
+ */
+template<typename ...Ts>
+class random_tuple final : public random_object<std::tuple<Ts...>> {
+private:
+    /**
+     * @brief Helper functor for seeding tuple of random_object
+     */
+    struct seed_func {
+        template<typename X>
+        void operator()(random_object<X>* rand, int seed) const
+        {
+            rand->seed(seed);
+        }
+    };
+    /**
+     * @brief Helper functor for getting random values from tuple of random_object
+     */
+    struct get_func {
+        template<typename X>
+        X operator()(random_object<X>* rand) const
+        {
+            return rand->get();
+        }
+    };
+public:
+    /**
+     * @brief Constructor
+     * @param rands Random objects used to fill the tuple
+     */
+    random_tuple(random_object<Ts>&... rands)
+        : random_object<std::tuple<Ts...>>(),
+          rand_tuple_(&rands...)
+    {}
+    /**
+     * @brief Sets a new random seed
+     * @param seed The random seed
+     */
+    void
+    seed(int seed) override
+    {
+        internals::tuple_for_each(seed_func(), rand_tuple_, seed);
+    }
+    /**
+     * @brief Returns a random tuple
+     * @returns A random tuple
+     */
+    std::tuple<Ts...>
+    get() override
+    {
+        std::tuple<Ts...> result;
+        internals::tuple_transform(get_func(), rand_tuple_, result);
+        return result;
+    }
+
+private:
+    std::tuple<random_object<Ts>*...> rand_tuple_;
+
+};
+/**
+ * @brief Factory function for random_tuple
+ * @param rands The random objects used to fill the tuple
+ * @returns An instance of random_tuple
+ */
+template<typename ...Ts>
+random_tuple<Ts...>
+make_random_tuple(random_object<Ts>&... rands)
+{
+    return random_tuple<Ts...>(rands...);
+}
+/**
+ * @brief A random pair
+ */
+template<typename F, typename S>
+class random_pair final : public random_object<std::pair<F,S>> {
+public:
+    /**
+     * @brief Constructor
+     * @param rand_fst Random object used to fill the first pair element
+     * @param rand_snd Random object used to fill the second pair element
+     */
+    random_pair(random_object<F>& rand_fst, random_object<S>& rand_snd)
+        : random_object<std::pair<F,S>>(),
+          rand_fst_(&rand_fst),
+          rand_snd_(&rand_snd)
+    {}
+    /**
+     * @brief Sets a new random seed
+     * @param seed The random seed
+     */
+    void
+    seed(int seed) override
+    {
+        rand_fst_->seed(seed);
+        rand_snd_->seed(seed);
+    }
+    /**
+     * @brief Returns a random pair
+     * @returns A random pair
+     */
+    std::pair<F,S>
+    get() override
+    {
+        return {rand_fst_->get(), rand_snd_->get()};
+    }
+
+private:
+    random_object<F>* rand_fst_;
+    random_object<S>* rand_snd_;
+};
+/**
+ * @brief Factory function for random_pair
+ * @param rand_fst The random object used to fill the first pair element
+ * @param rand_snd The random object used to fill the second pair element
+ * @returns An instance of random_pair
+ */
+template<typename F, typename S>
+random_pair<F,S>
+make_random_pair(random_object<F>& rand_fst, random_object<S>& rand_snd)
+{
+    return random_pair<F,S>(rand_fst, rand_snd);
 }
 /**
  * @brief A random shuffle of a given container
