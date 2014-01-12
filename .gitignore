@@ -2,6 +2,7 @@
 .project
 distribution
 lib
+lib/*
 *.o
 unittest.exe
 libunittest.xml
