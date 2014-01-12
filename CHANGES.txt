@@ -2,8 +2,10 @@ libunittest (3.6.1) stable; urgency=low
 
   * added functionality for random_tuple and random_pair (many thanks to 
     Richard Vock for providing his implementation)
+  * safer and cleaner implementation of unittest::internals::to_number()
+    resolving issues with clang++ 
 
- -- Christian Blume <chr.blume@gmail.com>  Sun, 12 Jan 2014 09:00:00 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 12 Jan 2014 14:00:00 +0100
 
 libunittest (3.6.0) stable; urgency=low
 
