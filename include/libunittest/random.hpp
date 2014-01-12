@@ -241,7 +241,8 @@ public:
         element_type result(*std::begin(container_));
         for (auto& value : container_) {
             if (count==index) {
-                return value;
+                result = value;
+                break;
             }
             ++count;
         }
@@ -389,36 +390,15 @@ make_random_vector(random_object<T>& rand,
 /**
  * @brief A random tuple
  */
-template<typename ...Ts>
-class random_tuple final : public random_object<std::tuple<Ts...>> {
-private:
-    /**
-     * @brief Helper functor for seeding tuple of random_object
-     */
-    struct seed_func {
-        template<typename X>
-        void operator()(random_object<X>* rand, int seed) const
-        {
-            rand->seed(seed);
-        }
-    };
-    /**
-     * @brief Helper functor for getting random values from tuple of random_object
-     */
-    struct get_func {
-        template<typename X>
-        X operator()(random_object<X>* rand) const
-        {
-            return rand->get();
-        }
-    };
+template<typename ...Args>
+class random_tuple final : public random_object<std::tuple<Args...>> {
 public:
     /**
      * @brief Constructor
      * @param rands Random objects used to fill the tuple
      */
-    random_tuple(random_object<Ts>&... rands)
-        : random_object<std::tuple<Ts...>>(),
+    random_tuple(random_object<Args>&... rands)
+        : random_object<std::tuple<Args...>>(),
           rand_tuple_(&rands...)
     {}
     /**
@@ -434,16 +414,33 @@ public:
      * @brief Returns a random tuple
      * @returns A random tuple
      */
-    std::tuple<Ts...>
+    std::tuple<Args...>
     get() override
     {
-        std::tuple<Ts...> result;
+        std::tuple<Args...> result;
         internals::tuple_transform(get_func(), rand_tuple_, result);
-        return result;
+        return std::move(result);
     }
 
 private:
-    std::tuple<random_object<Ts>*...> rand_tuple_;
+
+    std::tuple<random_object<Args>*...> rand_tuple_;
+
+    struct seed_func {
+        template<typename T>
+        void operator()(random_object<T>* rand, int seed) const
+        {
+            rand->seed(seed);
+        }
+    };
+
+    struct get_func {
+        template<typename T>
+        T operator()(random_object<T>* rand) const
+        {
+            return rand->get();
+        }
+    };
 
 };
 /**
@@ -451,11 +448,11 @@ private:
  * @param rands The random objects used to fill the tuple
  * @returns An instance of random_tuple
  */
-template<typename ...Ts>
-random_tuple<Ts...>
-make_random_tuple(random_object<Ts>&... rands)
+template<typename ...Args>
+random_tuple<Args...>
+make_random_tuple(random_object<Args>&... rands)
 {
-    return random_tuple<Ts...>(rands...);
+    return random_tuple<Args...>(rands...);
 }
 /**
  * @brief A random pair
@@ -503,9 +500,11 @@ private:
  * @param rand_snd The random object used to fill the second pair element
  * @returns An instance of random_pair
  */
-template<typename F, typename S>
+template<typename F,
+         typename S>
 random_pair<F,S>
-make_random_pair(random_object<F>& rand_fst, random_object<S>& rand_snd)
+make_random_pair(random_object<F>& rand_fst,
+                 random_object<S>& rand_snd)
 {
     return random_pair<F,S>(rand_fst, rand_snd);
 }
