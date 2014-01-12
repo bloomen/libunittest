@@ -255,19 +255,45 @@
 					</code>					
 				</li>
                 
-				<li>
-					<incode>random_shuffle&lt;Container&gt;</incode> 
-					generates a shuffled version of a given container.
-					Available constructors are:
-					<code>
-						random_shuffle(container)<br>
-						random_shuffle(container, size) 
-					</code>
-					The corresponding factory functions are:
-					<code>
-						make_random_shuffle(...)
-					</code>					
-				</li>
+                <li>
+                    <incode>random_shuffle&lt;Container&gt;</incode> 
+                    generates a shuffled version of a given container.
+                    Available constructors are:
+                    <code>
+                        random_shuffle(container)<br>
+                        random_shuffle(container, size) 
+                    </code>
+                    The corresponding factory functions are:
+                    <code>
+                        make_random_shuffle(...)
+                    </code>                 
+                </li>
+                
+                <li>
+                    <incode>random_tuple&lt;Args...&gt;</incode> 
+                    generates a random tuple from given random objects.
+                    Available constructor is:
+                    <code>
+                        random_tuple(random_objects...)
+                    </code>
+                    The corresponding factory function is:
+                    <code>
+                        make_random_tuple(random_objects...)
+                    </code>                 
+                </li>
+                
+                <li>
+                    <incode>random_pair&lt;F,S&gt;</incode> 
+                    generates a random pair from two random objects.
+                    Available constructor is:
+                    <code>
+                        random_pair(random_object1, random_object2)
+                    </code>
+                    The corresponding factory function is:
+                    <code>
+                        make_random_pair(random_object1, random_object2)
+                    </code>                 
+                </li>
                 
 				<li>
 					<incode>random_combination&lt;Container1, Container2&gt;</incode>
