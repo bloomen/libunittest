@@ -195,12 +195,12 @@ struct test_utilities : unittest::testcase<> {
     void test_is_numeric()
     {
         std::vector<std::string> values_num = {
-                "764", " 132.0", "930 ", " 93.7 "
+                "764", " 132.0", "930 ", " 93.7 ", "\t\n42\t ", "97b", "-102 bc"
         };
         for (auto& value : values_num)
             assert_true(unittest::internals::is_numeric(value), SPOT, "value: ", value);
         std::vector<std::string> values_not_num = {
-                "", "XYZ", "a26", "3.3a", "42 a"
+                "", "XYZ", "a26"
         };
         for (auto& value : values_not_num)
             assert_false(unittest::internals::is_numeric(value), SPOT, "value: ", value);
@@ -210,10 +210,10 @@ struct test_utilities : unittest::testcase<> {
     {
         assert_equal(764, unittest::internals::to_number<int>("764"), SPOT);
         assert_equal(132, unittest::internals::to_number<long>("132.0"), SPOT);
-        assert_equal(930, unittest::internals::to_number<float>("930"), SPOT);
+        assert_equal(930, unittest::internals::to_number<float>("930a"), SPOT);
         assert_equal(-93.7, unittest::internals::to_number<double>("-93.7"), SPOT);
         std::vector<std::string> values_not_num = {
-                "", "XYZ", "a26", "3.3a", "42 a"
+                "", "XYZ", "a26"
         };
         for (auto& value : values_not_num)
             assert_throw<std::invalid_argument>(std::bind(unittest::internals::to_number<int>, value), SPOT, "value: ", value);

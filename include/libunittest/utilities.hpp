@@ -312,6 +312,13 @@ get_type_id()
     return typeid(T).name();
 }
 /**
+ * @brief Removes leading and trailing white characters
+ * @param value The string to trim
+ * @returns The new string
+ */
+std::string
+trim(std::string value);
+/**
  * @brief Checks whether a given string has a valid numeric representation
  * @param value The string to check
  * @returns Whether a given string has a valid numeric representation
@@ -330,21 +337,12 @@ to_number(const std::string& value)
 {
     std::istringstream stream(value);
     double number;
-    stream >> number;
-    stream >> std::ws;
-    if (!stream.fail() && stream.eof()) {
+    if (stream >> number) {
         return static_cast<T>(number);
     } else {
         throw std::invalid_argument("Not numeric: " + value);
     }
 }
-/**
- * @brief Removes leading and trailing white characters
- * @param value The string to trim
- * @returns The new string
- */
-std::string
-trim(std::string value);
 
 } // internals
 
