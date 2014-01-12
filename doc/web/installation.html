@@ -63,7 +63,10 @@
 						make CXX='clang++ -stdlib=libc++'
 					</code>
 					Installation instructions for <incode>libc++</incode> can be found 
-					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. Once the compilation 
+					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. On MacOSX 
+					you might have to add <incode>-U__STRICT_ANSI__</incode> to the compiler flags. 
+					<br>
+					Once the compilation 
 					is finished libunittest can be installed:
 					<code>
 					make install [INSTALLDIR=/path/to/install]
