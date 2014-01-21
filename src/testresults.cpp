@@ -22,7 +22,7 @@ write_xml(std::ostream& stream,
     stream << "\n";
     stream << "<testsuite name=\"libunittest";
     stream << "\" timestamp=\"" << make_iso_timestamp(time_point);
-    stream << "\" tests=\"" << results.n_tests;
+    stream << "\" tests=\"" << results.n_tests + results.n_skipped;
     stream << "\" errors=\"" << results.n_errors;
     stream << "\" failures=\"" << results.n_failures;
     stream << "\" timeouts=\"" << results.n_timeouts;
