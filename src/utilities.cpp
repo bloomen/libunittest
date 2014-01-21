@@ -27,7 +27,7 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
                    bool local_time)
 {
     const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
-    struct tm timeinfo;
+    struct std::tm timeinfo;
     if (local_time)
         timeinfo = *std::localtime(&rawtime);
     else

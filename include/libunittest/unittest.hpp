@@ -23,4 +23,5 @@
 #include <libunittest/random.hpp>
 #include <libunittest/strings.hpp>
 #include <libunittest/macros.hpp>
+#include <libunittest/compatibility.hpp>
 #include <iostream>
