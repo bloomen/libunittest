@@ -22,7 +22,7 @@ write_xml(std::ostream& stream,
     stream << "\n";
     stream << "<testsuite name=\"libunittest";
     stream << "\" timestamp=\"" << make_iso_timestamp(time_point);
-    stream << "\" tests=\"" << results.n_tests;
+    stream << "\" tests=\"" << results.n_tests + results.n_skipped;
     stream << "\" errors=\"" << results.n_errors;
     stream << "\" failures=\"" << results.n_failures;
     stream << "\" timeouts=\"" << results.n_timeouts;
@@ -95,7 +95,7 @@ write_summary(std::ostream& stream,
     stream << "\n";
     stream << "Ran " << results.n_tests << " tests in ";
     stream << results.duration << "s\n\n";
-    if (results.n_tests==(results.n_successes + results.n_skipped)) {
+    if (results.n_tests==results.n_successes) {
         stream << "OK";
         if (results.n_timeouts>0)
             stream << " (timeouts=" << results.n_timeouts <<")";

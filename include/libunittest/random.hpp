@@ -189,7 +189,7 @@ public:
      * @brief Constructor
      */
     random_value()
-        : random_object<bool>()
+        : random_object<bool>(), distribution_(0, 1)
     {}
     /**
      * @brief Returns a random bool (true, false)
@@ -198,11 +198,11 @@ public:
     bool
     get() override
     {
-        return distribution_(this->gen()) & 1;
+        return distribution_(this->gen()) == 1;
     }
 
 private:
-    std::uniform_int_distribution<char> distribution_;
+    std::uniform_int_distribution<int> distribution_;
 
 };
 /**
