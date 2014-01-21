@@ -4,6 +4,7 @@ distribution
 lib
 lib/*
 *.o
+*.obj
 unittest.exe
 libunittest.xml
 html
