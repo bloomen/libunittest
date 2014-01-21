@@ -122,7 +122,8 @@ testsuite::collect(const testlog& log)
 {
     static std::mutex collect_mutex_;
     std::lock_guard<std::mutex> lock(collect_mutex_);
-    ++impl_->results_.n_tests;
+    if (log.status != teststatus::skipped)
+        ++impl_->results_.n_tests;
     if (log.has_timed_out)
         ++impl_->results_.n_timeouts;
     switch (log.status) {
