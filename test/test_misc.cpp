@@ -126,11 +126,11 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::internals::write_xml(stream, results, time_point);
+        unittest::internals::write_xml(stream, results, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
-        expected << "timestamp=\"2009-02-14T00:31:30\" ";
+        expected << "timestamp=\"2009-02-13T23:31:30\" ";
         expected << "tests=\"0\" errors=\"0\" ";
         expected << "failures=\"0\" timeouts=\"0\" skipped=\"0\" time=\"0.000000\">\n";
         expected << "</testsuite>\n";
@@ -143,11 +143,11 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::internals::write_xml(stream, results, time_point);
+        unittest::internals::write_xml(stream, results, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
-        expected << "timestamp=\"2009-02-14T00:31:30\" ";
+        expected << "timestamp=\"2009-02-13T23:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";

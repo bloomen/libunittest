@@ -5,7 +5,7 @@ lib
 lib/*
 *.o
 *.obj
-unittest.exe
+*.exe
 libunittest.xml
 html
 errors.log

@@ -149,7 +149,7 @@ struct test_utilities : unittest::testcase<> {
 
     void run_make_futures_happy_filled(std::ostream& stream, bool verbose)
     {
-        auto functor = []() { std::this_thread::sleep_for(std::chrono::milliseconds(40)); };
+        auto functor = []() { std::this_thread::sleep_for(std::chrono::milliseconds(100)); };
         std::vector<std::future<void>> futures;
         futures.push_back(std::async(std::launch::async, functor));
         futures.push_back(std::async(std::launch::async, functor));

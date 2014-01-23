@@ -15,9 +15,9 @@ REGISTER(test_sum<int, double>)
 
 
 struct fixture {
-    bool value_;
+    int value_;
     fixture()
-        : value_(true)
+        : value_(1)
     {}
 };
 

@@ -54,7 +54,9 @@ struct test_random : unittest::testcase<> {
         UNITTEST_RUN(test_random_container_list)
         UNITTEST_RUN(test_random_container_vector)
         UNITTEST_RUN(test_random_container_throw)
-        UNITTEST_RUN(test_random_tuple)
+#ifndef _MSC_VER
+	UNITTEST_RUN(test_random_tuple)
+#endif
         UNITTEST_RUN(test_random_pair)
         UNITTEST_RUN(test_random_shuffle_vector)
         UNITTEST_RUN(test_random_shuffle_list)
@@ -194,6 +196,7 @@ struct test_random : unittest::testcase<> {
         assert_throw<std::invalid_argument>(functor2, SPOT);
     }
 
+#ifndef _MSC_VER
     void test_random_tuple()
     {
         auto rand_float = unittest::make_random_value<double>(2.0, 3.0);
@@ -209,6 +212,7 @@ struct test_random : unittest::testcase<> {
             assert_in_container(std::get<2>(rand_tuple), container, SPOT);
         }
     }
+#endif
 
     void test_random_pair()
     {

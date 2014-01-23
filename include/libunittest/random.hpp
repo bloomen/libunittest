@@ -387,6 +387,7 @@ make_random_vector(random_object<T>& rand,
 {
     return random_container<std::vector<T>>(rand, min_size, max_size);
 }
+#ifndef _MSC_VER
 /**
  * @brief A random tuple
  */
@@ -454,6 +455,7 @@ make_random_tuple(random_object<Args>&... rands)
 {
     return random_tuple<Args...>(rands...);
 }
+#endif
 /**
  * @brief A random pair
  */
