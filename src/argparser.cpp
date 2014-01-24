@@ -45,7 +45,7 @@ struct implementation<argparser> {
     T
     make_number(const std::string& app_name,
                 const std::string& argument,
-                const std::string& value)
+                const std::string& value) const
     {
         T result;
         try {
