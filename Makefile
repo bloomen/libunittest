@@ -11,6 +11,15 @@ INSTALLDIR = /usr/local
 CXX = g++
 CXXFLAGS = -O2 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
 LDFLAGS = -shared
+CXXOBJ = -o
+LDOBJ = -o
+
+ifeq ($(CXX),cl)
+CXXFLAGS = -GR -EHsc 
+LDFLAGS = -LD
+CXXOBJ = -Fo:
+LDOBJ = -Fe:
+endif
 
 INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
@@ -38,11 +47,11 @@ default : $(PROG)
 all : default
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< $(CXXOBJ) $@
 
 $(PROG) : $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(LIBNAME).$(VERSION)
+	$(CXX) $(LDFLAGS) $(OBJECTS) $(LDOBJ) $(LIBDIR)/$(LIBNAME).$(VERSION)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
 
