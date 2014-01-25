@@ -47,7 +47,7 @@ struct implementation<argparser> {
                 const std::string& argument,
                 const std::string& value)
     {
-        T result;
+        T result = 0;
         try {
             result = to_number<T>(value);
         } catch (const std::invalid_argument&) {

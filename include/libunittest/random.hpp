@@ -237,7 +237,7 @@ public:
     get() override
     {
         const auto index = distribution_(this->gen());
-        long long count = 0;
+        unsigned int count = 0;
         element_type result(*std::begin(container_));
         for (auto& value : container_) {
             if (count==index) {
@@ -251,7 +251,7 @@ public:
 
 private:
     Container container_;
-    std::uniform_int_distribution<long long> distribution_;
+    std::uniform_int_distribution<unsigned int> distribution_;
 
 };
 /**
@@ -281,7 +281,7 @@ public:
      * @param size The container size
      */
     random_container(random_object<element_type>& rand,
-                     long long size)
+                     int size)
         : random_object<Container>(),
           rand_(&rand),
           distribution_(size, size)
@@ -293,8 +293,8 @@ public:
      * @param max_size The maximum container size (including)
      */
     random_container(random_object<element_type>& rand,
-                     long long min_size,
-                     long long max_size)
+                     unsigned int min_size,
+                     unsigned int max_size)
         : random_object<Container>(),
           rand_(&rand),
           distribution_(min_size, max_size)
@@ -319,16 +319,16 @@ public:
     Container
     get() override
     {
-        const auto size = distribution_(this->gen());
+        const unsigned int size = distribution_(this->gen());
         std::vector<element_type> result(size);
-        for (long long i=0; i<size; ++i)
+        for (unsigned int i=0; i<size; ++i)
             result[i] = rand_->get();
         return {result.begin(), result.end()};
     }
 
 private:
     random_object<element_type>* rand_;
-    std::uniform_int_distribution<long long> distribution_;
+    std::uniform_int_distribution<unsigned int> distribution_;
 
 };
 /**
@@ -340,7 +340,7 @@ private:
 template<typename Container>
 random_container<Container>
 make_random_container(random_object<typename Container::value_type>& rand,
-                      long long size)
+                      int size)
 {
     return random_container<Container>(rand, size);
 }
@@ -354,8 +354,8 @@ make_random_container(random_object<typename Container::value_type>& rand,
 template<typename Container>
 random_container<Container>
 make_random_container(random_object<typename Container::value_type>& rand,
-                      long long min_size,
-                      long long max_size)
+                      unsigned int min_size,
+                      unsigned int max_size)
 {
     return random_container<Container>(rand, min_size, max_size);
 }
@@ -368,7 +368,7 @@ make_random_container(random_object<typename Container::value_type>& rand,
 template<typename T>
 random_container<std::vector<T>>
 make_random_vector(random_object<T>& rand,
-                   long long size)
+                   int size)
 {
     return random_container<std::vector<T>>(rand, size);
 }
@@ -382,8 +382,8 @@ make_random_vector(random_object<T>& rand,
 template<typename T>
 random_container<std::vector<T>>
 make_random_vector(random_object<T>& rand,
-                   long long min_size,
-                   long long max_size)
+                   unsigned int min_size,
+                   unsigned int max_size)
 {
     return random_container<std::vector<T>>(rand, min_size, max_size);
 }
@@ -465,7 +465,8 @@ public:
      * @param rand_fst Random object used to fill the first pair element
      * @param rand_snd Random object used to fill the second pair element
      */
-    random_pair(random_object<F>& rand_fst, random_object<S>& rand_snd)
+    random_pair(random_object<F>& rand_fst, 
+		random_object<S>& rand_snd)
         : random_object<std::pair<F,S>>(),
           rand_fst_(&rand_fst),
           rand_snd_(&rand_snd)
@@ -529,12 +530,12 @@ public:
      * @param size The size of the shuffled container
      */
     random_shuffle(const Container& container,
-                   long long size)
+                   unsigned int size)
         : random_object<Container>(),
           vector_(std::begin(container), std::end(container)),
           size_(size)
     {
-        long long max_size = container.size();
+        unsigned int max_size = container.size();
         if (size<1 || size>max_size)
             throw std::invalid_argument("size out of range");
     }
@@ -552,7 +553,7 @@ public:
 
 private:
     std::vector<typename Container::value_type> vector_;
-    long long size_;
+    unsigned int size_;
 
 };
 /**
@@ -575,7 +576,7 @@ make_random_shuffle(const Container& container)
 template<typename Container>
 random_shuffle<Container>
 make_random_shuffle(const Container& container,
-                    long long size)
+                    unsigned int size)
 {
     return random_shuffle<Container>(container, size);
 }
@@ -622,17 +623,17 @@ public:
      */
     random_combination(const Container1& container1,
                        const Container2& container2,
-                       long long size)
+                       unsigned int size)
         : random_object<combination_type>(),
           container1_(container1),
           container2_(container2),
           granter_(container1.size() * container2.size(), false),
           size_(size)
     {
-        long long max_size = granter_.size();
+        unsigned int max_size = granter_.size();
         if (size<1 || size>max_size)
             throw std::invalid_argument("size out of range");
-        for (long long i=0; i<size_; ++i)
+        for (unsigned int i=0; i<size_; ++i)
             granter_[i] = true;
     }
     /**
@@ -642,7 +643,7 @@ public:
     combination_type
     get() override
     {
-        long long index = 0;
+        unsigned int index = 0;
         combination_type combination;
         combination.reserve(size_);
         shuffle(granter_.begin(), granter_.end(), this->gen());
@@ -660,7 +661,7 @@ private:
     Container1 container1_;
     Container2 container2_;
     std::vector<bool> granter_;
-    long long size_;
+    unsigned int size_;
 
 };
 /**
@@ -675,7 +676,7 @@ template<typename Container1,
 random_combination<Container1, Container2>
 make_random_combination(const Container1& container1,
                         const Container2& container2,
-                        long long size)
+                        unsigned int size)
 {
     return random_combination<Container1, Container2>(container1, container2, size);
 }

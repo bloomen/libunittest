@@ -100,7 +100,7 @@ struct test_random : unittest::testcase<> {
     void test_random_real()
     {
         auto randomA = unittest::make_random_value(3.);
-        auto randomB = unittest::make_random_value<float>(1.5, 4.2);
+        auto randomB = unittest::make_random_value(1.5, 4.2);
         for (int i=0; i<100; ++i) {
             assert_in_range(randomA.get(), 0, 3+1e-6, SPOT);
             assert_in_range(randomB.get(), 1.5, 4.2+1e-6, SPOT);

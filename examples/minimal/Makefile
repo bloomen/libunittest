@@ -14,8 +14,8 @@ LIBS = $(LIBDIR)/libunittest.so
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 ifeq ($(CXX),cl)
-CXXFLAGS = -GR -EHsc
-LDFLAGS =
+CXXFLAGS = -GR -EHsc -W3 -nologo
+LDFLAGS = -nologo
 CXXOBJ = -Fo:
 LDOBJ = -Fe:
 LIBS = ../../src/*.o

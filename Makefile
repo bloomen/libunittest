@@ -15,8 +15,8 @@ CXXOBJ = -o
 LDOBJ = -o
 
 ifeq ($(CXX),cl)
-CXXFLAGS = -GR -EHsc 
-LDFLAGS = -LD
+CXXFLAGS = -GR -EHsc -W3 -nologo
+LDFLAGS = -LD -nologo
 CXXOBJ = -Fo:
 LDOBJ = -Fe:
 endif
