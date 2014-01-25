@@ -49,7 +49,6 @@ TEST(test_random_vector)
     }
 }
 
-#ifndef _MSC_VER
 TEST(test_random_tuple)
 {
     auto random1 = unittest::make_random_value<double>(2.0, 3.0);
@@ -68,7 +67,6 @@ TEST(test_random_tuple)
     assert_in_range(std::get<1>(rand_tuple), 4, 8, SPOT);
     assert_in_container(std::get<2>(rand_tuple), container, SPOT);
 }
-#endif
 
 TEST(test_random_pair)
 {
