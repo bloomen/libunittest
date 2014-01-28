@@ -32,15 +32,15 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
                    bool local_time)
 {
     const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
+    const auto iso_format = "%Y-%m-%dT%H:%M:%S";
     struct std::tm timeinfo = {};
-    const auto format = "%Y-%m-%dT%H:%M:%S";
 #ifdef _MSC_VER
     if (local_time)
         localtime_s(&timeinfo, &rawtime);
     else
         gmtime_s(&timeinfo, &rawtime);
     std::stringstream buffer;
-    buffer << std::put_time(&timeinfo, format);
+    buffer << std::put_time(&timeinfo, iso_format);
     return buffer.str();
 #else
     if (local_time)
@@ -48,7 +48,7 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
     else
         timeinfo = *std::gmtime(&rawtime);
     char buffer[20];
-    std::strftime(buffer, sizeof(buffer), format, &timeinfo);
+    std::strftime(buffer, sizeof(buffer), iso_format, &timeinfo);
     return buffer;
 #endif
 }
