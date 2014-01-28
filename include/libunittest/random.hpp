@@ -216,11 +216,12 @@ make_random_bool();
  */
 template<typename Container>
 class random_choice final : public random_object<typename Container::value_type> {
-public:
     /**
      * @brief The type of the container elements
      */
     typedef typename Container::value_type element_type;
+
+public:
     /**
      * @brief Constructor
      * @param container The container to choose from
@@ -236,7 +237,7 @@ public:
     element_type
     get() override
     {
-        const auto index = distribution_(this->gen());
+        const unsigned int index = distribution_(this->gen());
         unsigned int count = 0;
         element_type result(*std::begin(container_));
         for (auto& value : container_) {
@@ -270,18 +271,19 @@ make_random_choice(const Container& container)
  */
 template<typename Container>
 class random_container final : public random_object<Container> {
-public:
     /**
      * @brief The type of the container elements
      */
     typedef typename Container::value_type element_type;
+
+public:
     /**
      * @brief Constructor
      * @param rand The random object used to fill the container
      * @param size The container size
      */
     random_container(random_object<element_type>& rand,
-                     int size)
+                     unsigned int size)
         : random_object<Container>(),
           rand_(&rand),
           distribution_(size, size)
@@ -340,7 +342,7 @@ private:
 template<typename Container>
 random_container<Container>
 make_random_container(random_object<typename Container::value_type>& rand,
-                      int size)
+                      unsigned int size)
 {
     return random_container<Container>(rand, size);
 }
@@ -368,7 +370,7 @@ make_random_container(random_object<typename Container::value_type>& rand,
 template<typename T>
 random_container<std::vector<T>>
 make_random_vector(random_object<T>& rand,
-                   int size)
+                   unsigned int size)
 {
     return random_container<std::vector<T>>(rand, size);
 }
@@ -457,7 +459,8 @@ make_random_tuple(random_object<Args>&... rands)
 /**
  * @brief A random pair
  */
-template<typename F, typename S>
+template<typename F,
+         typename S>
 class random_pair final : public random_object<std::pair<F,S>> {
 public:
     /**
@@ -465,8 +468,8 @@ public:
      * @param rand_fst Random object used to fill the first pair element
      * @param rand_snd Random object used to fill the second pair element
      */
-    random_pair(random_object<F>& rand_fst, 
-		random_object<S>& rand_snd)
+    random_pair(random_object<F>& rand_fst,
+                random_object<S>& rand_snd)
         : random_object<std::pair<F,S>>(),
           rand_fst_(&rand_fst),
           rand_snd_(&rand_snd)
@@ -535,8 +538,7 @@ public:
           vector_(std::begin(container), std::end(container)),
           size_(size)
     {
-        unsigned int max_size = container.size();
-        if (size<1 || size>max_size)
+        if (size<1 || size>container.size())
             throw std::invalid_argument("size out of range");
     }
     /**
@@ -612,8 +614,11 @@ struct combination final {
 template<typename Container1,
          typename Container2>
 class random_combination final : public random_object<typename internals::combination<Container1, Container2>::type> {
-
+    /**
+     * @brief The type of the random combination
+     */
     typedef typename internals::combination<Container1, Container2>::type combination_type;
+
 public:
     /**
      * @brief Constructor
@@ -630,8 +635,7 @@ public:
           granter_(container1.size() * container2.size(), false),
           size_(size)
     {
-        unsigned int max_size = granter_.size();
-        if (size<1 || size>max_size)
+        if (size<1 || size>granter_.size())
             throw std::invalid_argument("size out of range");
         for (unsigned int i=0; i<size_; ++i)
             granter_[i] = true;
