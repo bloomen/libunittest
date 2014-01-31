@@ -38,6 +38,7 @@ struct test_something : unittest::testcase<test_context> {
 
     void test_correct_message()
     {
+        LOGTEXT("some cool info about your test")
         auto context = get_test_context();
         assert_equal("here I am", context->message, SPOT);
     }
