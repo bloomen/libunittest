@@ -33,15 +33,14 @@
 					Prerequisites
 				</h2>
 				<p>
-					Everything that libunittest needs is a C++11 
+					All that libunittest needs is a C++11 
 					compliant compiler and an implementation of the C++11 
-					standard library. libunittest has been 
-					successfully tested on Linux, MacOSX, and 
-					Cygwin/Windows using <incode>g++4.7</incode> and 
-					<incode>clang++3.2</incode>.
+					standard library. libunittest compiles with g++ (&ge;4.7), 
+					clang++ (&ge;3.2), and Visual C++ (&ge;2013). 
+					It is successfully tested on Linux, MacOSX, and Windows.
 				</p>
 				<h2>
-					Install from source
+					Install from source (Linux, MacOSX)
 				</h2>
 				<p>
 					First <a href="downloads.html">download</a> a 
@@ -52,7 +51,7 @@
 					tar xfz libunittest-XXX.tar.gz </br>
 					cd libunittest-XXX
 					</code>
-					where <incode>XXX</incode> stands for some version string.
+					where <incode>XXX</incode> denotes some version string.
 					libunittest can now be compiled:
 					<code>
 					make [CXX=compiler]
@@ -63,20 +62,32 @@
 						make CXX='clang++ -stdlib=libc++'
 					</code>
 					Installation instructions for <incode>libc++</incode> can be found 
-					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. If on MacOSX then type:
-                    <code>
-                        make CXX='clang++ -stdlib=libc++ -U__STRICT_ANSI__'
-                    </code>
+					<a href="http://libcxx.llvm.org/" target="_blank">here</a>. On MacOSX 
+					you might have to add <incode>-U__STRICT_ANSI__</incode> as an 
+					additional compiler flag.
+                    <br>
 					Once the compilation 
 					is finished libunittest can be installed:
 					<code>
 					make install [INSTALLDIR=/path/to/install]
 					</code>
 					where <incode>INSTALLDIR</incode> defaults to 
-					<incode>/usr/local</incode>.
+					<incode>/usr/local</incode> requiring root privileges.
 				</p>
+                <h2>
+                    Install from source (Windows)
+                </h2>
+                <p>
+                    <a href="downloads.html">Download</a> a 
+                    source distribution, unpack the tar-ball, and import the source code
+                    as a new project into Visual Studio. Configure the 
+                    <incode>include</incode>-folder as an include folder and the 
+                    <incode>src</incode>-folder as a source folder. Then compile
+                    libunittest to a static or shared library and link it with
+                    your test application.
+                </p>
 				<h2>
-					Install from package
+					Install from package (Linux)
 				</h2>
 				<p>
                     Check the <a href="downloads.html">download page</a> for available packages of libunittest.
