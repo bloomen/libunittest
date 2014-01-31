@@ -146,7 +146,7 @@ write_error_info(std::ostream& stream,
                     stream << "\n";
                     write_horizontal_bar(stream, '-');
                     stream << "\n";
-                    stream << "loggedtext: " << trim(log.text);
+                    stream << "LOG: " << trim(log.text);
                 }
                 stream << "\n\n";
             }
