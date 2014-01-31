@@ -54,7 +54,7 @@ struct test_random : unittest::testcase<> {
         UNITTEST_RUN(test_random_container_list)
         UNITTEST_RUN(test_random_container_vector)
         UNITTEST_RUN(test_random_container_throw)
-	UNITTEST_RUN(test_random_tuple)
+        UNITTEST_RUN(test_random_tuple)
         UNITTEST_RUN(test_random_pair)
         UNITTEST_RUN(test_random_shuffle_vector)
         UNITTEST_RUN(test_random_shuffle_list)
@@ -199,7 +199,7 @@ struct test_random : unittest::testcase<> {
         auto rand_float = unittest::make_random_value<double>(2.0, 3.0);
         auto rand_int   = unittest::make_random_value<int>(4, 8);
         auto rand_bool  = unittest::make_random_value<bool>();
-	auto random = unittest::make_random_tuple(rand_float, rand_int, rand_bool);
+        auto random = unittest::make_random_tuple(rand_float, rand_int, rand_bool);
         const std::vector<bool> container = {true, false};
         for (int i=0; i<100; ++i) {
             const auto rand_tuple = random.get();
