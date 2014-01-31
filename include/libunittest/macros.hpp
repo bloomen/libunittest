@@ -179,4 +179,4 @@ UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, -1.)
  * @brief Logs text for the current test
  */
 #define UNITTEST_LOGTEXT(...) \
-unittest::internals::testsuite::instance()->log_text(this->get_method_id(), unittest::join(__VA_ARGS__));
+unittest::internals::testsuite::instance()->log_text(this->get_test_id(), unittest::join(__VA_ARGS__));
