@@ -5,20 +5,21 @@ LIBDIR = ../../lib
 
 CXX = g++
 CXXFLAGS = -O0 -g3 -Wall -std=c++0x -pthread -fmessage-length=0
+LD = $(CXX)
 LDFLAGS = -pthread 
 CXXOBJ = -o
 LDOBJ = -o
 
 INCS = -I$(INCDIR) 
-LIBS = $(LIBDIR)/libunittest.so
+LIBS = $(LIBDIR)/$(shell readlink -n $(LIBDIR)/libunittest.so)
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 ifeq ($(CXX),cl)
-CXXFLAGS = -GR -EHsc -W3 -nologo
-LDFLAGS = -nologo
+CXXFLAGS = -GS -analyze- -W3 -Zc:wchar_t -nologo -ZI -Gm -Od -sdl -fp:precise -errorReport:none -WX- -Zc:forScope -RTC1 -Gd -Oy- -MDd -EHsc
+LD = cl
+LDFLAGS = -nologo -errorReport:none
 CXXOBJ = -Fo:
 LDOBJ = -Fe:
-LIBS = ../../src/*.o
 endif
 
 LD_LIBRARY_PATH := $(LIBDIR):$(LD_LIBRARY_PATH)
@@ -34,7 +35,7 @@ all : default
 	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< $(CXXOBJ) $@
 
 $(PROG) : $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) $(LDOBJ) $(PROG)
+	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) $(LDOBJ) $(PROG)
 
 run :
 	@./$(PROG) $(ARGS) || exit 1

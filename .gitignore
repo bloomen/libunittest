@@ -6,6 +6,8 @@ lib/*
 *.o
 *.obj
 *.exe
+*.idb
+*.pdb
 libunittest.xml
 html
 errors.log

@@ -10,15 +10,17 @@ INSTALLDIR = /usr/local
 
 CXX = g++
 CXXFLAGS = -O2 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
+LD = $(CXX)
 LDFLAGS = -shared
 CXXOBJ = -o
-LDOBJ = -o
+LDOBJ = -o 
 
 ifeq ($(CXX),cl)
-CXXFLAGS = -GR -EHsc -W3 -nologo
-LDFLAGS = -LD -nologo
+CXXFLAGS = -GS -analyze- -W3 -Zc:wchar_t -nologo -ZI -Gm -Od -sdl -fp:precise -errorReport:none -WX- -Zc:forScope -RTC1 -Gd -Oy- -MDd -EHsc
+LD = lib
+LDFLAGS = -nologo
 CXXOBJ = -Fo:
-LDOBJ = -Fe:
+LDOBJ = -OUT:
 endif
 
 INCDIR = include
@@ -51,7 +53,7 @@ all : default
 
 $(PROG) : $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
-	$(CXX) $(LDFLAGS) $(OBJECTS) $(LDOBJ) $(LIBDIR)/$(LIBNAME).$(VERSION)
+	$(LD) $(LDFLAGS) $(OBJECTS) $(LDOBJ)$(LIBDIR)/$(LIBNAME).$(VERSION)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
 
