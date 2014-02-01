@@ -246,9 +246,9 @@ public:
         : random_object<element_type>(),
           container_(container)
     {
-        if (container_.size() == 0)
+        if (container_.size()==0)
             throw std::invalid_argument("container is empty");
-        if (container_.size() >= 2) {
+        if (container_.size()>=2) {
             typename dist_type::param_type params(0, container_.size() - 1);
             distribution_.param(params);
         }
@@ -261,7 +261,7 @@ public:
     get() override
     {
         element_type result(*std::begin(container_));
-        if (container_.size() == 1)
+        if (container_.size()==1)
             return result;
         const unsigned int index = distribution_(this->gen());
         unsigned int count = 0;
