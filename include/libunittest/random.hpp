@@ -102,22 +102,32 @@ struct distribution<T, false> final {
  */
 template<typename T>
 class random_value final : public random_object<T> {
+    /**
+     * @brief The distribution type
+     */
+    typedef typename internals::distribution<T, std::is_integral<T>::value>::type dist_type;
+
 public:
     /**
      * @brief Constructor, range: [0, 1]
      */
     random_value()
-        : random_object<T>(), distribution_(0, 1)
-    {}
+        : random_object<T>()
+    {
+        typename dist_type::param_type params(0, 1);
+        distribution_.param(params);
+    }
     /**
      * @brief Constructor, range: [0, maximum]
      * @param maximum The upper bound
      */
     random_value(const T& maximum)
-        : random_object<T>(), distribution_(0, maximum)
+        : random_object<T>()
     {
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
+        typename dist_type::param_type params(0, maximum);
+        distribution_.param(params);
     }
     /**
      * @brief Constructor, range: [minimum, maximum]
@@ -126,10 +136,12 @@ public:
      */
     random_value(const T& minimum,
                  const T& maximum)
-        : random_object<T>(), distribution_(minimum, maximum)
+        : random_object<T>()
     {
         if (!(minimum<maximum))
             throw std::invalid_argument("minimum must be lesser than maximum");
+        typename dist_type::param_type params(minimum, maximum);
+        distribution_.param(params);
     }
     /**
      * @brief Returns a random value
@@ -142,7 +154,7 @@ public:
     }
 
 private:
-    typename internals::distribution<T, std::is_integral<T>::value>::type distribution_;
+     dist_type distribution_;
 
 };
 /**
@@ -220,6 +232,10 @@ class random_choice final : public random_object<typename Container::value_type>
      * @brief The type of the container elements
      */
     typedef typename Container::value_type element_type;
+    /**
+     * @brief The distribution type
+     */
+    typedef std::uniform_int_distribution<unsigned int> dist_type;
 
 public:
     /**
@@ -227,9 +243,16 @@ public:
      * @param container The container to choose from
      */
     random_choice(const Container& container)
-        : random_object<element_type>(), container_(container),
-          distribution_(0, container_.size() - 1)
-    {}
+        : random_object<element_type>(),
+          container_(container)
+    {
+        if (container_.size() == 0)
+            throw std::invalid_argument("container is empty");
+        if (container_.size() >= 2) {
+            typename dist_type::param_type params(0, container_.size() - 1);
+            distribution_.param(params);
+        }
+    }
     /**
      * @brief Returns a random choice
      * @returns A random choice
@@ -237,9 +260,11 @@ public:
     element_type
     get() override
     {
+        element_type result(*std::begin(container_));
+        if (container_.size() == 1)
+            return result;
         const unsigned int index = distribution_(this->gen());
         unsigned int count = 0;
-        element_type result(*std::begin(container_));
         for (auto& value : container_) {
             if (count==index) {
                 result = value;
@@ -252,7 +277,7 @@ public:
 
 private:
     Container container_;
-    std::uniform_int_distribution<unsigned int> distribution_;
+    dist_type distribution_;
 
 };
 /**
@@ -275,6 +300,10 @@ class random_container final : public random_object<Container> {
      * @brief The type of the container elements
      */
     typedef typename Container::value_type element_type;
+    /**
+     * @brief The distribution type
+     */
+    typedef std::uniform_int_distribution<unsigned int> dist_type;
 
 public:
     /**
@@ -286,7 +315,8 @@ public:
                      unsigned int size)
         : random_object<Container>(),
           rand_(&rand),
-          distribution_(size, size)
+          fixed_size_(true),
+          size_(size)
     {}
     /**
      * @brief Constructor
@@ -299,10 +329,12 @@ public:
                      unsigned int max_size)
         : random_object<Container>(),
           rand_(&rand),
-          distribution_(min_size, max_size)
+          fixed_size_(false)
     {
         if (!(min_size<max_size))
             throw std::invalid_argument("min_size must be lesser than max_size");
+        typename dist_type::param_type params(min_size, max_size);
+        distribution_.param(params);
     }
     /**
      * @brief Sets a new random seed
@@ -321,7 +353,9 @@ public:
     Container
     get() override
     {
-        const unsigned int size = distribution_(this->gen());
+        unsigned int size(size_);
+        if (!fixed_size_)
+            size = distribution_(this->gen());
         std::vector<element_type> result(size);
         for (unsigned int i=0; i<size; ++i)
             result[i] = rand_->get();
@@ -331,7 +365,9 @@ public:
 
 private:
     random_object<element_type>* rand_;
-    std::uniform_int_distribution<unsigned int> distribution_;
+    bool fixed_size_;
+    unsigned int size_;
+    dist_type distribution_;
 
 };
 /**
