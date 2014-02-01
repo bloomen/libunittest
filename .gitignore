@@ -4,7 +4,8 @@ distribution
 lib
 lib/*
 *.o
-unittest.exe
+*.obj
+*.exe
 libunittest.xml
 html
 errors.log

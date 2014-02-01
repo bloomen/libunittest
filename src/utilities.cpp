@@ -1,5 +1,10 @@
 #include <libunittest/utilities.hpp>
 #include <thread>
+#include <iostream>
+#ifdef _MSC_VER
+#include <iomanip>
+#endif
+
 
 namespace unittest {
 namespace internals {
@@ -27,14 +32,25 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
                    bool local_time)
 {
     const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
-    struct std::tm timeinfo;
+    const auto iso_format = "%Y-%m-%dT%H:%M:%S";
+    struct std::tm timeinfo = {};
+#ifdef _MSC_VER
+    if (local_time)
+        localtime_s(&timeinfo, &rawtime);
+    else
+        gmtime_s(&timeinfo, &rawtime);
+    std::stringstream buffer;
+    buffer << std::put_time(&timeinfo, iso_format);
+    return buffer.str();
+#else
     if (local_time)
         timeinfo = *std::localtime(&rawtime);
     else
         timeinfo = *std::gmtime(&rawtime);
     char buffer[20];
-    std::strftime(buffer, 20, "%FT%X", &timeinfo);
+    std::strftime(buffer, sizeof(buffer), iso_format, &timeinfo);
     return buffer;
+#endif
 }
 
 void

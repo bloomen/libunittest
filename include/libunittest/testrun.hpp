@@ -212,7 +212,7 @@ private:
     {
         test = std::move(std::unique_ptr<TestCase>(new TestCase));
         test->set_test_context(context_);
-        test->set_method_id(method_id_);
+        test->set_test_id(method_id_);
         return true;
     }
 

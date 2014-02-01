@@ -67,13 +67,13 @@ public:
         return context_;
     }
     /**
-     * @brief Returns the current method ID
-     * @returns The current method ID
+     * @brief Returns the current test ID
+     * @returns The current test ID
      */
     virtual std::string
-    get_method_id() const final
+    get_test_id() const final
     {
-        return method_id_;
+        return test_id_;
     }
 
 private:
@@ -88,13 +88,13 @@ private:
     }
 
     void
-    set_method_id(const std::string& method_id)
+    set_test_id(const std::string& test_id)
     {
-        method_id_ = method_id;
+        test_id_ = test_id;
     }
 
     context_type *context_;
-    std::string method_id_;
+    std::string test_id_;
 };
 
 } // unittest

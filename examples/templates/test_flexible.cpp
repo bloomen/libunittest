@@ -7,8 +7,8 @@ struct templates_flexible : unittest::testcase<> {
     static void run()
     {
         UNITTEST_CLASS(templates_flexible)
-        UNITTEST_RUN(test_me<float>)
-        UNITTEST_RUN(test_me<double>)
+        UNITTEST_RUN(test_me<long>)
+	UNITTEST_RUN(test_me<long long>)
     }
 
     template<typename V>

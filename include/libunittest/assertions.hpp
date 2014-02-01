@@ -7,7 +7,6 @@
 #include <libunittest/formatting.hpp>
 #include <libunittest/testsuite.hpp>
 #include <libunittest/testfailure.hpp>
-#include <libunittest/compatibility.hpp>
 #include <string>
 #include <regex>
 #include <typeinfo>
