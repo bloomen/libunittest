@@ -325,7 +325,8 @@ public:
         std::vector<element_type> result(size);
         for (unsigned int i=0; i<size; ++i)
             result[i] = rand_->get();
-        return {result.begin(), result.end()};
+        Container container(result.begin(), result.end());
+        return std::move(container);
     }
 
 private:
@@ -491,7 +492,8 @@ public:
     std::pair<F,S>
     get() override
     {
-        return {rand_fst_->get(), rand_snd_->get()};
+        std::pair<F,S> pair(rand_fst_->get(), rand_snd_->get());
+        return std::move(pair);
     }
 
 private:
@@ -550,7 +552,8 @@ public:
     {
         auto first = vector_.begin();
         shuffle(first, vector_.end(), this->gen());
-        return {first, first + size_};
+        Container container(first, first + size_);
+        return std::move(container);
     }
 
 private:
