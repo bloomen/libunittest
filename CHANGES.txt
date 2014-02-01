@@ -1,8 +1,9 @@
 libunittest (3.7.0) stable; urgency=low
 
-  * adjusted code to compile with Visual C++ 2013
+  * adjusted code to compile with Visual C++ 2013 (Thanks to Richard Vock 
+    and Jarle Aase for helping to port the code)
 
- -- Christian Blume <chr.blume@gmail.com>  Sat, 1 Feb 2014 15:00:00 +0100
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 1 Feb 2014 23:00:00 +0100
 
 libunittest (3.6.1) stable; urgency=low
 
