@@ -12,8 +12,8 @@ UNITTEST_SPOT
 /**
  * @brief Logs text for the current test
  */
-#define LOGTEXT(...) \
-UNITTEST_LOGTEXT(__VA_ARGS__)
+#define TESTINFO(...) \
+UNITTEST_TESTINFO(__VA_ARGS__)
 /**
  * @brief Registers a test class at the global registry
  */

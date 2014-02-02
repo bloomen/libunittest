@@ -27,7 +27,7 @@ COLLECTION(test_stuff)
 
     TEST_FIXTURE(fixture, test_fixture_is_correct)
     {
-        LOGTEXT("helpful info about this test")
+        TESTINFO("helpful info about this test")
         assert_equal("here I am", message_, SPOT);
     }
 
@@ -39,7 +39,7 @@ COLLECTION(test_stuff)
 
     TEST(test_helper_asserts_true)
     {
-        LOGTEXT("some info about this test")
+        TESTINFO("some info about this test")
         helper(*this, SPOT);
     }
 

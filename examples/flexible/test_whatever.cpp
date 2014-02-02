@@ -22,7 +22,7 @@ struct test_whatever : unittest::testcase<> {
 
     void test_throw()
     {
-        LOGTEXT("some cool info about your test")
+        TESTINFO("some cool info about your test")
         auto functor = [](){ throw std::bad_cast(); };
         assert_throw<std::bad_cast>(functor, SPOT);
     }
@@ -35,7 +35,7 @@ struct test_whatever : unittest::testcase<> {
 
     void test_in_range()
     {
-        LOGTEXT("helpful information: ", 42)
+        TESTINFO("helpful information: ", 42)
         assert_in_range(1, 0.9, 1.1, SPOT);
     }
 
