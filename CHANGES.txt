@@ -4,6 +4,7 @@ libunittest (3.7.0) stable; urgency=low
     and Richard Vock for their contributions)
   * renamed macro UNITTEST_LOGTEXT to UNITTEST_TESTINFO for reasons of
     consistency. Hence, shortcut macro LOGTEXT also becomes TESTINFO.
+  * improved tutorial and installation instructions
 
  -- Christian Blume <chr.blume@gmail.com>  Sun, 2 Feb 2014 12:00:00 +0100
 
