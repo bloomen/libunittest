@@ -114,7 +114,8 @@
                 <p>
                 In order to compile the above example it is assumed 
                 that libunittest is installed and present in the respective
-                environment variables. Then to compile you can do:
+                environment variables. In order to compile on Linux-like systems 
+                using <incode>g++(&ge;4.7)</incode>, you can do:
                 <code>
                 g++ -std=c++0x -pthread main.cpp test_simple.cpp -lunittest -o unittest.exe
                 </code>
@@ -362,6 +363,22 @@
 				<li>
 					There is a very useful function, namely <incode>unittest::join(arg, args...)</incode>, 
 					which joins an arbitrary number of arguments of arbitrary type to a single string.
+				</li>
+				<li>
+				    The macro <incode>UNITTEST_TESTINFO</incode> (or shortcut <incode>TESTINFO</incode>)
+				    lets you log information about the current test. Just do something like
+				    <code>
+				        TEST(test_number_greater_zero)<br> 
+				        {<br> 
+				            <t>int number = 42;</t><br>  
+				            <t>TESTINFO("Check for number greater than zero: ", number)</t><br> 
+				            <t>assert_greater(number, 0, SPOT);</t><br> 
+				        }
+				    </code>
+				    This will output the given test info to the
+                    output XML and to standard out in case of fails and errors.
+                    Note: Only use one <incode>TESTINFO</incode> macro per test and make sure
+                    it's at the beginning before stuff may go wrong.
 				</li>
 				<li>
 					You can find a collection of strings useful for testing under the
