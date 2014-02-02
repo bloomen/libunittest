@@ -10,7 +10,7 @@
 #define SPOT \
 UNITTEST_SPOT
 /**
- * @brief Logs text for the current test
+ * @brief Logs info for the current test
  */
 #define TESTINFO(...) \
 UNITTEST_TESTINFO(__VA_ARGS__)
