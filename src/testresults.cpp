@@ -34,7 +34,7 @@ write_xml(std::ostream& stream,
         std::string system_out;
         if (log.text.size() > 0) {
             system_out += "\t\t<system-out>\n";
-            system_out += "\t\t\t" + trim(xml_escape(log.text)) + "\n";
+            system_out += "\t\t\t" + xml_escape(trim(log.text)) + "\n";
             system_out += "\t\t</system-out>\n";
         }
         stream << "\t<testcase ";
@@ -72,7 +72,7 @@ write_xml(std::ostream& stream,
                 name = "failure";
             stream << "\t\t<" << name << " ";
             stream << "type=\"" << xml_escape(log.error_type);
-            stream << "\" message=\"" << trim(xml_escape(log.message)) << "\"/>";
+            stream << "\" message=\"" << xml_escape(trim(log.message)) << "\"/>";
             stream << "\n";
             stream << system_out;
             stream << "\t</testcase>";
@@ -98,8 +98,14 @@ write_summary(std::ostream& stream,
     stream << results.duration << "s\n\n";
     if (results.n_tests==results.n_successes) {
         stream << "OK";
-        if (results.n_timeouts>0)
-            stream << " (timeouts=" << results.n_timeouts <<")";
+        if (results.n_skipped>0 && results.n_timeouts>0) {
+            stream << " (skipped=" << results.n_skipped;
+            stream << ", timeouts=" << results.n_timeouts << ")";
+        } else if (results.n_skipped>0) {
+            stream << " (skipped=" << results.n_skipped << ")";
+        } else if (results.n_timeouts>0) {
+            stream << " (timeouts=" << results.n_timeouts << ")";
+        }
         stream << "\n";
     } else {
         stream << "FAILED (";
@@ -111,6 +117,8 @@ write_summary(std::ostream& stream,
         } else if (results.n_errors>0) {
             stream << "errors=" << results.n_errors;
         }
+        if (results.n_skipped>0)
+            stream << ", skipped=" << results.n_skipped;
         if (results.n_timeouts>0)
             stream << ", timeouts=" << results.n_timeouts;
         stream << ")\n";

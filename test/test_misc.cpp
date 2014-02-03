@@ -235,10 +235,10 @@ struct test_misc : unittest::testcase<> {
                 unittest::internals::teststatus::skipped
         };
         const std::vector<std::string> msg = {
-                ".", "F", "E", ""
+                ".", "F", "E", "S"
         };
         const std::vector<std::string> msg_verb = {
-                "ok\n", "FAIL\n", "ERROR\n", "\n"
+                "ok\n", "FAIL\n", "ERROR\n", "SKIP \n"
         };
 
         for (int i=0; i<4; ++i) {

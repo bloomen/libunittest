@@ -8,6 +8,12 @@ TEST(test_value_is_false)
     assert_false(ptr);
 }
 
+TEST_SKIP(test_value_is_three, "to show how tests are skipped")
+{
+    int value = 3;
+    assert_equal(3, value);
+}
+
 TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s
 {
     assert_true(true);

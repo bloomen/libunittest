@@ -302,6 +302,10 @@ get_from_map(const Map& map,
  */
 class notype {};
 /**
+ * @brief A utility class to indicate 'some type' property
+ */
+struct sometype {};
+/**
  * @brief Returns a unique type id
  * @returns A unique type id
  */

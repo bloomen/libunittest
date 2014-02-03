@@ -70,11 +70,14 @@ testmonitor::~testmonitor()
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
         write_test_end_message(std::cout, impl_->log_, suite->get_arguments().verbose());
-        impl_->log_.successful = impl_->log_.status==teststatus::success;
-        suite->make_keep_running(impl_->log_);
-        const auto end = std::chrono::high_resolution_clock::now();
-        suite->stop_timing();
-        impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+        impl_->log_.successful = impl_->log_.status==teststatus::success ||
+                                 impl_->log_.status==teststatus::skipped;
+        if (impl_->log_.status!=teststatus::skipped) {
+            suite->make_keep_running(impl_->log_);
+            const auto end = std::chrono::high_resolution_clock::now();
+            suite->stop_timing();
+            impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+        }
     }
     suite->collect(impl_->log_);
 }
@@ -90,6 +93,14 @@ testmonitor::log_success()
 {
     impl_->log_.status = teststatus::success;
     impl_->log_.message = "ok";
+    impl_->log_.error_type = "";
+}
+
+void
+testmonitor::log_skipped(const std::string& message)
+{
+    impl_->log_.status = teststatus::skipped;
+    impl_->log_.text = message;
     impl_->log_.error_type = "";
 }
 

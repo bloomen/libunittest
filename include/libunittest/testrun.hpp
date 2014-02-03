@@ -48,6 +48,11 @@ public:
     void
     log_success();
     /**
+     * @brief Logs skipped for the current test
+     */
+    void
+    log_skipped(const std::string& message);
+    /**
      * @brief Logs failure for the current test
      * @param e The failure exception
      */
@@ -99,6 +104,8 @@ struct testfunctor final {
      * @param dry_run Whether a dry run is performed
      * @param handle_exceptions Whether to handle unexpected exceptions
      * @param timeout The test timeout
+     * @param skipped Whether the current test is skipped
+     * @param skip_message A message explaining why the test is skipped
      */
     testfunctor(typename TestCase::context_type* context,
                 void (TestCase::*method)(),
@@ -107,7 +114,9 @@ struct testfunctor final {
                 const std::string& test_name,
                 bool dry_run,
                 bool handle_exceptions,
-                double timeout)
+                double timeout,
+                bool skipped,
+                std::string skip_message)
         : context_(context),
           method_(method),
           method_id_(method_id),
@@ -115,7 +124,9 @@ struct testfunctor final {
           test_name_(test_name),
           dry_run_(dry_run),
           handle_exceptions_(handle_exceptions),
-          timeout_(timeout)
+          timeout_(timeout),
+          skipped_(skipped),
+          skip_message_(skip_message)
     {}
     /**
      * @brief Executes the test
@@ -124,7 +135,9 @@ struct testfunctor final {
     operator()()
     {
         testmonitor monitor(class_name_, test_name_, method_id_);
-        if (monitor.is_executed()) {
+        if (skipped_)
+            monitor.log_skipped(skip_message_);
+        else if (monitor.is_executed()) {
             if (dry_run_) {
                 monitor.log_success();
             } else {
@@ -275,6 +288,8 @@ private:
     bool dry_run_;
     bool handle_exceptions_;
     double timeout_;
+    bool skipped_;
+    std::string skip_message_;
 };
 /**
  * @brief Updates the class name according to some heuristics
@@ -340,6 +355,8 @@ observe_and_wait(std::future<void>&& future,
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skipped Whether this test run is skipped
+ * @param skip_message A message explaining why the test is skipped
  */
 template<typename TestCase>
 void
@@ -347,7 +364,9 @@ testrun(typename TestCase::context_type& context,
         void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
-        double timeout)
+        double timeout,
+        bool skipped,
+        std::string skip_message)
 {
     const std::string class_id = internals::get_type_id<TestCase>();
     internals::update_testrun_info(class_id, class_name, test_name, timeout);
@@ -357,7 +376,7 @@ testrun(typename TestCase::context_type& context,
                                              class_name, test_name,
                                              args.dry_run(),
                                              args.handle_exceptions(),
-                                             timeout);
+                                             timeout, skipped, skip_message);
     if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
         internals::observe_and_wait(std::move(future), method_id, timeout);
@@ -371,16 +390,20 @@ testrun(typename TestCase::context_type& context,
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skipped Whether this test run is skipped
+ * @param skip_message A message explaining why the test is skipped
  */
 template<typename TestCase>
 void
 testrun(void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
-        double timeout)
+        double timeout,
+        bool skipped,
+        std::string skip_message)
 {
     typename TestCase::context_type* null_pointer = nullptr;
-    testrun(*null_pointer, method, class_name, test_name, timeout);
+    testrun(*null_pointer, method, class_name, test_name, timeout, skipped, skip_message);
 }
 
 } // unittest

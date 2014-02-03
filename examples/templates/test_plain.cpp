@@ -28,4 +28,12 @@ TEST_TPL_FIXTURE(fixture, test_fixture)
 REGISTER(test_fixture<int>)
 REGISTER(test_fixture<long>)
 
+
+TEST_TPL_SKIP(test_that_is_skipped, "for demo purposes")
+{
+    Type1 a = 2;
+    assert_equal(2, a);
+}
+REGISTER(test_that_is_skipped<int>) // registers the test by passing concrete types
+
 }

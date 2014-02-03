@@ -20,11 +20,24 @@ UNITTEST_TESTINFO(__VA_ARGS__)
 #define REGISTER(...) \
 UNITTEST_REGISTER(__VA_ARGS__)
 /**
+ * @brief A test collection
+ * @param name The name of the test collection
+ */
+#define COLLECTION(name) \
+UNITTEST_COLLECTION(name)
+/**
  * @brief Sets up a plain test
  * @param test_name The name of the test
  */
 #define TEST(test_name) \
 UNITTEST_TEST(test_name)
+/**
+ * @brief Sets up a plain test
+ * @param test_name The name of the test
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_SKIP(test_name, skip_message) \
+UNITTEST_TEST_SKIP(test_name, skip_message)
 /**
  * @brief Sets up a plain test with a timeout
  * @param test_name The name of the test
@@ -33,12 +46,28 @@ UNITTEST_TEST(test_name)
 #define TEST_TIME(test_name, timeout) \
 UNITTEST_TEST_TIME(test_name, timeout)
 /**
+ * @brief Sets up a plain test with a timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_TIME_SKIP(test_name, timeout, skip_message) \
+UNITTEST_TEST_TIME_SKIP(test_name, timeout, skip_message)
+/**
  * @brief Sets up a plain test with a test fixture
  * @param fixture The test fixture
  * @param test_name The name of the test
  */
 #define TEST_FIXTURE(fixture, test_name) \
 UNITTEST_TEST_FIXTURE(fixture, test_name)
+/**
+ * @brief Sets up a plain test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_FIXTURE_SKIP(fixture, test_name, skip_message) \
+UNITTEST_TEST_FIXTURE_SKIP(fixture, test_name, skip_message)
 /**
  * @brief Sets up a plain test with a test fixture and timeout
  * @param fixture The test fixture
@@ -48,17 +77,27 @@ UNITTEST_TEST_FIXTURE(fixture, test_name)
 #define TEST_FIXTURE_TIME(fixture, test_name, timeout) \
 UNITTEST_TEST_FIXTURE_TIME(fixture, test_name, timeout)
 /**
- * @brief A test collection
- * @param name The name of the test collection
+ * @brief Sets up a plain test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skip_message A message explaining why the test is skipped
  */
-#define COLLECTION(name) \
-UNITTEST_COLLECTION(name)
+#define TEST_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message) \
+UNITTEST_TEST_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message)
 /**
  * @brief Sets up a templated test
  * @param test_name The name of the test
  */
 #define TEST_TPL(test_name) \
 UNITTEST_TEST_TPL(test_name)
+/**
+ * @brief Sets up a templated test
+ * @param test_name The name of the test
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_TPL_SKIP(test_name, skip_message) \
+UNITTEST_TEST_TPL_SKIP(test_name, skip_message)
 /**
  * @brief Sets up a templated test with a timeout
  * @param test_name The name of the test
@@ -67,12 +106,28 @@ UNITTEST_TEST_TPL(test_name)
 #define TEST_TPL_TIME(test_name, timeout) \
 UNITTEST_TEST_TPL_TIME(test_name, timeout)
 /**
+ * @brief Sets up a templated test with a timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_TPL_TIME_SKIP(test_name, timeout, skip_message) \
+UNITTEST_TEST_TPL_TIME_SKIP(test_name, timeout, skip_message)
+/**
  * @brief Sets up a templated test with a test fixture
  * @param fixture The test fixture
  * @param test_name The name of the test
  */
 #define TEST_TPL_FIXTURE(fixture, test_name) \
 UNITTEST_TEST_TPL_FIXTURE(fixture, test_name)
+/**
+ * @brief Sets up a templated test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_TPL_FIXTURE_SKIP(fixture, test_name, skip_message) \
+UNITTEST_TEST_TPL_FIXTURE_SKIP(fixture, test_name, skip_message)
 /**
  * @brief Sets up a templated test with a test fixture and timeout
  * @param fixture The test fixture
@@ -81,3 +136,12 @@ UNITTEST_TEST_TPL_FIXTURE(fixture, test_name)
  */
 #define TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout) \
 UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_name, timeout)
+/**
+ * @brief Sets up a templated test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define TEST_TPL_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message) \
+UNITTEST_TEST_TPL_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message)

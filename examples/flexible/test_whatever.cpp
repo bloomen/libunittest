@@ -12,6 +12,7 @@ struct test_whatever : unittest::testcase<> {
         UNITTEST_RUN(test_throw)
         UNITTEST_RUN_TIME(test_in_container, 2) // a timeout of 2s
         UNITTEST_RUN(test_in_range)
+        UNITTEST_RUN_SKIP(test_that_is_skipped, "for demo purposes")
     }
 
     test_whatever() {} // executed before each test
@@ -37,6 +38,11 @@ struct test_whatever : unittest::testcase<> {
     {
         TESTINFO("helpful information: ", 42)
         assert_in_range(1, 0.9, 1.1, SPOT);
+    }
+
+    void test_that_is_skipped()
+    {
+        assert_true(true);
     }
 
 };

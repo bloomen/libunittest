@@ -1,5 +1,6 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/teststatus.hpp>
+#include <libunittest/utilities.hpp>
 #include <algorithm>
 #include <mutex>
 
@@ -36,9 +37,10 @@ write_test_end_message(std::ostream& stream,
     if (!log.has_timed_out) {
         if (verbose) {
             switch (log.status) {
-            case teststatus::success: stream << "ok";   break;
+            case teststatus::success: stream << "ok"; break;
             case teststatus::failure: stream << "FAIL"; break;
-            case teststatus::error: stream << "ERROR";  break;
+            case teststatus::error: stream << "ERROR"; break;
+            case teststatus::skipped: stream << "SKIP " << trim(log.text); break;
             default: break;
             }
             stream << "\n";
@@ -46,7 +48,8 @@ write_test_end_message(std::ostream& stream,
             switch (log.status) {
             case teststatus::success: stream << "."; break;
             case teststatus::failure: stream << "F"; break;
-            case teststatus::error: stream << "E";   break;
+            case teststatus::error: stream << "E"; break;
+            case teststatus::skipped: stream << "S"; break;
             default: break;
             }
         }
