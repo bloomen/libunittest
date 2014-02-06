@@ -21,7 +21,6 @@ struct implementation<testsuite> {
     std::vector<std::function<void()>> class_runs_;
     std::map<std::string, std::string> class_maps_;
     std::vector<std::future<void>> lonely_futures_;
-    std::vector<std::string> timed_out_method_ids_;
     std::map<std::string, std::string> logged_texts_;
 
     implementation()
@@ -128,9 +127,9 @@ testsuite::collect(const testlog& log)
         ++impl_->results_.n_timeouts;
     switch (log.status) {
     case teststatus::success: ++impl_->results_.n_successes; break;
-    case teststatus::failure: ++impl_->results_.n_failures;  break;
-    case teststatus::error: ++impl_->results_.n_errors;      break;
-    default: ++impl_->results_.n_skipped;                    break;
+    case teststatus::failure: ++impl_->results_.n_failures; break;
+    case teststatus::error: ++impl_->results_.n_errors; break;
+    default: ++impl_->results_.n_skipped; break;
     }
     impl_->results_.testlogs.push_back(log);
 }
@@ -182,20 +181,6 @@ std::vector<std::future<void>>&
 testsuite::get_lonely_futures() const
 {
     return impl_->lonely_futures_;
-}
-
-void
-testsuite::add_timed_out_method_id(const std::string& method_id)
-{
-    static std::mutex add_timed_out_method_id_mutex_;
-    std::lock_guard<std::mutex> lock(add_timed_out_method_id_mutex_);
-    impl_->timed_out_method_ids_.push_back(method_id);
-}
-
-bool
-testsuite::has_test_timed_out(const std::string& method_id) const
-{
-    return is_contained(method_id, impl_->timed_out_method_ids_);
 }
 
 void

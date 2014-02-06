@@ -13,6 +13,7 @@ namespace internals {
 void
 observe_and_wait(std::future<void>&& future,
                  const std::string& method_id,
+                 std::atomic<bool>& has_timed_out,
                  double timeout,
                  std::chrono::milliseconds resolution)
 {
@@ -21,9 +22,9 @@ observe_and_wait(std::future<void>&& future,
         double duration(wait_sec);
         while (future.wait_for(resolution)!=std::future_status::ready) {
             if (duration > timeout) {
+                has_timed_out.store(true);
                 auto suite = testsuite::instance();
                 write_test_timeout_message(std::cout, suite->get_arguments().verbose());
-                suite->add_timed_out_method_id(method_id);
                 suite->add_lonely_future(std::move(future));
                 break;
             }

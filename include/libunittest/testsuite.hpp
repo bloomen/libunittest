@@ -61,13 +61,6 @@ public:
     std::vector<std::future<void>>&
     get_lonely_futures() const;
     /**
-     * @brief Returns whether a test has timed out
-     * @param method_id The id of the test method
-     * @returns Whether a test has timed out
-     */
-    bool
-    has_test_timed_out(const std::string& method_id) const;
-    /**
      * @brief Returns the accumulated test results
      * @returns The test results
      */
@@ -92,6 +85,7 @@ private:
     friend void
     observe_and_wait(std::future<void>&& future,
                      const std::string& method_id,
+                     std::atomic<bool>& has_timed_out,
                      double timeout,
                      std::chrono::milliseconds resolution);
 
@@ -127,9 +121,6 @@ private:
 
     void
     add_lonely_future(std::future<void>&& future);
-
-    void
-    add_timed_out_method_id(const std::string& method_id);
 
 };
 

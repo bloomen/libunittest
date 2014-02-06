@@ -103,6 +103,7 @@ struct testfunctor final {
      * @param test_name The name of the current test method
      * @param dry_run Whether a dry run is performed
      * @param handle_exceptions Whether to handle unexpected exceptions
+     * @param has_timed_out Whether the test has timed out
      * @param timeout The test timeout
      * @param skipped Whether the current test is skipped
      * @param skip_message A message explaining why the test is skipped
@@ -114,6 +115,7 @@ struct testfunctor final {
                 const std::string& test_name,
                 bool dry_run,
                 bool handle_exceptions,
+                std::atomic<bool>* has_timed_out,
                 double timeout,
                 bool skipped,
                 std::string skip_message)
@@ -124,6 +126,7 @@ struct testfunctor final {
           test_name_(test_name),
           dry_run_(dry_run),
           handle_exceptions_(handle_exceptions),
+          has_timed_out_(has_timed_out),
           timeout_(timeout),
           skipped_(skipped),
           skip_message_(skip_message)
@@ -143,7 +146,7 @@ struct testfunctor final {
             } else {
                 std::unique_ptr<TestCase> test;
                 run(test, monitor);
-                if (testsuite::instance()->has_test_timed_out(method_id_))
+                if (has_timed_out_->load())
                     monitor.has_timed_out(timeout_);
             }
         }
@@ -287,6 +290,7 @@ private:
     std::string test_name_;
     bool dry_run_;
     bool handle_exceptions_;
+    std::atomic<bool>* has_timed_out_;
     double timeout_;
     bool skipped_;
     std::string skip_message_;
@@ -337,14 +341,16 @@ update_testrun_info(const std::string& class_id,
  *  the operation has finished or timed out
  * @param future The asynchronous operation
  * @param method_id The id of the test method
+ * @param has_timed_out Whether the test has timed out
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param resolution The temporal resolution in milliseconds
  */
 void
 observe_and_wait(std::future<void>&& future,
                  const std::string& method_id,
+                 std::atomic<bool>& has_timed_out,
                  double timeout,
-                 std::chrono::milliseconds resolution=std::chrono::milliseconds(100));
+                 std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
 
 } // internals
 
@@ -372,14 +378,16 @@ testrun(typename TestCase::context_type& context,
     internals::update_testrun_info(class_id, class_name, test_name, timeout);
     const std::string method_id = internals::make_method_id<TestCase>(test_name);
     const auto& args = internals::testsuite::instance()->get_arguments();
+    std::atomic<bool> has_timed_out(false);
     internals::testfunctor<TestCase> functor(&context, method, method_id,
                                              class_name, test_name,
                                              args.dry_run(),
                                              args.handle_exceptions(),
-                                             timeout, skipped, skip_message);
+                                             &has_timed_out, timeout,
+                                             skipped, skip_message);
     if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), method_id, timeout);
+        internals::observe_and_wait(std::move(future), method_id, has_timed_out, timeout);
     } else {
         functor();
     }

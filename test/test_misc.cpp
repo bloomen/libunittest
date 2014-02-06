@@ -68,7 +68,6 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_testresults_defaults)
         UNITTEST_RUN(test_testcase_fail)
         UNITTEST_RUN(test_testcase_fail_overload)
-        UNITTEST_RUN(test_unittest_spot)
         UNITTEST_RUN(test_is_test_executed)
         UNITTEST_RUN(test_make_full_test_name)
         UNITTEST_RUN(test_collection_get_name)
@@ -326,11 +325,6 @@ struct test_misc : unittest::testcase<> {
         }
         if (!caught)
             throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
-    }
-
-    void test_unittest_spot()
-    {
-        assert_equal(unittest::join(" @", __FILE__, ":", __LINE__, ". "), UNITTEST_SPOT);
     }
 
     void test_is_test_executed()
