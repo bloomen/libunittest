@@ -115,7 +115,7 @@ struct testfunctor final {
                 const std::string& test_name,
                 bool dry_run,
                 bool handle_exceptions,
-                std::atomic<bool>* has_timed_out,
+                std::shared_ptr<std::atomic_bool> has_timed_out,
                 double timeout,
                 bool skipped,
                 std::string skip_message)
@@ -290,7 +290,7 @@ private:
     std::string test_name_;
     bool dry_run_;
     bool handle_exceptions_;
-    std::atomic<bool>* has_timed_out_;
+    std::shared_ptr<std::atomic_bool> has_timed_out_;
     double timeout_;
     bool skipped_;
     std::string skip_message_;
@@ -348,7 +348,7 @@ update_testrun_info(const std::string& class_id,
 void
 observe_and_wait(std::future<void>&& future,
                  const std::string& method_id,
-                 std::atomic<bool>& has_timed_out,
+                 std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
 
@@ -378,12 +378,12 @@ testrun(typename TestCase::context_type& context,
     internals::update_testrun_info(class_id, class_name, test_name, timeout);
     const std::string method_id = internals::make_method_id<TestCase>(test_name);
     const auto& args = internals::testsuite::instance()->get_arguments();
-    std::atomic<bool> has_timed_out(false);
+    auto has_timed_out = std::make_shared<std::atomic_bool>(false);
     internals::testfunctor<TestCase> functor(&context, method, method_id,
                                              class_name, test_name,
                                              args.dry_run(),
                                              args.handle_exceptions(),
-                                             &has_timed_out, timeout,
+                                             has_timed_out, timeout,
                                              skipped, skip_message);
     if (args.handle_exceptions()) {
         std::future<void> future = std::async(std::launch::async, std::move(functor));

@@ -184,5 +184,12 @@ trim(std::string value)
     return value;
 }
 
+std::string
+remove_white_spaces(std::string value)
+{
+    value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
+    return value;
+}
+
 } // internals
 } // unittest

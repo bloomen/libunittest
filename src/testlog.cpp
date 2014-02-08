@@ -73,9 +73,7 @@ std::string
 make_full_test_name(const std::string& class_name,
                     const std::string& test_name)
 {
-    std::string full_name = class_name.length() ? class_name + "." + test_name : test_name;
-    full_name.erase(std::remove(full_name.begin(), full_name.end(), ' '), full_name.end());
-    return full_name;
+    return class_name.length() ? class_name + "." + test_name : test_name;
 }
 
 bool

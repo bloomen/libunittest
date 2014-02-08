@@ -17,21 +17,21 @@ typedef test_class __test_class__;
 #define UNITTEST_RUN(test_method) \
 UNITTEST_RUN_TIME(test_method, -1.)
 /**
- * @brief A test run
+ * @brief A skipped test run
  * @param test_method The test method
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_SKIP(test_method, skip_message) \
 UNITTEST_RUN_TIME_SKIP(test_method, -1., skip_message)
 /**
- * @brief A test run
+ * @brief A test run with timeout
  * @param test_method The test methodmessage
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUN_TIME(test_method, timeout) \
 unittest::testrun(&__test_class__::test_method, "", #test_method, timeout, false, "");
 /**
- * @brief A test run
+ * @brief A skipped test run with timeout
  * @param test_method The test methodmessage
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skip_message A message explaining why the test is skipped
@@ -54,7 +54,7 @@ UNITTEST_RUNCXT_TIME(test_context, test_method, -1.)
 #define UNITTEST_RUNCXT_SKIP(test_context, test_method, skip_message) \
 UNITTEST_RUNCXT_TIME_SKIP(test_context, test_method, -1., skip_message)
 /**
- * @brief A test run with a test context
+ * @brief A test run with a test context and timeout
  * @param test_context The test context
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
@@ -62,7 +62,7 @@ UNITTEST_RUNCXT_TIME_SKIP(test_context, test_method, -1., skip_message)
 #define UNITTEST_RUNCXT_TIME(test_context, test_method, timeout) \
 unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, timeout, false, "");
 /**
- * @brief A skipped test run with a test context
+ * @brief A skipped test run with a test context and timeout
  * @param test_context The test context
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
@@ -123,21 +123,21 @@ namespace collection_##name
 #define UNITTEST_TEST(test_name) \
 UNITTEST_TEST_TIME(test_name, -1.)
 /**
- * @brief Sets up a plain test
+ * @brief Sets up a skipped plain test
  * @param test_name The name of the test
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_TEST_SKIP(test_name, skip_message) \
 UNITTEST_TEST_TIME_SKIP(test_name, -1., skip_message)
 /**
- * @brief Sets up a plain test with a timeout
+ * @brief Sets up a plain test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_TEST_TIME(test_name, timeout) \
 __UNITTEST_TEST_PLAIN(unittest::internals::sometype, test_name, timeout, false, "")
 /**
- * @brief Sets up a plain test with a timeout
+ * @brief Sets up a skipped plain test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skip_message A message explaining why the test is skipped
@@ -152,7 +152,7 @@ __UNITTEST_TEST_PLAIN(unittest::internals::sometype, test_name, timeout, true, s
 #define UNITTEST_TEST_FIXTURE(fixture, test_name) \
 UNITTEST_TEST_FIXTURE_TIME(fixture, test_name, -1.)
 /**
- * @brief Sets up a plain test with a test fixture
+ * @brief Sets up a skipped plain test with a test fixture
  * @param fixture The test fixture
  * @param test_name The name of the test
  * @param skip_message A message explaining why the test is skipped
@@ -210,14 +210,14 @@ UNITTEST_TEST_TPL_TIME(test_name, -1.)
 #define UNITTEST_TEST_TPL_SKIP(test_name, skip_message) \
 UNITTEST_TEST_TPL_TIME_SKIP(test_name, -1., skip_message)
 /**
- * @brief Sets up a templated test with a timeout
+ * @brief Sets up a templated test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_TEST_TPL_TIME(test_name, timeout) \
 __UNITTEST_TEST_TPL(unittest::internals::sometype, test_name, timeout, false, "")
 /**
- * @brief Sets up a skipped templated test with a timeout
+ * @brief Sets up a skipped templated test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skip_message A message explaining why the test is skipped

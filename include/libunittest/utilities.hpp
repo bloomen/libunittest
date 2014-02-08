@@ -323,6 +323,13 @@ get_type_id()
 std::string
 trim(std::string value);
 /**
+ * @brief Removes all white spaces
+ * @param value The string to remove white spaces from
+ * @returns The new string
+ */
+std::string
+remove_white_spaces(std::string value);
+/**
  * @brief Checks whether a given string has a valid numeric representation
  * @param value The string to check
  * @returns Whether a given string has a valid numeric representation

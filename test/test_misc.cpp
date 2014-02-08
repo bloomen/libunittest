@@ -342,8 +342,6 @@ struct test_misc : unittest::testcase<> {
         assert_equal("a.b", unittest::internals::make_full_test_name("a","b"), SPOT);
         assert_equal("a.", unittest::internals::make_full_test_name("a",""), SPOT);
         assert_equal("b", unittest::internals::make_full_test_name("","b"), SPOT);
-        assert_equal("a.b", unittest::internals::make_full_test_name(" a "," b  "), SPOT);
-        assert_equal("a.cb", unittest::internals::make_full_test_name("a","  c  b "), SPOT);
     }
 
     void test_collection_get_name()

@@ -26,6 +26,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_is_numeric)
         UNITTEST_RUN(test_to_number)
         UNITTEST_RUN(test_trim)
+        UNITTEST_RUN(test_remove_white_spaces)
     }
 
     void test_limit_string_length()
@@ -228,6 +229,14 @@ struct test_utilities : unittest::testcase<> {
         assert_equal("albert  peter", function("   albert  peter  "), SPOT);
         assert_equal("ölbert  \tpeter", function("\n   ölbert  \tpeter  \t"), SPOT);
         assert_equal("albert  \npeter", function("\n\t   albert  \npeter  \n\n"), SPOT);
+    }
+
+    void test_remove_white_spaces()
+    {
+        auto function = unittest::internals::remove_white_spaces;
+        assert_equal("albert", function("albert"), SPOT);
+        assert_equal("albert", function("alb ert "), SPOT);
+        assert_equal("albert", function("  alber t "), SPOT);
     }
 
 };

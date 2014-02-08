@@ -85,7 +85,7 @@ private:
     friend void
     observe_and_wait(std::future<void>&& future,
                      const std::string& method_id,
-                     std::atomic<bool>& has_timed_out,
+                     std::shared_ptr<std::atomic_bool> has_timed_out,
                      double timeout,
                      std::chrono::milliseconds resolution);
 
