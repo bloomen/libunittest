@@ -1,6 +1,6 @@
 /**
  * @brief A portable C++ library for unit testing,
- *        http://sourceforge.net/projects/libunittest
+ *        http://libunittest.sourceforge.net
  * @file unittest.hpp
  */
 #pragma once
