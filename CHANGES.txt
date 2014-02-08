@@ -1,7 +1,7 @@
 libunittest (3.7.1) stable; urgency=low
 
   * added option to skip tests including a message saying why the 
-    skip is necessary
+    skip is necessary (see examples and libunittest/shortcuts.hpp)
   * Bug fixed: Number of timeouts are now logged correctly
   * Added general removal of white spaces in test names (important for
     templated tests)   
