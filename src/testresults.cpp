@@ -14,7 +14,7 @@ void
 write_xml(std::ostream& stream,
           const testresults& results,
           const std::chrono::system_clock::time_point& time_point,
-	  bool local_time)
+          bool local_time)
 {
     static std::mutex write_xml_mutex_;
     std::lock_guard<std::mutex> lock(write_xml_mutex_);

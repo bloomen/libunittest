@@ -86,15 +86,15 @@ is_regex_matched(const std::string& value,
     return std::regex_match(value, regex);
 }
 
-long
+int
 call_functions(const std::vector<std::function<void()>>& functions,
                int n_threads)
 {
-    const long n_runs = functions.size();
+    const int n_runs = functions.size();
     if (n_threads > n_runs)
         n_threads = n_runs;
 
-    long counter = 0;
+    int counter = 0;
     if (n_threads > 1 && n_runs > 1) {
         while (counter < n_runs) {
             if (n_threads > n_runs - counter)
@@ -142,7 +142,7 @@ make_futures_happy(std::ostream& stream,
     static std::mutex make_futures_happy_mutex_;
     std::lock_guard<std::mutex> lock(make_futures_happy_mutex_);
     const auto wait_ms = std::chrono::milliseconds(1);
-    long n_unfinished(0);
+    int n_unfinished(0);
     for (auto& future : futures)
         if (future.wait_for(wait_ms)!=std::future_status::ready)
             ++n_unfinished;
@@ -174,7 +174,7 @@ trim(std::string value)
 {
     const std::string chars = " \t\n";
     std::string check;
-    while (check != value) {
+    while (check!=value) {
         check = value;
         for (auto& ch : chars) {
             value.erase(0, value.find_first_not_of(ch));
