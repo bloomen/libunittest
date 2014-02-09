@@ -31,12 +31,12 @@ UNITTEST_TEST_SKIP(test_unittest_test_skip, "ok")
 
 TEST_TIME(test_test_time, 0.1)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 UNITTEST_TEST_TIME(test_unittest_test_time, 0.1)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 TEST_TIME_SKIP(test_test_time_skip, 0.1, "ok")
@@ -72,13 +72,13 @@ UNITTEST_TEST_FIXTURE_SKIP(fixture, test_unittest_test_fixture_skip, "ok")
 TEST_FIXTURE_TIME(fixture, test_test_fixture_time, 0.1)
 {
     assert_equal(42, value);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 UNITTEST_TEST_FIXTURE_TIME(fixture, test_unittest_test_fixture_time, 0.1)
 {
     assert_equal(42, value);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 TEST_FIXTURE_TIME_SKIP(fixture, test_test_fixture_time_skip, 0.1, "ok")
@@ -122,7 +122,7 @@ TEST_TPL_TIME(test_test_tpl_time, 0.1)
 {
     Type1 value = 1;
     assert_true(value);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 REGISTER(test_test_tpl_time<long>)
 
@@ -131,7 +131,7 @@ UNITTEST_TEST_TPL_TIME(test_unittest_test_tpl_time, 0.1)
     Type1 value1 = 1;
     Type2 value2 = 2;
     assert_greater(value2, value1);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_time<int, double>)
 
@@ -181,7 +181,7 @@ TEST_TPL_FIXTURE_TIME(fixture, test_test_tpl_fixture_time, 0.1)
     Type1 value1 = 1;
     assert_true(value1);
     assert_equal(42, value);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 REGISTER(test_test_tpl_fixture_time<long>)
 
@@ -191,7 +191,7 @@ UNITTEST_TEST_TPL_FIXTURE_TIME(fixture, test_unittest_test_tpl_fixture_time, 0.1
     Type2 value2 = 2;
     assert_greater(value2, value1);
     assert_equal(42, value);
-    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_fixture_time<int, double>)
 
