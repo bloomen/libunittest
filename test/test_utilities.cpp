@@ -79,7 +79,7 @@ struct test_utilities : unittest::testcase<> {
         std::ostringstream stream;
         function(stream, 'x', 3);
         assert_equal("xxx", stream.str(), SPOT);
-        assert_throw<std::length_error>(std::bind(function, std::ref(stream), 'x', -1), SPOT);
+        assert_throw<std::length_error>([&]() { function(stream, 'x', -1); }, SPOT);
     }
 
     void test_duration_in_seconds()
@@ -179,11 +179,9 @@ struct test_utilities : unittest::testcase<> {
 
     void test_get_from_map_key_not_found()
     {
-        auto functor = [](){
-            std::map<int, int> map;
-            map[0] = 1;
-            unittest::internals::get_from_map(map, 2);
-        };
+        std::map<int, int> map;
+        map[0] = 1;
+        auto functor = [&](){ unittest::internals::get_from_map(map, 2); };
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 
@@ -209,15 +207,14 @@ struct test_utilities : unittest::testcase<> {
 
     void test_to_number()
     {
-        assert_equal(764, unittest::internals::to_number<int>("764"), SPOT);
-        assert_equal(132, unittest::internals::to_number<long>("132.0"), SPOT);
-        assert_equal(930, unittest::internals::to_number<float>("930"), SPOT);
-        assert_equal(-93.7, unittest::internals::to_number<double>("-93.7"), SPOT);
-        std::vector<std::string> values_not_num = {
-                "", "XYZ", "a26"
-        };
+        using unittest::internals::to_number;
+        assert_equal(764, to_number<int>("764"), SPOT);
+        assert_equal(132, to_number<long>("132.0"), SPOT);
+        assert_equal(930, to_number<float>("930"), SPOT);
+        assert_equal(-93.7, to_number<double>("-93.7"), SPOT);
+        std::vector<std::string> values_not_num = { "", "XYZ", "a26" };
         for (auto& value : values_not_num)
-            assert_throw<std::invalid_argument>(std::bind(unittest::internals::to_number<int>, value), SPOT, "value: ", value);
+            assert_throw<std::invalid_argument>([&](){ to_number<int>(value); }, SPOT, "value: ", value);
     }
 
     void test_trim()

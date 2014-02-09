@@ -227,28 +227,21 @@ struct test_misc : unittest::testcase<> {
 
     void test_write_test_end_message()
     {
-        const std::vector<unittest::internals::teststatus> statuses = {
-                unittest::internals::teststatus::success,
-                unittest::internals::teststatus::failure,
-                unittest::internals::teststatus::error,
-                unittest::internals::teststatus::skipped
-        };
-        const std::vector<std::string> msg = {
-                ".", "F", "E", "S"
-        };
-        const std::vector<std::string> msg_verb = {
-                "ok\n", "FAIL\n", "ERROR\n", "SKIP \n"
-        };
-
-        for (int i=0; i<4; ++i) {
+        using unittest::internals::teststatus;
+        std::vector<std::tuple<teststatus, std::string, std::string>> data;
+        data.push_back(std::make_tuple(teststatus::success, ".", "ok\n"));
+        data.push_back(std::make_tuple(teststatus::failure, "F", "FAIL\n"));
+        data.push_back(std::make_tuple(teststatus::error, "E", "ERROR\n"));
+        data.push_back(std::make_tuple(teststatus::skipped, "S", "SKIP\n"));
+        for (auto& t : data) {
             unittest::internals::testlog log;
-            log.status = statuses[i];
+            log.status = std::get<0>(t);
             std::ostringstream stream;
             unittest::internals::write_test_end_message(stream, log, false);
-            assert_equal(msg[i], stream.str(), SPOT);
+            assert_equal(std::get<1>(t), stream.str(), SPOT);
             std::ostringstream stream2;
             unittest::internals::write_test_end_message(stream2, log, true);
-            assert_equal(msg_verb[i], stream2.str(), SPOT);
+            assert_equal(std::get<2>(t), stream2.str(), SPOT);
         }
     }
 
@@ -264,10 +257,11 @@ struct test_misc : unittest::testcase<> {
 
     void test_teststatus_integrals()
     {
-        assert_equal<unsigned>(0, unittest::internals::teststatus::success, SPOT);
-        assert_equal<unsigned>(1, unittest::internals::teststatus::failure, SPOT);
-        assert_equal<unsigned>(2, unittest::internals::teststatus::error, SPOT);
-        assert_equal<unsigned>(3, unittest::internals::teststatus::skipped, SPOT);
+        using unittest::internals::teststatus;
+        assert_equal<unsigned>(0, teststatus::success, SPOT);
+        assert_equal<unsigned>(1, teststatus::failure, SPOT);
+        assert_equal<unsigned>(2, teststatus::error, SPOT);
+        assert_equal<unsigned>(3, teststatus::skipped, SPOT);
     }
 
     void test_testlog_defaults()
@@ -329,25 +323,28 @@ struct test_misc : unittest::testcase<> {
 
     void test_is_test_executed()
     {
-        assert_true(unittest::internals::is_test_executed("stuff.test_me", "", ""), SPOT);
-        assert_true(unittest::internals::is_test_executed("stuff.test_me", "", "stuff"), SPOT);
-        assert_false(unittest::internals::is_test_executed("stuff.test_me", "", "weird"), SPOT);
-        assert_true(unittest::internals::is_test_executed("stuff.test_me", "stuff.test_me", "weird"), SPOT);
-        assert_false(unittest::internals::is_test_executed("stuff.test_me", "stuff.test_me_xxx", ""), SPOT);
+        using unittest::internals::is_test_executed;
+        assert_true(is_test_executed("stuff.test_me", "", ""), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "stuff"), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "", "weird"), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "stuff.test_me", "weird"), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "stuff.test_me_xxx", ""), SPOT);
     }
 
     void test_make_full_test_name()
     {
-        assert_equal("", unittest::internals::make_full_test_name("",""), SPOT);
-        assert_equal("a.b", unittest::internals::make_full_test_name("a","b"), SPOT);
-        assert_equal("a.", unittest::internals::make_full_test_name("a",""), SPOT);
-        assert_equal("b", unittest::internals::make_full_test_name("","b"), SPOT);
+        using unittest::internals::make_full_test_name;
+        assert_equal("", make_full_test_name("",""), SPOT);
+        assert_equal("a.b", make_full_test_name("a","b"), SPOT);
+        assert_equal("a.", make_full_test_name("a",""), SPOT);
+        assert_equal("b", make_full_test_name("","b"), SPOT);
     }
 
     void test_collection_get_name()
     {
-        unittest::internals::testcollection collection;
-        assert_equal(unittest::internals::testcollection::inactive_name(), collection.get_name(), SPOT);
+        using unittest::internals::testcollection;
+        testcollection collection;
+        assert_equal(testcollection::inactive_name(), collection.get_name(), SPOT);
     }
 
 };

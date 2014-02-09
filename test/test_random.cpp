@@ -182,15 +182,10 @@ struct test_random : unittest::testcase<> {
 
     void test_random_container_throw()
     {
-        auto functor1 = [](){
-            auto random = unittest::make_random_value(1, 3);
-            unittest::make_random_container<std::list<int>>(random, 1, 1);
-        };
+        auto random = unittest::make_random_value(1, 3);
+        auto functor1 = [&](){ unittest::make_random_container<std::list<int>>(random, 1, 1); };
         assert_throw<std::invalid_argument>(functor1, SPOT);
-        auto functor2 = [](){
-            auto random = unittest::make_random_value(1, 3);
-            unittest::make_random_container<std::list<int>>(random, 3, 1);
-        };
+        auto functor2 = [&](){ unittest::make_random_container<std::list<int>>(random, 3, 1); };
         assert_throw<std::invalid_argument>(functor2, SPOT);
     }
 
@@ -253,16 +248,10 @@ struct test_random : unittest::testcase<> {
 
     void test_random_shuffle_throw()
     {
-
-        auto functor1 = [](){
-            const std::list<int> a_list = {1, 2, 3};
-            unittest::make_random_shuffle(a_list, 0);
-        };
+        const std::list<int> a_list = {1, 2, 3};
+        auto functor1 = [&](){ unittest::make_random_shuffle(a_list, 0); };
         assert_throw<std::invalid_argument>(functor1, SPOT);
-        auto functor2 = [](){
-            const std::list<int> a_list = {1, 2, 3};
-            unittest::make_random_shuffle(a_list, 4);
-        };
+        auto functor2 = [&](){ unittest::make_random_shuffle(a_list, 4); };
         assert_throw<std::invalid_argument>(functor2, SPOT);
     }
 
@@ -298,17 +287,11 @@ struct test_random : unittest::testcase<> {
 
     void test_random_combination_throw()
     {
-        auto functor1 = []() {
-            const std::list<int> list1 = {1, 2, 3};
-            const std::list<double> list2 = {5, 6};
-            unittest::make_random_combination(list1, list2, 0);
-        };
+        const std::list<int> list1 = {1, 2, 3};
+        const std::list<double> list2 = {5, 6};
+        auto functor1 = [&]() { unittest::make_random_combination(list1, list2, 0); };
         assert_throw<std::invalid_argument>(functor1, SPOT);
-        auto functor2 = []() {
-            const std::list<int> list1 = {1, 2, 3};
-            const std::list<double> list2 = {5, 6};
-            unittest::make_random_combination(list1, list2, 7);
-        };
+        auto functor2 = [&]() { unittest::make_random_combination(list1, list2, 7); };
         assert_throw<std::invalid_argument>(functor2, SPOT);
     }
 

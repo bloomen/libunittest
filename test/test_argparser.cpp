@@ -342,7 +342,7 @@ struct test_argparser : unittest::testcase<> {
         for (auto value : values) {
             arguments_[1] = value;
             argparser args;
-            assert_throw<argparser_error>(std::bind(&argparser::parse, args, 2, arguments_), SPOT);
+            assert_throw<argparser_error>([&](){ args.parse(2, arguments_); }, SPOT);
         }
     }
 
