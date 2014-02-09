@@ -71,7 +71,7 @@ void
 write_xml(std::ostream& stream,
           const testresults& results,
           const std::chrono::system_clock::time_point& time_point=std::chrono::system_clock::now(),
-	  bool local_time=true);
+          bool local_time=true);
 /**
  * @brief Writes the test summary to the given output stream
  * @param stream The output stream
