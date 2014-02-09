@@ -2,6 +2,7 @@ PROG = unittest.exe
 
 INCDIR = ../include
 LIBDIR = ../lib
+XSD = ../doc/web/libunittest.xsd
 
 CXX = g++
 CXXFLAGS = -O0 -g3 -Wall -std=c++0x -pthread -fmessage-length=0
@@ -39,7 +40,7 @@ $(PROG) : $(OBJECTS)
 
 run :
 	@./$(PROG) -x $(ARGS) || exit 1
-	@xmllint --noout --schema ../doc/web/libunittest.xsd libunittest.xml || exit 1
+	@xmllint --noout --schema $(XSD) libunittest.xml || exit 1
 
 clean :
 	$(RM) $(PROG) *.o *.xml
