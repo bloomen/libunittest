@@ -38,7 +38,8 @@ $(PROG) : $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) $(LDOBJ) $(PROG)
 
 run :
-	@./$(PROG) $(ARGS) || exit 1
+	@./$(PROG) -x $(ARGS) || exit 1
+	@xmllint --noout --schema ../doc/web/libunittest.xsd libunittest.xml || exit 1
 
 clean :
 	$(RM) $(PROG) *.o *.xml

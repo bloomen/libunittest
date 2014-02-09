@@ -8,6 +8,8 @@ libunittest (3.7.1) stable; urgency=low
   * Added systematic integration tests for all libunittest macros
   * Added assertions to the test suite of libunittest for the total number 
     of tests, skips, and timeouts  
+  * added the libunittest XSD to doc/web and to the libunittest website;
+    it is JUnit compatible and can be parsed by e.g. Jenkins
 
  -- Christian Blume <chr.blume@gmail.com>  Sun, 9 Feb 2014 15:00:00 +0100
 
