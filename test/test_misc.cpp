@@ -232,7 +232,7 @@ struct test_misc : unittest::testcase<> {
         data.push_back(std::make_tuple(teststatus::success, ".", "ok\n"));
         data.push_back(std::make_tuple(teststatus::failure, "F", "FAIL\n"));
         data.push_back(std::make_tuple(teststatus::error, "E", "ERROR\n"));
-        data.push_back(std::make_tuple(teststatus::skipped, "S", "SKIP\n"));
+        data.push_back(std::make_tuple(teststatus::skipped, "S", "SKIP \n"));
         for (auto& t : data) {
             unittest::internals::testlog log;
             log.status = std::get<0>(t);
