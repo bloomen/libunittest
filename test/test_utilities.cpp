@@ -112,29 +112,47 @@ struct test_utilities : unittest::testcase<> {
 
     void test_call_functions_empty_vector()
     {
+        using unittest::internals::call_functions;
         std::vector<std::function<void()>> functions;
-        assert_equal(0, unittest::internals::call_functions(functions), SPOT);
-        assert_equal(0, unittest::internals::call_functions(functions, 0), SPOT);
-        assert_equal(0, unittest::internals::call_functions(functions, 2), SPOT);
+        assert_equal(0, call_functions(functions), SPOT);
+        assert_equal(0, call_functions(functions, 0), SPOT);
+        assert_equal(0, call_functions(functions, 2), SPOT);
     }
 
     void test_call_functions_vector_size_one()
     {
-        std::function<void()> func = [](){ int a = 1; ++a; };
+        using unittest::internals::call_functions;
+        int a = 0;
+        std::function<void()> func = [&a](){ ++a; };
         std::vector<std::function<void()>> functions = {func};
-        assert_equal(1, unittest::internals::call_functions(functions), SPOT);
-        assert_equal(1, unittest::internals::call_functions(functions, 0), SPOT);
-        assert_equal(1, unittest::internals::call_functions(functions, 2), SPOT);
+        assert_equal(1, call_functions(functions), SPOT);
+        assert_equal(1, a, SPOT);
+        assert_equal(1, call_functions(functions, 0), SPOT);
+        assert_equal(2, a, SPOT);
+        assert_equal(1, call_functions(functions, 2), SPOT);
+        assert_equal(3, a, SPOT);
     }
 
     void test_call_functions_vector_size_two()
     {
-        std::function<void()> func = [](){ int a = 1; ++a; };
-        std::vector<std::function<void()>> functions = {func, func};
-        assert_equal(2, unittest::internals::call_functions(functions), SPOT);
-        assert_equal(2, unittest::internals::call_functions(functions, 0), SPOT);
-        assert_equal(2, unittest::internals::call_functions(functions, 2), SPOT);
-        assert_equal(2, unittest::internals::call_functions(functions, 3), SPOT);
+        using unittest::internals::call_functions;
+        int a = 0;
+        std::function<void()> func1 = [&a](){ ++a; };
+        int b = 0;
+        std::function<void()> func2 = [&b](){ ++b; };
+        std::vector<std::function<void()>> functions = {func1, func2};
+        assert_equal(2, call_functions(functions), SPOT);
+        assert_equal(1, a, SPOT);
+        assert_equal(1, b, SPOT);
+        assert_equal(2, call_functions(functions, 0), SPOT);
+        assert_equal(2, a, SPOT);
+        assert_equal(2, b, SPOT);
+        assert_equal(2, call_functions(functions, 2), SPOT);
+        assert_equal(3, a, SPOT);
+        assert_equal(3, b, SPOT);
+        assert_equal(2, call_functions(functions, 3), SPOT);
+        assert_equal(4, a, SPOT);
+        assert_equal(4, b, SPOT);
     }
 
     void test_make_futures_happy_empty()
