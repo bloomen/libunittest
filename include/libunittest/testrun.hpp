@@ -378,7 +378,8 @@ testrun(typename TestCase::context_type& context,
     internals::update_testrun_info(class_id, class_name, test_name, timeout);
     const std::string method_id = internals::make_method_id<TestCase>(test_name);
     const auto& args = internals::testsuite::instance()->get_arguments();
-    auto has_timed_out = std::make_shared<std::atomic_bool>(false);
+    auto has_timed_out = std::make_shared<std::atomic_bool>();
+    has_timed_out->store(false);
     internals::testfunctor<TestCase> functor(&context, method, method_id,
                                              class_name, test_name,
                                              args.dry_run(),
