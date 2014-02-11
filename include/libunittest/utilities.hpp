@@ -354,6 +354,13 @@ to_number(const std::string& value)
         throw std::invalid_argument("Not numeric: " + value);
     }
 }
+/**
+ * @brief Expands command line arguments (e.g. -ag becomes -a -g)
+ * @param arguments The raw arguments
+ * @returns The expanded arguments
+ */
+std::vector<std::string>
+expand_commandline_arguments(const std::vector<std::string>& arguments);
 
 } // internals
 

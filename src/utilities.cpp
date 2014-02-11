@@ -191,5 +191,22 @@ remove_white_spaces(std::string value)
     return value;
 }
 
+std::vector<std::string>
+expand_commandline_arguments(const std::vector<std::string>& arguments)
+{
+    std::vector<std::string> args;
+    for (auto& value : arguments) {
+        if (value.substr(0, 1)=="-") {
+            const std::string expanded(value.substr(1, value.size()));
+            for (auto& val : expanded) {
+                args.push_back(join("-", val));
+            }
+        } else {
+            args.push_back(value);
+        }
+    }
+    return args;
+}
+
 } // internals
 } // unittest

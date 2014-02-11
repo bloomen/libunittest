@@ -60,19 +60,11 @@ struct implementation<argparser> {
     std::vector<std::string>
     expand_arguments(int argc, char **argv) const
     {
-        std::vector<std::string> args;
-        for (int i=1; i<argc; ++i) {
-            const std::string value(argv[i]);
-            if (value.substr(0, 1)=="-") {
-                const std::string expanded(value.substr(1, value.size()));
-                for (auto& val : expanded) {
-                    args.push_back(join("-", val));
-                }
-            } else {
-                args.push_back(value);
-            }
-        }
-        return args;
+        std::vector<std::string> arguments;
+        arguments.reserve(argc - 1);
+        for (int i=1; i<argc; ++i)
+            arguments.push_back(argv[i]);
+        return expand_commandline_arguments(arguments);
     }
 
 };

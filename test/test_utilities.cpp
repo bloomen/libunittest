@@ -27,6 +27,8 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_to_number)
         UNITTEST_RUN(test_trim)
         UNITTEST_RUN(test_remove_white_spaces)
+        UNITTEST_RUN(test_expand_commandline_arguments)
+        UNITTEST_RUN(test_expand_commandline_arguments_empty_args)
     }
 
     void test_limit_string_length()
@@ -252,6 +254,22 @@ struct test_utilities : unittest::testcase<> {
         assert_equal("albert", function("albert"), SPOT);
         assert_equal("albert", function("alb ert "), SPOT);
         assert_equal("albert", function("  alber t "), SPOT);
+    }
+
+    void test_expand_commandline_arguments()
+    {
+        auto function = unittest::internals::expand_commandline_arguments;
+        std::vector<std::string> args = { "-ag", "-i", "42", "-tpf" };
+        std::vector<std::string> exp_args = { "-a", "-g", "-i", "42", "-t", "-p", "-f" };
+        assert_equal_containers(exp_args, function(args));
+    }
+
+    void test_expand_commandline_arguments_empty_args()
+    {
+        auto function = unittest::internals::expand_commandline_arguments;
+        std::vector<std::string> args = {};
+        std::vector<std::string> exp_args = {};
+        assert_equal_containers(exp_args, function(args));
     }
 
 };
