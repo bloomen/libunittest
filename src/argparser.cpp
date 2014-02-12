@@ -95,35 +95,30 @@ argparser::parse(int argc, char **argv)
         } else if (args[i]=="-d") {
             dry_run(true);
         } else if (args[i]=="-f") {
-            if (++i<length) {
+            if (++i<length)
                 name_filter(args[i]);
-            } else {
-            	impl_->help_and_throw(app_name, "Option '-f' needs a filter string");
-            }
+            else
+                impl_->help_and_throw(app_name, "Option '-f' needs a filter string");
         } else if (args[i]=="-n") {
-            if (++i<length) {
+            if (++i<length)
                 test_name(args[i]);
-            } else {
+            else
                 impl_->help_and_throw(app_name, "Option '-n' needs a test name");
-            }
         } else if (args[i]=="-t") {
-            if (++i<length) {
+            if (++i<length)
                 timeout(impl_->make_number<double>(app_name, "-t", args[i]));
-            } else {
+            else
                 impl_->help_and_throw(app_name, "Option '-t' needs a timeout");
-            }
         } else if (args[i]=="-o") {
-            if (++i<length) {
+            if (++i<length)
                 xml_filename(args[i]);
-            } else {
+            else
                 impl_->help_and_throw(app_name, "Option '-o' needs an XML file name");
-            }
         } else if (args[i]=="-p") {
-            if (++i<length) {
+            if (++i<length)
                 concurrent_threads(impl_->make_number<int>(app_name, "-p", args[i]));
-            } else {
+            else
                 impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");
-            }
         } else {
         	impl_->help_and_throw(app_name, join("Unknown option '", args[i], "'"));
         }
