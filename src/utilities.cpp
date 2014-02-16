@@ -194,13 +194,15 @@ remove_white_spaces(std::string value)
 std::vector<std::string>
 expand_commandline_arguments(const std::vector<std::string>& arguments)
 {
+    const char flag = '-';
+    const std::string sflag(1, flag);
     std::vector<std::string> args;
     for (auto& value : arguments) {
-        if (value.substr(0, 1)=="-") {
+        if (value.substr(0, 1)==sflag) {
             const std::string expanded(value.substr(1, value.size()));
             for (auto& val : expanded) {
-                if (val != '-')
-                    args.push_back(join("-", val));
+                if (val != flag)
+                    args.push_back(join(flag, val));
             }
         } else {
             args.push_back(value);
