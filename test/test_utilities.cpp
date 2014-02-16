@@ -258,10 +258,10 @@ struct test_utilities : unittest::testcase<> {
 
     void test_expand_commandline_arguments()
     {
-        auto function = unittest::internals::expand_commandline_arguments;
-        std::vector<std::string> args = { "-ag", "-i", "42", "-tpf" };
-        std::vector<std::string> exp_args = { "-a", "-g", "-i", "42", "-t", "-p", "-f" };
-        assert_equal_containers(exp_args, function(args), SPOT);
+        std::vector<std::string> args = { "-ag", "-i", "42", "-tpf", "-d-ga" };
+        std::vector<std::string> exp_args = { "-a", "-g", "-i", "42", "-t", "-p", "-f" , "-d", "-g", "-a"};
+        const auto result = unittest::internals::expand_commandline_arguments(args);
+        assert_equal_containers(exp_args, result, SPOT);
     }
 
     void test_expand_commandline_arguments_empty_args()

@@ -199,7 +199,8 @@ expand_commandline_arguments(const std::vector<std::string>& arguments)
         if (value.substr(0, 1)=="-") {
             const std::string expanded(value.substr(1, value.size()));
             for (auto& val : expanded) {
-                args.push_back(join("-", val));
+                if (val != '-')
+                    args.push_back(join("-", val));
             }
         } else {
             args.push_back(value);
