@@ -25,14 +25,14 @@ UNITTEST_RUN_TIME(test_method, -1.)
 UNITTEST_RUN_TIME_SKIP(test_method, -1., skip_message)
 /**
  * @brief A test run with timeout
- * @param test_method The test methodmessage
+ * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUN_TIME(test_method, timeout) \
 unittest::testrun(&__test_class__::test_method, "", #test_method, timeout, false, "");
 /**
  * @brief A skipped test run with timeout
- * @param test_method The test methodmessage
+ * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skip_message A message explaining why the test is skipped
  */
