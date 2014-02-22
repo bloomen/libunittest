@@ -110,9 +110,10 @@ argparser::parse(int argc, char **argv)
             else
                 impl_->help_and_throw(app_name, "Option '-t' needs a timeout");
         } else if (args[i]=="-o") {
-            if (++i<length)
+            if (++i<length) {
                 xml_filename(args[i]);
-            else
+                generate_xml(true);
+            } else
                 impl_->help_and_throw(app_name, "Option '-o' needs an XML file name");
         } else if (args[i]=="-p") {
             if (++i<length)
