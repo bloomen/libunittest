@@ -85,7 +85,8 @@ testsuite::get_results() const
 {
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
-    results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
+    if (!get_arguments().dry_run())
+        results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
     impl_->assign_logged_texts(results.testlogs);
     return results;
 }

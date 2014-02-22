@@ -43,6 +43,8 @@ write_test_end_message(std::ostream& stream,
             case teststatus::skipped: stream << "SKIP " << trim(log.text); break;
             default: break;
             }
+            if (log.status!=teststatus::skipped)
+                stream << " [" << log.duration << "s]";
             stream << "\n";
         } else {
             switch (log.status) {
