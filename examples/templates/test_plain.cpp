@@ -1,5 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
+#include <libunittest/all.hpp>
 
 COLLECTION(templates_plain)
 {

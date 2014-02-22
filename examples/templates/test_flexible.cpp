@@ -1,5 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
+#include <libunittest/all.hpp>
 
 template<typename T, typename U>
 struct templates_flexible : unittest::testcase<> {

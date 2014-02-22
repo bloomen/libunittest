@@ -1,6 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
-
+#include <libunittest/all.hpp>
 
 TEST(test_value_is_false)
 {

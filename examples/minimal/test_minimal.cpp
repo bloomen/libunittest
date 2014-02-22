@@ -1,14 +1,8 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
+#include <libunittest/all.hpp>
 
 TEST(test_value_is_true)
 {
     assert_true(true);
-}
-
-int main(int argc, char **argv)
-{
-    return unittest::process(argc, argv);
 }
 
 /* Screen output with './unittest.exe -v':

@@ -1,6 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
-
+#include <libunittest/all.hpp>
 
 // a test class without a test context
 struct test_whatever : unittest::testcase<> {

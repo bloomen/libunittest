@@ -1,5 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
+#include <libunittest/all.hpp>
 
 // a test context
 struct test_context {
