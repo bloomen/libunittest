@@ -36,6 +36,7 @@ write_test_end_message(std::ostream& stream,
     std::lock_guard<std::mutex> lock(write_test_end_message_mutex_);
     if (!log.has_timed_out) {
         if (verbose) {
+            stream << "[" << log.duration << "s] ";
             switch (log.status) {
             case teststatus::success: stream << "ok"; break;
             case teststatus::failure: stream << "FAIL"; break;
@@ -43,8 +44,6 @@ write_test_end_message(std::ostream& stream,
             case teststatus::skipped: stream << "SKIP " << trim(log.text); break;
             default: break;
             }
-            if (log.status!=teststatus::skipped)
-                stream << " [" << log.duration << "s]";
             stream << "\n";
         } else {
             switch (log.status) {

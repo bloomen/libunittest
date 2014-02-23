@@ -1,3 +1,13 @@
+libunittest (3.7.3) stable; urgency=low
+
+  * added duration of each test to standard out
+  * added the main function to libunittest/main.hpp. Hence, no need
+    for an explicit main function anymore
+  * added convenience header libunittest/all.hpp which includes
+    libunittest/main.hpp and libunittest/shortcuts.hpp
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 23 Feb 2014 20:00:00 +0100
+
 libunittest (3.7.2) stable; urgency=low
 
   * no functional changes
