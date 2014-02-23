@@ -144,6 +144,7 @@ write_error_info(std::ostream& stream,
                 if (status==teststatus::error)
                     flag = "ERROR";
                 stream << flag << ": " << make_full_test_name(log.class_name, log.test_name);
+                stream << " [" << log.duration << "s]";
                 if (log.has_timed_out)
                     stream << " (TIMEOUT)";
                 stream << "\n";

@@ -200,11 +200,11 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream expected;
         expected << "\n";
         unittest::internals::write_horizontal_bar(expected, '=');
-        expected << "\nFAIL: test_class.test2 (TIMEOUT)\n";
+        expected << "\nFAIL: test_class.test2 [2s] (TIMEOUT)\n";
         unittest::internals::write_horizontal_bar(expected, '-');
         expected << "\nfailure: message2\n\n";
         unittest::internals::write_horizontal_bar(expected, '=');
-        expected << "\nERROR: test_class.test3\n";
+        expected << "\nERROR: test_class.test3 [3s]\n";
         unittest::internals::write_horizontal_bar(expected, '-');
         expected << "\nerror: message3\n\n";
         assert_equal(expected.str(), stream.str(), SPOT);
@@ -229,10 +229,10 @@ struct test_misc : unittest::testcase<> {
     {
         using unittest::internals::teststatus;
         std::vector<std::tuple<teststatus, std::string, std::string>> data;
-        data.push_back(std::make_tuple(teststatus::success, ".", "ok\n"));
-        data.push_back(std::make_tuple(teststatus::failure, "F", "FAIL\n"));
-        data.push_back(std::make_tuple(teststatus::error, "E", "ERROR\n"));
-        data.push_back(std::make_tuple(teststatus::skipped, "S", "SKIP \n"));
+        data.push_back(std::make_tuple(teststatus::success, ".", "[0s] ok\n"));
+        data.push_back(std::make_tuple(teststatus::failure, "F", "[0s] FAIL\n"));
+        data.push_back(std::make_tuple(teststatus::error, "E", "[0s] ERROR\n"));
+        data.push_back(std::make_tuple(teststatus::skipped, "S", "[0s] SKIP \n"));
         for (auto& t : data) {
             unittest::internals::testlog log;
             log.status = std::get<0>(t);

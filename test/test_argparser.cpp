@@ -216,7 +216,7 @@ struct test_argparser : unittest::testcase<> {
         args.parse(3, arguments_);
         assert_equal(false, args.verbose(), SPOT);
         assert_equal(false, args.failure_stop(), SPOT);
-        assert_equal(false, args.generate_xml(), SPOT);
+        assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
         assert_equal("", args.name_filter(), SPOT);

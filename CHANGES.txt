@@ -1,5 +1,6 @@
 libunittest (3.7.3) stable; urgency=low
 
+  * fixed bug: failure stop didn't work correctly, now it does 
   * added duration of each test to standard out
   * added the main function to libunittest/main.hpp. Hence, no need
     for an explicit main function anymore
