@@ -26,7 +26,7 @@ struct testfunctor;
  * @brief The class from which to derive when implementing a test case. The
  *  test context is optional
  */
-template<typename TestContext=internals::notype>
+template<typename TestContext=notype>
 class testcase : public internals::assertions {
 public:
     /**

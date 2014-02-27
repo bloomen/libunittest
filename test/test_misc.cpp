@@ -200,11 +200,11 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream expected;
         expected << "\n";
         unittest::internals::write_horizontal_bar(expected, '=');
-        expected << "\nFAIL: test_class.test2 [2s] (TIMEOUT)\n";
+        expected << "\nFAIL: test_class::test2 [2s] (TIMEOUT)\n";
         unittest::internals::write_horizontal_bar(expected, '-');
         expected << "\nfailure: message2\n\n";
         unittest::internals::write_horizontal_bar(expected, '=');
-        expected << "\nERROR: test_class.test3 [3s]\n";
+        expected << "\nERROR: test_class::test3 [3s]\n";
         unittest::internals::write_horizontal_bar(expected, '-');
         expected << "\nerror: message3\n\n";
         assert_equal(expected.str(), stream.str(), SPOT);
@@ -222,7 +222,7 @@ struct test_misc : unittest::testcase<> {
 
         std::ostringstream stream2;
         unittest::internals::write_test_start_message(stream2, log, true);
-        assert_equal("stuff.test_me ... ", stream2.str(), SPOT);
+        assert_equal("stuff::test_me ... ", stream2.str(), SPOT);
     }
 
     void test_write_test_end_message()
@@ -335,8 +335,8 @@ struct test_misc : unittest::testcase<> {
     {
         using unittest::internals::make_full_test_name;
         assert_equal("", make_full_test_name("",""), SPOT);
-        assert_equal("a.b", make_full_test_name("a","b"), SPOT);
-        assert_equal("a.", make_full_test_name("a",""), SPOT);
+        assert_equal("a::b", make_full_test_name("a","b"), SPOT);
+        assert_equal("a::", make_full_test_name("a",""), SPOT);
         assert_equal("b", make_full_test_name("","b"), SPOT);
     }
 

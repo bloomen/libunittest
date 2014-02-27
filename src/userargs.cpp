@@ -7,7 +7,7 @@ userargs::userargs()
     : verbose_(false), failure_stop_(false), generate_xml_(false),
       handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
       name_filter_(""), test_name_(""), timeout_(-1),
-      xml_filename_("libunittest.xml")
+      xml_filename_("libunittest.xml"), disable_timeout_(false)
 {}
 
 userargs::~userargs()
@@ -131,6 +131,18 @@ void
 userargs::concurrent_threads(int value)
 {
     concurrent_threads_ = value;
+}
+
+bool
+userargs::disable_timeout() const
+{
+    return disable_timeout_;
+}
+
+void
+userargs::disable_timeout(bool value)
+{
+    disable_timeout_ = value;
 }
 
 } // internals

@@ -62,7 +62,7 @@ struct test_testrun : unittest::testcase<> {
         assert_equal("AA", name, SPOT);
         name = "";
         function(name, "a", maps);
-        assert_equal("A", name, SPOT);
+        assert_equal("A::test", name, SPOT);
     }
 
     void test_update_class_name_key_not_found()

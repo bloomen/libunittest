@@ -355,12 +355,50 @@ observe_and_wait(std::future<void>&& future,
 } // internals
 
 /**
+ * @brief A test run with a test context and timeout measurement
+ * @param context The test context
+ * @param method A pointer to the method to be run
+ * @param class_name The name of the test class
+ * @param test_name The name of the current test method
+ * @param skipped Whether this test run is skipped
+ * @param skip_message A message explaining why the test is skipped
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ */
+template<typename TestCase>
+void
+testrun(typename TestCase::context_type& context,
+        void (TestCase::*method)(),
+        std::string class_name,
+        std::string test_name,
+        bool skipped,
+        std::string skip_message,
+        double timeout)
+{
+    const std::string class_id = internals::get_type_id<TestCase>();
+    const std::string method_id = internals::make_method_id<TestCase>(test_name);
+    internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
+    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
+    has_timed_out->store(false);
+    internals::testfunctor<TestCase> functor(&context, method, method_id,
+                                             class_name, test_name,
+                                             args.dry_run(),
+                                             args.handle_exceptions(),
+                                             has_timed_out, timeout,
+                                             skipped, skip_message);
+    if (args.disable_timeout() || timeout<0) {
+        functor();
+    } else {
+        std::future<void> future = std::async(std::launch::async, std::move(functor));
+        internals::observe_and_wait(std::move(future), method_id, has_timed_out, timeout);
+    }
+}
+/**
  * @brief A test run with a test context
  * @param context The test context
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
- * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skipped Whether this test run is skipped
  * @param skip_message A message explaining why the test is skipped
  */
@@ -370,15 +408,15 @@ testrun(typename TestCase::context_type& context,
         void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
-        double timeout,
         bool skipped,
         std::string skip_message)
 {
+    double timeout = -1;
     const std::string class_id = internals::get_type_id<TestCase>();
-    internals::update_testrun_info(class_id, class_name, test_name, timeout);
     const std::string method_id = internals::make_method_id<TestCase>(test_name);
-    const auto& args = internals::testsuite::instance()->get_arguments();
-    auto has_timed_out = std::make_shared<std::atomic_bool>();
+    internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
+    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
     internals::testfunctor<TestCase> functor(&context, method, method_id,
                                              class_name, test_name,
@@ -386,15 +424,10 @@ testrun(typename TestCase::context_type& context,
                                              args.handle_exceptions(),
                                              has_timed_out, timeout,
                                              skipped, skip_message);
-    if (args.handle_exceptions()) {
-        std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), method_id, has_timed_out, timeout);
-    } else {
-        functor();
-    }
+    functor();
 }
 /**
- * @brief A test run without a test context
+ * @brief A test run without a test context with timeout measurement
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
@@ -407,12 +440,31 @@ void
 testrun(void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
-        double timeout,
+        bool skipped,
+        std::string skip_message,
+        double timeout)
+{
+    typename TestCase::context_type* null_pointer = nullptr;
+    testrun(*null_pointer, method, class_name, test_name, skipped, skip_message, timeout);
+}
+/**
+ * @brief A test run without a test context
+ * @param method A pointer to the method to be run
+ * @param class_name The name of the test class
+ * @param test_name The name of the current test method
+ * @param skipped Whether this test run is skipped
+ * @param skip_message A message explaining why the test is skipped
+ */
+template<typename TestCase>
+void
+testrun(void (TestCase::*method)(),
+        std::string class_name,
+        std::string test_name,
         bool skipped,
         std::string skip_message)
 {
     typename TestCase::context_type* null_pointer = nullptr;
-    testrun(*null_pointer, method, class_name, test_name, timeout, skipped, skip_message);
+    testrun(*null_pointer, method, class_name, test_name, skipped, skip_message);
 }
 
 } // unittest

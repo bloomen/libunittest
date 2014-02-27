@@ -298,14 +298,6 @@ get_from_map(const Map& map,
     return element->second;
 }
 /**
- * @brief A utility class to indicate 'no type' property
- */
-class notype {};
-/**
- * @brief A utility class to indicate 'some type' property
- */
-struct sometype {};
-/**
  * @brief Returns a unique type id
  * @returns A unique type id
  */
@@ -390,5 +382,13 @@ const float feps = std::numeric_limits<float>::epsilon();
  * @brief Machine epsilon of double
  */
 const double deps = std::numeric_limits<double>::epsilon();
+/**
+ * @brief A utility class to indicate 'no type' property
+ */
+class notype {};
+/**
+ * @brief A utility class to indicate 'some type' property
+ */
+struct sometype {};
 
 } // unittest

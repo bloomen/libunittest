@@ -6,7 +6,7 @@ COLLECTION(templates_plain)
 TEST_TPL(test_sum)
 {
     Type1 a = 2;
-    Type2 b = 3; // you can use up to 5 template types: Type1, ..., Type5
+    Type2 b = 3; // you can use up to 3 template types: Type1, Type2, Type3
     assert_equal(5, a + b, SPOT);
 }
 REGISTER(test_sum<int, int>) // registers the test by passing concrete types

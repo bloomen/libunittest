@@ -6,7 +6,7 @@ TEST(test_value_is_true)
 }
 
 /* Screen output with './unittest.exe -v':
-test_value_is_true ... ok
+test_value_is_true::test ... ok
 
 --------------------------------------------------
 Ran 1 tests in 0.00045s

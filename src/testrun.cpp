@@ -164,6 +164,7 @@ update_test_name(std::string& test_name,
 {
     if (test_name=="") {
         test_name = get_from_map(class_maps, class_id);
+        test_name += "::test";
     }
     test_name = remove_white_spaces(test_name);
 }

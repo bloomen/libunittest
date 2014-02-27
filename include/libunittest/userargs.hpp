@@ -146,6 +146,18 @@ public:
      */
     virtual void
     concurrent_threads(int value);
+    /**
+     * @brief Returns whether to disable timeout measurement
+     * @returns Whether to disable timeout measurement
+     */
+    virtual bool
+    disable_timeout() const;
+    /**
+     * @brief Sets whether to disable timeout measurement (default: false)
+     * @param value The value
+     */
+    virtual void
+    disable_timeout(bool value);
 
 protected:
     /**
@@ -188,6 +200,10 @@ protected:
      * @brief The XML output file name
      */
     std::string xml_filename_;
+    /**
+     * @brief The XML output file name
+     */
+    bool disable_timeout_;
 };
 
 } // internals

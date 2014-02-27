@@ -23,8 +23,8 @@ struct implementation<argparser> {
         stream << "-d          A dry run without actually executing any tests\n";
         stream << "-s          Stops running tests after the first test fails\n";
         stream << "-x          Enables the generation of the XML output\n";
-        stream << "-e          Turns off handling of unexpected exceptions which\n";
-        stream << "            disables parallel execution and timeout measurement\n";
+        stream << "-e          Turns off handling of unexpected exceptions\n";
+        stream << "-i          Disables the measurement of test timeouts\n";
         stream << "-p number   Runs tests in parallel with a given number of threads\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n name     A certain test to be run superseding the name filter\n";
@@ -95,6 +95,8 @@ argparser::parse(int argc, char **argv)
             handle_exceptions(false);
         } else if (args[i]=="-d") {
             dry_run(true);
+        } else if (args[i]=="-i") {
+            disable_timeout(true);
         } else if (args[i]=="-f") {
             if (++i<length)
                 name_filter(args[i]);
