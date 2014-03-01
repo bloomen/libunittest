@@ -6,7 +6,66 @@ struct fixture {
     fixture() : value(42) {}
 };
 
-COLLECTION(test_macros)
+struct test_macros_run : unittest::testcase<unittest::sometype> {
+
+    static void run()
+    {
+        UNITTEST_CLASS(test_macros_run)
+        UNITTEST_RUN(test_unittest_run)
+        UNITTEST_RUN_SKIP(test_unittest_run_skip, "ok")
+        UNITTEST_RUN_TIME(test_unittest_run_time, 0.1)
+        UNITTEST_RUN_TIME_SKIP(test_unittest_run_time_skip, 0.1, "ok")
+        unittest::sometype cxt;
+        UNITTEST_RUNCXT(cxt, test_unittest_runcxt)
+        UNITTEST_RUNCXT_SKIP(cxt, test_unittest_runcxt_skip, "ok")
+        UNITTEST_RUNCXT_TIME(cxt, test_unittest_runcxt_time, 0.1)
+        UNITTEST_RUNCXT_TIME_SKIP(cxt, test_unittest_runcxt_time_skip, 0.1, "ok")
+    }
+
+    void test_unittest_run()
+    {
+        assert_true(true);
+    }
+
+    void test_unittest_run_skip()
+    {
+        fail(__func__, "should be skipped");
+    }
+
+    void test_unittest_run_time()
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
+
+    void test_unittest_run_time_skip()
+    {
+        fail(__func__, "should be skipped");
+    }
+
+    void test_unittest_runcxt()
+    {
+        assert_true(true);
+    }
+
+    void test_unittest_runcxt_skip()
+    {
+        fail(__func__, "should be skipped");
+    }
+
+    void test_unittest_runcxt_time()
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
+
+    void test_unittest_runcxt_time_skip()
+    {
+        fail(__func__, "should be skipped");
+    }
+
+};
+REGISTER(test_macros_run)
+
+COLLECTION(test_macros_other)
 {
 
 TEST(test_test)

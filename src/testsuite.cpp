@@ -96,10 +96,7 @@ testsuite::make_keep_running(const testlog& log)
 {
     static std::mutex make_keep_running_mutex_;
     std::lock_guard<std::mutex> lock(make_keep_running_mutex_);
-    const bool failed = log.status==teststatus::failure ||
-                        log.status==teststatus::error;
-    if (failed && get_arguments().failure_stop())
-        impl_->keep_running_ = false;
+    impl_->keep_running_ = keep_running(log, get_arguments().failure_stop());
 }
 
 void

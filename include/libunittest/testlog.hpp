@@ -119,6 +119,15 @@ bool
 is_test_executed(const std::string& full_test_name,
                  const std::string& exact_name,
                  const std::string& filter_name);
+/**
+ * @brief Evaluates whether to keep running tests
+ * @param log A test log
+ * @param failure_stop Whether to stop after first fail
+ * @returns Whether to keep running tests
+ */
+bool
+keep_running(const testlog& log,
+             bool failure_stop);
 
 } // internals
 } // unittest

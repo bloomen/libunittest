@@ -99,5 +99,17 @@ is_test_executed(const std::string& full_test_name,
     return true;
 }
 
+bool
+keep_running(const testlog& log,
+             bool failure_stop)
+{
+    const bool failed = log.status==teststatus::failure ||
+                        log.status==teststatus::error;
+    if (failed && failure_stop)
+        return false;
+    else
+        return true;
+}
+
 } // internals
 } // unittest

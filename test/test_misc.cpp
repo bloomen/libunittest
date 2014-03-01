@@ -71,6 +71,8 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_is_test_executed)
         UNITTEST_RUN(test_make_full_test_name)
         UNITTEST_RUN(test_collection_get_name)
+        UNITTEST_RUN(test_keep_running_fail)
+        UNITTEST_RUN(test_keep_running_ok)
     }
 
     void test_version()
@@ -87,6 +89,7 @@ struct test_misc : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal(0, args.concurrent_threads(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
@@ -102,6 +105,7 @@ struct test_misc : unittest::testcase<> {
         args.generate_xml(true);
         args.handle_exceptions(false);
         args.dry_run(true);
+        args.disable_timeout(true);
         args.concurrent_threads(3);
         args.name_filter("test_me");
         args.test_name("test_me_more");
@@ -112,6 +116,7 @@ struct test_misc : unittest::testcase<> {
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(false, args.handle_exceptions(), SPOT);
         assert_equal(true, args.dry_run(), SPOT);
+        assert_equal(true, args.disable_timeout(), SPOT);
         assert_equal(3, args.concurrent_threads(), SPOT);
         assert_equal("test_me", args.name_filter(), SPOT);
         assert_equal("test_me_more", args.test_name(), SPOT);
@@ -345,6 +350,30 @@ struct test_misc : unittest::testcase<> {
         using unittest::internals::testcollection;
         testcollection collection;
         assert_equal(testcollection::inactive_name(), collection.get_name(), SPOT);
+    }
+
+    void test_keep_running_fail()
+    {
+        using unittest::internals::keep_running;
+        unittest::internals::testlog log;
+        log.status = unittest::internals::teststatus::error;
+        assert_true(keep_running(log, false), SPOT);
+        assert_false(keep_running(log, true), SPOT);
+        log.status = unittest::internals::teststatus::failure;
+        assert_true(keep_running(log, false), SPOT);
+        assert_false(keep_running(log, true), SPOT);
+    }
+
+    void test_keep_running_ok()
+    {
+        using unittest::internals::keep_running;
+        unittest::internals::testlog log;
+        log.status = unittest::internals::teststatus::success;
+        assert_true(keep_running(log, false), SPOT);
+        assert_true(keep_running(log, true), SPOT);
+        log.status = unittest::internals::teststatus::skipped;
+        assert_true(keep_running(log, false), SPOT);
+        assert_true(keep_running(log, true), SPOT);
     }
 
 };

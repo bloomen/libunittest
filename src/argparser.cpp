@@ -24,7 +24,7 @@ struct implementation<argparser> {
         stream << "-s          Stops running tests after the first test fails\n";
         stream << "-x          Enables the generation of the XML output\n";
         stream << "-e          Turns off handling of unexpected exceptions\n";
-        stream << "-i          Disables the measurement of test timeouts\n";
+        stream << "-i          Disables the measurement of any test timeouts\n";
         stream << "-p number   Runs tests in parallel with a given number of threads\n";
         stream << "-f filter   A filter applied to the beginning of the test names\n";
         stream << "-n name     A certain test to be run superseding the name filter\n";

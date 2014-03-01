@@ -19,6 +19,7 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_test_name)
         UNITTEST_RUN(test_timeout)
         UNITTEST_RUN(test_xml_filename)
+        UNITTEST_RUN(test_disable_timeout)
         UNITTEST_RUN(test_verbose_failure_stop)
         UNITTEST_RUN(test_verbose_generate_xml)
         UNITTEST_RUN(test_failure_stop_generate_xml)
@@ -53,6 +54,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -69,6 +71,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -85,6 +88,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -101,6 +105,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -117,6 +122,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(false, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -133,6 +139,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(true, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -150,6 +157,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal(3, args.concurrent_threads(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
@@ -168,6 +176,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("stuff", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -185,6 +194,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("test_me", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
@@ -202,6 +212,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(3.5, args.timeout(), SPOT);
@@ -219,10 +230,28 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
         assert_equal("", args.name_filter(), SPOT);
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("stuff.xml", args.xml_filename(), SPOT);
+    }
+
+    void test_disable_timeout()
+    {
+        arguments_[1] = (char*)"-i";
+        argparser args;
+        args.parse(2, arguments_);
+        assert_equal(false, args.verbose(), SPOT);
+        assert_equal(false, args.failure_stop(), SPOT);
+        assert_equal(false, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(true, args.disable_timeout(), SPOT);
+        assert_equal("", args.name_filter(), SPOT);
+        assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
+        assert_equal("libunittest.xml", args.xml_filename(), SPOT);
     }
 
     void test_verbose_failure_stop()
@@ -237,6 +266,7 @@ struct test_argparser : unittest::testcase<> {
             assert_equal(false, args.generate_xml(), SPOT);
             assert_equal(true, args.handle_exceptions(), SPOT);
             assert_equal(false, args.dry_run(), SPOT);
+            assert_equal(false, args.disable_timeout(), SPOT);
             assert_equal("", args.name_filter(), SPOT);
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
@@ -256,6 +286,7 @@ struct test_argparser : unittest::testcase<> {
             assert_equal(true, args.generate_xml(), SPOT);
             assert_equal(true, args.handle_exceptions(), SPOT);
             assert_equal(false, args.dry_run(), SPOT);
+            assert_equal(false, args.disable_timeout(), SPOT);
             assert_equal("", args.name_filter(), SPOT);
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
@@ -275,6 +306,7 @@ struct test_argparser : unittest::testcase<> {
             assert_equal(true, args.generate_xml(), SPOT);
             assert_equal(true, args.handle_exceptions(), SPOT);
             assert_equal(false, args.dry_run(), SPOT);
+            assert_equal(false, args.disable_timeout(), SPOT);
             assert_equal("", args.name_filter(), SPOT);
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
@@ -297,6 +329,7 @@ struct test_argparser : unittest::testcase<> {
             assert_equal(true, args.generate_xml(), SPOT);
             assert_equal(true, args.handle_exceptions(), SPOT);
             assert_equal(false, args.dry_run(), SPOT);
+            assert_equal(false, args.disable_timeout(), SPOT);
             assert_equal("", args.name_filter(), SPOT);
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
@@ -320,13 +353,15 @@ struct test_argparser : unittest::testcase<> {
         arguments_[12] = (char*)"-d";
         arguments_[13] = (char*)"-p";
         arguments_[14] = (char*)"3";
+        arguments_[15] = (char*)"-i";
         argparser args;
-        args.parse(15, arguments_);
+        args.parse(16, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
         assert_equal(false, args.handle_exceptions(), SPOT);
         assert_equal(true, args.dry_run(), SPOT);
+        assert_equal(true, args.disable_timeout(), SPOT);
         assert_equal(3, args.concurrent_threads(), SPOT);
         assert_equal("stuff", args.name_filter(), SPOT);
         assert_equal("test_me", args.test_name(), SPOT);
@@ -354,6 +389,7 @@ struct test_argparser : unittest::testcase<> {
         args.generate_xml(true);
         args.handle_exceptions(false);
         args.dry_run(true);
+        args.disable_timeout(true);
         args.concurrent_threads(3);
         args.name_filter("test_stuff");
         args.test_name("test_me");
@@ -365,6 +401,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(true, args2.generate_xml(), SPOT);
         assert_equal(false, args2.handle_exceptions(), SPOT);
         assert_equal(true, args2.dry_run(), SPOT);
+        assert_equal(true, args2.disable_timeout(), SPOT);
         assert_equal(3, args2.concurrent_threads(), SPOT);
         assert_equal("test_stuff", args2.name_filter(), SPOT);
         assert_equal("test_me", args2.test_name(), SPOT);
@@ -380,6 +417,7 @@ struct test_argparser : unittest::testcase<> {
         args.generate_xml(true);
         args.handle_exceptions(false);
         args.dry_run(true);
+        args.disable_timeout(true);
         args.concurrent_threads(3);
         args.name_filter("test_stuff");
         args.test_name("test_me");
@@ -391,6 +429,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(true, args2.generate_xml(), SPOT);
         assert_equal(false, args2.handle_exceptions(), SPOT);
         assert_equal(true, args2.dry_run(), SPOT);
+        assert_equal(true, args2.disable_timeout(), SPOT);
         assert_equal(3, args2.concurrent_threads(), SPOT);
         assert_equal("test_stuff", args2.name_filter(), SPOT);
         assert_equal("test_me", args2.test_name(), SPOT);
