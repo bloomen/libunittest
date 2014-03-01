@@ -61,25 +61,13 @@
 				<a name="assembling"></a>
                 <h2>Assembling a test project</h2>
                 <p>
-                The first thing you'll need is a <incode>main.cpp</incode> file 
-                which should look like this:
-                <code>
-                    // main.cpp <br>
-                    #include &lt;libunittest/unittest.hpp&gt;<br></br>
-                    int main(int argc, char **argv)<br> 
-                    {<br>
-                    <t>return unittest::process(argc, argv);</t><br>
-                    }
-                </code>
-                Everything coming from libunittest lives within the 
-                <incode>unittest</incode> namespace. There are different ways
+                There are different ways
                 of writing tests with libunittest depending on your needs
                 and requirements. The simplest way to do it would be to define 
                 a source file like this:
                 <code>
-                    // test_simple.cpp<br>
-                    #include &lt;libunittest/unittest.hpp&gt;<br>
-                    #include &lt;libunittest/shortcuts.hpp&gt;<br></br>
+                    // simple.cpp<br>
+                    #include &lt;libunittest/all.hpp&gt;<br></br>
 
                     TEST(test_value_is_true)<br>
                     {<br>
@@ -97,12 +85,14 @@
                     }<br><br>
                                         
                 </code>
-				All macros are defined in 
+                By including <incode>libunittest/all.hpp</incode> you get an 
+                automatic main function and access to all macros.
+				The macros are defined in 
 				capital letters and can be found in <incode>libunittest/macros.hpp</incode>. Shorter aliases (such as <incode>TEST</incode>)
 				are defined in <incode>libunittest/shortcuts.hpp</incode>.
 				The macro <incode>SPOT</incode> (<incode>UNITTEST_SPOT</incode>)
 				defines a simple string containing information about 
-				the current file and line number.
+				the current file and line number. 
                 </p>
                 <p>
                 Note that the above example is only one way of writing tests
@@ -117,32 +107,33 @@
                 environment variables. In order to compile on Linux-like systems 
                 using <incode>g++(&ge;4.7)</incode>, you can do:
                 <code>
-                g++ -std=c++0x -pthread main.cpp test_simple.cpp -lunittest -o unittest.exe
+                g++ -std=c++0x -pthread simple.cpp -lunittest -o unittest.exe
                 </code>
                 Doing <incode>./unittest.exe -v</incode> &nbsp; gives the following output:
                 <code>
-                test_value_is_true ... ok<br>
-                test_with_fixture ... ok<br><br>
+                test_value_is_true::test ... [0.000127s] ok<br>
+                test_with_fixture::test ... [0.000154s] ok<br><br>
                 
                 --------------------------------------------------<br>
-                Ran 2 tests in 0.000334s<br><br>
+                Ran 2 tests in 0.000281s<br><br>
                 
                 OK
                 </code>
                 To get a quick help to your testing application just do
                 <incode>./unittest.exe -h</incode>:
                 <code>
-                This is your testing application using libunittest-3.7.0<br><br>
+                This is your testing application using libunittest-3.7.3<br><br>
                 
                 Usage: ./unittest.exe [Options]<br><br>
                 
                 Options:<br>
                 -h &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Displays this help message<br>
                 -v &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sets verbose output for running tests<br>
-                -s &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stops running tests after the first test fails<br>
-                -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Turns off handling of unexpected exceptions<br>
-                -x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enables the generation of the XML output<br>
                 -d &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A dry run without actually executing any tests<br>
+                -s &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stops running tests after the first test fails<br>
+                -x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enables the generation of the XML output<br>
+                -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Turns off handling of unexpected exceptions<br>
+                -i &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Disables the measurement of any test timeouts<br>
                 -p number &nbsp;Runs tests in parallel with a given number of threads<br>
                 -f filter &nbsp;A filter applied to the beginning of the test names<br>
                 -n name &nbsp;&nbsp; A certain test to be run superseding the name filter<br>
