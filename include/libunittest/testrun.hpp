@@ -355,6 +355,41 @@ observe_and_wait(std::future<void>&& future,
 } // internals
 
 /**
+ * @brief Prepares a test run
+ * @param context The test context
+ * @param method A pointer to the method to be run
+ * @param class_name The name of the test class
+ * @param test_name The name of the current test method
+ * @param skipped Whether this test run is skipped
+ * @param skip_message A message explaining why the test is skipped
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @returns A tuple of prepared data
+ */
+template<typename TestCase>
+std::tuple<internals::testfunctor<TestCase>, std::string, std::shared_ptr<std::atomic_bool>, double>
+prepare_testrun(typename TestCase::context_type& context,
+                void (TestCase::*method)(),
+                std::string class_name,
+                std::string test_name,
+                bool skipped,
+                std::string skip_message,
+                double timeout)
+{
+    const std::string class_id = internals::get_type_id<TestCase>();
+    const std::string method_id = internals::make_method_id<TestCase>(test_name);
+    internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
+    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
+    has_timed_out->store(false);
+    internals::testfunctor<TestCase> functor(&context, method, method_id,
+                                             class_name, test_name,
+                                             args.dry_run(),
+                                             args.handle_exceptions(),
+                                             has_timed_out, timeout,
+                                             skipped, skip_message);
+    return std::make_tuple(std::move(functor), method_id, has_timed_out, timeout);
+}
+/**
  * @brief A test run with a test context and with timeout measurement
  * @param context The test context
  * @param method A pointer to the method to be run
@@ -374,23 +409,14 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message,
         double timeout)
 {
-    const std::string class_id = internals::get_type_id<TestCase>();
-    const std::string method_id = internals::make_method_id<TestCase>(test_name);
-    internals::update_testrun_info(class_id, class_name, test_name, timeout);
-    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
-    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
-    has_timed_out->store(false);
-    internals::testfunctor<TestCase> functor(&context, method, method_id,
-                                             class_name, test_name,
-                                             args.dry_run(),
-                                             args.handle_exceptions(),
-                                             has_timed_out, timeout,
-                                             skipped, skip_message);
-    if (args.disable_timeout() || timeout<0) {
+    auto data = prepare_testrun(context, method, class_name, test_name,
+                                skipped, skip_message, timeout);
+    internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
+    if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<0) {
         functor();
     } else {
         std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), method_id, has_timed_out, timeout);
+        internals::observe_and_wait(std::move(future), std::get<1>(data), std::get<2>(data), std::get<3>(data));
     }
 }
 /**
@@ -412,18 +438,9 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message)
 {
     double timeout = -1;
-    const std::string class_id = internals::get_type_id<TestCase>();
-    const std::string method_id = internals::make_method_id<TestCase>(test_name);
-    internals::update_testrun_info(class_id, class_name, test_name, timeout);
-    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
-    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
-    has_timed_out->store(false);
-    internals::testfunctor<TestCase> functor(&context, method, method_id,
-                                             class_name, test_name,
-                                             args.dry_run(),
-                                             args.handle_exceptions(),
-                                             has_timed_out, timeout,
-                                             skipped, skip_message);
+    auto data = prepare_testrun(context, method, class_name, test_name,
+                                skipped, skip_message, timeout);
+    internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
     functor();
 }
 /**
