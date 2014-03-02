@@ -355,7 +355,7 @@ observe_and_wait(std::future<void>&& future,
 } // internals
 
 /**
- * @brief A test run with a test context and timeout measurement
+ * @brief A test run with a test context and with timeout measurement
  * @param context The test context
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
@@ -394,7 +394,7 @@ testrun(typename TestCase::context_type& context,
     }
 }
 /**
- * @brief A test run with a test context
+ * @brief A test run with a test context and without timeout measurement
  * @param context The test context
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
@@ -427,7 +427,7 @@ testrun(typename TestCase::context_type& context,
     functor();
 }
 /**
- * @brief A test run without a test context with timeout measurement
+ * @brief A test run without a test context and with timeout measurement
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
@@ -448,7 +448,7 @@ testrun(void (TestCase::*method)(),
     testrun(*null_pointer, method, class_name, test_name, skipped, skip_message, timeout);
 }
 /**
- * @brief A test run without a test context
+ * @brief A test run without a test context and without timeout measurement
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
