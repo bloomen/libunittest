@@ -8,8 +8,10 @@ libunittest (3.7.3) stable; urgency=low
     libunittest/main.hpp and libunittest/shortcuts.hpp
   * improved command line help
   * add command line switch '-i' which let's you disable timeout measurements
-  * adjusted the displayed test names for easier debugging and the
+  * changed the displayed test names for easier debugging and the
     setting of break points
+  * ensured faster compilation of test runs
+  * adjusted examples and documentation
 
  -- Christian Blume <chr.blume@gmail.com>  Sun, 23 Feb 2014 20:00:00 +0100
 
