@@ -1,7 +1,7 @@
 /**
  * @brief A portable C++ library for unit testing,
  *        http://libunittest.sourceforge.net.
- *        Include all.hpp to get an automatic main function.
+ *        Include <libunittest/main.hpp> to get an automatic main function.
  * @file unittest.hpp
  */
 #pragma once

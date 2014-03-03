@@ -387,7 +387,7 @@ prepare_testrun(typename TestCase::context_type& context,
                                              args.handle_exceptions(),
                                              has_timed_out, timeout,
                                              skipped, skip_message);
-    return std::make_tuple(std::move(functor), method_id, has_timed_out, timeout);
+    return {std::move(functor), std::move(method_id), has_timed_out, timeout};
 }
 /**
  * @brief A test run with a test context and with timeout measurement
@@ -437,7 +437,7 @@ testrun(typename TestCase::context_type& context,
         bool skipped,
         std::string skip_message)
 {
-    double timeout = -1;
+    const double timeout = -1;
     auto data = prepare_testrun(context, method, class_name, test_name,
                                 skipped, skip_message, timeout);
     internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
