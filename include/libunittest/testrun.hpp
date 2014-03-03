@@ -351,9 +351,6 @@ observe_and_wait(std::future<void>&& future,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
-
-} // internals
-
 /**
  * @brief Prepares a test run
  * @param context The test context
@@ -387,8 +384,11 @@ prepare_testrun(typename TestCase::context_type& context,
                                              args.handle_exceptions(),
                                              has_timed_out, timeout,
                                              skipped, skip_message);
-    return {std::move(functor), std::move(method_id), has_timed_out, timeout};
+    return std::make_tuple(std::move(functor), std::move(method_id), has_timed_out, timeout);
 }
+
+} // internals
+
 /**
  * @brief A test run with a test context and with timeout measurement
  * @param context The test context
@@ -409,8 +409,9 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message,
         double timeout)
 {
-    auto data = prepare_testrun(context, method, class_name, test_name,
-                                skipped, skip_message, timeout);
+    auto data = internals::prepare_testrun(context, method,
+                                           class_name, test_name,
+                                           skipped, skip_message, timeout);
     internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
     if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<0) {
         functor();
@@ -438,8 +439,9 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message)
 {
     const double timeout = -1;
-    auto data = prepare_testrun(context, method, class_name, test_name,
-                                skipped, skip_message, timeout);
+    auto data = internals::prepare_testrun(context, method,
+                                           class_name, test_name,
+                                           skipped, skip_message, timeout);
     internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
     functor();
 }
