@@ -174,8 +174,8 @@ struct test_utilities : unittest::testcase<> {
         for (int i=0; i<n_threads; ++i) {
             std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
             done->store(false);
-            auto functor = [done]() { std::this_thread::sleep_for(std::chrono::milliseconds(100)); done->store(true); };
-            std::thread thread(functor);
+            auto function = [done]() { std::this_thread::sleep_for(std::chrono::milliseconds(100)); done->store(true); };
+            std::thread thread(function);
             threads.push_back(std::make_pair(std::move(thread), done));
         }
         unittest::internals::make_threads_happy(stream, threads, verbose);
