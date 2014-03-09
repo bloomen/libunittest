@@ -420,7 +420,8 @@ testrun(typename TestCase::context_type& context,
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
-        std::thread thread([done,&functor]() { functor(); done->store(true); });
+        auto function = [done](internals::testfunctor<TestCase> functor) { functor(); done->store(true); };
+        std::thread thread(std::bind(function, std::move(functor)));
         internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
     }
 }

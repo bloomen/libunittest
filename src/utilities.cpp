@@ -141,18 +141,16 @@ make_threads_happy(std::ostream& stream,
 {
     static std::mutex make_threads_happy_mutex_;
     std::lock_guard<std::mutex> lock(make_threads_happy_mutex_);
-    int n_unfinished(0);
+    int n_unfinished = 0;
     for (auto& thread : threads)
         if (thread.second->load() != true)
             ++n_unfinished;
     if (n_unfinished) {
         if (verbose)
-            stream << "\nWAITING for " << n_unfinished << " tests to finish ... " << std::flush;
-        for (auto& thread : threads)
-            thread.first.join();
-        if (verbose)
-            stream << std::endl;
+            stream << "\nWAITING for " << n_unfinished << " tests to finish ... " << std::endl;
     }
+    for (auto& thread : threads)
+        thread.first.join();
 }
 
 bool
