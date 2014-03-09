@@ -198,7 +198,7 @@ struct test_random : unittest::testcase<> {
         const std::vector<bool> container = {true, false};
         for (int i=0; i<100; ++i) {
             const auto rand_tuple = random.get();
-            assert_equal<unsigned>(3, std::tuple_size<decltype(rand_tuple)>::value, SPOT);
+            assert_equal<unsigned>(3, std::tuple_size<std::tuple<float, int, bool>>::value, SPOT);
             assert_in_range(std::get<0>(rand_tuple), 2.0, 3.0, SPOT);
             assert_in_range(std::get<1>(rand_tuple), 4, 8, SPOT);
             assert_in_container(std::get<2>(rand_tuple), container, SPOT);

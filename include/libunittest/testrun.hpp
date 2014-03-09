@@ -9,7 +9,7 @@
 #include <libunittest/utilities.hpp>
 #include <string>
 #include <stdexcept>
-#include <future>
+#include <thread>
 /**
  * @brief Unit testing in C++
  */
@@ -21,7 +21,7 @@ namespace internals {
 /**
  * @brief The test monitor logs information about a single test
  */
-class testmonitor final : public pimplpattern<testmonitor> {
+class testmonitor : public pimplpattern<testmonitor> {
 public:
     /**
      * @brief Constructor
@@ -93,7 +93,7 @@ make_method_id(const std::string& test_name)
  *  By using the ()-operator the test is executed.
  */
 template<typename TestCase>
-struct testfunctor final {
+struct testfunctor {
     /**
      * @brief Constructor
      * @param context A pointer to the test context
@@ -339,14 +339,16 @@ update_testrun_info(const std::string& class_id,
 /**
  * @brief Observes the progress of an asynchronous operation and waits until
  *  the operation has finished or timed out
- * @param future The asynchronous operation
+ * @param thread The asynchronous operation
+ * @param done Whether the operation is finished
  * @param method_id The id of the test method
  * @param has_timed_out Whether the test has timed out
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param resolution The temporal resolution in milliseconds
  */
 void
-observe_and_wait(std::future<void>&& future,
+observe_and_wait(std::thread&& thread,
+                 std::shared_ptr<std::atomic_bool> done,
                  const std::string& method_id,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
@@ -416,8 +418,10 @@ testrun(typename TestCase::context_type& context,
     if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<0) {
         functor();
     } else {
-        std::future<void> future = std::async(std::launch::async, std::move(functor));
-        internals::observe_and_wait(std::move(future), std::get<1>(data), std::get<2>(data), std::get<3>(data));
+        std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
+        done->store(false);
+        std::thread thread([done,&functor]() { functor(); done->store(true); });
+        internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
     }
 }
 /**

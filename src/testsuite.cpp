@@ -20,7 +20,7 @@ struct implementation<testsuite> {
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
     std::map<std::string, std::string> class_maps_;
-    std::vector<std::future<void>> lonely_futures_;
+    std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>> lonely_threads_;
     std::map<std::string, std::string> logged_texts_;
 
     implementation()
@@ -170,17 +170,18 @@ testsuite::get_class_maps() const
 }
 
 void
-testsuite::add_lonely_future(std::future<void>&& future)
+testsuite::add_lonely_thread(std::thread&& thread,
+                             std::shared_ptr<std::atomic_bool> done)
 {
-    static std::mutex add_lonely_future_mutex_;
-    std::lock_guard<std::mutex> lock(add_lonely_future_mutex_);
-    impl_->lonely_futures_.push_back(std::move(future));
+    static std::mutex add_lonely_thread_mutex_;
+    std::lock_guard<std::mutex> lock(add_lonely_thread_mutex_);
+    impl_->lonely_threads_.push_back(std::make_pair(std::move(thread), done));
 }
 
-std::vector<std::future<void>>&
-testsuite::get_lonely_futures() const
+std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>>&
+testsuite::get_lonely_threads() const
 {
-    return impl_->lonely_futures_;
+    return impl_->lonely_threads_;
 }
 
 void

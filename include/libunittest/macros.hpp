@@ -106,9 +106,9 @@ static unittest::internals::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__register
  */
 #define UNITTEST_COLLECTION(name) \
 namespace name { \
-    struct collection_child final : unittest::internals::testcollection { \
+    struct collection_child : unittest::internals::testcollection { \
         std::string \
-        get_name() const override \
+        get_name() const \
         { \
             return #name; \
         } \

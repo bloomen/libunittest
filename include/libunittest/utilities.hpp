@@ -9,7 +9,8 @@
 #include <sstream>
 #include <regex>
 #include <limits>
-#include <future>
+#include <thread>
+#include <atomic>
 /**
  * @brief Unit testing in C++
  */
@@ -270,15 +271,15 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber);
 /**
- * @brief Ensures that all futures passed will wait for the threads
- *  they've spawned to finish. This makes the futures happy.
+ * @brief Ensures that all threads passed will be finished and joined.
+ *  This makes the threads happy.
  * @param stream An output stream
- * @param futures The vector of lonely futures
+ * @param threads The vector of lonely threads
  * @param verbose Whether output is verbose
  */
 void
-make_futures_happy(std::ostream& stream,
-                   const std::vector<std::future<void>>& futures,
+make_threads_happy(std::ostream& stream,
+                   std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>>& threads,
                    bool verbose);
 /**
  * @brief Gets a value from a map for a given key

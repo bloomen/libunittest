@@ -135,22 +135,21 @@ string_of_file_and_line(const std::string& filename,
 
 
 void
-make_futures_happy(std::ostream& stream,
-                   const std::vector<std::future<void>>& futures,
+make_threads_happy(std::ostream& stream,
+                   std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>>& threads,
                    bool verbose)
 {
-    static std::mutex make_futures_happy_mutex_;
-    std::lock_guard<std::mutex> lock(make_futures_happy_mutex_);
-    const auto wait_ms = std::chrono::milliseconds(1);
+    static std::mutex make_threads_happy_mutex_;
+    std::lock_guard<std::mutex> lock(make_threads_happy_mutex_);
     int n_unfinished(0);
-    for (auto& future : futures)
-        if (future.wait_for(wait_ms)!=std::future_status::ready)
+    for (auto& thread : threads)
+        if (thread.second->load() != true)
             ++n_unfinished;
     if (n_unfinished) {
         if (verbose)
             stream << "\nWAITING for " << n_unfinished << " tests to finish ... " << std::flush;
-        for (auto& future : futures)
-            future.wait();
+        for (auto& thread : threads)
+            thread.first.join();
         if (verbose)
             stream << std::endl;
     }

@@ -8,8 +8,9 @@
 #include <libunittest/testlog.hpp>
 #include <libunittest/pimplpattern.hpp>
 #include <string>
-#include <future>
+#include <thread>
 #include <map>
+#include <atomic>
 /**
  * @brief Unit testing in C++
  */
@@ -21,7 +22,7 @@ namespace internals {
 /**
  * @brief The test suite collecting test information (singleton, thread-safe)
  */
-class testsuite final : public pimplpattern<testsuite> {
+class testsuite : public pimplpattern<testsuite> {
 public:
     /**
      * @brief Returns a pointer to the instance of this class
@@ -55,11 +56,11 @@ public:
     std::map<std::string, std::string>&
     get_class_maps() const;
     /**
-     * @brief Returns a reference to the vector of lonely futures
-     * @returns A reference to the vector of lonely futures
+     * @brief Returns a reference to the vector of lonely threads
+     * @returns A reference to the vector of lonely threads
      */
-    std::vector<std::future<void>>&
-    get_lonely_futures() const;
+    std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>>&
+    get_lonely_threads() const;
     /**
      * @brief Returns the accumulated test results
      * @returns The test results
@@ -83,7 +84,8 @@ private:
     register_class(const std::string& class_name);
 
     friend void
-    observe_and_wait(std::future<void>&& future,
+    observe_and_wait(std::thread&& thread,
+                     std::shared_ptr<std::atomic_bool> done,
                      const std::string& method_id,
                      std::shared_ptr<std::atomic_bool> has_timed_out,
                      double timeout,
@@ -120,7 +122,8 @@ private:
                   const std::string& class_name);
 
     void
-    add_lonely_future(std::future<void>&& future);
+    add_lonely_thread(std::thread&& thread,
+                      std::shared_ptr<std::atomic_bool> done);
 
 };
 

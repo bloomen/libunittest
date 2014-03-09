@@ -77,7 +77,7 @@ struct distribution;
  * @brief The distribution type container for integral types
  */
 template<typename T>
-struct distribution<T, true> final {
+struct distribution<T, true> {
     /**
      * @brief The distribution type for integral types
      */
@@ -87,7 +87,7 @@ struct distribution<T, true> final {
  * @brief The distribution type container for non-integral types
  */
 template<typename T>
-struct distribution<T, false> final {
+struct distribution<T, false> {
   /**
    * @brief The distribution type for non-integral types
    */
@@ -101,7 +101,7 @@ struct distribution<T, false> final {
  *  including for integral types and excluding for real types
  */
 template<typename T>
-class random_value final : public random_object<T> {
+class random_value : public random_object<T> {
     /**
      * @brief The distribution type
      */
@@ -148,7 +148,7 @@ public:
      * @returns A random value
      */
     T
-    get() override
+    get()
     {
         return distribution_(this->gen());
     }
@@ -195,7 +195,7 @@ make_random_value(const T& minimum,
  * @brief A random bool
  */
 template<>
-class random_value<bool> final : public random_object<bool> {
+class random_value<bool> : public random_object<bool> {
 public:
     /**
      * @brief Constructor
@@ -208,7 +208,7 @@ public:
      * @returns A random bool
      */
     bool
-    get() override
+    get()
     {
         return distribution_(this->gen()) == 1;
     }
@@ -227,7 +227,7 @@ make_random_bool();
  * @brief A random choice from a given container
  */
 template<typename Container>
-class random_choice final : public random_object<typename Container::value_type> {
+class random_choice : public random_object<typename Container::value_type> {
     /**
      * @brief The type of the container elements
      */
@@ -258,7 +258,7 @@ public:
      * @returns A random choice
      */
     element_type
-    get() override
+    get()
     {
         element_type result(*std::begin(container_));
         if (container_.size()==1)
@@ -295,7 +295,7 @@ make_random_choice(const Container& container)
  * @brief A random container
  */
 template<typename Container>
-class random_container final : public random_object<Container> {
+class random_container : public random_object<Container> {
     /**
      * @brief The type of the container elements
      */
@@ -341,7 +341,7 @@ public:
      * @param seed The random seed
      */
     void
-    seed(int seed) override
+    seed(int seed)
     {
         rand_->seed(seed);
         this->gen().seed(seed);
@@ -351,7 +351,7 @@ public:
      * @returns A random container
      */
     Container
-    get() override
+    get()
     {
         unsigned int size(size_);
         if (!fixed_size_)
@@ -430,7 +430,7 @@ make_random_vector(random_object<T>& rand,
  * @brief A random tuple
  */
 template<typename ...Args>
-class random_tuple final : public random_object<std::tuple<Args...>> {
+class random_tuple : public random_object<std::tuple<Args...>> {
 public:
     /**
      * @brief Constructor
@@ -445,7 +445,7 @@ public:
      * @param seed The random seed
      */
     void
-    seed(int seed) override
+    seed(int seed)
     {
         internals::tuple_for_each(seed_func(), rand_tuple_, seed);
     }
@@ -454,7 +454,7 @@ public:
      * @returns A random tuple
      */
     std::tuple<Args...>
-    get() override
+    get()
     {
         std::tuple<Args...> result;
         internals::tuple_transform(get_func(), rand_tuple_, result);
@@ -498,7 +498,7 @@ make_random_tuple(random_object<Args>&... rands)
  */
 template<typename F,
          typename S>
-class random_pair final : public random_object<std::pair<F,S>> {
+class random_pair : public random_object<std::pair<F,S>> {
 public:
     /**
      * @brief Constructor
@@ -516,7 +516,7 @@ public:
      * @param seed The random seed
      */
     void
-    seed(int seed) override
+    seed(int seed)
     {
         rand_fst_->seed(seed);
         rand_snd_->seed(seed);
@@ -526,7 +526,7 @@ public:
      * @returns A random pair
      */
     std::pair<F,S>
-    get() override
+    get()
     {
         std::pair<F,S> pair(rand_fst_->get(), rand_snd_->get());
         return std::move(pair);
@@ -554,7 +554,7 @@ make_random_pair(random_object<F>& rand_fst,
  * @brief A random shuffle of a given container
  */
 template<typename Container>
-class random_shuffle final : public random_object<Container> {
+class random_shuffle : public random_object<Container> {
 public:
     /**
      * @brief Constructor
@@ -584,7 +584,7 @@ public:
      * @returns A random shuffle
      */
     Container
-    get() override
+    get()
     {
         auto first = vector_.begin();
         shuffle(first, vector_.end(), this->gen());
@@ -631,7 +631,7 @@ namespace internals {
  */
 template<typename Container1,
          typename Container2>
-struct combination final {
+struct combination {
     /**
      * @brief The type of the random combination
      */
@@ -652,7 +652,7 @@ struct combination final {
  */
 template<typename Container1,
          typename Container2>
-class random_combination final : public random_object<typename internals::combination<Container1, Container2>::type> {
+class random_combination : public random_object<typename internals::combination<Container1, Container2>::type> {
     /**
      * @brief The type of the random combination
      */
@@ -684,7 +684,7 @@ public:
      * @returns A random combination
      */
     combination_type
-    get() override
+    get()
     {
         unsigned int index = 0;
         combination_type combination;

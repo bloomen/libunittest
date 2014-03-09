@@ -8,6 +8,9 @@ testfailure::testfailure(const std::string& assertion,
       assertion_(assertion)
 {}
 
+testfailure::~testfailure() throw ()
+{}
+
 std::string
 testfailure::assertion() const
 {

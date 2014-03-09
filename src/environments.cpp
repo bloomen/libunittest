@@ -28,8 +28,8 @@ process(int argc, char **argv)
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results.testlogs, results.successful);
-    const auto& futures = suite->get_lonely_futures();
-    internals::make_futures_happy(std::cout, futures, arguments.verbose());
+    auto& threads = suite->get_lonely_threads();
+    internals::make_threads_happy(std::cout, threads, arguments.verbose());
     const auto full_results = suite->get_results();
 
     std::vector<internals::testlog> delta_testlogs;

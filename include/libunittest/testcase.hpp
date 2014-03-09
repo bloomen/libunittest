@@ -61,8 +61,8 @@ public:
      * @brief Returns a pointer to the optional test context
      * @returns A pointer to the test context, nullptr if not defined
      */
-    virtual context_type*
-    get_test_context() const final
+    context_type*
+    get_test_context() const
     {
         return context_;
     }
@@ -70,8 +70,8 @@ public:
      * @brief Returns the current test ID
      * @returns The current test ID
      */
-    virtual std::string
-    get_test_id() const final
+    std::string
+    get_test_id() const
     {
         return test_id_;
     }

@@ -16,8 +16,8 @@ struct test_whatever : unittest::testcase<> {
     test_whatever() {} // executed before each test
     ~test_whatever() {} // executed after each test
 
-    void set_up() override {} // executed before each test
-    void tear_down() override {} // executed after each test
+    void set_up() {} // executed before each test
+    void tear_down() {} // executed after each test
 
     void test_throw()
     {

@@ -4,13 +4,13 @@ using unittest::internals::formatting;
 
 struct new_form : formatting {
     virtual int
-    max_displayed_value_precision() const override
+    max_displayed_value_precision() const
     {
         return 2;
     }
 
     virtual int
-    max_displayed_string_length() const override
+    max_displayed_string_length() const
     {
         return 4;
     }

@@ -11,7 +11,8 @@ namespace unittest {
 namespace internals {
 
 void
-observe_and_wait(std::future<void>&& future,
+observe_and_wait(std::thread&& thread,
+                 std::shared_ptr<std::atomic_bool> done,
                  const std::string& method_id,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
@@ -19,20 +20,21 @@ observe_and_wait(std::future<void>&& future,
 {
     if (timeout > 0) {
         const double wait_sec = duration_in_seconds(resolution);
-        double duration(wait_sec);
-        while (future.wait_for(resolution)!=std::future_status::ready) {
+        double duration = 0;
+        while (done->load() != true) {
             if (duration > timeout) {
                 has_timed_out->store(true);
                 auto suite = testsuite::instance();
                 write_test_timeout_message(std::cout, suite->get_arguments().verbose());
-                suite->add_lonely_future(std::move(future));
+                suite->add_lonely_thread(std::move(thread), done);
                 break;
             }
+            std::this_thread::sleep_for(resolution);
             duration += wait_sec;
         }
-    } else {
-        future.wait();
     }
+    if (!has_timed_out->load())
+        thread.join();
 }
 
 template<>
