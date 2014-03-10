@@ -1,9 +1,10 @@
 libunittest (3.7.4) stable; urgency=low
 
   * ensured compatability with g++ >= 4.6
+  * removed optimization -O2 from Makefile and added -g
   * no functional changes
 
- -- Christian Blume <chr.blume@gmail.com>  Sun, 09 Mar 2014 18:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 09 Mar 2014 23:00:00 -0700
 
 libunittest (3.7.3) stable; urgency=low
 

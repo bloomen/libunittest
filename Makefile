@@ -9,7 +9,7 @@ LIBDIR = lib
 INSTALLDIR = /usr/local
 
 CXX = g++
-CXXFLAGS = -O2 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
+CXXFLAGS = -g -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
 LD = $(CXX)
 LDFLAGS = -shared
 CXXOBJ = -o
