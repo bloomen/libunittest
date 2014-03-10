@@ -1,6 +1,6 @@
 libunittest (3.7.4) stable; urgency=low
 
-  * ensured compatability with g++ >= 4.6
+  * ensured compatibility with g++ >= 4.6
   * removed optimization -O2 from Makefile and added -g
   * no functional changes
 
