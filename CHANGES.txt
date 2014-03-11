@@ -1,3 +1,10 @@
+libunittest (3.7.5) stable; urgency=low
+
+  * ensured that std::this_thread is available
+  * better code documentation
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 16 Mar 2014 18:00:00 -0700
+ 
 libunittest (3.7.4) stable; urgency=low
 
   * ensured compatibility with g++ >= 4.6
