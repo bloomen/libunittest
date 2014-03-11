@@ -462,9 +462,9 @@ public:
     }
 
 private:
-
-    std::tuple<random_object<Args>*...> rand_tuple_;
-
+    /**
+     * @brief Helper class to set the random seed
+     */
     struct seed_func {
         template<typename T>
         void operator()(random_object<T>* rand, int seed) const
@@ -472,7 +472,9 @@ private:
             rand->seed(seed);
         }
     };
-
+    /**
+     * @brief Helper class to retrieve a random object
+     */
     struct get_func {
         template<typename T>
         T operator()(random_object<T>* rand) const
@@ -480,6 +482,8 @@ private:
             return rand->get();
         }
     };
+
+    std::tuple<random_object<Args>*...> rand_tuple_;
 
 };
 /**
