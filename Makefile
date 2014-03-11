@@ -1,4 +1,4 @@
-VERSION = 3.7.4
+VERSION = 3.7.5
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
@@ -9,7 +9,7 @@ LIBDIR = lib
 INSTALLDIR = /usr/local
 
 CXX = g++
-CXXFLAGS = -g -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0
+CXXFLAGS = -g -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
 LD = $(CXX)
 LDFLAGS = -shared
 CXXOBJ = -o

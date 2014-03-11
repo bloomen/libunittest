@@ -5,7 +5,7 @@ LIBDIR = ../../lib
 XSD = ../../doc/web/libunittest.xsd
 
 CXX = g++
-CXXFLAGS = -O0 -g3 -Wall -std=c++0x -pthread -fmessage-length=0
+CXXFLAGS = -O0 -g3 -Wall -std=c++0x -pthread -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
 LD = $(CXX)
 LDFLAGS = -pthread 
 CXXOBJ = -o
