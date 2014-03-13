@@ -466,6 +466,11 @@ private:
      * @brief Helper class to set the random seed
      */
     struct seed_func {
+        /**
+         * @brief Sets a new random seed
+         * @param rand The random object
+         * @param seed The random seed
+         */
         template<typename T>
         void operator()(random_object<T>* rand, int seed) const
         {
@@ -476,6 +481,11 @@ private:
      * @brief Helper class to retrieve a random object
      */
     struct get_func {
+        /**
+         * @brief Returns a random object
+         * @param rand The random object
+         * @returns A random object
+         */
         template<typename T>
         T operator()(random_object<T>* rand) const
         {
