@@ -134,7 +134,7 @@ deb : version versioncheck
 	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
 	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
 	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
-	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) -f $(LIBNAME) && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
+	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) $(LIBNAME) && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
 	@chmod u+x $(DEBRULES) || exit 1
 	@$(BUILDDEB) || exit 1
 	@$(RM) ../$(PROG)_$(VERSION)_*.changes
