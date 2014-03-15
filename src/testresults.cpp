@@ -1,6 +1,7 @@
 #include <libunittest/testresults.hpp>
 #include <libunittest/teststatus.hpp>
 #include <libunittest/utilities.hpp>
+#include <mutex>
 
 namespace unittest {
 namespace internals {

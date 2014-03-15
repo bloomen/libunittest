@@ -11,6 +11,7 @@
 #include <limits>
 #include <thread>
 #include <atomic>
+#include <memory>
 /**
  * @brief Unit testing in C++
  */
