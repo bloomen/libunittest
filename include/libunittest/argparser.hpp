@@ -44,6 +44,10 @@ public:
      */
     explicit
     argparser_error(const std::string& message);
+    /**
+     * @brief Destructor
+     */
+    ~argparser_error() noexcept;
 };
 
 } // internals

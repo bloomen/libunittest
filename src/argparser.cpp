@@ -133,5 +133,8 @@ argparser_error::argparser_error(const std::string& message)
     : std::runtime_error(message)
 {}
 
+argparser_error::~argparser_error() noexcept
+{}
+
 } // internals
 } // unittest

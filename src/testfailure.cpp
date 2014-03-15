@@ -8,7 +8,7 @@ testfailure::testfailure(const std::string& assertion,
       assertion_(assertion)
 {}
 
-testfailure::~testfailure() throw ()
+testfailure::~testfailure() noexcept
 {}
 
 std::string

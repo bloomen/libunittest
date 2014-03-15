@@ -24,7 +24,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~testfailure() throw ();
+    ~testfailure() noexcept;
     /**
      * @brief Returns the name of the assertion
      * @returns The name of the assertion
