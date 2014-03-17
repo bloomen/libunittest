@@ -70,6 +70,14 @@ struct testlog {
      * @brief The text logged for this test
      */
     std::string text;
+    /**
+     * @brief The file name
+     */
+    std::string filename;
+    /**
+     * @brief The line number
+     */
+    int linenumber;
 };
 /**
  * @brief Writes a test start message to the given output stream

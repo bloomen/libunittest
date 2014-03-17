@@ -29,6 +29,14 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_remove_white_spaces)
         UNITTEST_RUN(test_expand_commandline_arguments)
         UNITTEST_RUN(test_expand_commandline_arguments_empty_args)
+        UNITTEST_RUN(test_extract_file_and_line_spot_found)
+        UNITTEST_RUN(test_extract_file_and_line_spot_found_two)
+        UNITTEST_RUN(test_extract_file_and_line_spot_not_found)
+        UNITTEST_RUN(test_extract_file_and_line_spot_weird)
+        UNITTEST_RUN(test_remove_file_and_line_found)
+        UNITTEST_RUN(test_remove_file_and_line_found_at_end)
+        UNITTEST_RUN(test_remove_file_and_line_found_two)
+        UNITTEST_RUN(test_remove_file_and_line_not_found)
     }
 
     void test_limit_string_length()
@@ -46,8 +54,8 @@ struct test_utilities : unittest::testcase<> {
     void test_string_of_file_and_line()
     {
         auto function = unittest::internals::string_of_file_and_line;
-        assert_equal(" @albert:13. ", function("albert", 13), SPOT);
-        assert_equal(" @blöd:-42. ", function("blöd", -42), SPOT);
+        assert_equal("@SPOT@albert:13@SPOT@", function("albert", 13), SPOT);
+        assert_equal("@SPOT@blöd:-42@SPOT@", function("blöd", -42), SPOT);
     }
 
     void test_join()
@@ -275,6 +283,69 @@ struct test_utilities : unittest::testcase<> {
         std::vector<std::string> args = {};
         std::vector<std::string> exp_args = {};
         assert_equal_containers(exp_args, function(args), SPOT);
+    }
+
+    void test_extract_file_and_line_spot_found()
+    {
+        auto function = unittest::internals::extract_file_and_line;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
+        assert_equal("nada.cpp", result.first, SPOT);
+        assert_equal(13, result.second, SPOT);
+    }
+
+    void test_extract_file_and_line_spot_found_two()
+    {
+        auto function = unittest::internals::extract_file_and_line;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text @SPOT@kalle.cpp:42@SPOT@");
+        assert_equal("nada.cpp", result.first, SPOT);
+        assert_equal(13, result.second, SPOT);
+    }
+
+    void test_extract_file_and_line_spot_not_found()
+    {
+        auto function = unittest::internals::extract_file_and_line;
+        const auto result = function("some text");
+        assert_equal("", result.first, SPOT);
+        assert_equal(-1, result.second, SPOT);
+    }
+
+    void test_extract_file_and_line_spot_weird()
+    {
+        auto function = unittest::internals::extract_file_and_line;
+        const auto result1 = function("some text @SPOT@nada.cpp:13 more text");
+        assert_equal("", result1.first, SPOT);
+        assert_equal(-1, result1.second, SPOT);
+        const auto result2 = function("some text @SPOT@nada.cpp-13@SPOT@ more text");
+        assert_equal("", result2.first, SPOT);
+        assert_equal(-1, result2.second, SPOT);
+    }
+
+    void test_remove_file_and_line_found()
+    {
+        auto function = unittest::internals::remove_file_and_line;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
+        assert_equal("some text  more text", result, SPOT);
+    }
+
+    void test_remove_file_and_line_found_at_end()
+    {
+        auto function = unittest::internals::remove_file_and_line;
+        const auto result = function("some text@SPOT@nada.cpp:13@SPOT@");
+        assert_equal("some text", result, SPOT);
+    }
+
+    void test_remove_file_and_line_found_two()
+    {
+        auto function = unittest::internals::remove_file_and_line;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@cool@SPOT@kunde.cpp:42@SPOT@");
+        assert_equal("some text cool", result, SPOT);
+    }
+
+    void test_remove_file_and_line_not_found()
+    {
+        auto function = unittest::internals::remove_file_and_line;
+        const auto result = function("some text");
+        assert_equal("some text", result, SPOT);
     }
 
 };

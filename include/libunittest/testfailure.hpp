@@ -17,7 +17,7 @@ public:
     /**
      * @brief Constructor
      * @param assertion The name of the assertion
-     * @param message The exception message
+     * @param message The message of the test failure
      */
     testfailure(const std::string& assertion,
                 const std::string& message);
@@ -31,9 +31,23 @@ public:
      */
     std::string
     assertion() const;
+    /**
+     * @brief Returns the name of the file in which the test failure occured
+     * @returns The name of the file in which the test failure occured
+     */
+    std::string
+    filename() const;
+    /**
+     * @brief Returns the line number in which the test failure occured
+     * @returns The line number in which the test failure occured
+     */
+    int
+    linenumber() const;
 
 private:
     std::string assertion_;
+    std::string filename_;
+    int linenumber_;
 };
 
 } // unittest

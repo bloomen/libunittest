@@ -28,7 +28,7 @@ public:
     virtual
     ~formatting();
     /**
-     * @brief Generates a displayed fail message from assertion name and text
+     * @brief Generates a displayed fail message
      * @param assertion The name of the assertion
      * @param text The assertion text
      * @returns A displayed fail message

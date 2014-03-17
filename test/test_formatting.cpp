@@ -44,7 +44,7 @@ struct test_formatting : unittest::testcase<> {
     {
         formatting form;
         const std::string message = form.make_displayed_fail_message("assert_me", "text");
-        assert_equal("text  (assert_me) ", message, SPOT);
+        assert_equal("text", message, SPOT);
     }
 
     void test_str()

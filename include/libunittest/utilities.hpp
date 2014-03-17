@@ -355,6 +355,20 @@ to_number(const std::string& value)
  */
 std::vector<std::string>
 expand_commandline_arguments(const std::vector<std::string>& arguments);
+/**
+ * @brief Extracts file and line information from the given message
+ * @param message The message
+ * @returns A pair of file name and line number
+ */
+std::pair<std::string, int>
+extract_file_and_line(const std::string& message);
+/**
+ * @brief Removes file and line information from the given message
+ * @param message The message
+ * @returns The new message
+ */
+std::string
+remove_file_and_line(std::string message);
 
 } // internals
 

@@ -131,7 +131,8 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber)
 {
-    return join(" @", filename, ":", linenumber, ". ");
+    const std::string id = "@SPOT@";
+    return join(id, filename, ":", linenumber, id);
 }
 
 
@@ -207,6 +208,41 @@ expand_commandline_arguments(const std::vector<std::string>& arguments)
         }
     }
     return args;
+}
+
+std::pair<std::string, int>
+extract_file_and_line(const std::string& message)
+{
+    std::string filename = "";
+    int linenumber = -1;
+    const std::string id = "@SPOT@";
+    const unsigned index_start = message.find(id) + id.length();
+    if (index_start!=std::string::npos) {
+        const std::string substr = message.substr(index_start);
+        const unsigned index_end = substr.find(id);
+        if (index_end!=std::string::npos) {
+            const std::string spot = substr.substr(0, index_end);
+            const unsigned separator = spot.find(":");
+            if (separator!=std::string::npos) {
+                filename = spot.substr(0, separator);
+                linenumber = to_number<int>(spot.substr(separator+1));
+            }
+        }
+    }
+    return std::make_pair(filename, linenumber);
+}
+
+std::string
+remove_file_and_line(std::string message)
+{
+    auto spot = extract_file_and_line(message);
+    while (spot.first.size() && spot.second>-1) {
+        const auto token = string_of_file_and_line(spot.first, spot.second);
+        const unsigned index = message.find(token);
+        message = message.substr(0, index) + message.substr(index+token.length());
+        spot = extract_file_and_line(message);
+    }
+    return std::move(message);
 }
 
 } // internals

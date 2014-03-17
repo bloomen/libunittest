@@ -296,13 +296,15 @@ struct test_misc : unittest::testcase<> {
     void test_testcase_fail()
     {
         const std::string assertion("assert_something");
-        const std::string msg("a test failure");
+        const std::string msg("a test failure @SPOT@Here:13@SPOT@");
         bool caught = false;
         try {
             fail(assertion, msg);
         } catch (const unittest::testfailure& e) {
-            assert_equal(unittest::join(msg, "  (", assertion, ") "), e.what(), SPOT);
+            assert_equal("a test failure ", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
+            assert_equal("Here", e.filename(), SPOT);
+            assert_equal(13, e.linenumber(), SPOT);
             caught = true;
         }
         if (!caught)
@@ -318,8 +320,10 @@ struct test_misc : unittest::testcase<> {
         try {
             fail(assertion, msg, text);
         } catch (const unittest::testfailure& e) {
-            assert_equal(unittest::join(msg, "  (", assertion, ") ", text), e.what(), SPOT);
+            assert_equal(unittest::join(msg, text), e.what(), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
+            assert_equal("", e.filename(), SPOT);
+            assert_equal(-1, e.linenumber(), SPOT);
             caught = true;
         }
         if (!caught)

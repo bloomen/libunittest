@@ -11,7 +11,7 @@ testlog::testlog()
     : class_name(""), test_name(""), successful(true),
       status(teststatus::skipped), message(""), duration(0),
       has_timed_out(false), timeout(-1), assertion(""),
-      method_id(""), text("")
+      method_id(""), text(""), filename(""), linenumber(-1)
 {}
 
 void

@@ -33,17 +33,21 @@ write_xml(std::ostream& stream,
     stream << "\n";
     for (auto& log : results.testlogs) {
         std::string system_out;
-        if (log.text.size() > 0) {
+        if (log.text.size()) {
             system_out += "\t\t<system-out>\n";
             system_out += "\t\t\t" + xml_escape(trim(log.text)) + "\n";
             system_out += "\t\t</system-out>\n";
         }
         stream << "\t<testcase ";
-        if (log.class_name.size() > 0)
+        if (log.class_name.size())
             stream << "classname=\"" << xml_escape(log.class_name) << "\" ";
         stream << "name=\"" << xml_escape(log.test_name);
-        if (log.assertion.size() > 0)
+        if (log.assertion.size())
             stream << "\" assertions=\"" << xml_escape(log.assertion);
+        if (log.filename.size())
+            stream << "\" file=\"" << xml_escape(log.filename);
+        if (log.linenumber>-1)
+            stream << "\" line=\"" << log.linenumber;
         stream << "\" time=\"" << log.duration << "\"";
         if (log.has_timed_out)
             stream << " timeout=\"" << log.timeout << "\"";
@@ -56,7 +60,7 @@ write_xml(std::ostream& stream,
                 stream << system_out;
                 stream << "\t</testcase>";
             } else {
-                if (system_out.size() > 0) {
+                if (system_out.size()) {
                     stream << ">\n";
                     stream << system_out;
                     stream << "\t</testcase>";
@@ -152,7 +156,16 @@ write_error_info(std::ostream& stream,
                 write_horizontal_bar(stream, '-');
                 stream << "\n";
                 stream << log.error_type << ": " << trim(log.message);
-                if (log.text.size() > 0) {
+                if (log.assertion.size()) {
+                    stream << "\n";
+                    stream << "assertion: " << log.assertion;
+                    if (log.filename.size()) {
+                        stream << " in " << trim(log.filename);
+                        if (log.linenumber>-1)
+                            stream << " at line " << log.linenumber;
+                    }
+                }
+                if (log.text.size()) {
                     stream << "\n";
                     write_horizontal_bar(stream, '-');
                     stream << "\n";

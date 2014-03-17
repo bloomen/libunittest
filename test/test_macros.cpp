@@ -70,12 +70,12 @@ COLLECTION(test_macros_other)
 
 TEST(test_test)
 {
-    assert_equal(unittest::join(" @", __FILE__, ":", __LINE__, ". "), SPOT);
+    assert_equal(unittest::join("@SPOT@", __FILE__, ":", __LINE__, "@SPOT@"), SPOT);
 }
 
 UNITTEST_TEST(test_unittest_test)
 {
-    assert_equal(unittest::join(" @", __FILE__, ":", __LINE__, ". "), UNITTEST_SPOT);
+    assert_equal(unittest::join("@SPOT@", __FILE__, ":", __LINE__, "@SPOT@"), UNITTEST_SPOT);
 }
 
 TEST_SKIP(test_test_skip, "ok")

@@ -14,7 +14,7 @@ std::string
 formatting::make_displayed_fail_message(const std::string& assertion,
                                         const std::string& text) const
 {
-    return join(text, "  (", assertion, ") ");
+    return text;
 }
 
 int
