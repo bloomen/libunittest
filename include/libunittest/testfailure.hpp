@@ -32,14 +32,14 @@ public:
     std::string
     assertion() const;
     /**
-     * @brief Returns the name of the file in which the test failure occured
-     * @returns The name of the file in which the test failure occured
+     * @brief Returns the name of the file in which the test failure occurred
+     * @returns The name of the file in which the test failure occurred
      */
     std::string
     filename() const;
     /**
-     * @brief Returns the line number in which the test failure occured
-     * @returns The line number in which the test failure occured
+     * @brief Returns the line number in which the test failure occurred
+     * @returns The line number in which the test failure occurred
      */
     int
     linenumber() const;
