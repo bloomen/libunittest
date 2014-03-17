@@ -216,13 +216,14 @@ extract_file_and_line(const std::string& message)
     std::string filename = "";
     int linenumber = -1;
     const std::string id = "@SPOT@";
-    const unsigned index_start = message.find(id) + id.length();
+    auto index_start = message.find(id);
     if (index_start!=std::string::npos) {
-        const std::string substr = message.substr(index_start);
-        const unsigned index_end = substr.find(id);
+        index_start += id.length();
+        const auto substr = message.substr(index_start);
+        const auto index_end = substr.find(id);
         if (index_end!=std::string::npos) {
-            const std::string spot = substr.substr(0, index_end);
-            const unsigned separator = spot.find(":");
+            const auto spot = substr.substr(0, index_end);
+            const auto separator = spot.find(":");
             if (separator!=std::string::npos) {
                 filename = spot.substr(0, separator);
                 linenumber = to_number<int>(spot.substr(separator+1));
@@ -238,7 +239,7 @@ remove_file_and_line(std::string message)
     auto spot = extract_file_and_line(message);
     while (spot.first.size() && spot.second>-1) {
         const auto token = string_of_file_and_line(spot.first, spot.second);
-        const unsigned index = message.find(token);
+        const auto index = message.find(token);
         message = message.substr(0, index) + message.substr(index+token.length());
         spot = extract_file_and_line(message);
     }
