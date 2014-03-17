@@ -1,3 +1,9 @@
+libunittest (3.7.6) stable; urgency=low
+
+  * added explicit file and line information to failure report and XML
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 16 Mar 2014 22:00:00 -0700
+ 
 libunittest (3.7.5) stable; urgency=low
 
   * ensured that std::this_thread is available
