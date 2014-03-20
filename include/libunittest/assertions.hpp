@@ -46,8 +46,10 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        const std::string base_msg = make_displayed_fail_message(assertion, text);
-        const std::string message = join(base_msg, args...);
+        std::string message = make_displayed_fail_message(assertion, text);
+        const std::string user_msg = join("", args...);
+        if (user_msg.size())
+            message += " - " + user_msg;
         throw testfailure(assertion, message);
     }
     /**

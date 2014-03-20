@@ -320,7 +320,7 @@ struct test_misc : unittest::testcase<> {
         try {
             fail(assertion, msg, text);
         } catch (const unittest::testfailure& e) {
-            assert_equal(unittest::join(msg, text), e.what(), SPOT);
+            assert_equal(unittest::join(msg, " - ",text), e.what(), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
             assert_equal("", e.filename(), SPOT);
             assert_equal(-1, e.linenumber(), SPOT);
