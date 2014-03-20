@@ -7,6 +7,7 @@
 #include <random>
 #include <stdexcept>
 #include <type_traits>
+#include <mutex>
 #include <libunittest/tuplemap.hpp>
 /**
  * @brief Unit testing in C++
@@ -25,19 +26,26 @@ public:
     ~random_object()
     {}
     /**
-     * @brief Supposed to return a random object
+     * @brief Return a new random object
      * @returns A random object
      */
-    virtual T
-    get() = 0;
+    T
+    get()
+    {
+        static std::mutex get_mutex_;
+        std::lock_guard<std::mutex> lock(get_mutex_);
+        return do_get();
+    }
     /**
      * @brief Sets a new random seed
      * @param seed The random seed
      */
-    virtual void
+    void
     seed(int seed)
     {
-        gen().seed(seed);
+        static std::mutex seed_mutex_;
+        std::lock_guard<std::mutex> lock(seed_mutex_);
+        do_seed(seed);
     }
 
 protected:
@@ -59,6 +67,16 @@ protected:
     }
 
 private:
+
+    virtual T
+    do_get() = 0;
+
+    virtual void
+    do_seed(int seed)
+    {
+        gen().seed(seed);
+    }
+
     std::mt19937 generator_;
 
 };
@@ -143,18 +161,16 @@ public:
         typename dist_type::param_type params(minimum, maximum);
         distribution_.param(params);
     }
-    /**
-     * @brief Returns a random value
-     * @returns A random value
-     */
+
+private:
+
     T
-    get()
+    do_get()
     {
         return distribution_(this->gen());
     }
 
-private:
-     dist_type distribution_;
+    dist_type distribution_;
 
 };
 /**
@@ -192,7 +208,7 @@ make_random_value(const T& minimum,
     return random_value<T>(minimum, maximum);
 }
 /**
- * @brief A random bool
+ * @brief A random bool (true, false)
  */
 template<>
 class random_value<bool> : public random_object<bool> {
@@ -203,17 +219,15 @@ public:
     random_value()
         : random_object<bool>(), distribution_(0, 1)
     {}
-    /**
-     * @brief Returns a random bool (true, false)
-     * @returns A random bool
-     */
+
+private:
+
     bool
-    get()
+    do_get()
     {
         return distribution_(this->gen()) == 1;
     }
 
-private:
     std::uniform_int_distribution<int> distribution_;
 
 };
@@ -235,7 +249,7 @@ class random_choice : public random_object<typename Container::value_type> {
     /**
      * @brief The distribution type
      */
-    typedef std::uniform_int_distribution<unsigned int> dist_type;
+    typedef std::uniform_int_distribution<size_t> dist_type;
 
 public:
     /**
@@ -253,18 +267,17 @@ public:
             distribution_.param(params);
         }
     }
-    /**
-     * @brief Returns a random choice
-     * @returns A random choice
-     */
+
+private:
+
     element_type
-    get()
+    do_get()
     {
         element_type result(*std::begin(container_));
         if (container_.size()==1)
             return result;
-        const unsigned int index = distribution_(this->gen());
-        unsigned int count = 0;
+        const size_t index = distribution_(this->gen());
+        size_t count = 0;
         for (auto& value : container_) {
             if (count==index) {
                 result = value;
@@ -275,7 +288,6 @@ public:
         return result;
     }
 
-private:
     Container container_;
     dist_type distribution_;
 
@@ -303,7 +315,7 @@ class random_container : public random_object<Container> {
     /**
      * @brief The distribution type
      */
-    typedef std::uniform_int_distribution<unsigned int> dist_type;
+    typedef std::uniform_int_distribution<size_t> dist_type;
 
 public:
     /**
@@ -312,7 +324,7 @@ public:
      * @param size The container size
      */
     random_container(random_object<element_type>& rand,
-                     unsigned int size)
+                     size_t size)
         : random_object<Container>(),
           rand_(&rand),
           fixed_size_(true),
@@ -325,8 +337,8 @@ public:
      * @param max_size The maximum container size (including)
      */
     random_container(random_object<element_type>& rand,
-                     unsigned int min_size,
-                     unsigned int max_size)
+                     size_t min_size,
+                     size_t max_size)
         : random_object<Container>(),
           rand_(&rand),
           fixed_size_(false)
@@ -336,37 +348,32 @@ public:
         typename dist_type::param_type params(min_size, max_size);
         distribution_.param(params);
     }
-    /**
-     * @brief Sets a new random seed
-     * @param seed The random seed
-     */
-    void
-    seed(int seed)
-    {
-        rand_->seed(seed);
-        this->gen().seed(seed);
-    }
-    /**
-     * @brief Returns a random container
-     * @returns A random container
-     */
+
+private:
+
     Container
-    get()
+    do_get()
     {
-        unsigned int size(size_);
+        size_t size(size_);
         if (!fixed_size_)
             size = distribution_(this->gen());
         std::vector<element_type> result(size);
-        for (unsigned int i=0; i<size; ++i)
+        for (size_t i=0; i<size; ++i)
             result[i] = rand_->get();
         Container container(result.begin(), result.end());
         return std::move(container);
     }
 
-private:
+    void
+    do_seed(int seed)
+    {
+        rand_->seed(seed);
+        this->gen().seed(seed);
+    }
+
     random_object<element_type>* rand_;
     bool fixed_size_;
-    unsigned int size_;
+    size_t size_;
     dist_type distribution_;
 
 };
@@ -379,7 +386,7 @@ private:
 template<typename Container>
 random_container<Container>
 make_random_container(random_object<typename Container::value_type>& rand,
-                      unsigned int size)
+                      size_t size)
 {
     return random_container<Container>(rand, size);
 }
@@ -393,8 +400,8 @@ make_random_container(random_object<typename Container::value_type>& rand,
 template<typename Container>
 random_container<Container>
 make_random_container(random_object<typename Container::value_type>& rand,
-                      unsigned int min_size,
-                      unsigned int max_size)
+                      size_t min_size,
+                      size_t max_size)
 {
     return random_container<Container>(rand, min_size, max_size);
 }
@@ -407,7 +414,7 @@ make_random_container(random_object<typename Container::value_type>& rand,
 template<typename T>
 random_container<std::vector<T>>
 make_random_vector(random_object<T>& rand,
-                   unsigned int size)
+                   size_t size)
 {
     return random_container<std::vector<T>>(rand, size);
 }
@@ -421,13 +428,13 @@ make_random_vector(random_object<T>& rand,
 template<typename T>
 random_container<std::vector<T>>
 make_random_vector(random_object<T>& rand,
-                   unsigned int min_size,
-                   unsigned int max_size)
+                   size_t min_size,
+                   size_t max_size)
 {
     return random_container<std::vector<T>>(rand, min_size, max_size);
 }
 /**
- * @brief A random tuple
+ * @brief A random tuple build from random objects
  */
 template<typename ...Args>
 class random_tuple : public random_object<std::tuple<Args...>> {
@@ -440,28 +447,23 @@ public:
         : random_object<std::tuple<Args...>>(),
           rand_tuple_(&rands...)
     {}
-    /**
-     * @brief Sets a new random seed
-     * @param seed The random seed
-     */
+
+private:
+
     void
-    seed(int seed)
+    do_seed(int seed)
     {
         internals::tuple_for_each(seed_func(), rand_tuple_, seed);
     }
-    /**
-     * @brief Returns a random tuple
-     * @returns A random tuple
-     */
+
     std::tuple<Args...>
-    get()
+    do_get()
     {
         std::tuple<Args...> result;
         internals::tuple_transform(get_func(), rand_tuple_, result);
         return std::move(result);
     }
 
-private:
     /**
      * @brief Helper class to set the random seed
      */
@@ -508,7 +510,7 @@ make_random_tuple(random_object<Args>&... rands)
     return random_tuple<Args...>(rands...);
 }
 /**
- * @brief A random pair
+ * @brief A random pair build from two random objects
  */
 template<typename F,
          typename S>
@@ -525,28 +527,23 @@ public:
           rand_fst_(&rand_fst),
           rand_snd_(&rand_snd)
     {}
-    /**
-     * @brief Sets a new random seed
-     * @param seed The random seed
-     */
+
+private:
+
     void
-    seed(int seed)
+    do_seed(int seed)
     {
         rand_fst_->seed(seed);
         rand_snd_->seed(seed);
     }
-    /**
-     * @brief Returns a random pair
-     * @returns A random pair
-     */
+
     std::pair<F,S>
-    get()
+    do_get()
     {
         std::pair<F,S> pair(rand_fst_->get(), rand_snd_->get());
         return std::move(pair);
     }
 
-private:
     random_object<F>* rand_fst_;
     random_object<S>* rand_snd_;
 };
@@ -585,7 +582,7 @@ public:
      * @param size The size of the shuffled container
      */
     random_shuffle(const Container& container,
-                   unsigned int size)
+                   size_t size)
         : random_object<Container>(),
           vector_(std::begin(container), std::end(container)),
           size_(size)
@@ -593,12 +590,11 @@ public:
         if (size<1 || size>container.size())
             throw std::invalid_argument("size out of range");
     }
-    /**
-     * @brief Returns a random shuffle
-     * @returns A random shuffle
-     */
+
+private:
+
     Container
-    get()
+    do_get()
     {
         auto first = vector_.begin();
         shuffle(first, vector_.end(), this->gen());
@@ -606,9 +602,8 @@ public:
         return std::move(container);
     }
 
-private:
     std::vector<typename Container::value_type> vector_;
-    unsigned int size_;
+    size_t size_;
 
 };
 /**
@@ -631,7 +626,7 @@ make_random_shuffle(const Container& container)
 template<typename Container>
 random_shuffle<Container>
 make_random_shuffle(const Container& container,
-                    unsigned int size)
+                    size_t size)
 {
     return random_shuffle<Container>(container, size);
 }
@@ -681,7 +676,7 @@ public:
      */
     random_combination(const Container1& container1,
                        const Container2& container2,
-                       unsigned int size)
+                       size_t size)
         : random_object<combination_type>(),
           container1_(container1),
           container2_(container2),
@@ -690,17 +685,16 @@ public:
     {
         if (size<1 || size>granter_.size())
             throw std::invalid_argument("size out of range");
-        for (unsigned int i=0; i<size_; ++i)
+        for (size_t i=0; i<size_; ++i)
             granter_[i] = true;
     }
-    /**
-     * @brief Returns a random combination
-     * @returns A random combination
-     */
+
+private:
+
     combination_type
-    get()
+    do_get()
     {
-        unsigned int index = 0;
+        size_t index = 0;
         combination_type combination;
         combination.reserve(size_);
         shuffle(granter_.begin(), granter_.end(), this->gen());
@@ -714,11 +708,10 @@ public:
         return std::move(combination);
     }
 
-private:
     Container1 container1_;
     Container2 container2_;
     std::vector<bool> granter_;
-    unsigned int size_;
+    size_t size_;
 
 };
 /**
@@ -733,7 +726,7 @@ template<typename Container1,
 random_combination<Container1, Container2>
 make_random_combination(const Container1& container1,
                         const Container2& container2,
-                        unsigned int size)
+                        size_t size)
 {
     return random_combination<Container1, Container2>(container1, container2, size);
 }

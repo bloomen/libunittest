@@ -1,3 +1,10 @@
+libunittest (3.7.7) stable; urgency=low
+
+  * ensured thread safety of random classes
+  * improved failure messages
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 23 Mar 2014 18:00:00 -0700
+ 
 libunittest (3.7.6) stable; urgency=low
 
   * added explicit file and line information to failure report and XML

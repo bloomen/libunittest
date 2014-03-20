@@ -64,6 +64,7 @@ struct test_random : unittest::testcase<> {
         UNITTEST_RUN(test_random_combination_throw)
         UNITTEST_RUN(test_random_value_copy_constructor)
         UNITTEST_RUN(test_random_value_assignment_operator)
+        UNITTEST_RUN(test_random_value_thread_safety)
     }
 
     void test_random_int()
@@ -310,6 +311,21 @@ struct test_random : unittest::testcase<> {
         random1.get();
         unittest::random_value<double> random2 = random1;
         assert_equal(random1.get(), random2.get(), SPOT);
+    }
+
+    void test_random_value_thread_safety()
+    {
+        auto random1 = unittest::make_random_value<double>();
+        auto random2 = unittest::make_random_value<int>(0, 1000);
+        std::vector<std::function<void()>> functions(100);
+        for (auto& function : functions)
+            function = [&]() {
+                auto seed = random2.get();
+                assert_in_range(seed, 0, 1000, SPOT);
+                random1.seed(seed);
+                assert_in_range(random1.get(), 0, 1, SPOT);
+            };
+        unittest::internals::call_functions(functions, 100);
     }
 
 };

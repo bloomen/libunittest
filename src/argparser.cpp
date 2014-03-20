@@ -81,7 +81,7 @@ argparser::parse(int argc, char **argv)
     const std::string app_name = argv[0];
     const auto args = impl_->expand_arguments(argc, argv);
     const auto length = args.size();
-    for (unsigned i=0; i<length; ++i) {
+    for (size_t i=0; i<length; ++i) {
         if (args[i]=="-h") {
             impl_->write_help(std::cout, app_name);
             std::exit(EXIT_SUCCESS);
