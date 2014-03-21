@@ -26,7 +26,7 @@ public:
     ~random_object()
     {}
     /**
-     * @brief Return a new random object
+     * @brief Returns a new random object
      * @returns A random object
      */
     T
@@ -450,18 +450,18 @@ public:
 
 private:
 
-    void
-    do_seed(int seed)
-    {
-        internals::tuple_for_each(seed_func(), rand_tuple_, seed);
-    }
-
     std::tuple<Args...>
     do_get()
     {
         std::tuple<Args...> result;
         internals::tuple_transform(get_func(), rand_tuple_, result);
         return std::move(result);
+    }
+
+    void
+    do_seed(int seed)
+    {
+        internals::tuple_for_each(seed_func(), rand_tuple_, seed);
     }
 
     /**
@@ -530,18 +530,18 @@ public:
 
 private:
 
-    void
-    do_seed(int seed)
-    {
-        rand_fst_->seed(seed);
-        rand_snd_->seed(seed);
-    }
-
     std::pair<F,S>
     do_get()
     {
         std::pair<F,S> pair(rand_fst_->get(), rand_snd_->get());
         return std::move(pair);
+    }
+
+    void
+    do_seed(int seed)
+    {
+        rand_fst_->seed(seed);
+        rand_snd_->seed(seed);
     }
 
     random_object<F>* rand_fst_;
