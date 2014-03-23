@@ -66,8 +66,10 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_teststatus_integrals)
         UNITTEST_RUN(test_testlog_defaults)
         UNITTEST_RUN(test_testresults_defaults)
-        UNITTEST_RUN(test_testcase_fail)
-        UNITTEST_RUN(test_testcase_fail_overload)
+        UNITTEST_RUN(test_testcase_fail_full_info)
+        UNITTEST_RUN(test_testcase_fail_only_spot)
+        UNITTEST_RUN(test_testcase_fail_no_user_message)
+        UNITTEST_RUN(test_testcase_fail_user_message_without_spot)
         UNITTEST_RUN(test_is_test_executed)
         UNITTEST_RUN(test_make_full_test_name)
         UNITTEST_RUN(test_collection_get_name)
@@ -293,15 +295,16 @@ struct test_misc : unittest::testcase<> {
         assert_equal<unsigned>(0, results.testlogs.size(), SPOT);
     }
 
-    void test_testcase_fail()
+    void test_testcase_fail_full_info()
     {
         const std::string assertion("assert_something");
-        const std::string msg("a test failure @SPOT@Here:13@SPOT@");
+        const std::string text("a test failure");
+        const std::string user_msg("@SPOT@Here:13@SPOT@Some additional info");
         bool caught = false;
         try {
-            fail(assertion, msg);
+            fail(assertion, text, user_msg);
         } catch (const unittest::testfailure& e) {
-            assert_equal("a test failure ", unittest::join(e.what()), SPOT);
+            assert_equal("a test failure - Some additional info", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
             assert_equal("Here", e.filename(), SPOT);
             assert_equal(13, e.linenumber(), SPOT);
@@ -311,16 +314,52 @@ struct test_misc : unittest::testcase<> {
             throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
     }
 
-    void test_testcase_fail_overload()
+    void test_testcase_fail_only_spot()
     {
-        const std::string assertion("assert_it");
-        const std::string msg("a test failure");
-        const std::string text("some text");
+        const std::string assertion("assert_something");
+        const std::string text("a test failure");
+        const std::string user_msg("@SPOT@Here:13@SPOT@");
         bool caught = false;
         try {
-            fail(assertion, msg, text);
+            fail(assertion, text, user_msg);
         } catch (const unittest::testfailure& e) {
-            assert_equal(unittest::join(msg, " - ",text), e.what(), SPOT);
+            assert_equal("a test failure", unittest::join(e.what()), SPOT);
+            assert_equal(assertion, e.assertion(), SPOT);
+            assert_equal("Here", e.filename(), SPOT);
+            assert_equal(13, e.linenumber(), SPOT);
+            caught = true;
+        }
+        if (!caught)
+            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+    }
+
+    void test_testcase_fail_no_user_message()
+    {
+        const std::string assertion("assert_something");
+        const std::string text("a test failure");
+        bool caught = false;
+        try {
+            fail(assertion, text);
+        } catch (const unittest::testfailure& e) {
+            assert_equal("a test failure", unittest::join(e.what()), SPOT);
+            assert_equal(assertion, e.assertion(), SPOT);
+            assert_equal("", e.filename(), SPOT);
+            assert_equal(-1, e.linenumber(), SPOT);
+            caught = true;
+        }
+        if (!caught)
+            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+    }
+
+    void test_testcase_fail_user_message_without_spot()
+    {
+        const std::string assertion("assert_something");
+        const std::string text("a test failure");
+        bool caught = false;
+        try {
+            fail(assertion, text, "msg ", 42);
+        } catch (const unittest::testfailure& e) {
+            assert_equal("a test failure - msg 42", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
             assert_equal("", e.filename(), SPOT);
             assert_equal(-1, e.linenumber(), SPOT);

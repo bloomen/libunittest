@@ -22,6 +22,15 @@ public:
     testfailure(const std::string& assertion,
                 const std::string& message);
     /**
+     * @brief Constructor
+     * @param assertion The name of the assertion
+     * @param message The message of the test failure
+     * @param user_msg The user defined message
+     */
+    testfailure(const std::string& assertion,
+                const std::string& message,
+                const std::string& user_msg);
+    /**
      * @brief Destructor
      */
     ~testfailure() noexcept;
@@ -46,8 +55,7 @@ public:
 
 private:
     std::string assertion_;
-    std::string filename_;
-    int linenumber_;
+    std::pair<std::string, int> spot_;
 };
 
 } // unittest

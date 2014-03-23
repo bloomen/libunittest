@@ -39,6 +39,7 @@ public:
      * @param text The assertion text
      * @param args An arbitrary number of arguments that are concatenated
      * 	to a single string and are appended to the base message
+     * @throws testfailure
      */
     template<typename... Args>
     void
@@ -46,11 +47,9 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        std::string message = make_displayed_fail_message(assertion, text);
+        const std::string message = make_displayed_fail_message(assertion, text);
         const std::string user_msg = join("", args...);
-        if (user_msg.size())
-            message += " - " + user_msg;
-        throw testfailure(assertion, message);
+        throw testfailure(assertion, message, user_msg);
     }
     /**
      * @brief Asserts that a value is true.

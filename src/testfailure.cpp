@@ -6,15 +6,20 @@ namespace unittest {
 
 testfailure::testfailure(const std::string& assertion,
                          const std::string& message)
-    : std::runtime_error(internals::remove_file_and_line(message)),
+    : std::runtime_error(message),
       assertion_(assertion),
-      filename_(""),
-      linenumber_(-1)
-{
-    const auto spot = internals::extract_file_and_line(message);
-    filename_ = spot.first;
-    linenumber_ = spot.second;
-}
+      spot_(std::make_pair("", -1))
+{}
+
+testfailure::testfailure(const std::string& assertion,
+                         const std::string& message,
+                         const std::string& user_msg)
+    : std::runtime_error([&message,&user_msg]() -> std::string
+        { const auto msg = internals::remove_file_and_line(user_msg);
+          return msg.size() ? message + " - " + msg : message; }()),
+      assertion_(assertion),
+      spot_(internals::extract_file_and_line(user_msg))
+{}
 
 testfailure::~testfailure() noexcept
 {}
@@ -28,13 +33,13 @@ testfailure::assertion() const
 std::string
 testfailure::filename() const
 {
-    return filename_;
+    return spot_.first;
 }
 
 int
 testfailure::linenumber() const
 {
-    return linenumber_;
+    return spot_.second;
 }
 
 } // unittest

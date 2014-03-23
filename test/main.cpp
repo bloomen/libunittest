@@ -7,7 +7,7 @@ int main(int argc, char **argv)
         return status;
     } else {
         auto results = unittest::internals::testsuite::instance()->get_results();
-        auto exp_tests = 159;
+        auto exp_tests = 161;
         if (exp_tests!=results.n_tests) {
             std::cerr << "Expected " << exp_tests << " tests, but got " << results.n_tests << std::endl;
             status = EXIT_FAILURE;
