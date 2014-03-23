@@ -319,12 +319,12 @@ struct test_random : unittest::testcase<> {
         auto random2 = unittest::make_random_value<int>(0, 1000);
         std::vector<std::function<void()>> functions(100);
         for (auto& function : functions)
-            function = [&]() {
+            function = std::move([&]() {
                 auto seed = random2.get();
                 assert_in_range(seed, 0, 1000, SPOT);
                 random1.seed(seed);
                 assert_in_range(random1.get(), 0, 1, SPOT);
-            };
+            });
         unittest::internals::call_functions(functions, 100);
     }
 
