@@ -1,3 +1,9 @@
+libunittest (3.7.8) stable; urgency=low
+
+  * fixed failure messages
+
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 23 Mar 2014 12:00:00 -0700
+
 libunittest (3.7.7) stable; urgency=low
 
   * ensured thread safety of random classes

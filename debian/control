@@ -2,7 +2,7 @@ Source: libunittest
 Section: libdevel
 Priority: optional
 Maintainer: Christian Blume <chr.blume@gmail.com>
-Build-Depends: g++ (>= 4.7), debhelper (>= 5.0.0), cdbs
+Build-Depends: g++ (>= 4.6), debhelper (>= 5.0.0), cdbs
 Standards-Version: 3.8.1
 
 Package: libunittest-dev
