@@ -21,7 +21,7 @@ namespace internals {
 /**
  * @brief The test monitor logs information about a single test
  */
-class testmonitor : public pimplpattern<testmonitor> {
+class testmonitor : pimplpattern<testmonitor> {
 public:
     /**
      * @brief Constructor

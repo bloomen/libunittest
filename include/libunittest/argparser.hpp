@@ -19,7 +19,7 @@ namespace internals {
  * @brief An argument parser
  */
 class argparser : public userargs,
-                  public pimplpattern<argparser> {
+                  pimplpattern<argparser> {
 public:
     /**
      * @brief Constructor
