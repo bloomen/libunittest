@@ -216,20 +216,14 @@ public:
     /**
      * @brief Constructor
      */
-    random_value()
-        : random_object<bool>(), distribution_(0, 1)
-    {}
+    random_value();
 
 private:
 
     bool
-    do_get()
-    {
-        return distribution_(this->gen()) == 1;
-    }
+    do_get();
 
     std::uniform_int_distribution<int> distribution_;
-
 };
 /**
  * @brief Factory function for random_value<bool> (true, false)
