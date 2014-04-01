@@ -224,6 +224,7 @@ private:
     do_get();
 
     std::uniform_int_distribution<int> distribution_;
+
 };
 /**
  * @brief Factory function for random_value<bool> (true, false)
@@ -527,8 +528,7 @@ private:
     std::pair<F,S>
     do_get()
     {
-        std::pair<F,S> pair(rand_fst_->get(), rand_snd_->get());
-        return std::move(pair);
+        return std::make_pair(rand_fst_->get(), rand_snd_->get());
     }
 
     void
