@@ -407,6 +407,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("test_me", args2.test_name(), SPOT);
         assert_equal(12.3, args2.timeout(), SPOT);
         assert_equal("mytest.xml", args2.xml_filename(), SPOT);
+        args.verbose(false);
+        assert_equal(true, args2.verbose(), SPOT);
     }
 
     void test_assignment_operator()
@@ -435,6 +437,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("test_me", args2.test_name(), SPOT);
         assert_equal(12.3, args2.timeout(), SPOT);
         assert_equal("mytest.xml", args2.xml_filename(), SPOT);
+        args.verbose(false);
+        assert_equal(true, args2.verbose(), SPOT);
     }
 
 };
