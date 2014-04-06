@@ -6,7 +6,6 @@
 #include <libunittest/userargs.hpp>
 #include <libunittest/testresults.hpp>
 #include <libunittest/testlog.hpp>
-#include <libunittest/pimplpattern.hpp>
 #include <string>
 #include <thread>
 #include <map>
@@ -22,7 +21,7 @@ namespace internals {
 /**
  * @brief The test suite collecting test information (singleton, thread-safe)
  */
-class testsuite : pimplpattern<testsuite> {
+class testsuite {
 public:
     /**
      * @brief Returns a pointer to the instance of this class
@@ -30,6 +29,10 @@ public:
      */
     static testsuite*
     instance();
+    /**
+     * @brief Destructor
+     */
+    ~testsuite();
     /**
      * @brief Assigns the user arguments
      * @param arguments The user arguments
@@ -77,6 +80,19 @@ public:
              const std::string& text);
 
 private:
+
+    testsuite();
+
+    testsuite(const testsuite&) = delete;
+
+    testsuite&
+    operator=(const testsuite&) = delete;
+
+    testsuite(testsuite&&) = delete;
+
+    testsuite&
+    operator=(testsuite&&) = delete;
+
     friend class testmonitor;
 
     template<typename TestCase>
@@ -90,13 +106,6 @@ private:
                      std::shared_ptr<std::atomic_bool> has_timed_out,
                      double timeout,
                      std::chrono::milliseconds resolution);
-
-    testsuite();
-
-    testsuite(const testsuite&) = delete;
-
-    testsuite&
-    operator=(const testsuite&) = delete;
 
     void
     make_keep_running(const testlog& log);
@@ -125,6 +134,8 @@ private:
     add_lonely_thread(std::thread&& thread,
                       std::shared_ptr<std::atomic_bool> done);
 
+    struct impl;
+    std::unique_ptr<impl> impl_;
 };
 
 } // internals

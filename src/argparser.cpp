@@ -7,8 +7,7 @@
 namespace unittest {
 namespace internals {
 
-template<>
-struct implementation<argparser> {
+struct argparser::impl {
 
     void
     write_help(std::ostream& stream,
@@ -72,7 +71,10 @@ struct implementation<argparser> {
 
 argparser::argparser()
     : userargs(),
-      pimplpattern(new implementation<argparser>())
+      impl_(internals::make_unique<impl>())
+{}
+
+argparser::~argparser()
 {}
 
 void

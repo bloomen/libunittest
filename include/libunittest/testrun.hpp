@@ -4,7 +4,6 @@
  */
 #pragma once
 #include <libunittest/testfailure.hpp>
-#include <libunittest/pimplpattern.hpp>
 #include <libunittest/testsuite.hpp>
 #include <libunittest/utilities.hpp>
 #include <string>
@@ -21,7 +20,7 @@ namespace internals {
 /**
  * @brief The test monitor logs information about a single test
  */
-class testmonitor : pimplpattern<testmonitor> {
+class testmonitor {
 public:
     /**
      * @brief Constructor
@@ -76,6 +75,18 @@ public:
     void
     has_timed_out(double timeout);
 
+private:
+
+    testmonitor(const testmonitor& other) = delete;
+
+    testmonitor& operator=(const testmonitor& other) = delete;
+
+    testmonitor(testmonitor&& other) = delete;
+
+    testmonitor& operator=(testmonitor&& other) = delete;
+
+    struct impl;
+    std::unique_ptr<impl> impl_;
 };
 /**
  * @brief Returns a unique method id

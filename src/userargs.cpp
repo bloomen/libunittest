@@ -1,148 +1,179 @@
 #include <libunittest/userargs.hpp>
+#include <libunittest/utilities.hpp>
 
 namespace unittest {
 namespace internals {
 
+struct userargs::impl {
+
+    bool verbose_;
+    bool failure_stop_;
+    bool generate_xml_;
+    bool handle_exceptions_;
+    bool dry_run_;
+    int concurrent_threads_;
+    std::string name_filter_;
+    std::string test_name_;
+    double timeout_;
+    std::string xml_filename_;
+    bool disable_timeout_;
+
+    impl()
+        : verbose_(false), failure_stop_(false), generate_xml_(false),
+          handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
+          name_filter_(""), test_name_(""), timeout_(-1),
+          xml_filename_("libunittest.xml"), disable_timeout_(false)
+    {}
+
+};
+
 userargs::userargs()
-    : verbose_(false), failure_stop_(false), generate_xml_(false),
-      handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
-      name_filter_(""), test_name_(""), timeout_(-1),
-      xml_filename_("libunittest.xml"), disable_timeout_(false)
+    : impl_(make_unique<impl>())
 {}
 
 userargs::~userargs()
 {}
 
+userargs::userargs(const userargs& other)
+    : impl_(make_unique<impl>(*(other.impl_)))
+{}
+
+userargs& userargs::operator=(const userargs& other)
+{
+    *impl_ = *other.impl_;
+    return *this;
+}
+
 bool
 userargs::verbose() const
 {
-    return verbose_;
+    return impl_->verbose_;
 }
 
 void
 userargs::verbose(bool value)
 {
-    verbose_ = value;
+    impl_->verbose_ = value;
 }
 
 bool
 userargs::failure_stop() const
 {
-    return failure_stop_;
+    return impl_->failure_stop_;
 }
 
 void
 userargs::failure_stop(bool value)
 {
-    failure_stop_ = value;
+    impl_->failure_stop_ = value;
 }
 
 bool
 userargs::generate_xml() const
 {
-    return generate_xml_;
+    return impl_->generate_xml_;
 }
 
 void
 userargs::generate_xml(bool value)
 {
-    generate_xml_ = value;
+    impl_->generate_xml_ = value;
 }
 
 bool
 userargs::handle_exceptions() const
 {
-    return handle_exceptions_;
+    return impl_->handle_exceptions_;
 }
 
 void
 userargs::handle_exceptions(bool value)
 {
-    handle_exceptions_ = value;
+    impl_->handle_exceptions_ = value;
 }
 
 std::string
 userargs::name_filter() const
 {
-    return name_filter_;
+    return impl_->name_filter_;
 }
 
 void
 userargs::name_filter(const std::string& value)
 {
-    name_filter_ = value;
+    impl_->name_filter_ = value;
 }
 
 std::string
 userargs::test_name() const
 {
-    return test_name_;
+    return impl_->test_name_;
 }
 
 void
 userargs::test_name(const std::string& value)
 {
-    test_name_ = value;
+    impl_->test_name_ = value;
 }
 
 double
 userargs::timeout() const
 {
-    return timeout_;
+    return impl_->timeout_;
 }
 
 void
 userargs::timeout(double value)
 {
-    timeout_ = value;
+    impl_->timeout_ = value;
 }
 
 std::string
 userargs::xml_filename() const
 {
-    return xml_filename_;
+    return impl_->xml_filename_;
 }
 
 void
 userargs::xml_filename(const std::string& value)
 {
-    xml_filename_ = value;
+    impl_->xml_filename_ = value;
 }
 
 bool
 userargs::dry_run() const
 {
-    return dry_run_;
+    return impl_->dry_run_;
 }
 
 void
 userargs::dry_run(bool value)
 {
-    dry_run_ = value;
+    impl_->dry_run_ = value;
 }
 
 int
 userargs::concurrent_threads() const
 {
-    return concurrent_threads_;
+    return impl_->concurrent_threads_;
 }
 
 void
 userargs::concurrent_threads(int value)
 {
-    concurrent_threads_ = value;
+    impl_->concurrent_threads_ = value;
 }
 
 bool
 userargs::disable_timeout() const
 {
-    return disable_timeout_;
+    return impl_->disable_timeout_;
 }
 
 void
 userargs::disable_timeout(bool value)
 {
-    disable_timeout_ = value;
+    impl_->disable_timeout_ = value;
 }
 
 } // internals

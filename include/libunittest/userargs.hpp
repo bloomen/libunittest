@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <string>
+#include <memory>
 /**
  * @brief Unit testing in C++
  */
@@ -26,6 +27,17 @@ public:
      */
     virtual
     ~userargs();
+    /**
+     * @brief Copy constructor
+     * @param other Another instance of userargs
+     */
+    userargs(const userargs& other);
+    /**
+     * @brief Copy assignment operator
+     * @param other Another instance of userargs
+     * @returns An instance of userargs
+     */
+    userargs& operator=(const userargs& other);
     /**
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
@@ -159,51 +171,14 @@ public:
     virtual void
     disable_timeout(bool value);
 
-protected:
-    /**
-     * @brief Whether the output is verbose
-     */
-    bool verbose_;
-    /**
-     * @brief Whether to stop running after the first test fails
-     */
-    bool failure_stop_;
-    /**
-     * @brief Whether to generate XML output
-     */
-    bool generate_xml_;
-    /**
-     * @brief Whether to handle unknown exceptions
-     */
-    bool handle_exceptions_;
-    /**
-     * @brief Whether to perform a dry run
-     */
-    bool dry_run_;
-    /**
-     * @brief The number of concurrent threads
-     */
-    int concurrent_threads_;
-    /**
-     * @brief A name filter on the full test name
-     */
-    std::string name_filter_;
-    /**
-     * @brief A test to be run
-     */
-    std::string test_name_;
-    /**
-     * @brief The test timeout
-     */
-    double timeout_;
-    /**
-     * @brief The XML output file name
-     */
-    std::string xml_filename_;
-    /**
-     * @brief The XML output file name
-     */
-    bool disable_timeout_;
+private:
+
+    userargs(userargs&& other) = delete;
+
+    userargs& operator=(userargs&& other) = delete;
+
+    struct impl;
+    std::unique_ptr<impl> impl_;
 };
 
 } // internals

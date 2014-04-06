@@ -10,8 +10,7 @@
 namespace unittest {
 namespace internals {
 
-template<>
-struct implementation<testsuite> {
+struct testsuite::impl {
 
     bool keep_running_;
     std::chrono::high_resolution_clock::time_point start_;
@@ -23,7 +22,7 @@ struct implementation<testsuite> {
     std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>> lonely_threads_;
     std::map<std::string, std::string> logged_texts_;
 
-    implementation()
+    impl()
     	: keep_running_(true),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
     	  end_(std::chrono::high_resolution_clock::time_point::min())
@@ -57,7 +56,10 @@ testsuite::instance()
 }
 
 testsuite::testsuite()
-    : pimplpattern(new implementation<testsuite>())
+    : impl_(make_unique<impl>())
+{}
+
+testsuite::~testsuite()
 {}
 
 void

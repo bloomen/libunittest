@@ -78,6 +78,16 @@ public:
 
 private:
 
+    testcase(const testcase&) = delete;
+
+    testcase&
+    operator=(const testcase&) = delete;
+
+    testcase(testcase&&) = delete;
+
+    testcase&
+    operator=(testcase&&) = delete;
+
     template<typename TestCase>
     friend struct internals::testfunctor;
 

@@ -38,6 +38,19 @@ public:
      */
     static std::string
     inactive_name();
+
+private:
+
+    testcollection(const testcollection&) = delete;
+
+    testcollection&
+    operator=(const testcollection&) = delete;
+
+    testcollection(testcollection&&) = delete;
+
+    testcollection&
+    operator=(testcollection&&) = delete;
+
 };
 
 } // internals

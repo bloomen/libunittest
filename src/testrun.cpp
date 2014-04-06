@@ -37,14 +37,13 @@ observe_and_wait(std::thread&& thread,
         thread.join();
 }
 
-template<>
-struct implementation<testmonitor> {
+struct testmonitor::impl {
 
     testlog log_;
     std::chrono::high_resolution_clock::time_point start_;
     bool is_executed_;
 
-    implementation()
+    impl()
     	: start_(std::chrono::high_resolution_clock::time_point::min()),
     	  is_executed_(true)
     {}
@@ -54,7 +53,7 @@ struct implementation<testmonitor> {
 testmonitor::testmonitor(const std::string& class_name,
                          const std::string& test_name,
                          const std::string& method_id)
-    : pimplpattern(new implementation<testmonitor>())
+    : impl_(make_unique<impl>())
 {
     auto suite = testsuite::instance();
     impl_->is_executed_ = suite->is_test_run(class_name, test_name);

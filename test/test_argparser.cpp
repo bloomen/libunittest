@@ -26,8 +26,6 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_verbose_failure_stop_generate_xml)
         UNITTEST_RUN(test_all_arguments)
         UNITTEST_RUN(test_argparser_errors)
-        UNITTEST_RUN(test_copy_constructor)
-        UNITTEST_RUN(test_assignment_operator)
     }
 
     int max_argc_;
@@ -379,66 +377,6 @@ struct test_argparser : unittest::testcase<> {
             argparser args;
             assert_throw<argparser_error>([&](){ args.parse(2, arguments_); }, SPOT);
         }
-    }
-
-    void test_copy_constructor()
-    {
-        argparser args;
-        args.verbose(true);
-        args.failure_stop(true);
-        args.generate_xml(true);
-        args.handle_exceptions(false);
-        args.dry_run(true);
-        args.disable_timeout(true);
-        args.concurrent_threads(3);
-        args.name_filter("test_stuff");
-        args.test_name("test_me");
-        args.timeout(12.3);
-        args.xml_filename("mytest.xml");
-        argparser args2(args);
-        assert_equal(true, args2.verbose(), SPOT);
-        assert_equal(true, args2.failure_stop(), SPOT);
-        assert_equal(true, args2.generate_xml(), SPOT);
-        assert_equal(false, args2.handle_exceptions(), SPOT);
-        assert_equal(true, args2.dry_run(), SPOT);
-        assert_equal(true, args2.disable_timeout(), SPOT);
-        assert_equal(3, args2.concurrent_threads(), SPOT);
-        assert_equal("test_stuff", args2.name_filter(), SPOT);
-        assert_equal("test_me", args2.test_name(), SPOT);
-        assert_equal(12.3, args2.timeout(), SPOT);
-        assert_equal("mytest.xml", args2.xml_filename(), SPOT);
-        args.verbose(false);
-        assert_equal(true, args2.verbose(), SPOT);
-    }
-
-    void test_assignment_operator()
-    {
-        argparser args;
-        args.verbose(true);
-        args.failure_stop(true);
-        args.generate_xml(true);
-        args.handle_exceptions(false);
-        args.dry_run(true);
-        args.disable_timeout(true);
-        args.concurrent_threads(3);
-        args.name_filter("test_stuff");
-        args.test_name("test_me");
-        args.timeout(12.3);
-        args.xml_filename("mytest.xml");
-        argparser args2 = args;
-        assert_equal(true, args2.verbose(), SPOT);
-        assert_equal(true, args2.failure_stop(), SPOT);
-        assert_equal(true, args2.generate_xml(), SPOT);
-        assert_equal(false, args2.handle_exceptions(), SPOT);
-        assert_equal(true, args2.dry_run(), SPOT);
-        assert_equal(true, args2.disable_timeout(), SPOT);
-        assert_equal(3, args2.concurrent_threads(), SPOT);
-        assert_equal("test_stuff", args2.name_filter(), SPOT);
-        assert_equal("test_me", args2.test_name(), SPOT);
-        assert_equal(12.3, args2.timeout(), SPOT);
-        assert_equal("mytest.xml", args2.xml_filename(), SPOT);
-        args.verbose(false);
-        assert_equal(true, args2.verbose(), SPOT);
     }
 
 };

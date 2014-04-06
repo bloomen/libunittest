@@ -4,9 +4,9 @@
  */
 #pragma once
 #include <libunittest/userargs.hpp>
-#include <libunittest/pimplpattern.hpp>
 #include <string>
 #include <stdexcept>
+#include <memory>
 /**
  * @brief Unit testing in C++
  */
@@ -18,13 +18,16 @@ namespace internals {
 /**
  * @brief An argument parser
  */
-class argparser : public userargs,
-                  pimplpattern<argparser> {
+class argparser : public userargs {
 public:
     /**
      * @brief Constructor
      */
     argparser();
+    /**
+     * @brief Destructor
+     */
+    ~argparser();
     /**
      * @brief Parses the arguments and assigns given values
      * @param argc The number of arguments
@@ -32,6 +35,19 @@ public:
      */
     void
     parse(int argc, char **argv);
+
+private:
+
+    argparser(const argparser& other) = delete;
+
+    argparser& operator=(const argparser& other) = delete;
+
+    argparser(argparser&& other) = delete;
+
+    argparser& operator=(argparser&& other) = delete;
+
+    struct impl;
+    std::unique_ptr<impl> impl_;
 };
 /**
  * @brief The exception class to indicate argument errors
