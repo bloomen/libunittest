@@ -37,6 +37,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_remove_file_and_line_found_at_end)
         UNITTEST_RUN(test_remove_file_and_line_found_two)
         UNITTEST_RUN(test_remove_file_and_line_not_found)
+        UNITTEST_RUN(test_make_unique)
     }
 
     void test_limit_string_length()
@@ -346,6 +347,26 @@ struct test_utilities : unittest::testcase<> {
         auto function = unittest::internals::remove_file_and_line;
         const auto result = function("some text");
         assert_equal("some text", result, SPOT);
+    }
+
+    void test_make_unique()
+    {
+        using unittest::internals::make_unique;
+
+        assert_true(make_unique<int>(), SPOT);
+        assert_true(make_unique<std::string>(), SPOT);
+
+        auto ptr1 = make_unique<int>(1729);
+        assert_equal(1729, *ptr1, SPOT);
+
+        auto ptr2 = make_unique<std::string>("meow");
+        assert_equal("meow", *ptr2, SPOT);
+
+        auto ptr3 = make_unique<std::string>(6, 'z');
+        assert_equal("zzzzzz", *ptr3, SPOT);
+
+        auto vector = make_unique<std::vector<float>>(3);
+        assert_equal<unsigned>(3, vector->size(), SPOT);
     }
 
 };
