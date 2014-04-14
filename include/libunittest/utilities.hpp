@@ -100,31 +100,6 @@ is_approx_equal(const T& first,
     return diff < eps;
 }
 /**
- * @brief Checks whether the elements in two ranges are approx. equal
- *  up to some epsilon
- * @param first1 An input iterator
- * @param last1 An input iterator
- * @param first2 An input iterator
- * @param eps The epsilon
- * @returns Whether the elements in the two ranges are approx. equal
- */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename T>
-bool
-is_approx_equal(InputIterator1 first1,
-                InputIterator1 last1,
-                InputIterator2 first2,
-                const T& eps)
-{
-    while (first1 != last1) {
-        if (!is_approx_equal(*first1, *first2, eps))
-            return false;
-        ++first1; ++first2;
-    }
-    return true;
-}
-/**
  * @brief Checks if a value is in a given range.
  *  The bounds are included
  * @param value A value
@@ -194,13 +169,16 @@ bool
 is_containers_equal(const Container1& first,
                     const Container2& second)
 {
-    const bool equal_first = std::equal(std::begin(first),
-                                        std::end(first),
-                                        std::begin(second));
-    const bool equal_second = std::equal(std::begin(second),
-                                         std::end(second),
-                                         std::begin(first));
-    return equal_first && equal_second;
+    auto begin1 = std::begin(first);
+    auto end1 = std::end(first);
+    auto begin2 = std::begin(second);
+    auto end2 = std::end(second);
+    while (begin1!=end1 && begin2!=end2) {
+        if (*begin1!=*begin2) return false;
+        ++begin1;
+        ++begin2;
+    }
+    return begin1==end1 && begin2==end2;
 }
 /**
  * @brief Checks if two containers are approx. equal
@@ -218,15 +196,16 @@ is_containers_approx_equal(const Container1& first,
                            const Container2& second,
                            const V& eps)
 {
-    const bool equal_first = is_approx_equal(std::begin(first),
-                                             std::end(first),
-                                             std::begin(second),
-                                             eps);
-    const bool equal_second = is_approx_equal(std::begin(second),
-                                              std::end(second),
-                                              std::begin(first),
-                                              eps);
-    return equal_first && equal_second;
+    auto begin1 = std::begin(first);
+    auto end1 = std::end(first);
+    auto begin2 = std::begin(second);
+    auto end2 = std::end(second);
+    while (begin1!=end1 && begin2!=end2) {
+        if (!is_approx_equal(*begin1, *begin2, eps)) return false;
+        ++begin1;
+        ++begin2;
+    }
+    return begin1==end1 && begin2==end2;
 }
 /**
  * @brief Checks if a value matches a regular expression

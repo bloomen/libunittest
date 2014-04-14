@@ -187,6 +187,11 @@ struct test_assertions : unittest::testcase<> {
         std::vector<int> vec2 = {1, 2, 4};
         auto functor = [this,&vec,&vec2]() { this->assert_equal_containers(vec, vec2); };
         assert_throw<testfailure>(functor, SPOT);
+        std::vector<int> vec3 = {};
+        auto functor2 = [this,&vec,&vec3]() { this->assert_equal_containers(vec, vec3); };
+        assert_throw<testfailure>(functor2, SPOT);
+        auto functor3 = [this,&vec,&vec3]() { this->assert_equal_containers(vec3, vec); };
+        assert_throw<testfailure>(functor3, SPOT);
     }
 
     void test_assert_not_equal_containers()
@@ -194,6 +199,10 @@ struct test_assertions : unittest::testcase<> {
         std::vector<int> vec = {1, 2, 3};
         std::vector<int> vec2 = {1, 2, 4};
         assert_not_equal_containers(vec, vec2, SPOT);
+        std::vector<int> vec3 = {1, 2, 3, 4};
+        assert_not_equal_containers(vec, vec3, SPOT);
+        std::vector<int> vec4 = {};
+        assert_not_equal_containers(vec, vec4, SPOT);
         auto functor = [this,&vec]() { this->assert_not_equal_containers(vec, vec); };
         assert_throw<testfailure>(functor, SPOT);
     }
@@ -205,6 +214,11 @@ struct test_assertions : unittest::testcase<> {
         assert_approx_equal_containers(vec, vec2, 1.01, SPOT);
         auto functor = [this,&vec,&vec2]() { this->assert_approx_equal_containers(vec, vec2, 1); };
         assert_throw<testfailure>(functor, SPOT);
+        std::vector<int> vec3 = {};
+        auto functor2 = [this,&vec,&vec3]() { this->assert_approx_equal_containers(vec, vec3, 1.01); };
+        assert_throw<testfailure>(functor2, SPOT);
+        auto functor3 = [this,&vec,&vec3]() { this->assert_approx_equal_containers(vec3, vec, 1.01); };
+        assert_throw<testfailure>(functor3, SPOT);
     }
 
     void test_assert_approx_not_equal_containers()
@@ -212,6 +226,10 @@ struct test_assertions : unittest::testcase<> {
         std::vector<int> vec = {1, 2, 3};
         std::vector<int> vec2 = {1, 2, 4};
         assert_approx_not_equal_containers(vec, vec2, 1, SPOT);
+        std::vector<int> vec3 = {1, 2, 3, 4};
+        assert_approx_not_equal_containers(vec, vec3, 1.01, SPOT);
+        std::vector<int> vec4 = {};
+        assert_approx_not_equal_containers(vec, vec4, 1.01, SPOT);
         auto functor = [this,&vec,&vec2]() { this->assert_approx_not_equal_containers(vec, vec2, 1.01); };
         assert_throw<testfailure>(functor, SPOT);
     }
