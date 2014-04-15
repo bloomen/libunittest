@@ -412,7 +412,7 @@ join(const T& arg,
     std::ostringstream stream;
     stream << arg;
     internals::write_to_stream(stream, args...);
-    return std::move(stream.str());
+    return stream.str();
 }
 /**
  * @brief Machine epsilon of float
