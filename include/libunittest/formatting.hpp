@@ -63,7 +63,7 @@ public:
         std::ostringstream stream;
         stream.precision(max_displayed_value_precision());
         stream << value;
-        return std::move(stream_to_string(stream));
+        return stream_to_string(stream);
     }
 
 private:
