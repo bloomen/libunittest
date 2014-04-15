@@ -237,7 +237,7 @@ private:
     _construct(std::unique_ptr<TestCase>& test,
                testmonitor& monitor)
     {
-        test = std::move(std::unique_ptr<TestCase>(new TestCase));
+        test = make_unique<TestCase>();
         test->set_test_context(context_);
         test->set_test_id(method_id_);
         return true;
@@ -426,13 +426,13 @@ testrun(typename TestCase::context_type& context,
                                            class_name, test_name,
                                            skipped, skip_message, timeout);
     internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
-    if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<0) {
+    if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<=0) {
         functor();
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
         auto function = [done](internals::testfunctor<TestCase> functor) { functor(); done->store(true); };
-        std::thread thread(std::bind(function, std::move(functor)));
+        std::thread thread(function, std::move(functor));
         internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
     }
 }
