@@ -449,14 +449,14 @@ private:
     do_get()
     {
         std::tuple<Args...> result;
-        unittest::internals::tuple_transform(this->get_func(), rand_tuple_, result);
+        unittest::internals::tuple_transform(get_func(), rand_tuple_, result);
         return std::move(result);
     }
 
     void
     do_seed(int seed)
     {
-        unittest::internals::tuple_for_each(this->seed_func(), rand_tuple_, seed);
+        unittest::internals::tuple_for_each(seed_func(), rand_tuple_, seed);
     }
 
     /**

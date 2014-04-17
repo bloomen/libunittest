@@ -1,3 +1,10 @@
+libunittest (3.7.10) stable; urgency=low
+
+  * Ensured explicit namespacing in header files to avoid any 
+    possible name mangling
+
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 16 Apr 2014 22:00:00 -0700
+
 libunittest (3.7.9) stable; urgency=low
 
   * fixed bug in container comparison 
