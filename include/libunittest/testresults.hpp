@@ -58,7 +58,7 @@ struct testresults {
     /**
      * @brief A vector of testlog instances. One instance for each test
      */
-    std::vector<testlog> testlogs;
+    std::vector<unittest::internals::testlog> testlogs;
 };
 /**
  * @brief Writes the test results as an XML to the given output stream
@@ -69,7 +69,7 @@ struct testresults {
  */
 void
 write_xml(std::ostream& stream,
-          const testresults& results,
+          const unittest::internals::testresults& results,
           const std::chrono::system_clock::time_point& time_point=std::chrono::system_clock::now(),
           bool local_time=true);
 /**
@@ -79,7 +79,7 @@ write_xml(std::ostream& stream,
  */
 void
 write_summary(std::ostream& stream,
-              const testresults& results);
+              const unittest::internals::testresults& results);
 /**
  * @brief Writes the error info to the given output stream
  * @param stream The output stream
@@ -88,7 +88,7 @@ write_summary(std::ostream& stream,
  */
 void
 write_error_info(std::ostream& stream,
-                 const std::vector<testlog>& testlogs,
+                 const std::vector<unittest::internals::testlog>& testlogs,
                  bool successful);
 
 } // internals

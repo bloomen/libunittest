@@ -18,7 +18,7 @@ namespace internals {
 /**
  * @brief An argument parser
  */
-class argparser : public userargs {
+class argparser : public unittest::internals::userargs {
 public:
     /**
      * @brief Constructor

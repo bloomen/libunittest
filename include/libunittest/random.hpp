@@ -34,7 +34,7 @@ public:
     {
         static std::mutex get_mutex_;
         std::lock_guard<std::mutex> lock(get_mutex_);
-        return do_get();
+        return this->do_get();
     }
     /**
      * @brief Sets a new random seed
@@ -45,7 +45,7 @@ public:
     {
         static std::mutex seed_mutex_;
         std::lock_guard<std::mutex> lock(seed_mutex_);
-        do_seed(seed);
+        this->do_seed(seed);
     }
 
 protected:
@@ -74,7 +74,7 @@ private:
     virtual void
     do_seed(int seed)
     {
-        gen().seed(seed);
+        this->gen().seed(seed);
     }
 
     std::mt19937 generator_;
@@ -119,7 +119,7 @@ struct distribution<T, false> {
  *  including for integral types and excluding for real types
  */
 template<typename T>
-class random_value : public random_object<T> {
+class random_value : public unittest::random_object<T> {
     /**
      * @brief The distribution type
      */
@@ -130,7 +130,7 @@ public:
      * @brief Constructor, range: [0, 1]
      */
     random_value()
-        : random_object<T>()
+        : unittest::random_object<T>()
     {
         typename dist_type::param_type params(0, 1);
         distribution_.param(params);
@@ -140,7 +140,7 @@ public:
      * @param maximum The upper bound
      */
     random_value(const T& maximum)
-        : random_object<T>()
+        : unittest::random_object<T>()
     {
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
@@ -154,7 +154,7 @@ public:
      */
     random_value(const T& minimum,
                  const T& maximum)
-        : random_object<T>()
+        : unittest::random_object<T>()
     {
         if (!(minimum<maximum))
             throw std::invalid_argument("minimum must be lesser than maximum");
@@ -178,10 +178,10 @@ private:
  * @returns An instance of random_value
  */
 template<typename T>
-random_value<T>
+unittest::random_value<T>
 make_random_value()
 {
-    return random_value<T>();
+    return unittest::random_value<T>();
 }
 /**
  * @brief Factory function for random_value, range: [0, maximum]
@@ -189,10 +189,10 @@ make_random_value()
  * @returns An instance of random_value
  */
 template<typename T>
-random_value<T>
+unittest::random_value<T>
 make_random_value(const T& maximum)
 {
-    return random_value<T>(maximum);
+    return unittest::random_value<T>(maximum);
 }
 /**
  * @brief Factory function for random_value, range: [minimum, maximum]
@@ -201,17 +201,17 @@ make_random_value(const T& maximum)
  * @returns An instance of random_value
  */
 template<typename T>
-random_value<T>
+unittest::random_value<T>
 make_random_value(const T& minimum,
                   const T& maximum)
 {
-    return random_value<T>(minimum, maximum);
+    return unittest::random_value<T>(minimum, maximum);
 }
 /**
  * @brief A random bool (true, false)
  */
 template<>
-class random_value<bool> : public random_object<bool> {
+class random_value<bool> : public unittest::random_object<bool> {
 public:
     /**
      * @brief Constructor
@@ -230,13 +230,13 @@ private:
  * @brief Factory function for random_value<bool> (true, false)
  * @returns An instance of random_value<bool>
  */
-random_value<bool>
+unittest::random_value<bool>
 make_random_bool();
 /**
  * @brief A random choice from a given container
  */
 template<typename Container>
-class random_choice : public random_object<typename Container::value_type> {
+class random_choice : public unittest::random_object<typename Container::value_type> {
     /**
      * @brief The type of the container elements
      */
@@ -252,7 +252,7 @@ public:
      * @param container The container to choose from
      */
     random_choice(const Container& container)
-        : random_object<element_type>(),
+        : unittest::random_object<element_type>(),
           container_(container)
     {
         if (container_.size()==0)
@@ -293,16 +293,16 @@ private:
  * @returns An instance of random_choice
  */
 template<typename Container>
-random_choice<Container>
+unittest::random_choice<Container>
 make_random_choice(const Container& container)
 {
-    return random_choice<Container>(container);
+    return unittest::random_choice<Container>(container);
 }
 /**
  * @brief A random container
  */
 template<typename Container>
-class random_container : public random_object<Container> {
+class random_container : public unittest::random_object<Container> {
     /**
      * @brief The type of the container elements
      */
@@ -318,9 +318,9 @@ public:
      * @param rand The random object used to fill the container
      * @param size The container size
      */
-    random_container(random_object<element_type>& rand,
+    random_container(unittest::random_object<element_type>& rand,
                      size_t size)
-        : random_object<Container>(),
+        : unittest::random_object<Container>(),
           rand_(&rand),
           fixed_size_(true),
           size_(size)
@@ -331,10 +331,10 @@ public:
      * @param min_size The minimum container size (including)
      * @param max_size The maximum container size (including)
      */
-    random_container(random_object<element_type>& rand,
+    random_container(unittest::random_object<element_type>& rand,
                      size_t min_size,
                      size_t max_size)
-        : random_object<Container>(),
+        : unittest::random_object<Container>(),
           rand_(&rand),
           fixed_size_(false)
     {
@@ -366,7 +366,7 @@ private:
         this->gen().seed(seed);
     }
 
-    random_object<element_type>* rand_;
+    unittest::random_object<element_type>* rand_;
     bool fixed_size_;
     size_t size_;
     dist_type distribution_;
@@ -379,11 +379,11 @@ private:
  * @returns An instance of random_container
  */
 template<typename Container>
-random_container<Container>
-make_random_container(random_object<typename Container::value_type>& rand,
+unittest::random_container<Container>
+make_random_container(unittest::random_object<typename Container::value_type>& rand,
                       size_t size)
 {
-    return random_container<Container>(rand, size);
+    return unittest::random_container<Container>(rand, size);
 }
 /**
  * @brief Factory function for random_container
@@ -393,12 +393,12 @@ make_random_container(random_object<typename Container::value_type>& rand,
  * @returns An instance of random_container
  */
 template<typename Container>
-random_container<Container>
-make_random_container(random_object<typename Container::value_type>& rand,
+unittest::random_container<Container>
+make_random_container(unittest::random_object<typename Container::value_type>& rand,
                       size_t min_size,
                       size_t max_size)
 {
-    return random_container<Container>(rand, min_size, max_size);
+    return unittest::random_container<Container>(rand, min_size, max_size);
 }
 /**
  * @brief Factory function for random_container<vector>
@@ -407,11 +407,11 @@ make_random_container(random_object<typename Container::value_type>& rand,
  * @returns An instance of random_container<vector>
  */
 template<typename T>
-random_container<std::vector<T>>
-make_random_vector(random_object<T>& rand,
+unittest::random_container<std::vector<T>>
+make_random_vector(unittest::random_object<T>& rand,
                    size_t size)
 {
-    return random_container<std::vector<T>>(rand, size);
+    return unittest::random_container<std::vector<T>>(rand, size);
 }
 /**
  * @brief Factory function for random_container<vector>
@@ -421,25 +421,25 @@ make_random_vector(random_object<T>& rand,
  * @returns An instance of random_container<vector>
  */
 template<typename T>
-random_container<std::vector<T>>
-make_random_vector(random_object<T>& rand,
+unittest::random_container<std::vector<T>>
+make_random_vector(unittest::random_object<T>& rand,
                    size_t min_size,
                    size_t max_size)
 {
-    return random_container<std::vector<T>>(rand, min_size, max_size);
+    return unittest::random_container<std::vector<T>>(rand, min_size, max_size);
 }
 /**
  * @brief A random tuple build from random objects
  */
 template<typename ...Args>
-class random_tuple : public random_object<std::tuple<Args...>> {
+class random_tuple : public unittest::random_object<std::tuple<Args...>> {
 public:
     /**
      * @brief Constructor
      * @param rands Random objects used to fill the tuple
      */
-    random_tuple(random_object<Args>&... rands)
-        : random_object<std::tuple<Args...>>(),
+    random_tuple(unittest::random_object<Args>&... rands)
+        : unittest::random_object<std::tuple<Args...>>(),
           rand_tuple_(&rands...)
     {}
 
@@ -449,14 +449,14 @@ private:
     do_get()
     {
         std::tuple<Args...> result;
-        internals::tuple_transform(get_func(), rand_tuple_, result);
+        unittest::internals::tuple_transform(this->get_func(), rand_tuple_, result);
         return std::move(result);
     }
 
     void
     do_seed(int seed)
     {
-        internals::tuple_for_each(seed_func(), rand_tuple_, seed);
+        unittest::internals::tuple_for_each(this->seed_func(), rand_tuple_, seed);
     }
 
     /**
@@ -469,7 +469,7 @@ private:
          * @param seed The random seed
          */
         template<typename T>
-        void operator()(random_object<T>* rand, int seed) const
+        void operator()(unittest::random_object<T>* rand, int seed) const
         {
             rand->seed(seed);
         }
@@ -484,13 +484,13 @@ private:
          * @returns A random object
          */
         template<typename T>
-        T operator()(random_object<T>* rand) const
+        T operator()(unittest::random_object<T>* rand) const
         {
             return rand->get();
         }
     };
 
-    std::tuple<random_object<Args>*...> rand_tuple_;
+    std::tuple<unittest::random_object<Args>*...> rand_tuple_;
 
 };
 /**
@@ -499,26 +499,26 @@ private:
  * @returns An instance of random_tuple
  */
 template<typename ...Args>
-random_tuple<Args...>
-make_random_tuple(random_object<Args>&... rands)
+unittest::random_tuple<Args...>
+make_random_tuple(unittest::random_object<Args>&... rands)
 {
-    return random_tuple<Args...>(rands...);
+    return unittest::random_tuple<Args...>(rands...);
 }
 /**
  * @brief A random pair build from two random objects
  */
 template<typename F,
          typename S>
-class random_pair : public random_object<std::pair<F,S>> {
+class random_pair : public unittest::random_object<std::pair<F,S>> {
 public:
     /**
      * @brief Constructor
      * @param rand_fst Random object used to fill the first pair element
      * @param rand_snd Random object used to fill the second pair element
      */
-    random_pair(random_object<F>& rand_fst,
-                random_object<S>& rand_snd)
-        : random_object<std::pair<F,S>>(),
+    random_pair(unittest::random_object<F>& rand_fst,
+                unittest::random_object<S>& rand_snd)
+        : unittest::random_object<std::pair<F,S>>(),
           rand_fst_(&rand_fst),
           rand_snd_(&rand_snd)
     {}
@@ -538,8 +538,8 @@ private:
         rand_snd_->seed(seed);
     }
 
-    random_object<F>* rand_fst_;
-    random_object<S>* rand_snd_;
+    unittest::random_object<F>* rand_fst_;
+    unittest::random_object<S>* rand_snd_;
 };
 /**
  * @brief Factory function for random_pair
@@ -549,24 +549,24 @@ private:
  */
 template<typename F,
          typename S>
-random_pair<F,S>
-make_random_pair(random_object<F>& rand_fst,
-                 random_object<S>& rand_snd)
+unittest::random_pair<F,S>
+make_random_pair(unittest::random_object<F>& rand_fst,
+                 unittest::random_object<S>& rand_snd)
 {
-    return random_pair<F,S>(rand_fst, rand_snd);
+    return unittest::random_pair<F,S>(rand_fst, rand_snd);
 }
 /**
  * @brief A random shuffle of a given container
  */
 template<typename Container>
-class random_shuffle : public random_object<Container> {
+class random_shuffle : public unittest::random_object<Container> {
 public:
     /**
      * @brief Constructor
      * @param container The container
      */
     random_shuffle(const Container& container)
-        : random_object<Container>(),
+        : unittest::random_object<Container>(),
           vector_(std::begin(container), std::end(container)),
           size_(container.size())
     {}
@@ -577,7 +577,7 @@ public:
      */
     random_shuffle(const Container& container,
                    size_t size)
-        : random_object<Container>(),
+        : unittest::random_object<Container>(),
           vector_(std::begin(container), std::end(container)),
           size_(size)
     {
@@ -606,10 +606,10 @@ private:
  * @returns An instance of random_shuffle
  */
 template<typename Container>
-random_shuffle<Container>
+unittest::random_shuffle<Container>
 make_random_shuffle(const Container& container)
 {
-    return random_shuffle<Container>(container);
+    return unittest::random_shuffle<Container>(container);
 }
 /**
  * @brief Factory function for random_shuffle
@@ -618,11 +618,11 @@ make_random_shuffle(const Container& container)
  * @returns An instance of random_shuffle
  */
 template<typename Container>
-random_shuffle<Container>
+unittest::random_shuffle<Container>
 make_random_shuffle(const Container& container,
                     size_t size)
 {
-    return random_shuffle<Container>(container, size);
+    return unittest::random_shuffle<Container>(container, size);
 }
 
 /**
@@ -655,11 +655,11 @@ struct combination {
  */
 template<typename Container1,
          typename Container2>
-class random_combination : public random_object<typename internals::combination<Container1, Container2>::type> {
+class random_combination : public unittest::random_object<typename unittest::internals::combination<Container1, Container2>::type> {
     /**
      * @brief The type of the random combination
      */
-    typedef typename internals::combination<Container1, Container2>::type combination_type;
+    typedef typename unittest::internals::combination<Container1, Container2>::type combination_type;
 
 public:
     /**
@@ -671,7 +671,7 @@ public:
     random_combination(const Container1& container1,
                        const Container2& container2,
                        size_t size)
-        : random_object<combination_type>(),
+        : unittest::random_object<combination_type>(),
           container1_(container1),
           container2_(container2),
           granter_(container1.size() * container2.size(), false),
@@ -717,12 +717,12 @@ private:
  */
 template<typename Container1,
          typename Container2>
-random_combination<Container1, Container2>
+unittest::random_combination<Container1, Container2>
 make_random_combination(const Container1& container1,
                         const Container2& container2,
                         size_t size)
 {
-    return random_combination<Container1, Container2>(container1, container2, size);
+    return unittest::random_combination<Container1, Container2>(container1, container2, size);
 }
 
 } // unittest

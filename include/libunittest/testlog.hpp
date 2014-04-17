@@ -87,7 +87,7 @@ struct testlog {
  */
 void
 write_test_start_message(std::ostream& stream,
-                         const testlog& log,
+                         const unittest::internals::testlog& log,
                          bool verbose);
 /**
  * @brief Writes a test end message to the given output stream
@@ -97,7 +97,7 @@ write_test_start_message(std::ostream& stream,
  */
 void
 write_test_end_message(std::ostream& stream,
-                       const testlog& log,
+                       const unittest::internals::testlog& log,
                        bool verbose);
 /**
  * @brief Writes a test timeout message to the given output stream
@@ -134,7 +134,7 @@ is_test_executed(const std::string& full_test_name,
  * @returns Whether to keep running tests
  */
 bool
-keep_running(const testlog& log,
+keep_running(const unittest::internals::testlog& log,
              bool failure_stop);
 
 } // internals

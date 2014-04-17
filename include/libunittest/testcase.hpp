@@ -26,8 +26,8 @@ struct testfunctor;
  * @brief The class from which to derive when implementing a test case. The
  *  test context is optional
  */
-template<typename TestContext=notype>
-class testcase : public internals::assertions {
+template<typename TestContext=unittest::notype>
+class testcase : public unittest::internals::assertions {
 public:
     /**
      * @brief The type of the optional test context
@@ -89,7 +89,7 @@ private:
     operator=(testcase&&) = delete;
 
     template<typename TestCase>
-    friend struct internals::testfunctor;
+    friend struct unittest::internals::testfunctor;
 
     void
     set_test_context(context_type *context)

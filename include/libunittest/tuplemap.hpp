@@ -59,7 +59,7 @@ struct index_range {
 template<size_t i, size_t ...j, typename F, typename T, typename ...Args>
 void tuple_for_each_index(indices<i,j...>, const F& f, T& t, const Args&... args) {
     f(std::get<i>(t), args...);
-    tuple_for_each_index(indices<j...>(), f, t, args...);
+    unittest::internals::tuple_for_each_index(indices<j...>(), f, t, args...);
 }
 /**
  * @brief Partial specialization of tuple_for_each_index for empty index lists.
@@ -76,7 +76,7 @@ void tuple_for_each_index(indices<>, const F&, T&, const Args&...) {
 template<size_t i, size_t ...j, typename F, typename T, typename ...Args>
 void tuple_for_each_index(indices<i,j...>, const F& f, const T& t, const Args&... args) {
     f(std::get<i>(t), args...);
-    tuple_for_each_index(indices<j...>(), f, t, args...);
+    unittest::internals::tuple_for_each_index(indices<j...>(), f, t, args...);
 }
 /**
  * @brief Partial specialization of tuple_for_each_index for empty index lists.
@@ -94,7 +94,7 @@ template<typename F, typename T, typename ...Args>
 void tuple_for_each(const F& f, T& t, const Args&... args) {
     constexpr size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
-    tuple_for_each_index(index_list(), f, t, args...);
+    unittest::internals::tuple_for_each_index(index_list(), f, t, args...);
 }
 /**
  * @brief Apply functor to each tuple element.
@@ -106,7 +106,7 @@ template<typename F, typename T, typename ...Args>
 void tuple_for_each(const F& f, const T& t, const Args&... args) {
     constexpr size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
-    tuple_for_each_index(index_list(), f, t, args...);
+    unittest::internals::tuple_for_each_index(index_list(), f, t, args...);
 }
 /**
  * @brief Transform tuple elements using functor. Use tuple_transform for actual application.
@@ -118,7 +118,7 @@ void tuple_for_each(const F& f, const T& t, const Args&... args) {
 template<size_t i, size_t ...j, typename F, typename T, typename R, typename ...Args>
 void tuple_transform_index(indices<i,j...>, const F& f, const T& t, R& r, const Args&... args) {
     std::get<i>(r) = f(std::get<i>(t), args...);
-    tuple_transform_index(indices<j...>(), f, t, r, args...);
+    unittest::internals::tuple_transform_index(indices<j...>(), f, t, r, args...);
 }
 /**
  * @brief Partial specialization of tuple_transform_index for empty index lists.
@@ -137,7 +137,7 @@ template<typename F, typename T, typename R, typename ...Args>
 void tuple_transform(const F& f, const T& t, R& r, const Args&... args) {
     constexpr size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
-    tuple_transform_index(index_list(), f, t, r, args...);
+    unittest::internals::tuple_transform_index(index_list(), f, t, r, args...);
 }
 
 } // internals

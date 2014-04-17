@@ -58,7 +58,7 @@ write_to_stream(std::ostream& stream,
                 const Args&... args)
 {
     stream << arg;
-    write_to_stream(stream, args...);
+    unittest::internals::write_to_stream(stream, args...);
 }
 /**
  * @brief Writes a horizontal bar to the given output stream
@@ -152,7 +152,7 @@ is_approx_contained(const T& value,
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
-        if (is_approx_equal(*first, value, eps)) return true;
+        if (unittest::internals::is_approx_equal(*first, value, eps)) return true;
         ++first;
     }
     return false;
@@ -201,7 +201,7 @@ is_containers_approx_equal(const Container1& first,
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (!is_approx_equal(*begin1, *begin2, eps)) return false;
+        if (!unittest::internals::is_approx_equal(*begin1, *begin2, eps)) return false;
         ++begin1;
         ++begin2;
     }
@@ -391,7 +391,7 @@ template<typename T,
 std::unique_ptr<T>
 make_unique(Args&&... args)
 {
-    return make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
+    return unittest::internals::make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
 }
 
 } // internals
@@ -411,7 +411,7 @@ join(const T& arg,
 {
     std::ostringstream stream;
     stream << arg;
-    internals::write_to_stream(stream, args...);
+    unittest::internals::write_to_stream(stream, args...);
     return stream.str();
 }
 /**

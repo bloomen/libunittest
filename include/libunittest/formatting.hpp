@@ -61,9 +61,9 @@ public:
     str(const T& value) const
     {
         std::ostringstream stream;
-        stream.precision(max_displayed_value_precision());
+        stream.precision(this->max_displayed_value_precision());
         stream << value;
-        return stream_to_string(stream);
+        return this->stream_to_string(stream);
     }
 
 private:

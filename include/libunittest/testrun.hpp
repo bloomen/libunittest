@@ -56,7 +56,7 @@ public:
      * @param e The failure exception
      */
     void
-    log_failure(const testfailure& e);
+    log_failure(const unittest::testfailure& e);
     /**
      * @brief Logs error for the current test
      * @param e The error exception
@@ -97,7 +97,7 @@ template<typename TestCase>
 std::string
 make_method_id(const std::string& test_name)
 {
-    return get_type_id<TestCase>() + test_name;
+    return unittest::internals::get_type_id<TestCase>() + test_name;
 }
 /**
  * @brief Stores the test to be run and an optional test context.
@@ -148,7 +148,7 @@ struct testfunctor {
     void
     operator()()
     {
-        testmonitor monitor(class_name_, test_name_, method_id_);
+        unittest::internals::testmonitor monitor(class_name_, test_name_, method_id_);
         if (skipped_)
             monitor.log_skipped(skip_message_);
         else if (monitor.is_executed()) {
@@ -156,7 +156,7 @@ struct testfunctor {
                 monitor.log_success();
             } else {
                 std::unique_ptr<TestCase> test;
-                run(test, monitor);
+                this->run(test, monitor);
                 if (has_timed_out_->load())
                     monitor.has_timed_out(timeout_);
             }
@@ -167,12 +167,12 @@ private:
 
     void
     run(std::unique_ptr<TestCase>& test,
-        testmonitor& monitor)
+        unittest::internals::testmonitor& monitor)
     {
-        if (construct(test, monitor)) {
-            if (set_up(test, monitor)) {
-                if (execute(test, monitor)) {
-                    tear_down(test, monitor);
+        if (this->construct(test, monitor)) {
+            if (this->set_up(test, monitor)) {
+                if (this->execute(test, monitor)) {
+                    this->tear_down(test, monitor);
                 }
             }
         }
@@ -180,25 +180,25 @@ private:
 
     bool
     do_nothing(std::unique_ptr<TestCase>& test,
-               testmonitor& monitor)
+               unittest::internals::testmonitor& monitor)
     {
         return true;
     }
 
     bool
     handle(std::unique_ptr<TestCase>& test,
-           testmonitor& monitor,
+           unittest::internals::testmonitor& monitor,
            bool (testfunctor::*function)
-                       (std::unique_ptr<TestCase>&, testmonitor&),
+                       (std::unique_ptr<TestCase>&, unittest::internals::testmonitor&),
            bool (testfunctor::*error_callback)
-                       (std::unique_ptr<TestCase>&, testmonitor&))
+                       (std::unique_ptr<TestCase>&, unittest::internals::testmonitor&))
     {
         if (handle_exceptions_) {
             try {
                 (this->*function)(test, monitor);
                 monitor.log_success();
                 return true;
-            } catch (const testfailure& e) {
+            } catch (const unittest::testfailure& e) {
                 (this->*error_callback)(test, monitor);
                 monitor.log_failure(e);
                 return false;
@@ -216,7 +216,7 @@ private:
                 (this->*function)(test, monitor);
                 monitor.log_success();
                 return true;
-            } catch (const testfailure& e) {
+            } catch (const unittest::testfailure& e) {
                 (this->*error_callback)(test, monitor);
                 monitor.log_failure(e);
                 return false;
@@ -226,7 +226,7 @@ private:
 
     bool
     construct(std::unique_ptr<TestCase>& test,
-              testmonitor& monitor)
+              unittest::internals::testmonitor& monitor)
     {
         return handle(test, monitor,
                       &testfunctor<TestCase>::_construct,
@@ -235,9 +235,9 @@ private:
 
     bool
     _construct(std::unique_ptr<TestCase>& test,
-               testmonitor& monitor)
+               unittest::internals::testmonitor& monitor)
     {
-        test = make_unique<TestCase>();
+        test = unittest::internals::make_unique<TestCase>();
         test->set_test_context(context_);
         test->set_test_id(method_id_);
         return true;
@@ -245,16 +245,16 @@ private:
 
     bool
     set_up(std::unique_ptr<TestCase>& test,
-           testmonitor& monitor)
+           unittest::internals::testmonitor& monitor)
     {
-        return handle(test, monitor,
-                      &testfunctor<TestCase>::_set_up,
-                      &testfunctor<TestCase>::tear_down);
+        return this->handle(test, monitor,
+                            &testfunctor<TestCase>::_set_up,
+                            &testfunctor<TestCase>::tear_down);
     }
 
     bool
     _set_up(std::unique_ptr<TestCase>& test,
-            testmonitor& monitor)
+            unittest::internals::testmonitor& monitor)
     {
         test->set_up();
         return true;
@@ -262,16 +262,16 @@ private:
 
     bool
     execute(std::unique_ptr<TestCase>& test,
-            testmonitor& monitor)
+            unittest::internals::testmonitor& monitor)
     {
-        return handle(test, monitor,
-                      &testfunctor<TestCase>::_execute,
-                      &testfunctor<TestCase>::tear_down);
+        return this->handle(test, monitor,
+                            &testfunctor<TestCase>::_execute,
+                            &testfunctor<TestCase>::tear_down);
     }
 
     bool
     _execute(std::unique_ptr<TestCase>& test,
-             testmonitor& monitor)
+             unittest::internals::testmonitor& monitor)
     {
         (test.get()->*method_)();
         return true;
@@ -279,16 +279,16 @@ private:
 
     bool
     tear_down(std::unique_ptr<TestCase>& test,
-              testmonitor& monitor)
+              unittest::internals::testmonitor& monitor)
     {
-        return handle(test, monitor,
-                      &testfunctor<TestCase>::_tear_down,
-                      &testfunctor<TestCase>::do_nothing);
+        return this->handle(test, monitor,
+                            &testfunctor<TestCase>::_tear_down,
+                            &testfunctor<TestCase>::do_nothing);
     }
 
     bool
     _tear_down(std::unique_ptr<TestCase>& test,
-               testmonitor& monitor)
+               unittest::internals::testmonitor& monitor)
     {
         test->tear_down();
         return true;
@@ -355,7 +355,7 @@ update_testrun_info(const std::string& class_id,
  * @param method_id The id of the test method
  * @param has_timed_out Whether the test has timed out
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- * @param resolution The temporal resolution in milliseconds
+ * @param resolution The temporal resolution
  */
 void
 observe_and_wait(std::thread&& thread,
@@ -376,7 +376,7 @@ observe_and_wait(std::thread&& thread,
  * @returns A tuple of prepared data
  */
 template<typename TestCase>
-std::tuple<internals::testfunctor<TestCase>, std::string, std::shared_ptr<std::atomic_bool>, double>
+std::tuple<unittest::internals::testfunctor<TestCase>, std::string, std::shared_ptr<std::atomic_bool>, double>
 prepare_testrun(typename TestCase::context_type& context,
                 void (TestCase::*method)(),
                 std::string class_name,
@@ -385,18 +385,18 @@ prepare_testrun(typename TestCase::context_type& context,
                 std::string skip_message,
                 double timeout)
 {
-    const std::string class_id = internals::get_type_id<TestCase>();
-    const std::string method_id = internals::make_method_id<TestCase>(test_name);
-    internals::update_testrun_info(class_id, class_name, test_name, timeout);
-    const internals::userargs& args = internals::testsuite::instance()->get_arguments();
+    const std::string class_id = unittest::internals::get_type_id<TestCase>();
+    const std::string method_id = unittest::internals::make_method_id<TestCase>(test_name);
+    unittest::internals::update_testrun_info(class_id, class_name, test_name, timeout);
+    const unittest::internals::userargs& args = unittest::internals::testsuite::instance()->get_arguments();
     std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
-    internals::testfunctor<TestCase> functor(&context, method, method_id,
-                                             class_name, test_name,
-                                             args.dry_run(),
-                                             args.handle_exceptions(),
-                                             has_timed_out, timeout,
-                                             skipped, skip_message);
+    unittest::internals::testfunctor<TestCase> functor(&context, method, method_id,
+                                                       class_name, test_name,
+                                                       args.dry_run(),
+                                                       args.handle_exceptions(),
+                                                       has_timed_out, timeout,
+                                                       skipped, skip_message);
     return std::make_tuple(std::move(functor), std::move(method_id), has_timed_out, timeout);
 }
 
@@ -422,18 +422,18 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message,
         double timeout)
 {
-    auto data = internals::prepare_testrun(context, method,
-                                           class_name, test_name,
-                                           skipped, skip_message, timeout);
-    internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
-    if (internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<=0) {
+    auto data = unittest::internals::prepare_testrun(context, method,
+                                                     class_name, test_name,
+                                                     skipped, skip_message, timeout);
+    unittest::internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
+    if (unittest::internals::testsuite::instance()->get_arguments().disable_timeout() || timeout<=0) {
         functor();
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
-        auto function = [done](internals::testfunctor<TestCase> functor) { functor(); done->store(true); };
+        auto function = [done](unittest::internals::testfunctor<TestCase> functor) { functor(); done->store(true); };
         std::thread thread(function, std::move(functor));
-        internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
+        unittest::internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
     }
 }
 /**
@@ -455,10 +455,10 @@ testrun(typename TestCase::context_type& context,
         std::string skip_message)
 {
     const double timeout = -1;
-    auto data = internals::prepare_testrun(context, method,
-                                           class_name, test_name,
-                                           skipped, skip_message, timeout);
-    internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
+    auto data = unittest::internals::prepare_testrun(context, method,
+                                                     class_name, test_name,
+                                                     skipped, skip_message, timeout);
+    unittest::internals::testfunctor<TestCase> functor = std::move(std::get<0>(data));
     functor();
 }
 /**
@@ -480,7 +480,7 @@ testrun(void (TestCase::*method)(),
         double timeout)
 {
     typename TestCase::context_type* null_pointer = nullptr;
-    testrun(*null_pointer, method, class_name, test_name, skipped, skip_message, timeout);
+    unittest::testrun(*null_pointer, method, class_name, test_name, skipped, skip_message, timeout);
 }
 /**
  * @brief A test run without a test context and without timeout measurement
@@ -499,7 +499,7 @@ testrun(void (TestCase::*method)(),
         std::string skip_message)
 {
     typename TestCase::context_type* null_pointer = nullptr;
-    testrun(*null_pointer, method, class_name, test_name, skipped, skip_message);
+    unittest::testrun(*null_pointer, method, class_name, test_name, skipped, skip_message);
 }
 
 } // unittest

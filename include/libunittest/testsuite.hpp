@@ -38,12 +38,12 @@ public:
      * @param arguments The user arguments
      */
     void
-    set_arguments(const userargs& arguments);
+    set_arguments(const unittest::internals::userargs& arguments);
     /**
      * @brief Returns a reference to the user arguments
      * @returns A reference to the user arguments
      */
-    userargs&
+    unittest::internals::userargs&
     get_arguments() const;
     /**
      * @brief Returns a reference to the vector of registered class runs
@@ -68,7 +68,7 @@ public:
      * @brief Returns the accumulated test results
      * @returns The test results
      */
-    testresults
+    unittest::internals::testresults
     get_results() const;
     /**
      * @brief Logs text for a given method
@@ -108,7 +108,7 @@ private:
                      std::chrono::milliseconds resolution);
 
     void
-    make_keep_running(const testlog& log);
+    make_keep_running(const unittest::internals::testlog& log);
 
     void
     start_timing();
@@ -117,7 +117,7 @@ private:
     stop_timing();
 
     void
-    collect(const testlog& log);
+    collect(const unittest::internals::testlog& log);
 
     bool
     is_test_run(const std::string& class_name,

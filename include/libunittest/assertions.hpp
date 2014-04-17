@@ -21,7 +21,7 @@ namespace internals {
 /**
  * @brief A collection of assertions
  */
-class assertions : public formatting {
+class assertions : public unittest::internals::formatting {
 public:
     /**
      * @brief Constructor
@@ -47,9 +47,9 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        const std::string message = make_displayed_fail_message(assertion, text);
-        const std::string user_msg = join("", args...);
-        throw testfailure(assertion, message, user_msg);
+        const std::string message = this->make_displayed_fail_message(assertion, text);
+        const std::string user_msg = unittest::join("", args...);
+        throw unittest::testfailure(assertion, message, user_msg);
     }
     /**
      * @brief Asserts that a value is true.
@@ -65,7 +65,7 @@ public:
     {
         if (!value) {
             const std::string text = "false is not true";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -82,7 +82,7 @@ public:
     {
         if (value) {
             const std::string text = "true is not false";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -101,8 +101,8 @@ public:
                  const Args&... message) const
     {
         if (!(expected == actual)) {
-            const std::string text = str(expected) + " not equal to " + str(actual);
-            fail(__func__, text, message...);
+            const std::string text = this->str(expected) + " not equal to " + this->str(actual);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -121,8 +121,8 @@ public:
                      const Args&... message) const
     {
         if (first == second) {
-            const std::string text = str(first) + " equal to " + str(second);
-            fail(__func__, text, message...);
+            const std::string text = this->str(first) + " equal to " + this->str(second);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -140,7 +140,7 @@ public:
     {
         if (!(epsilon > 0)) {
             const std::string text = "epsilon not greater than zero";
-            fail(caller, text, message...);
+            this->fail(caller, text, message...);
         }
     }
     /**
@@ -162,10 +162,10 @@ public:
                         const V& epsilon,
                         const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (!is_approx_equal(expected, actual, epsilon)) {
-            const std::string text = str(expected) + " not approx. equal to " + str(actual) + " with epsilon = " + str(epsilon);
-            fail(__func__, text, message...);
+        this->check_epsilon(epsilon, __func__, message...);
+        if (!unittest::internals::is_approx_equal(expected, actual, epsilon)) {
+            const std::string text = this->str(expected) + " not approx. equal to " + this->str(actual) + " with epsilon = " + this->str(epsilon);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -187,10 +187,10 @@ public:
                             const V& epsilon,
                             const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (is_approx_equal(first, second, epsilon)) {
-            const std::string text = str(first) + " approx. equal to " + str(second) + " with epsilon = " + str(epsilon);
-            fail(__func__, text, message...);
+        this->check_epsilon(epsilon, __func__, message...);
+        if (unittest::internals::is_approx_equal(first, second, epsilon)) {
+            const std::string text = this->str(first) + " approx. equal to " + this->str(second) + " with epsilon = " + this->str(epsilon);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -209,8 +209,8 @@ public:
                    const Args&... message) const
     {
         if (!(first > second)) {
-            const std::string text = str(first) + " not greater than " + str(second);
-            fail(__func__, text, message...);
+            const std::string text = this->str(first) + " not greater than " + this->str(second);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -229,8 +229,8 @@ public:
                          const Args&... message) const
     {
         if (first < second) {
-            const std::string text = str(first) + " not greater than or equal to " + str(second);
-            fail(__func__, text, message...);
+            const std::string text = this->str(first) + " not greater than or equal to " + this->str(second);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -249,8 +249,8 @@ public:
                   const Args&... message) const
     {
         if (!(first < second)) {
-            const std::string text = str(first) + " not lesser than " + str(second);
-            fail(__func__, text, message...);
+            const std::string text = this->str(first) + " not lesser than " + this->str(second);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -269,8 +269,8 @@ public:
                         const Args&... message) const
     {
         if (first > second) {
-            const std::string text = str(first) + " not lesser than or equal to " + str(second);
-            fail(__func__, text, message...);
+            const std::string text = this->str(first) + " not lesser than or equal to " + this->str(second);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -291,7 +291,7 @@ public:
     {
         if (lower > upper) {
             const std::string text = "lower bound cannot be greater than upper bound";
-            fail(caller, text, message...);
+            this->fail(caller, text, message...);
         }
     }
     /**
@@ -312,10 +312,10 @@ public:
                     const V& upper,
                     const Args&... message) const
     {
-        check_range_bounds(lower, upper, __func__, message...);
-        if (!is_in_range(value, lower, upper)) {
-            const std::string text = str(value) + " not in range [" + str(lower) + ", " + str(upper) + "]";
-            fail(__func__, text, message...);
+        this->check_range_bounds(lower, upper, __func__, message...);
+        if (!unittest::internals::is_in_range(value, lower, upper)) {
+            const std::string text = this->str(value) + " not in range [" + this->str(lower) + ", " + this->str(upper) + "]";
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -336,10 +336,10 @@ public:
                         const V& upper,
                         const Args&... message) const
     {
-        check_range_bounds(lower, upper, __func__, message...);
-        if (is_in_range(value, lower, upper)) {
-            const std::string text = str(value) + " in range [" + str(lower) + ", " + str(upper) + "]";
-            fail(__func__, text, message...);
+        this->check_range_bounds(lower, upper, __func__, message...);
+        if (unittest::internals::is_in_range(value, lower, upper)) {
+            const std::string text = this->str(value) + " in range [" + this->str(lower) + ", " + this->str(upper) + "]";
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -357,9 +357,9 @@ public:
                         const Container& container,
                         const Args&... message) const
     {
-        if (!is_contained(value, container)) {
+        if (!unittest::internals::is_contained(value, container)) {
             const std::string text = "value not in container";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -377,9 +377,9 @@ public:
                             const Container& container,
                             const Args&... message) const
     {
-        if (is_contained(value, container)) {
+        if (unittest::internals::is_contained(value, container)) {
             const std::string text = "value in container";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -401,10 +401,10 @@ public:
                                const U& epsilon,
                                const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (!is_approx_contained(value, container, epsilon)) {
+        this->check_epsilon(epsilon, __func__, message...);
+        if (!unittest::internals::is_approx_contained(value, container, epsilon)) {
             const std::string text = "value not approx. in container";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -426,10 +426,10 @@ public:
                                    const U& epsilon,
                                    const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (is_approx_contained(value, container, epsilon)) {
+        this->check_epsilon(epsilon, __func__, message...);
+        if (unittest::internals::is_approx_contained(value, container, epsilon)) {
             const std::string text = "value approx. in container";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -447,9 +447,9 @@ public:
                             const Container2& actual,
                             const Args&... message) const
     {
-        if (!is_containers_equal(expected, actual)) {
+        if (!unittest::internals::is_containers_equal(expected, actual)) {
             const std::string text = "containers are not equal";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -467,9 +467,9 @@ public:
                                 const Container2& second,
                                 const Args&... message) const
     {
-        if (is_containers_equal(first, second)) {
+        if (unittest::internals::is_containers_equal(first, second)) {
             const std::string text = "containers are equal";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -491,10 +491,10 @@ public:
                                    const V& epsilon,
                                    const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (!is_containers_approx_equal(expected, actual, epsilon)) {
+        this->check_epsilon(epsilon, __func__, message...);
+        if (!unittest::internals::is_containers_approx_equal(expected, actual, epsilon)) {
             const std::string text = "containers are not approx. equal";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -517,10 +517,10 @@ public:
                                        const V& epsilon,
                                        const Args&... message) const
     {
-        check_epsilon(epsilon, __func__, message...);
-        if (is_containers_approx_equal(first, second, epsilon)) {
+        this->check_epsilon(epsilon, __func__, message...);
+        if (unittest::internals::is_containers_approx_equal(first, second, epsilon)) {
             const std::string text = "containers are approx. equal";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -541,7 +541,7 @@ public:
     {
         if (!std::all_of(std::begin(container), std::end(container), condition)) {
             const std::string text = "Not all elements match the condition";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -562,7 +562,7 @@ public:
     {
         if (std::all_of(std::begin(container), std::end(container), condition)) {
             const std::string text = "All elements match the condition";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -583,7 +583,7 @@ public:
     {
         if (!std::any_of(std::begin(container), std::end(container), condition)) {
             const std::string text = "No element matches the condition";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -604,7 +604,7 @@ public:
     {
         if (!std::none_of(std::begin(container), std::end(container), condition)) {
             const std::string text = "At least one element matches the condition";
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -620,9 +620,9 @@ public:
                        const std::string& regex,
                        const Args&... message) const
     {
-        if (!is_regex_matched(string, regex)) {
-            const std::string text = str(string) + " does not match the pattern " + str(regex);
-            fail(__func__, text, message...);
+        if (!unittest::internals::is_regex_matched(string, regex)) {
+            const std::string text = this->str(string) + " does not match the pattern " + this->str(regex);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -638,9 +638,9 @@ public:
                        const std::regex& regex,
                        const Args&... message) const
     {
-        if (!is_regex_matched(string, regex)) {
-            const std::string text = str(string) + " does not match the given pattern";
-            fail(__func__, text, message...);
+        if (!unittest::internals::is_regex_matched(string, regex)) {
+            const std::string text = this->str(string) + " does not match the given pattern";
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -656,9 +656,9 @@ public:
                            const std::string& regex,
                            const Args&... message) const
     {
-        if (is_regex_matched(string, regex)) {
-            const std::string text = str(string) + " matches the pattern " + str(regex);
-            fail(__func__, text, message...);
+        if (unittest::internals::is_regex_matched(string, regex)) {
+            const std::string text = this->str(string) + " matches the pattern " + this->str(regex);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -674,9 +674,9 @@ public:
                            const std::regex& regex,
                            const Args&... message) const
     {
-        if (is_regex_matched(string, regex)) {
-            const std::string text = str(string) + " matches the given pattern";
-            fail(__func__, text, message...);
+        if (unittest::internals::is_regex_matched(string, regex)) {
+            const std::string text = this->str(string) + " matches the given pattern";
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -693,17 +693,17 @@ public:
                  const Args&... message) const
     {
         bool caught = false;
-        if (testsuite::instance()->get_arguments().handle_exceptions()) {
+        if (unittest::internals::testsuite::instance()->get_arguments().handle_exceptions()) {
             try {
                 functor();
             } catch (const Exception&) {
                 caught = true;
             } catch (const std::exception& e) {
                 const std::string text = join("An unexpected exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-                fail(__func__, text, message...);
+                this->fail(__func__, text, message...);
             } catch (...) {
                 const std::string text = "An unexpected, unknown exception was thrown";
-                fail(__func__, text, message...);
+                this->fail(__func__, text, message...);
             }
         } else {
             try {
@@ -714,7 +714,7 @@ public:
         }
         if (!caught) {
             const std::string text = join("The exception was not thrown: ", typeid(Exception).name());
-            fail(__func__, text, message...);
+            this->fail(__func__, text, message...);
         }
     }
     /**
@@ -729,15 +729,15 @@ public:
     assert_no_throw(Functor functor,
                     const Args&... message) const
     {
-        if (testsuite::instance()->get_arguments().handle_exceptions()) {
+        if (unittest::internals::testsuite::instance()->get_arguments().handle_exceptions()) {
             try {
                 functor();
             } catch (const std::exception& e) {
                 const std::string text = join("An exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-                fail(__func__, text, message...);
+                this->fail(__func__, text, message...);
             } catch (...) {
                 const std::string text = "An unknown exception was thrown";
-                fail(__func__, text, message...);
+                this->fail(__func__, text, message...);
             }
         } else {
             functor();

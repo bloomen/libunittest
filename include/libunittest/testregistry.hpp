@@ -21,9 +21,9 @@ template<typename TestCase>
 void
 register_class(const std::string& class_name)
 {
-    auto suite = internals::testsuite::instance();
+    auto suite = unittest::internals::testsuite::instance();
     suite->add_class_run(TestCase::run);
-    suite->add_class_map(get_type_id<TestCase>(), class_name);
+    suite->add_class_map(unittest::internals::get_type_id<TestCase>(), class_name);
 }
 /**
  * @brief Registers a test class at the testsuite
@@ -37,7 +37,7 @@ public:
      */
     testregistry(const std::string& class_name)
     {
-        register_class<TestCase>(class_name);
+        unittest::internals::register_class<TestCase>(class_name);
     }
 };
 
