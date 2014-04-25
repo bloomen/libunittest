@@ -1,3 +1,10 @@
+libunittest (4.0.0) stable; urgency=low
+
+  * Improved installation and correct use of soname and realname
+  * From now on the versioning follows the ABI compatibility scheme
+
+ -- Christian Blume <chr.blume@gmail.com>  Thu, 24 Apr 2014 22:00:00 -0700
+
 libunittest (3.7.10) stable; urgency=low
 
   * Ensured explicit namespacing in header files to avoid any 

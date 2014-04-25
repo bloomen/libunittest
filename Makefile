@@ -1,9 +1,14 @@
-VERSION = 3.7.10
+MAJOR = 4
+MINOR = 0
+PATCH = 0
+VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
 PROGVERTAR = $(PROGVER).tar.gz
 LIBNAME = $(PROG).so
+SONAME = $(LIBNAME).$(MAJOR)
+REALNAME = $(LIBNAME).$(VERSION)
 VERSIONFILE = version.hpp
 LIBDIR = lib
 INSTALLDIR = /usr/local
@@ -11,17 +16,7 @@ INSTALLDIR = /usr/local
 CXX = g++
 CXXFLAGS = -g -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
 LD = $(CXX)
-LDFLAGS = -shared
-CXXOBJ = -o
-LDOBJ = -o 
-
-ifeq ($(CXX),cl)
-CXXFLAGS = -GS -analyze- -W3 -Zc:wchar_t -nologo -ZI -Gm -Od -sdl -fp:precise -errorReport:none -WX- -Zc:forScope -RTC1 -Gd -Oy- -MDd -EHsc
-LD = lib
-LDFLAGS = -nologo
-CXXOBJ = -Fo:
-LDOBJ = -OUT:
-endif
+LDFLAGS = -shared -Wl,-soname,$(SONAME)
 
 INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
@@ -32,6 +27,7 @@ MKDIR = mkdir -p
 LN = ln -s
 ECHO = echo
 CP = cp
+CD = cd
 MV = mv
 TAR = tar cfz
 UNTAR = tar xfz
@@ -49,24 +45,29 @@ default : $(PROG)
 all : default
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< $(CXXOBJ) $@
+	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
 
 $(PROG) : $(OBJECTS)
 	@$(MKDIR) $(LIBDIR)
-	$(LD) $(LDFLAGS) $(OBJECTS) $(LDOBJ)$(LIBDIR)/$(LIBNAME).$(VERSION)
+	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(REALNAME)
+	@$(RM) $(LIBDIR)/$(SONAME)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
-	@$(LN) $(LIBNAME).$(VERSION) $(LIBDIR)/$(LIBNAME)
+	@$(CD) $(LIBDIR); $(LN) $(REALNAME) $(SONAME)
+	@$(CD) $(LIBDIR); $(LN) $(SONAME) $(LIBNAME)
 
 install : 
 	@$(ECHO) "Installing $(PROGVER) to $(INSTALLDIR) ..."
 	@$(MKDIR) $(INSTALLDIR)	
 	@$(MKDIR) $(INSTALLDIR)/lib
 	@$(MKDIR) $(INSTALLDIR)/include	
-	@$(MKDIR) $(INSTALLDIR)/include/$(PROG)	
-	@$(CP) $(LIBDIR)/$(LIBNAME).$(VERSION) $(INSTALLDIR)/lib
-	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)	
+	@$(RM) $(INSTALLDIR)/include/$(PROG) 
+	@$(MKDIR) $(INSTALLDIR)/include/$(PROG) 
+	@$(CP) $(LIBDIR)/$(REALNAME) $(INSTALLDIR)/lib
+	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)
+	@$(RM) $(INSTALLDIR)/lib/$(SONAME)
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
-	@$(LN) $(LIBNAME).$(VERSION) $(INSTALLDIR)/lib/$(LIBNAME)
+	@$(CD) $(INSTALLDIR)/lib; $(LN) $(REALNAME) $(SONAME)
+	@$(CD) $(INSTALLDIR)/lib; $(LN) $(SONAME) $(LIBNAME)
 
 dist : version versioncheck
 	@$(RM) -r $(PROGVER)
@@ -97,6 +98,8 @@ distcheck :
 	@$(UNTAR) $(DISTDIR)/$(PROGVERTAR) || exit 1
 	@$(MAKE) -C $(PROGVER) check || exit 1
 	@$(MAKE) -C $(PROGVER) install INSTALLDIR=local || exit 1
+	@if [ ! -f $(PROGVER)/local/lib/$(REALNAME) ]; then exit 1; fi
+	@if [ ! -f $(PROGVER)/local/lib/$(SONAME) ]; then exit 1; fi
 	@if [ ! -f $(PROGVER)/local/lib/$(LIBNAME) ]; then exit 1; fi
 	@if [ ! -f $(PROGVER)/local/include/$(PROG)/unittest.hpp ]; then exit 1; fi
 	@$(RM) -r $(PROGVER)
@@ -130,11 +133,11 @@ deb : version versioncheck
 	@$(ECHO) "LDFLAGS = $(LDFLAGS)" >> $(DEBRULES)
 	@$(ECHO) "include /usr/share/cdbs/1/class/makefile.mk" >> $(DEBRULES)
 	@$(ECHO) "install/$(PROG)-dev::" >> $(DEBRULES)
-	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
+	@$(ECHO) "	rm -rf debian/$(PROG)-dev/usr/include/$(PROG) && mkdir -p debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
 	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
 	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
-	@$(ECHO) "	cp lib/$(LIBNAME).$(VERSION) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
-	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) $(LIBNAME) && ln -s $(LIBNAME).$(VERSION) $(LIBNAME)" >> $(DEBRULES)
+	@$(ECHO) "	cp lib/$(REALNAME) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
+	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) $(SONAME) $(LIBNAME) && ln -s $(REALNAME) $(SONAME) && ln -s $(SONAME) $(LIBNAME)" >> $(DEBRULES)
 	@chmod u+x $(DEBRULES) || exit 1
 	@$(BUILDDEB) || exit 1
 	@$(RM) ../$(PROG)_$(VERSION)_*.changes
