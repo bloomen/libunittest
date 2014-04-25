@@ -14,6 +14,8 @@ errors.log
 debian/libunittest-dev/*
 debian/libunittest-dev.debhelper.log
 debian/libunittest-dev.substvars
+debian/libunittest-dev.postinst.debhelper
+debian/libunittest-dev.postrm.debhelper
 debian/copyright
 debian/changelog
 debian/files
