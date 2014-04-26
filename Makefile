@@ -60,7 +60,7 @@ install :
 	@$(MKDIR) $(INSTALLDIR)	
 	@$(MKDIR) $(INSTALLDIR)/lib
 	@$(MKDIR) $(INSTALLDIR)/include	
-	@$(RM) $(INSTALLDIR)/include/$(PROG) 
+	@$(RM) -r $(INSTALLDIR)/include/$(PROG) 
 	@$(MKDIR) $(INSTALLDIR)/include/$(PROG) 
 	@$(CP) $(LIBDIR)/$(REALNAME) $(INSTALLDIR)/lib
 	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)

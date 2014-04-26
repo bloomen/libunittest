@@ -43,8 +43,8 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_not_regex_match)
         UNITTEST_RUN(test_assert_throw)
         UNITTEST_RUN(test_assert_no_throw)
-        UNITTEST_RUN(test_check_epsilon)
-        UNITTEST_RUN(test_check_range_bounds)
+        UNITTEST_RUN(test___check_epsilon)
+        UNITTEST_RUN(test___check_range_bounds)
     }
 
     void test_assert_true()
@@ -300,22 +300,22 @@ struct test_assertions : unittest::testcase<> {
         assert_no_throw([](){ is_value_one(1); }, SPOT);
     }
 
-    void test_check_epsilon()
+    void test___check_epsilon()
     {
-        check_epsilon(0.5, __func__);
-        auto functor1 = [this]() { this->check_epsilon(0, __func__); };
+        __check_epsilon(0.5, __func__);
+        auto functor1 = [this]() { this->__check_epsilon(0, __func__); };
         assert_throw<testfailure>(functor1, SPOT);
-        auto functor2 = [this]() { this->check_epsilon(-1, __func__); };
+        auto functor2 = [this]() { this->__check_epsilon(-1, __func__); };
         assert_throw<testfailure>(functor2, SPOT);
     }
 
-    void test_check_range_bounds()
+    void test___check_range_bounds()
     {
-        check_range_bounds(0.5, 1, __func__);
-        check_range_bounds(1, 1, __func__);
-        auto functor1 = [this]() { this->check_range_bounds(2, 1, __func__); };
+        __check_range_bounds(0.5, 1, __func__);
+        __check_range_bounds(1, 1, __func__);
+        auto functor1 = [this]() { this->__check_range_bounds(2, 1, __func__); };
         assert_throw<testfailure>(functor1, SPOT);
-        auto functor2 = [this]() { this->check_range_bounds<double, double>(1+feps, 1, __func__); };
+        auto functor2 = [this]() { this->__check_range_bounds<double, double>(1+feps, 1, __func__); };
         assert_throw<testfailure>(functor2, SPOT);
     }
 

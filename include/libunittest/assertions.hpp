@@ -47,7 +47,7 @@ public:
          const std::string& text,
          const Args&... args) const
     {
-        const std::string message = this->make_displayed_fail_message(assertion, text);
+        const std::string message = this->__displayed_fail_message(assertion, text);
         const std::string user_msg = unittest::join("", args...);
         throw unittest::testfailure(assertion, message, user_msg);
     }
@@ -101,7 +101,7 @@ public:
                  const Args&... message) const
     {
         if (!(expected == actual)) {
-            const std::string text = this->str(expected) + " not equal to " + this->str(actual);
+            const std::string text = this->__str(expected) + " not equal to " + this->__str(actual);
             this->fail(__func__, text, message...);
         }
     }
@@ -121,7 +121,7 @@ public:
                      const Args&... message) const
     {
         if (first == second) {
-            const std::string text = this->str(first) + " equal to " + this->str(second);
+            const std::string text = this->__str(first) + " equal to " + this->__str(second);
             this->fail(__func__, text, message...);
         }
     }
@@ -134,9 +134,9 @@ public:
     template<typename T,
              typename... Args>
     void
-    check_epsilon(const T& epsilon,
-                  const std::string& caller,
-                  const Args&... message) const
+    __check_epsilon(const T& epsilon,
+                    const std::string& caller,
+                    const Args&... message) const
     {
         if (!(epsilon > 0)) {
             const std::string text = "epsilon not greater than zero";
@@ -162,9 +162,9 @@ public:
                         const V& epsilon,
                         const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (!unittest::internals::is_approx_equal(expected, actual, epsilon)) {
-            const std::string text = this->str(expected) + " not approx. equal to " + this->str(actual) + " with epsilon = " + this->str(epsilon);
+            const std::string text = this->__str(expected) + " not approx. equal to " + this->__str(actual) + " with epsilon = " + this->__str(epsilon);
             this->fail(__func__, text, message...);
         }
     }
@@ -187,9 +187,9 @@ public:
                             const V& epsilon,
                             const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (unittest::internals::is_approx_equal(first, second, epsilon)) {
-            const std::string text = this->str(first) + " approx. equal to " + this->str(second) + " with epsilon = " + this->str(epsilon);
+            const std::string text = this->__str(first) + " approx. equal to " + this->__str(second) + " with epsilon = " + this->__str(epsilon);
             this->fail(__func__, text, message...);
         }
     }
@@ -209,7 +209,7 @@ public:
                    const Args&... message) const
     {
         if (!(first > second)) {
-            const std::string text = this->str(first) + " not greater than " + this->str(second);
+            const std::string text = this->__str(first) + " not greater than " + this->__str(second);
             this->fail(__func__, text, message...);
         }
     }
@@ -229,7 +229,7 @@ public:
                          const Args&... message) const
     {
         if (first < second) {
-            const std::string text = this->str(first) + " not greater than or equal to " + this->str(second);
+            const std::string text = this->__str(first) + " not greater than or equal to " + this->__str(second);
             this->fail(__func__, text, message...);
         }
     }
@@ -249,7 +249,7 @@ public:
                   const Args&... message) const
     {
         if (!(first < second)) {
-            const std::string text = this->str(first) + " not lesser than " + this->str(second);
+            const std::string text = this->__str(first) + " not lesser than " + this->__str(second);
             this->fail(__func__, text, message...);
         }
     }
@@ -269,7 +269,7 @@ public:
                         const Args&... message) const
     {
         if (first > second) {
-            const std::string text = this->str(first) + " not lesser than or equal to " + this->str(second);
+            const std::string text = this->__str(first) + " not lesser than or equal to " + this->__str(second);
             this->fail(__func__, text, message...);
         }
     }
@@ -284,10 +284,10 @@ public:
              typename U,
              typename... Args>
     void
-    check_range_bounds(const T& lower,
-                       const U& upper,
-                       const std::string& caller,
-                       const Args&... message) const
+    __check_range_bounds(const T& lower,
+                         const U& upper,
+                         const std::string& caller,
+                         const Args&... message) const
     {
         if (lower > upper) {
             const std::string text = "lower bound cannot be greater than upper bound";
@@ -312,9 +312,9 @@ public:
                     const V& upper,
                     const Args&... message) const
     {
-        this->check_range_bounds(lower, upper, __func__, message...);
+        this->__check_range_bounds(lower, upper, __func__, message...);
         if (!unittest::internals::is_in_range(value, lower, upper)) {
-            const std::string text = this->str(value) + " not in range [" + this->str(lower) + ", " + this->str(upper) + "]";
+            const std::string text = this->__str(value) + " not in range [" + this->__str(lower) + ", " + this->__str(upper) + "]";
             this->fail(__func__, text, message...);
         }
     }
@@ -336,9 +336,9 @@ public:
                         const V& upper,
                         const Args&... message) const
     {
-        this->check_range_bounds(lower, upper, __func__, message...);
+        this->__check_range_bounds(lower, upper, __func__, message...);
         if (unittest::internals::is_in_range(value, lower, upper)) {
-            const std::string text = this->str(value) + " in range [" + this->str(lower) + ", " + this->str(upper) + "]";
+            const std::string text = this->__str(value) + " in range [" + this->__str(lower) + ", " + this->__str(upper) + "]";
             this->fail(__func__, text, message...);
         }
     }
@@ -401,7 +401,7 @@ public:
                                const U& epsilon,
                                const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (!unittest::internals::is_approx_contained(value, container, epsilon)) {
             const std::string text = "value not approx. in container";
             this->fail(__func__, text, message...);
@@ -426,7 +426,7 @@ public:
                                    const U& epsilon,
                                    const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (unittest::internals::is_approx_contained(value, container, epsilon)) {
             const std::string text = "value approx. in container";
             this->fail(__func__, text, message...);
@@ -491,7 +491,7 @@ public:
                                    const V& epsilon,
                                    const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (!unittest::internals::is_containers_approx_equal(expected, actual, epsilon)) {
             const std::string text = "containers are not approx. equal";
             this->fail(__func__, text, message...);
@@ -517,7 +517,7 @@ public:
                                        const V& epsilon,
                                        const Args&... message) const
     {
-        this->check_epsilon(epsilon, __func__, message...);
+        this->__check_epsilon(epsilon, __func__, message...);
         if (unittest::internals::is_containers_approx_equal(first, second, epsilon)) {
             const std::string text = "containers are approx. equal";
             this->fail(__func__, text, message...);
@@ -621,7 +621,7 @@ public:
                        const Args&... message) const
     {
         if (!unittest::internals::is_regex_matched(string, regex)) {
-            const std::string text = this->str(string) + " does not match the pattern " + this->str(regex);
+            const std::string text = this->__str(string) + " does not match the pattern " + this->__str(regex);
             this->fail(__func__, text, message...);
         }
     }
@@ -639,7 +639,7 @@ public:
                        const Args&... message) const
     {
         if (!unittest::internals::is_regex_matched(string, regex)) {
-            const std::string text = this->str(string) + " does not match the given pattern";
+            const std::string text = this->__str(string) + " does not match the given pattern";
             this->fail(__func__, text, message...);
         }
     }
@@ -657,7 +657,7 @@ public:
                            const Args&... message) const
     {
         if (unittest::internals::is_regex_matched(string, regex)) {
-            const std::string text = this->str(string) + " matches the pattern " + this->str(regex);
+            const std::string text = this->__str(string) + " matches the pattern " + this->__str(regex);
             this->fail(__func__, text, message...);
         }
     }
@@ -675,7 +675,7 @@ public:
                            const Args&... message) const
     {
         if (unittest::internals::is_regex_matched(string, regex)) {
-            const std::string text = this->str(string) + " matches the given pattern";
+            const std::string text = this->__str(string) + " matches the given pattern";
             this->fail(__func__, text, message...);
         }
     }
@@ -747,4 +747,10 @@ public:
 };
 
 } // internals
+
+/**
+ * @brief The assertion object
+ */
+static unittest::internals::assertions assert;
+
 } // unittest

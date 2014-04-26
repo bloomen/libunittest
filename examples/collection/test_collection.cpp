@@ -35,16 +35,15 @@ COLLECTION(test_stuff)
         assert_equal("here I am", message_, SPOT);
     }
 
-    void helper(const unittest::testcase<>& obj,
-                const std::string& spot)
+    void helper(const std::string& spot)
     {
-        obj.assert_true(true, spot);
+        unittest::assert.assert_true(true, spot);
     }
 
     TEST(test_helper_asserts_true)
     {
         TESTINFO("some info about this test")
-        helper(*this, SPOT);
+        helper(SPOT);
     }
 
 }
