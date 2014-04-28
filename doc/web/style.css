@@ -57,6 +57,7 @@ code {
    text-align: left;
    padding : 0px 20px 0 30px;
    margin: 1em 0em 1em 0;
+   font-size: 15px;
 }
 code t {
    padding-left: 2em;
@@ -67,6 +68,7 @@ code tt {
 incode {
    color: #006400;
    font-family: "Courier New", Courier, monospace;
+   font-size: 15px;
 }
 h1 {
 	color: #3e3e3e;

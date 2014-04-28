@@ -1,3 +1,16 @@
+libunittest (5.0.0) stable; urgency=low
+
+  * Moved assertions out of unittest::testcase and into their own namespace:
+    unittest::assertions. In order to migrate existing code, add this
+    to the top of your source file: using namespace unittest::assertions.
+  * Moved fail() method out of unittest::testcase. Migrate existing code
+    by adding: using unittest::fail.
+  * Added two new command line options (-l, -r) to control display behavior
+  * Removed the ability to override display controlling formatting methods 
+    -> use command line switches instead
+    
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 27 Apr 2014 22:00:00 -0700
+
 libunittest (4.0.0) stable; urgency=low
 
   * Improved installation and correct use of soname and realname

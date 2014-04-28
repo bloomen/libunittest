@@ -48,9 +48,6 @@
 					<a href="#random">Random values and containers</a>
 				</li>
 				<li>
-					<a href="#output">Customizing output</a>
-				</li>
-				<li>
 					<a href="#miscellaneous">Miscellaneous</a>
 				</li>
 				<li>
@@ -67,7 +64,8 @@
                 a source file like this:
                 <code>
                     // simple.cpp<br>
-                    #include &lt;libunittest/all.hpp&gt;<br></br>
+                    #include &lt;libunittest/all.hpp&gt;<br>
+                    using namespace unittest::assertions;<br><br>
 
                     TEST(test_value_is_true)<br>
                     {<br>
@@ -123,30 +121,33 @@
                 To get a quick help to your testing application just do
                 <incode>./unittest.exe -h</incode>:
                 <code>
-                This is your testing application using libunittest-4.0.0<br><br>
+                This is your testing application using libunittest-5.0.0<br><br>
                 
                 Usage: ./unittest.exe [Options]<br><br>
                 
                 Options:<br>
-                -h &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Displays this help message<br>
-                -v &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sets verbose output for running tests<br>
-                -d &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A dry run without actually executing any tests<br>
-                -s &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stops running tests after the first test fails<br>
-                -x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enables the generation of the XML output<br>
-                -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Turns off handling of unexpected exceptions<br>
-                -i &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Disables the measurement of any test timeouts<br>
-                -p number &nbsp;Runs tests in parallel with a given number of threads<br>
-                -f filter &nbsp;A filter applied to the beginning of the test names<br>
-                -n name &nbsp;&nbsp; A certain test to be run superseding the name filter<br>
-                -t timeout  A timeout in seconds for tests without local timeouts<br>
-                -o xmlfile  The XML output file name (default: libunittest.xml)
+                -h &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Displays this help message<br>
+                -v &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sets verbose output for running tests<br>
+                -d &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A dry run without actually executing any tests<br>
+                -s &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Stops running tests after the first test fails<br>
+                -x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enables the generation of the XML output<br>
+                -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Turns off handling of unexpected exceptions<br>
+                -i &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Disables the measurement of any test timeouts<br>
+                -p number &nbsp;&nbsp;&nbsp;Runs tests in parallel with a given number of threads<br>
+                -f filter &nbsp;&nbsp;&nbsp;A filter applied to the beginning of the test names<br>
+                -n name &nbsp;&nbsp;&nbsp;&nbsp; A certain test to be run superseding the name filter<br>
+                -t timeout &nbsp; A timeout in seconds for tests without local timeouts<br>
+                -o xmlfile &nbsp; The XML output file name (default: libunittest.xml)<br>
+                -l length  &nbsp;&nbsp; The maximum displayed string length (default: 500)<br>
+                -r precision  The maximum displayed value precision (default: 10)
                 </code>
                 
                 <a name="assertions"></a>
                 <h2>Assertions</h2>
                 <p>
                 libunittest comes with a rich set of assertions that your
-                test has automatic access to. All assertions are
+                test has access to through the namespace <incode>unittest::assertions</incode>. 
+                All assertions are
                 implemented and documented in <incode>libunittest/assertions.hpp</incode>.
                 </p>
                 <p>
@@ -302,45 +303,6 @@
 				</li>
                 
                 </p>
-
-				<a name="output"></a>
-                <h2>Customizing output</h2>
-                <p>
-					There are a few ways of custimizing the output
-					of test runs in libunittest. First of all, your
-					compiled test application comes with a help section
-					that you can trigger by:
-					<code>
-						./test_application -h
-					</code> This will show you how to run tests in 
-					verbose mode, how to enable XML output, etc.
-
-					</code>
-                </p>
-
-				<p>
-				
-				<incode>unittest::testcase</incode> comes with a few 
-				virtual methods which somewhat control the output on test fail and error (in pseudo code):
-				<code>
-					string make_displayed_fail_message(assertion, text);<br>
-					int max_displayed_string_length();<br>
-					int max_displayed_value_precision();<br>
-				</code>
-				Simply override these methods in your test class.
-				
-				</p>
-				
-				<p>
-				
-				Last but not least, you can go ahead and write your own
-				environment function that you would call in your main 
-				file instead of <incode>unittest::process()</incode>. Check out 
-				<incode>libunittest/environments.hpp</incode> and 
-				<incode>src/environments.cpp</incode> to see how 
-				the implementation looks like today.
-				
-				</p>
 
 				<a name="miscellaneous"></a>
                 <h2>Miscellaneous</h2>
