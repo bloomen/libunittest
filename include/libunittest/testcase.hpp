@@ -27,7 +27,7 @@ struct testfunctor;
  *  test context is optional
  */
 template<typename TestContext=unittest::notype>
-class testcase : public unittest::internals::assertions {
+class testcase {
 public:
     /**
      * @brief The type of the optional test context

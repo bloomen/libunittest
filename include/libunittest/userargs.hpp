@@ -42,134 +42,158 @@ public:
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
      */
-    virtual bool
+    bool
     verbose() const;
     /**
      * @brief Sets whether the output is verbose (default: false)
      * @param value The value
      */
-    virtual void
+    void
     verbose(bool value);
     /**
      * @brief Returns whether to stop running after the first test fails
      * @returns Whether to stop running after first failure
      */
-    virtual bool
+    bool
     failure_stop() const;
     /**
      * @brief Sets whether to stop running after first failure (default: false)
      * @param value The value
      */
-    virtual void
+    void
     failure_stop(bool value);
     /**
      * @brief Returns whether to generate XML output
      * @returns Whether to generate XML output
      */
-    virtual bool
+    bool
     generate_xml() const;
     /**
      * @brief Sets whether to generate XML output (default: false)
      * @param value The value
      */
-    virtual void
+    void
     generate_xml(bool value);
     /**
      * @brief Returns whether to handle unknown exceptions
      * @returns Whether to handle unknown exceptions
      */
-    virtual bool
+    bool
     handle_exceptions() const;
     /**
      * @brief Sets whether to handle unknown exceptions (default: true)
      * @param value The value
      */
-    virtual void
+    void
     handle_exceptions(bool value);
     /**
      * @brief Returns a name filter on the full test name
      * @returns The filter string
      */
-    virtual std::string
+    std::string
     name_filter() const;
     /**
      * @brief Sets a name filter on the full test name (default: "")
      * @param value The value
      */
-    virtual void
+    void
     name_filter(const std::string& value);
     /**
      * @brief Returns a certain test to be run. This supersedes the name filter
      * @returns The test name
      */
-    virtual std::string
+    std::string
     test_name() const;
     /**
      * @brief Sets a certain test to be run. This supersedes the name filter (default: "")
      * @param value The value
      */
-    virtual void
+    void
     test_name(const std::string& value);
     /**
      * @brief Sets the timeout for those tests without static timeouts
      * @param value The value
      */
-    virtual void
+    void
     timeout(double value);
     /**
      * @brief Returns the test timeout
      * @returns The test timeout
      */
-    virtual double
+    double
     timeout() const;
     /**
      * @brief Returns the XML output file name
      * @returns The XML output file name
      */
-    virtual std::string
+    std::string
     xml_filename() const;
     /**
      * @brief Sets the XML output file name (default: "libunittest.xml")
      * @param value The value
      */
-    virtual void
+    void
     xml_filename(const std::string& value);
     /**
      * @brief Returns whether to perform a dry run
      * @returns Whether to perform a dry run
      */
-    virtual bool
+    bool
     dry_run() const;
     /**
      * @brief Sets whether to perform a dry run (default: false)
      * @param value The value
      */
-    virtual void
+    void
     dry_run(bool value);
     /**
      * @brief Returns the number of concurrent threads
      * @returns The number of concurrent threads
      */
-    virtual int
+    int
     concurrent_threads() const;
     /**
      * @brief Sets the number of concurrent threads (default: 0)
      * @param value The value
      */
-    virtual void
+    void
     concurrent_threads(int value);
     /**
      * @brief Returns whether to disable timeout measurement
      * @returns Whether to disable timeout measurement
      */
-    virtual bool
+    bool
     disable_timeout() const;
     /**
      * @brief Sets whether to disable timeout measurement (default: false)
      * @param value The value
      */
-    virtual void
+    void
     disable_timeout(bool value);
+    /**
+     * @brief Returns the maximum displayed value precision
+     * @returns The maximum displayed value precision
+     */
+    int
+    max_value_precision() const;
+    /**
+     * @brief Sets the maximum displayed value precision (default: 10)
+     * @param value The value
+     */
+    void
+    max_value_precision(int value);
+    /**
+     * @brief Returns the maximum displayed string length
+     * @returns The maximum displayed string length
+     */
+    int
+    max_string_length() const;
+    /**
+     * @brief Sets the maximum displayed string length (default: 500)
+     * @param value The value
+     */
+    void
+    max_string_length(int value);
 
 private:
 

@@ -1,4 +1,5 @@
 #include <libunittest/all.hpp>
+using namespace unittest::assertions;
 
 COLLECTION(templates_plain)
 {

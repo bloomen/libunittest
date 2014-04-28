@@ -1,5 +1,6 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
+using namespace unittest::assertions;
 
 struct test_testrun : unittest::testcase<> {
 

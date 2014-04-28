@@ -1,5 +1,6 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
+using namespace unittest::assertions;
 using unittest::internals::argparser;
 using unittest::internals::argparser_error;
 
@@ -20,6 +21,8 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_timeout)
         UNITTEST_RUN(test_xml_filename)
         UNITTEST_RUN(test_disable_timeout)
+        UNITTEST_RUN(test_max_string_length)
+        UNITTEST_RUN(test_max_value_precision)
         UNITTEST_RUN(test_verbose_failure_stop)
         UNITTEST_RUN(test_verbose_generate_xml)
         UNITTEST_RUN(test_failure_stop_generate_xml)
@@ -57,6 +60,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_verbose()
@@ -74,6 +79,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_failure_stop()
@@ -91,6 +98,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_generate_xml()
@@ -108,6 +117,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_handle_exceptions()
@@ -125,6 +136,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_dry_run()
@@ -142,6 +155,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_concurrent_threads()
@@ -161,6 +176,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_name_filter()
@@ -179,6 +196,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_test_name()
@@ -197,6 +216,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("test_me", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_timeout()
@@ -215,6 +236,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(3.5, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_xml_filename()
@@ -233,6 +256,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("stuff.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_disable_timeout()
@@ -250,6 +275,48 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
+    }
+
+    void test_max_string_length()
+    {
+        arguments_[1] = (char*)"-l";
+        arguments_[2] = (char*)"13";
+        argparser args;
+        args.parse(3, arguments_);
+        assert_equal(false, args.verbose(), SPOT);
+        assert_equal(false, args.failure_stop(), SPOT);
+        assert_equal(false, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
+        assert_equal("", args.name_filter(), SPOT);
+        assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
+        assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(13, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
+    }
+
+    void test_max_value_precision()
+    {
+        arguments_[1] = (char*)"-r";
+        arguments_[2] = (char*)"42";
+        argparser args;
+        args.parse(3, arguments_);
+        assert_equal(false, args.verbose(), SPOT);
+        assert_equal(false, args.failure_stop(), SPOT);
+        assert_equal(false, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
+        assert_equal("", args.name_filter(), SPOT);
+        assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
+        assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(42, args.max_value_precision(), SPOT);
     }
 
     void test_verbose_failure_stop()
@@ -269,6 +336,8 @@ struct test_argparser : unittest::testcase<> {
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
             assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+            assert_equal(500, args.max_string_length(), SPOT);
+            assert_equal(10, args.max_value_precision(), SPOT);
         }
     }
 
@@ -289,6 +358,8 @@ struct test_argparser : unittest::testcase<> {
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
             assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+            assert_equal(500, args.max_string_length(), SPOT);
+            assert_equal(10, args.max_value_precision(), SPOT);
         }
     }
 
@@ -309,6 +380,8 @@ struct test_argparser : unittest::testcase<> {
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
             assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+            assert_equal(500, args.max_string_length(), SPOT);
+            assert_equal(10, args.max_value_precision(), SPOT);
         }
     }
 
@@ -332,6 +405,8 @@ struct test_argparser : unittest::testcase<> {
             assert_equal("", args.test_name(), SPOT);
             assert_equal(-1, args.timeout(), SPOT);
             assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+            assert_equal(500, args.max_string_length(), SPOT);
+            assert_equal(10, args.max_value_precision(), SPOT);
         }
     }
 
@@ -352,8 +427,12 @@ struct test_argparser : unittest::testcase<> {
         arguments_[13] = (char*)"-p";
         arguments_[14] = (char*)"3";
         arguments_[15] = (char*)"-i";
+        arguments_[16] = (char*)"-l";
+        arguments_[17] = (char*)"13";
+        arguments_[18] = (char*)"-r";
+        arguments_[19] = (char*)"42";
         argparser args;
-        args.parse(16, arguments_);
+        args.parse(20, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
@@ -365,6 +444,8 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("test_me", args.test_name(), SPOT);
         assert_equal(10, args.timeout(), SPOT);
         assert_equal("stuff.xml", args.xml_filename(), SPOT);
+        assert_equal(13, args.max_string_length(), SPOT);
+        assert_equal(42, args.max_value_precision(), SPOT);
     }
 
     void test_argparser_errors()

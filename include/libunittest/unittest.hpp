@@ -7,6 +7,7 @@
 #pragma once
 #include <libunittest/argparser.hpp>
 #include <libunittest/assertions.hpp>
+#include <libunittest/checkers.hpp>
 #include <libunittest/environments.hpp>
 #include <libunittest/formatting.hpp>
 #include <libunittest/testcase.hpp>

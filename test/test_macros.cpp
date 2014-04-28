@@ -1,5 +1,6 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
+using namespace unittest::assertions;
 
 struct fixture {
     int value;
@@ -29,7 +30,7 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
 
     void test_unittest_run_skip()
     {
-        fail(__func__, "should be skipped");
+        unittest::fail(__func__, "should be skipped");
     }
 
     void test_unittest_run_time()
@@ -39,7 +40,7 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
 
     void test_unittest_run_time_skip()
     {
-        fail(__func__, "should be skipped");
+        unittest::fail(__func__, "should be skipped");
     }
 
     void test_unittest_runcxt()
@@ -49,7 +50,7 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
 
     void test_unittest_runcxt_skip()
     {
-        fail(__func__, "should be skipped");
+        unittest::fail(__func__, "should be skipped");
     }
 
     void test_unittest_runcxt_time()
@@ -59,7 +60,7 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
 
     void test_unittest_runcxt_time_skip()
     {
-        fail(__func__, "should be skipped");
+        unittest::fail(__func__, "should be skipped");
     }
 
 };
@@ -80,12 +81,12 @@ UNITTEST_TEST(test_unittest_test)
 
 TEST_SKIP(test_test_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 UNITTEST_TEST_SKIP(test_unittest_test_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 TEST_TIME(test_test_time, 0.1)
@@ -100,12 +101,12 @@ UNITTEST_TEST_TIME(test_unittest_test_time, 0.1)
 
 TEST_TIME_SKIP(test_test_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 UNITTEST_TEST_TIME_SKIP(test_unittest_test_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 TEST_FIXTURE(fixture, test_test_fixture)
@@ -120,12 +121,12 @@ UNITTEST_TEST_FIXTURE(fixture, test_unittest_test_fixture)
 
 TEST_FIXTURE_SKIP(fixture, test_test_fixture_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 UNITTEST_TEST_FIXTURE_SKIP(fixture, test_unittest_test_fixture_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 TEST_FIXTURE_TIME(fixture, test_test_fixture_time, 0.1)
@@ -142,12 +143,12 @@ UNITTEST_TEST_FIXTURE_TIME(fixture, test_unittest_test_fixture_time, 0.1)
 
 TEST_FIXTURE_TIME_SKIP(fixture, test_test_fixture_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 UNITTEST_TEST_FIXTURE_TIME_SKIP(fixture, test_unittest_test_fixture_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 
 TEST_TPL(test_test_tpl)
@@ -167,13 +168,13 @@ UNITTEST_REGISTER(test_unittest_test_tpl<int, double>)
 
 TEST_TPL_SKIP(test_test_tpl_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 REGISTER(test_test_tpl_skip<long>)
 
 UNITTEST_TEST_TPL_SKIP(test_unittest_test_tpl_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_skip<int, double>)
 
@@ -196,13 +197,13 @@ UNITTEST_REGISTER(test_unittest_test_tpl_time<int, double>)
 
 TEST_TPL_TIME_SKIP(test_test_tpl_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 REGISTER(test_test_tpl_time_skip<long>)
 
 UNITTEST_TEST_TPL_TIME_SKIP(test_unittest_test_tpl_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_time_skip<int, double>)
 
@@ -225,13 +226,13 @@ UNITTEST_REGISTER(test_unittest_test_tpl_fixture<int, double>)
 
 TEST_TPL_FIXTURE_SKIP(fixture, test_test_tpl_fixture_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 REGISTER(test_test_tpl_fixture_skip<long>)
 
 UNITTEST_TEST_TPL_FIXTURE_SKIP(fixture, test_unittest_test_tpl_fixture_skip, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_fixture_skip<int, double>)
 
@@ -256,13 +257,13 @@ UNITTEST_REGISTER(test_unittest_test_tpl_fixture_time<int, double>)
 
 TEST_TPL_FIXTURE_TIME_SKIP(fixture, test_test_tpl_fixture_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 REGISTER(test_test_tpl_fixture_time_skip<long>)
 
 UNITTEST_TEST_TPL_FIXTURE_TIME_SKIP(fixture, test_unittest_test_tpl_fixture_time_skip, 0.1, "ok")
 {
-    fail(__func__, "should be skipped");
+    unittest::fail(__func__, "should be skipped");
 }
 UNITTEST_REGISTER(test_unittest_test_tpl_fixture_time_skip<int, double>)
 

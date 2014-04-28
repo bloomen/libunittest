@@ -1,4 +1,5 @@
 #include <libunittest/all.hpp>
+using namespace unittest::assertions;
 
 TEST(test_value_is_false)
 {
@@ -37,7 +38,7 @@ COLLECTION(test_stuff)
 
     void helper(const std::string& spot)
     {
-        unittest::assert.assert_true(true, spot);
+        assert_true(true, spot);
     }
 
     TEST(test_helper_asserts_true)

@@ -1,29 +1,28 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 #include <list>
+using namespace unittest::assertions;
 
 template<typename RandomCont,
          typename OrigContainer,
          typename T>
-void assert_random_container_fixed(const unittest::testcase<>& obj,
-                                   RandomCont& random_object,
+void assert_random_container_fixed(RandomCont& random_object,
                                    const OrigContainer& container,
                                    const T& length,
                                    const std::string& spot)
 {
     for (int i=0; i<100; ++i) {
         const auto rand_cont = random_object.get();
-        obj.assert_equal(length, rand_cont.size(), spot);
+        assert_equal(length, rand_cont.size(), spot);
         for (auto& value : rand_cont)
-            obj.assert_in_container(value, container, spot);
+            assert_in_container(value, container, spot);
     }
 }
 
 template<typename RandomCont,
          typename OrigContainer,
          typename T>
-void assert_random_container_range(const unittest::testcase<>& obj,
-                                   RandomCont& random_object,
+void assert_random_container_range(RandomCont& random_object,
                                    const OrigContainer& container,
                                    const T& min_length,
                                    const T& max_length,
@@ -31,9 +30,9 @@ void assert_random_container_range(const unittest::testcase<>& obj,
 {
     for (int i=0; i<100; ++i) {
         const auto rand_cont = random_object.get();
-        obj.assert_in_range(rand_cont.size(), min_length, max_length, spot);
+        assert_in_range(rand_cont.size(), min_length, max_length, spot);
         for (auto& value : rand_cont)
-            obj.assert_in_container(value, container, spot);
+            assert_in_container(value, container, spot);
     }
 }
 
@@ -153,8 +152,8 @@ struct test_random : unittest::testcase<> {
         const unsigned min_length = 3;
         auto random_contA = unittest::make_random_container<std::string>(random, length);
         auto random_contB = unittest::make_random_container<std::string>(random, min_length, length);
-        assert_random_container_fixed(*this, random_contA, characters, length, SPOT);
-        assert_random_container_range(*this, random_contB, characters, min_length, length, SPOT);
+        assert_random_container_fixed(random_contA, characters, length, SPOT);
+        assert_random_container_range(random_contB, characters, min_length, length, SPOT);
     }
 
     void test_random_container_list()
@@ -165,8 +164,8 @@ struct test_random : unittest::testcase<> {
         auto random_contA = unittest::make_random_container<std::list<int>>(random, length);
         auto random_contB = unittest::make_random_container<std::list<int>>(random, min_length, length);
         const std::list<int> a_list = {1, 2, 3};
-        assert_random_container_fixed(*this, random_contA, a_list, length, SPOT);
-        assert_random_container_range(*this, random_contB, a_list, min_length, length, SPOT);
+        assert_random_container_fixed(random_contA, a_list, length, SPOT);
+        assert_random_container_range(random_contB, a_list, min_length, length, SPOT);
     }
 
     void test_random_container_vector()
@@ -177,8 +176,8 @@ struct test_random : unittest::testcase<> {
         auto random_contA = unittest::make_random_vector(random, length);
         auto random_contB = unittest::make_random_vector(random, min_length, length);
         const std::vector<int> vector = {1, 2, 3};
-        assert_random_container_fixed(*this, random_contA, vector, length, SPOT);
-        assert_random_container_range(*this, random_contB, vector, min_length, length, SPOT);
+        assert_random_container_fixed(random_contA, vector, length, SPOT);
+        assert_random_container_range(random_contB, vector, min_length, length, SPOT);
     }
 
     void test_random_container_throw()

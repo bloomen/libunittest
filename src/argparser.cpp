@@ -17,18 +17,20 @@ struct argparser::impl {
         stream << version << "\n\n";
         stream << "Usage: " << app_name << " [Options]\n\n";
         stream << "Options:\n";
-        stream << "-h          Displays this help message\n";
-        stream << "-v          Sets verbose output for running tests\n";
-        stream << "-d          A dry run without actually executing any tests\n";
-        stream << "-s          Stops running tests after the first test fails\n";
-        stream << "-x          Enables the generation of the XML output\n";
-        stream << "-e          Turns off handling of unexpected exceptions\n";
-        stream << "-i          Disables the measurement of any test timeouts\n";
-        stream << "-p number   Runs tests in parallel with a given number of threads\n";
-        stream << "-f filter   A filter applied to the beginning of the test names\n";
-        stream << "-n name     A certain test to be run superseding the name filter\n";
-        stream << "-t timeout  A timeout in seconds for tests without local timeouts\n";
-        stream << "-o xmlfile  The XML output file name (default: libunittest.xml)\n";
+        stream << "-h            Displays this help message\n";
+        stream << "-v            Sets verbose output for running tests\n";
+        stream << "-d            A dry run without actually executing any tests\n";
+        stream << "-s            Stops running tests after the first test fails\n";
+        stream << "-x            Enables the generation of the XML output\n";
+        stream << "-e            Turns off handling of unexpected exceptions\n";
+        stream << "-i            Disables the measurement of any test timeouts\n";
+        stream << "-p number     Runs tests in parallel with a given number of threads\n";
+        stream << "-f filter     A filter applied to the beginning of the test names\n";
+        stream << "-n name       A certain test to be run superseding the name filter\n";
+        stream << "-t timeout    A timeout in seconds for tests without local timeouts\n";
+        stream << "-o xmlfile    The XML output file name (default: libunittest.xml)\n";
+        stream << "-l length     The maximum displayed string length (default: 500)\n";
+        stream << "-r precision  The maximum displayed value precision (default: 10)\n";
         stream << std::flush;
     }
 
@@ -125,6 +127,16 @@ argparser::parse(int argc, char **argv)
                 concurrent_threads(impl_->make_number<int>(app_name, "-p", args[i]));
             else
                 impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");
+        } else if (args[i]=="-l") {
+            if (++i<length)
+                max_string_length(impl_->make_number<int>(app_name, "-s", args[i]));
+            else
+                impl_->help_and_throw(app_name, "Option '-s' needs the maximum displayed string length");
+        } else if (args[i]=="-r") {
+            if (++i<length)
+                max_value_precision(impl_->make_number<int>(app_name, "-r", args[i]));
+            else
+                impl_->help_and_throw(app_name, "Option '-r' needs the maximum displayed value precision");
         } else {
         	impl_->help_and_throw(app_name, join("Unknown option '", args[i], "'"));
         }

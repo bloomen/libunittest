@@ -1,4 +1,5 @@
 #include <libunittest/all.hpp>
+using namespace unittest::assertions;
 
 template<typename T, typename U>
 struct templates_flexible : unittest::testcase<> {

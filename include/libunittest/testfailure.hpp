@@ -5,6 +5,7 @@
 #pragma once
 #include <string>
 #include <stdexcept>
+#include <libunittest/utilities.hpp>
 /**
  * @brief Unit testing in C++
  */
@@ -57,5 +58,22 @@ private:
     std::string assertion_;
     std::pair<std::string, int> spot_;
 };
+/**
+ * @brief Builds a fail message from the parameters passed and throws
+ *  exception testfailure
+ * @param assertion The name of the assertion
+ * @param message The assertion message
+ * @param args An arbitrary number of arguments that are concatenated
+ *  to a single string and are appended to the assertion message
+ * @throws testfailure
+ */
+template<typename... Args>
+void
+fail(const std::string& assertion,
+     const std::string& message,
+     const Args&... args)
+{
+    throw unittest::testfailure(assertion, message, unittest::join("", args...));
+}
 
 } // unittest

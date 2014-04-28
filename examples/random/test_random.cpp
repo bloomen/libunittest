@@ -1,4 +1,5 @@
 #include <libunittest/all.hpp>
+using namespace unittest::assertions;
 
 TEST(test_random_int)
 {

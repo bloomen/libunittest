@@ -1,5 +1,6 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
+using namespace unittest::assertions;
 
 unittest::internals::testresults make_sample_results()
 {
@@ -97,6 +98,8 @@ struct test_misc : unittest::testcase<> {
         assert_equal("", args.test_name(), SPOT);
         assert_equal(-1, args.timeout(), SPOT);
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
     }
 
     void test_userargs_set_get()
@@ -111,6 +114,8 @@ struct test_misc : unittest::testcase<> {
         args.concurrent_threads(3);
         args.name_filter("test_me");
         args.test_name("test_me_more");
+        args.max_string_length(13);
+        args.max_value_precision(42);
         args.timeout(10);
         args.xml_filename("awesome_tests.xml");
         assert_equal(true, args.verbose(), SPOT);
@@ -124,6 +129,8 @@ struct test_misc : unittest::testcase<> {
         assert_equal("test_me_more", args.test_name(), SPOT);
         assert_equal(10, args.timeout(), SPOT);
         assert_equal("awesome_tests.xml", args.xml_filename(), SPOT);
+        assert_equal(13, args.max_string_length(), SPOT);
+        assert_equal(42, args.max_value_precision(), SPOT);
     }
 
     void test_write_xml_empty()
@@ -302,7 +309,7 @@ struct test_misc : unittest::testcase<> {
         const std::string user_msg("@SPOT@Here:13@SPOT@Some additional info");
         bool caught = false;
         try {
-            fail(assertion, text, user_msg);
+            unittest::fail(assertion, text, user_msg);
         } catch (const unittest::testfailure& e) {
             assert_equal("a test failure - Some additional info", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
@@ -321,7 +328,7 @@ struct test_misc : unittest::testcase<> {
         const std::string user_msg("@SPOT@Here:13@SPOT@");
         bool caught = false;
         try {
-            fail(assertion, text, user_msg);
+            unittest::fail(assertion, text, user_msg);
         } catch (const unittest::testfailure& e) {
             assert_equal("a test failure", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
@@ -339,7 +346,7 @@ struct test_misc : unittest::testcase<> {
         const std::string text("a test failure");
         bool caught = false;
         try {
-            fail(assertion, text);
+            unittest::fail(assertion, text);
         } catch (const unittest::testfailure& e) {
             assert_equal("a test failure", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);
@@ -357,7 +364,7 @@ struct test_misc : unittest::testcase<> {
         const std::string text("a test failure");
         bool caught = false;
         try {
-            fail(assertion, text, "msg ", 42);
+            unittest::fail(assertion, text, "msg ", 42);
         } catch (const unittest::testfailure& e) {
             assert_equal("a test failure - msg 42", unittest::join(e.what()), SPOT);
             assert_equal(assertion, e.assertion(), SPOT);

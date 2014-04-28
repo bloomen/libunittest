@@ -17,12 +17,15 @@ struct userargs::impl {
     double timeout_;
     std::string xml_filename_;
     bool disable_timeout_;
+    int max_value_precision_;
+    int max_string_length_;
 
     impl()
         : verbose_(false), failure_stop_(false), generate_xml_(false),
           handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
           name_filter_(""), test_name_(""), timeout_(-1),
-          xml_filename_("libunittest.xml"), disable_timeout_(false)
+          xml_filename_("libunittest.xml"), disable_timeout_(false),
+          max_value_precision_(10), max_string_length_(500)
     {}
 
 };
@@ -174,6 +177,30 @@ void
 userargs::disable_timeout(bool value)
 {
     impl_->disable_timeout_ = value;
+}
+
+int
+userargs::max_value_precision() const
+{
+    return impl_->max_value_precision_;
+}
+
+void
+userargs::max_value_precision(int value)
+{
+    impl_->max_value_precision_ = value;
+}
+
+int
+userargs::max_string_length() const
+{
+    return impl_->max_string_length_;
+}
+
+void
+userargs::max_string_length(int value)
+{
+    impl_->max_string_length_ = value;
 }
 
 } // internals
