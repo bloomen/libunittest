@@ -1,6 +1,6 @@
 MAJOR = 5
 MINOR = 0
-PATCH = 0
+PATCH = 1
 VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest
@@ -13,10 +13,16 @@ VERSIONFILE = version.hpp
 LIBDIR = lib
 INSTALLDIR = /usr/local
 
-CXX = g++
-CXXFLAGS = -g -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
+ifeq ($(shell uname), Darwin)
+    CXX = clang++
+    CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++ -U__STRICT_ANSI__
+    LDFLAGS = -arch x86_64 -dynamiclib
+else
+    CXX = g++
+    CXXFLAGS = -g -O0 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
+    LDFLAGS = -shared -Wl,-soname,$(SONAME)
+endif
 LD = $(CXX)
-LDFLAGS = -shared -Wl,-soname,$(SONAME)
 
 INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))

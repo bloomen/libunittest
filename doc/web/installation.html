@@ -56,15 +56,10 @@
 					<code>
 					make [CXX=compiler]
 					</code>
-					where <incode>CXX</incode> defaults to <incode>g++</incode>. 
-					If <incode>clang++</incode> is used then type:
-					<code>
-						make CXX='clang++ -stdlib=libc++'
-					</code>
-					Installation instructions for <incode>libc++</incode> can be found 
-					<a href="http://libcxx.llvm.org/" target="_blank">here</a> with 199600 being a stable SVN revision. On MacOSX 
-					you might have to add <incode>-U__STRICT_ANSI__</incode> as an 
-					additional compiler flag.
+					where <incode>CXX</incode> defaults to <incode>clang++</incode> on MacOSX 
+					and to <incode>g++</incode> everywhere else such as Linux. 
+                    Using <incode>clang++</incode> requires <a href="http://libcxx.llvm.org/" target="_blank">libc++</a> 
+                    which is an alternative C++ standard library.
 			        Once the compilation 
 					is finished libunittest can be installed:
 					<code>

@@ -1,3 +1,12 @@
+libunittest (5.0.1) stable; urgency=low
+
+  * Fixed build on MacOSX
+  * Made clang++ the default compiler on MacOSX including
+    corresponding compiler flags
+  * Cleaner makefiles for tests and examples
+    
+ -- Christian Blume <chr.blume@gmail.com>  Mon, 28 Apr 2014 21:00:00 -0700
+
 libunittest (5.0.0) stable; urgency=low
 
   * Moved assertions out of unittest::testcase and into their own namespace:
