@@ -6,7 +6,7 @@ XSD = ../../doc/web/libunittest.xsd
 
 ifeq ($(shell uname), Darwin)
     CXX = clang++
-    CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++ -U__STRICT_ANSI__
+    CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++
     LDFLAGS =
 else
     CXX = g++
