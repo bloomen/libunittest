@@ -6,18 +6,21 @@ VERSION = $(MAJOR).$(MINOR).$(PATCH)
 PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
 PROGVERTAR = $(PROGVER).tar.gz
-LIBNAME = $(PROG).so
-SONAME = $(LIBNAME).$(MAJOR)
-REALNAME = $(LIBNAME).$(VERSION)
 VERSIONFILE = version.hpp
 LIBDIR = lib
 INSTALLDIR = /usr/local
 
 ifeq ($(shell uname), Darwin)
+	LIBNAME = $(PROG).dylib
+	SONAME = $(PROG).$(MAJOR).dylib
+	REALNAME = $(PROG).$(VERSION).dylib
     CXX = clang++
     CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++
-    LDFLAGS = -arch x86_64 -dynamiclib
+    LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -current_version $(VERSION) -compatibility_version $(MAJOR).$(MINOR)
 else
+	LIBNAME = $(PROG).so
+	SONAME = $(LIBNAME).$(MAJOR)
+	REALNAME = $(LIBNAME).$(VERSION)
     CXX = g++
     CXXFLAGS = -g -O0 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
     LDFLAGS = -shared -Wl,-soname,$(SONAME)
