@@ -16,7 +16,7 @@ endif
 LD = $(CXX)
 
 INCS = -I./$(INCDIR) 
-LIBS = -L./$(LIBDIR) -lunittest
+LIBS = ./$(LIBDIR)/libunittest.so
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 RM = rm -f
