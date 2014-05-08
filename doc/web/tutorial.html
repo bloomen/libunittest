@@ -29,6 +29,7 @@
 	</div>
 	<div id="contents">
 			<h1>Tutorial</h1>
+
 				<p> This tutorial provides you with a quick 
 				introduction to libunittest. Note that this tutorial reflects the state of the 
                 <a href="http://sourceforge.net/projects/libunittest/files/latest/download?source=files" target="_blank">latest version</a>				
@@ -102,11 +103,11 @@
                 </p>
                 <p>
                 In order to compile the above example it is assumed 
-                that libunittest is installed and present in the respective
-                environment variables. In order to compile on Linux-like systems 
+                that libunittest is installed in a default system location. 
+                In order to compile on Linux-like systems 
                 using <incode>g++(&ge;4.6)</incode>, you can do:
                 <code>
-                g++ -std=c++0x -pthread simple.cpp -lunittest -o unittest.exe
+                g++ -std=c++0x -pthread -lunittest simple.cpp -o unittest.exe
                 </code>
                 Doing <incode>./unittest.exe -v</incode> &nbsp; gives the following output:
                 <code>
@@ -121,7 +122,7 @@
                 To get a quick help to your testing application just do
                 <incode>./unittest.exe -h</incode>:
                 <code>
-                This is your testing application using libunittest-5.0.0<br><br>
+                This is your testing application using libunittest-5.0.2<br><br>
                 
                 Usage: ./unittest.exe [Options]<br><br>
                 
@@ -190,7 +191,7 @@
 				</li>
                 
 				<li>
-					<incode>get()</incode> - Returns a new random value or container at every call and is implemented by every deriving class. 
+					<incode>get()</incode> - Returns a new random value or container at every call. 
 				</li>
                 </p>
                 <p>
