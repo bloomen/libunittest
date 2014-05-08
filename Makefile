@@ -1,6 +1,6 @@
 MAJOR = 5
 MINOR = 0
-PATCH = 1
+PATCH = 2
 VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest
@@ -16,7 +16,7 @@ ifeq ($(shell uname), Darwin)
 	REALNAME = $(PROG).$(VERSION).dylib
     CXX = clang++
     CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++
-    LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -current_version $(VERSION) -compatibility_version $(MAJOR).$(MINOR)
+    LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -compatibility_version $(MAJOR).$(MINOR).0 -current_version $(VERSION)
 else
 	LIBNAME = $(PROG).so
 	SONAME = $(LIBNAME).$(MAJOR)
