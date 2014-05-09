@@ -13,4 +13,4 @@
  * @returns A platform dependent program execution status: A success value if
  *  all tests succeed and an error value otherwise
  */
-extern int main(int argc, char **argv);
+int main(int argc, char **argv);
