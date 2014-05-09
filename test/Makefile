@@ -5,10 +5,12 @@ LIBDIR = ../lib
 XSD = ../doc/web/libunittest.xsd
 
 ifeq ($(shell uname), Darwin)
+	LIBEXT = dylib
     CXX = clang++
     CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++
     LDFLAGS =
 else
+	LIBEXT = so
     CXX = g++
     CXXFLAGS = -g -O0 -Wall -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
     LDFLAGS = -pthread
@@ -16,7 +18,7 @@ endif
 LD = $(CXX)
 
 INCS = -I./$(INCDIR) 
-LIBS = ./$(LIBDIR)/libunittest.so
+LIBS = ./$(LIBDIR)/libunittest.$(LIBEXT)
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 RM = rm -f

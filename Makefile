@@ -11,14 +11,16 @@ LIBDIR = lib
 INSTALLDIR = /usr/local
 
 ifeq ($(shell uname), Darwin)
-	LIBNAME = $(PROG).dylib
-	SONAME = $(PROG).$(MAJOR).dylib
-	REALNAME = $(PROG).$(VERSION).dylib
+	LIBEXT = dylib
+	LIBNAME = $(PROG).$(LIBEXT)
+	SONAME = $(PROG).$(MAJOR).$(LIBEXT)
+	REALNAME = $(PROG).$(VERSION).$(LIBEXT)
     CXX = clang++
     CXXFLAGS = -arch x86_64 -g -O0 -Wall -pedantic -std=c++0x -stdlib=libc++
     LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -compatibility_version $(MAJOR).$(MINOR).0 -current_version $(VERSION)
 else
-	LIBNAME = $(PROG).so
+	LIBEXT = so
+	LIBNAME = $(PROG).$(LIBEXT)
 	SONAME = $(LIBNAME).$(MAJOR)
 	REALNAME = $(LIBNAME).$(VERSION)
     CXX = g++
