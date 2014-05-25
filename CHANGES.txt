@@ -1,3 +1,9 @@
+libunittest (5.1.0) stable; urgency=low
+
+  * Improved argument parser
+
+ -- Christian Blume <chr.blume@gmail.com>  Thu, 06 May 2014 21:00:00 -0700
+
 libunittest (5.0.2) stable; urgency=low
 
   * Better build on MacOSX with proper versioning for *.dylib

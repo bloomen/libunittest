@@ -1,6 +1,6 @@
 MAJOR = 5
-MINOR = 0
-PATCH = 2
+MINOR = 1
+PATCH = 0
 VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest
@@ -52,19 +52,23 @@ DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples 
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
-default : $(PROG)
+.PHONY : default all install dist version versioncheck check distcheck deb upload clean
+
+default : $(LIBDIR)/$(REALNAME)
 all : default
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
 
-$(PROG) : $(OBJECTS)
-	@$(MKDIR) $(LIBDIR)
+$(LIBDIR)/$(REALNAME) : $(LIBDIR) $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(REALNAME)
 	@$(RM) $(LIBDIR)/$(SONAME)
 	@$(RM) $(LIBDIR)/$(LIBNAME)
 	@$(CD) $(LIBDIR); $(LN) $(REALNAME) $(SONAME)
 	@$(CD) $(LIBDIR); $(LN) $(SONAME) $(LIBNAME)
+
+$(LIBDIR) :
+	@$(MKDIR) $(LIBDIR)
 
 install : 
 	@$(ECHO) "Installing $(PROGVER) to $(INSTALLDIR) ..."

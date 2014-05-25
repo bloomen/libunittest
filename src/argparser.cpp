@@ -25,7 +25,7 @@ struct argparser::impl {
         stream << "-e            Turns off handling of unexpected exceptions\n";
         stream << "-i            Disables the measurement of any test timeouts\n";
         stream << "-p number     Runs tests in parallel with a given number of threads\n";
-        stream << "-f filter     A filter applied to the beginning of the test names\n";
+        stream << "-f filter     A run filter applied to the beginning of the test names\n";
         stream << "-n name       A certain test to be run superseding the name filter\n";
         stream << "-t timeout    A timeout in seconds for tests without local timeouts\n";
         stream << "-o xmlfile    The XML output file name (default: libunittest.xml)\n";
@@ -60,12 +60,18 @@ struct argparser::impl {
     }
 
     std::vector<std::string>
-    expand_arguments(int argc, char **argv) const
+    expand_arguments(const std::string& app_name,
+    				 int argc, char **argv) const
     {
         std::vector<std::string> arguments;
         arguments.reserve(argc - 1);
-        for (int i=1; i<argc; ++i)
+        const std::string prefix = "--";
+        for (int i=1; i<argc; ++i) {
             arguments.push_back(argv[i]);
+            if (arguments.back().substr(0, prefix.size())==prefix) {
+                help_and_throw(app_name, "Only options with a single '-' are supported");
+            }
+        }
         return expand_commandline_arguments(arguments);
     }
 
@@ -83,7 +89,7 @@ void
 argparser::parse(int argc, char **argv)
 {
     const std::string app_name = argv[0];
-    const auto args = impl_->expand_arguments(argc, argv);
+    const auto args = impl_->expand_arguments(app_name, argc, argv);
     const auto length = args.size();
     for (size_t i=0; i<length; ++i) {
         if (args[i]=="-h") {
@@ -129,9 +135,9 @@ argparser::parse(int argc, char **argv)
                 impl_->help_and_throw(app_name, "Option '-p' needs the number of threads");
         } else if (args[i]=="-l") {
             if (++i<length)
-                max_string_length(impl_->make_number<int>(app_name, "-s", args[i]));
+                max_string_length(impl_->make_number<int>(app_name, "-l", args[i]));
             else
-                impl_->help_and_throw(app_name, "Option '-s' needs the maximum displayed string length");
+                impl_->help_and_throw(app_name, "Option '-l' needs the maximum displayed string length");
         } else if (args[i]=="-r") {
             if (++i<length)
                 max_value_precision(impl_->make_number<int>(app_name, "-r", args[i]));

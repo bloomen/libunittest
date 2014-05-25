@@ -451,7 +451,7 @@ struct test_argparser : unittest::testcase<> {
     void test_argparser_errors()
     {
         const std::vector<char*> values = {
-                (char*)"-g", (char*)"-f", (char*)"-t", (char*)"-o"
+                (char*)"-g", (char*)"-f", (char*)"-t", (char*)"-o", (char*)"--h"
         };
         for (auto value : values) {
             arguments_[1] = value;
