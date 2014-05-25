@@ -1,5 +1,6 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
+#include <exception>
 using namespace unittest::assertions;
 
 unittest::internals::testresults make_sample_results()
@@ -76,6 +77,7 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_collection_get_name)
         UNITTEST_RUN(test_keep_running_fail)
         UNITTEST_RUN(test_keep_running_ok)
+        UNITTEST_RUN(test_assertion_in_separate_thread)
     }
 
     void test_version()
@@ -424,6 +426,24 @@ struct test_misc : unittest::testcase<> {
         log.status = unittest::internals::teststatus::skipped;
         assert_true(keep_running(log, false), SPOT);
         assert_true(keep_running(log, true), SPOT);
+    }
+
+    void test_assertion_in_separate_thread()
+    {
+    	std::exception_ptr ptr;
+    	std::thread thread([&ptr]() {
+    		try {
+    			assert_true(false, SPOT);
+    		} catch (...) {
+    			ptr = std::current_exception();
+    		}
+    	});
+    	thread.join();
+    	auto functor = [&ptr]() {
+			if (ptr)
+				std::rethrow_exception(ptr);
+    	};
+    	assert_throw<unittest::testfailure>(functor, SPOT);
     }
 
 };
