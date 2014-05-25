@@ -2,7 +2,6 @@
 .project
 distribution
 lib
-lib/*
 *.o
 *.obj
 *.exe
