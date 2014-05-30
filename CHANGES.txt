@@ -4,7 +4,7 @@ libunittest (5.1.0) stable; urgency=low
   	at runtime whether a test is run or skipped
   * Improved argument parser
   * Add unit test showing how to use assertions in separate threads
-  * Dropped support of debian packages (to much work to maintain)
+  * Dropped support for debian packages (too much work to maintain)
 
  -- Christian Blume <chr.blume@gmail.com>  Thu, 29 May 2014 22:00:00 -0700
 
