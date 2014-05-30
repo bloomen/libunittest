@@ -24,6 +24,14 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, false, "");
 #define UNITTEST_RUN_SKIP(test_method, skip_message) \
 unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_message);
 /**
+ * @brief A maybe test run
+ * @param test_method The test method
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_RUN_MAYBE(test_method, is_run, skip_message) \
+unittest::testrun(&__test_class__::test_method, "", #test_method, !is_run, skip_message);
+/**
  * @brief A test run with timeout
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
@@ -39,6 +47,15 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, false, "", tim
 #define UNITTEST_RUN_TIME_SKIP(test_method, timeout, skip_message) \
 unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_message, timeout);
 /**
+ * @brief A maybe test run with timeout
+ * @param test_method The test method
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_RUN_TIME_MAYBE(test_method, timeout, is_run, skip_message) \
+unittest::testrun(&__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
+/**
  * @brief A test run with a test context
  * @param test_context The test context
  * @param test_method The test method
@@ -53,6 +70,15 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  */
 #define UNITTEST_RUNCXT_SKIP(test_context, test_method, skip_message) \
 unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, true, skip_message);
+/**
+ * @brief A maybe test run with a test context
+ * @param test_context The test context
+ * @param test_method The test method
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_RUNCXT_MAYBE(test_context, test_method, is_run, skip_message) \
+unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message);
 /**
  * @brief A test run with a test context and timeout
  * @param test_context The test context
@@ -70,6 +96,16 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  */
 #define UNITTEST_RUNCXT_TIME_SKIP(test_context, test_method, timeout, skip_message) \
 unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
+/**
+ * @brief A maybe test run with a test context and timeout
+ * @param test_context The test context
+ * @param test_method The test method
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_RUNCXT_TIME_MAYBE(test_context, test_method, timeout, is_run, skip_message) \
+unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
 /**
  * @brief Defines a string with info about the current file name
  *  and the current line number
@@ -130,6 +166,14 @@ __UNITTEST_TEST_PLAIN(unittest::sometype, test_name, false, "")
 #define UNITTEST_TEST_SKIP(test_name, skip_message) \
 __UNITTEST_TEST_PLAIN(unittest::sometype, test_name, true, skip_message)
 /**
+ * @brief Sets up a maybe plain test
+ * @param test_name The name of the test
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_MAYBE(test_name, is_run, skip_message) \
+__UNITTEST_TEST_PLAIN(unittest::sometype, test_name, !is_run, skip_message)
+/**
  * @brief Sets up a plain test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
@@ -145,6 +189,15 @@ __UNITTEST_TEST_PLAIN_TIME(unittest::sometype, test_name, timeout, false, "")
 #define UNITTEST_TEST_TIME_SKIP(test_name, timeout, skip_message) \
 __UNITTEST_TEST_PLAIN_TIME(unittest::sometype, test_name, timeout, true, skip_message)
 /**
+ * @brief Sets up a maybe plain test with timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_TIME_MAYBE(test_name, timeout, is_run, skip_message) \
+__UNITTEST_TEST_PLAIN_TIME(unittest::sometype, test_name, timeout, !is_run, skip_message)
+/**
  * @brief Sets up a plain test with a test fixture
  * @param fixture The test fixture
  * @param test_name The name of the test
@@ -159,6 +212,15 @@ __UNITTEST_TEST_PLAIN(fixture, test_name, false, "")
  */
 #define UNITTEST_TEST_FIXTURE_SKIP(fixture, test_name, skip_message) \
 __UNITTEST_TEST_PLAIN(fixture, test_name, true, skip_message)
+/**
+ * @brief Sets up a maybe plain test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_FIXTURE_MAYBE(fixture, test_name, is_run, skip_message) \
+__UNITTEST_TEST_PLAIN(fixture, test_name, !is_run, skip_message)
 /**
  * @brief Sets up a plain test with a test fixture and timeout
  * @param fixture The test fixture
@@ -176,6 +238,16 @@ __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, false, "")
  */
 #define UNITTEST_TEST_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message) \
 __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, true, skip_message)
+/**
+ * @brief Sets up a maybe plain test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_FIXTURE_TIME_MAYBE(fixture, test_name, timeout, is_run, skip_message) \
+__UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, !is_run, skip_message)
 /**
  * @brief Sets up a generic plain test. Only for internals
  * @param fixture The test fixture
@@ -229,6 +301,14 @@ __UNITTEST_TEST_TPL(unittest::sometype, test_name, false, "")
 #define UNITTEST_TEST_TPL_SKIP(test_name, skip_message) \
 __UNITTEST_TEST_TPL(unittest::sometype, test_name, true, skip_message)
 /**
+ * @brief Sets up a maybe templated test
+ * @param test_name The name of the test
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_TPL_MAYBE(test_name, is_run, skip_message) \
+__UNITTEST_TEST_TPL(unittest::sometype, test_name, !is_run, skip_message)
+/**
  * @brief Sets up a templated test with timeout
  * @param test_name The name of the test
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
@@ -244,6 +324,15 @@ __UNITTEST_TEST_TPL_TIME(unittest::sometype, test_name, timeout, false, "")
 #define UNITTEST_TEST_TPL_TIME_SKIP(test_name, timeout, skip_message) \
 __UNITTEST_TEST_TPL_TIME(unittest::sometype, test_name, timeout, true, skip_message)
 /**
+ * @brief Sets up a maybe templated test with timeout
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_TPL_TIME_MAYBE(test_name, timeout, is_run, skip_message) \
+__UNITTEST_TEST_TPL_TIME(unittest::sometype, test_name, timeout, !is_run, skip_message)
+/**
  * @brief Sets up a templated test with a test fixture
  * @param fixture The test fixture
  * @param test_name The name of the test
@@ -258,6 +347,15 @@ __UNITTEST_TEST_TPL(fixture, test_name, false, "")
  */
 #define UNITTEST_TEST_TPL_FIXTURE_SKIP(fixture, test_name, skip_message) \
 __UNITTEST_TEST_TPL(fixture, test_name, true, skip_message)
+/**
+ * @brief Sets up a maybe templated test with a test fixture
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_TPL_FIXTURE_MAYBE(fixture, test_name, is_run, skip_message) \
+__UNITTEST_TEST_TPL(fixture, test_name, !is_run, skip_message)
 /**
  * @brief Sets up a templated test with a test fixture and timeout
  * @param fixture The test fixture
@@ -275,6 +373,16 @@ __UNITTEST_TEST_TPL_TIME(fixture, test_name, timeout, false, "")
  */
 #define UNITTEST_TEST_TPL_FIXTURE_TIME_SKIP(fixture, test_name, timeout, skip_message) \
 __UNITTEST_TEST_TPL_TIME(fixture, test_name, timeout, true, skip_message)
+/**
+ * @brief Sets up a maybe templated test with a test fixture and timeout
+ * @param fixture The test fixture
+ * @param test_name The name of the test
+ * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
+ * @param is_run Whether the test is run
+ * @param skip_message A message explaining why the test is skipped
+ */
+#define UNITTEST_TEST_TPL_FIXTURE_TIME_MAYBE(fixture, test_name, timeout, is_run, skip_message) \
+__UNITTEST_TEST_TPL_TIME(fixture, test_name, timeout, !is_run, skip_message)
 /**
  * @brief Sets up a generic templated test. Only for internals
  * @param fixture The test fixture

@@ -13,6 +13,12 @@ TEST_SKIP(test_value_is_three, "to show how tests are skipped")
     assert_equal(3, value);
 }
 
+TEST_MAYBE(test_value_not_three, false, "this is also skipped")
+{
+    int value = 4;
+    assert_not_equal(3, value);
+}
+
 TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s
 {
     assert_true(true);

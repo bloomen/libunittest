@@ -42,9 +42,7 @@ CD = cd
 MV = mv
 TAR = tar cfz
 UNTAR = tar xfz
-BUILDDEB = dpkg-buildpackage -rfakeroot -b
 
-DEBRULES = debian/rules
 COPYING = COPYING.txt
 CHANGES = CHANGES.txt
 DISTDIR = distribution
@@ -52,7 +50,7 @@ DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples 
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
-.PHONY : default all install dist version versioncheck check distcheck deb upload clean
+.PHONY : default all install dist version versioncheck check distcheck upload clean
 
 default : $(LIBDIR)/$(REALNAME)
 all : default
@@ -137,27 +135,6 @@ version :
 	@$(ECHO) "const std::string version = \"$(VERSION)\";" >> $(FULLVERFILE)
 	@$(ECHO)  >> $(FULLVERFILE)
 	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
-
-deb : version versioncheck
-	@$(CP) $(COPYING) debian/copyright
-	@$(CP) $(CHANGES) debian/changelog
-	@$(ECHO) "#!/usr/bin/make -f" > $(DEBRULES)
-	@$(ECHO) "# -*- makefile -*-" >> $(DEBRULES)
-	@$(ECHO) "include /usr/share/cdbs/1/rules/debhelper.mk" >> $(DEBRULES)
-	@$(ECHO) "CXXFLAGS = $(CXXFLAGS)" >> $(DEBRULES)
-	@$(ECHO) "LDFLAGS = $(LDFLAGS)" >> $(DEBRULES)
-	@$(ECHO) "include /usr/share/cdbs/1/class/makefile.mk" >> $(DEBRULES)
-	@$(ECHO) "install/$(PROG)-dev::" >> $(DEBRULES)
-	@$(ECHO) "	rm -rf debian/$(PROG)-dev/usr/include/$(PROG) && mkdir -p debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
-	@$(ECHO) "	mkdir -p debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
-	@$(ECHO) "	cp include/$(PROG)/*.hpp debian/$(PROG)-dev/usr/include/$(PROG)" >> $(DEBRULES)
-	@$(ECHO) "	cp lib/$(REALNAME) debian/$(PROG)-dev/usr/lib" >> $(DEBRULES)
-	@$(ECHO) "	cd debian/$(PROG)-dev/usr/lib && $(RM) $(SONAME) $(LIBNAME) && ln -s $(REALNAME) $(SONAME) && ln -s $(SONAME) $(LIBNAME)" >> $(DEBRULES)
-	@chmod u+x $(DEBRULES) || exit 1
-	@$(BUILDDEB) || exit 1
-	@$(RM) ../$(PROG)_$(VERSION)_*.changes
-	@$(MKDIR) $(DISTDIR)
-	@$(MV) ../$(PROG)-dev_$(VERSION)_*.deb $(DISTDIR)
 
 upload :
 	@$(ECHO) "Uploading version "$(VERSION)
