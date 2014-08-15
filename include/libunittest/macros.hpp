@@ -142,14 +142,14 @@ static unittest::internals::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__register
  */
 #define UNITTEST_COLLECTION(name) \
 namespace name { \
-    struct collection_child : unittest::internals::testcollection { \
+    struct __testcollection_child__ : unittest::internals::testcollection { \
         std::string \
         get_name() const \
         { \
             return #name; \
         } \
     }; \
-    typedef collection_child __testcollection_type__; \
+    typedef __testcollection_child__ __testcollection_type__; \
 } \
 namespace name
 /**
