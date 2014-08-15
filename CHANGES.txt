@@ -1,3 +1,17 @@
+libunittest (6.0.0) stable; urgency=low
+
+  * Fixed bug: The duration of the test suite was not displayed correctly
+  	if the suite consisted of only one test that is skipped
+  * The test context is now only passed around as a pointer right from
+  	the main entry point: unittest::testrun() Since an interface change
+  	was necessary the major version number was incremented
+  * Renamed class collection_child to a safer name
+  * Add -Wextra and -Weffc++ to g++ and -Wextra to clang++ and fixed
+  	resulting warnings
+  * Better documentation  
+
+ -- Christian Blume <chr.blume@gmail.com>  Fri, 15 Aug 2014 22:00:00 -0700
+
 libunittest (5.1.0) stable; urgency=low
 
   * Add *_MAYBE macros which you can use to determine programmatically 
