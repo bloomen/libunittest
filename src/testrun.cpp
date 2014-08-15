@@ -71,10 +71,12 @@ testmonitor::~testmonitor()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
-        if (impl_->log_.status!=teststatus::skipped && !suite->get_arguments().dry_run()) {
-            const auto end = std::chrono::high_resolution_clock::now();
-            suite->stop_timing();
-            impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+    	if (!suite->get_arguments().dry_run()) {
+    		suite->stop_timing();
+    		if (impl_->log_.status!=teststatus::skipped) {
+    			const auto end = std::chrono::high_resolution_clock::now();
+    			impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+    		}
         }
         suite->make_keep_running(impl_->log_);
         impl_->log_.successful = impl_->log_.status==teststatus::success ||
