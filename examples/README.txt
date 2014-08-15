@@ -31,5 +31,5 @@ example for larger test projects.
 
 The templates example demonstrates how two define templated tests.
 Tests that use the macro shortcuts TEST_TPL and TEST_TPL_FIXTURE support
-up to five types: Type1, ..., Type5. Defining templated tests using an
+up to three types: Type1, Type2, Type3. Defining templated tests using an
 explicit test class is also demonstrated.
