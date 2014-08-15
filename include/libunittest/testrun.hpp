@@ -377,7 +377,7 @@ observe_and_wait(std::thread&& thread,
  */
 template<typename TestCase>
 std::tuple<unittest::internals::testfunctor<TestCase>, std::string, std::shared_ptr<std::atomic_bool>, double>
-prepare_testrun(typename TestCase::context_type& context,
+prepare_testrun(typename TestCase::context_type* context,
                 void (TestCase::*method)(),
                 std::string class_name,
                 std::string test_name,
@@ -391,7 +391,7 @@ prepare_testrun(typename TestCase::context_type& context,
     const unittest::internals::userargs& args = unittest::internals::testsuite::instance()->get_arguments();
     std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
-    unittest::internals::testfunctor<TestCase> functor(&context, method, method_id,
+    unittest::internals::testfunctor<TestCase> functor(context, method, method_id,
                                                        class_name, test_name,
                                                        args.dry_run(),
                                                        args.handle_exceptions(),
@@ -414,7 +414,7 @@ prepare_testrun(typename TestCase::context_type& context,
  */
 template<typename TestCase>
 void
-testrun(typename TestCase::context_type& context,
+testrun(typename TestCase::context_type* context,
         void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
@@ -447,7 +447,7 @@ testrun(typename TestCase::context_type& context,
  */
 template<typename TestCase>
 void
-testrun(typename TestCase::context_type& context,
+testrun(typename TestCase::context_type* context,
         void (TestCase::*method)(),
         std::string class_name,
         std::string test_name,
@@ -479,8 +479,8 @@ testrun(void (TestCase::*method)(),
         std::string skip_message,
         double timeout)
 {
-    typename TestCase::context_type* null_pointer = nullptr;
-    unittest::testrun(*null_pointer, method, class_name, test_name, skipped, skip_message, timeout);
+	typename TestCase::context_type* context = nullptr;
+    unittest::testrun(context, method, class_name, test_name, skipped, skip_message, timeout);
 }
 /**
  * @brief A test run without a test context and without timeout measurement
@@ -498,8 +498,8 @@ testrun(void (TestCase::*method)(),
         bool skipped,
         std::string skip_message)
 {
-    typename TestCase::context_type* null_pointer = nullptr;
-    unittest::testrun(*null_pointer, method, class_name, test_name, skipped, skip_message);
+	typename TestCase::context_type* context = nullptr;
+    unittest::testrun(context, method, class_name, test_name, skipped, skip_message);
 }
 
 } // unittest
