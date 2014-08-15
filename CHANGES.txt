@@ -4,13 +4,15 @@ libunittest (6.0.0) stable; urgency=low
   	if the suite consisted of only one test that is skipped
   * The test context is now only passed around as a pointer right from
   	the main entry point: unittest::testrun() Since an interface change
-  	was necessary the major version number was incremented
-  * Renamed class collection_child to a safer name
-  * Add -Wextra and -Weffc++ to g++ and -Wextra to clang++ and fixed
-  	resulting warnings
+  	was necessary the major version number was incremented.
+  	However, this should not affect any regular users since
+  	the macro interfaces stayed the same.
+  * Renamed class collection_child to a safer name to avoid conflicts
+  * Add -Wextra and -Weffc++ to g++ and clang++ flags and fixed
+  	all resulting warnings
   * Better documentation  
 
- -- Christian Blume <chr.blume@gmail.com>  Fri, 15 Aug 2014 22:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Thu, 14 Aug 2014 22:00:00 -0700
 
 libunittest (5.1.0) stable; urgency=low
 
