@@ -16,7 +16,7 @@ ifeq ($(shell uname), Darwin)
 	SONAME = $(PROG).$(MAJOR).$(LIBEXT)
 	REALNAME = $(PROG).$(VERSION).$(LIBEXT)
     CXX = clang++
-    CXXFLAGS = -arch x86_64 -g -O0 -Wall -Wextra -pedantic -std=c++0x -stdlib=libc++
+    CXXFLAGS = -arch x86_64 -g -O0 -Wall -Wextra -Weffc++ -pedantic -std=c++0x -stdlib=libc++
     LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -compatibility_version $(MAJOR).$(MINOR).0 -current_version $(VERSION)
 else
 	LIBEXT = so
