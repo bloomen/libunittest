@@ -352,28 +352,26 @@ std::string
 remove_file_and_line(std::string message);
 /**
  * @brief Creates a unique pointer to an object of type T
- * @param is_array Whether T is an array type
  * @param args The parameters to construct type T
  * @returns A unique pointer
  */
 template<typename T,
          typename... Args>
 std::unique_ptr<T>
-make_unique_helper(std::false_type is_array,
+make_unique_helper(std::false_type,
                    Args&&... args)
 {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 /**
  * @brief Creates a unique pointer to an object of type T
- * @param is_array Whether T is an array type
  * @param args The parameters to construct type T
  * @returns A unique pointer
  */
 template<typename T,
          typename... Args>
 std::unique_ptr<T>
-make_unique_helper(std::true_type is_array,
+make_unique_helper(std::true_type,
                    Args&&... args)
 {
     static_assert(std::extent<T>::value == 0,

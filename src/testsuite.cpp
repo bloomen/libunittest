@@ -25,7 +25,13 @@ struct testsuite::impl {
     impl()
     	: keep_running_(true),
     	  start_(std::chrono::high_resolution_clock::time_point::min()),
-    	  end_(std::chrono::high_resolution_clock::time_point::min())
+    	  end_(std::chrono::high_resolution_clock::time_point::min()),
+    	  arguments_(),
+    	  results_(),
+    	  class_runs_(),
+    	  class_maps_(),
+    	  lonely_threads_(),
+    	  logged_texts_()
     {}
 
     void

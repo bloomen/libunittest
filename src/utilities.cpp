@@ -34,7 +34,7 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
 {
     const auto rawtime = std::chrono::system_clock::to_time_t(time_point);
     const auto iso_format = "%Y-%m-%dT%H:%M:%S";
-    struct std::tm timeinfo = {};
+    struct std::tm timeinfo;
 #ifdef _MSC_VER
     if (local_time)
         localtime_s(&timeinfo, &rawtime);
@@ -55,7 +55,7 @@ make_iso_timestamp(const std::chrono::system_clock::time_point& time_point,
 }
 
 void
-write_to_stream(std::ostream& stream)
+write_to_stream(std::ostream&)
 {}
 
 void

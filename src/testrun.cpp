@@ -13,7 +13,6 @@ namespace internals {
 void
 observe_and_wait(std::thread&& thread,
                  std::shared_ptr<std::atomic_bool> done,
-                 const std::string& method_id,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
                  std::chrono::milliseconds resolution)
@@ -44,7 +43,8 @@ struct testmonitor::impl {
     bool is_executed_;
 
     impl()
-    	: start_(std::chrono::high_resolution_clock::time_point::min()),
+    	: log_(),
+    	  start_(std::chrono::high_resolution_clock::time_point::min()),
     	  is_executed_(true)
     {}
 

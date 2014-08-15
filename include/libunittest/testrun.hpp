@@ -352,7 +352,6 @@ update_testrun_info(const std::string& class_id,
  *  the operation has finished or timed out
  * @param thread The asynchronous operation
  * @param done Whether the operation is finished
- * @param method_id The id of the test method
  * @param has_timed_out Whether the test has timed out
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param resolution The temporal resolution
@@ -360,7 +359,6 @@ update_testrun_info(const std::string& class_id,
 void
 observe_and_wait(std::thread&& thread,
                  std::shared_ptr<std::atomic_bool> done,
-                 const std::string& method_id,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
@@ -376,7 +374,7 @@ observe_and_wait(std::thread&& thread,
  * @returns A tuple of prepared data
  */
 template<typename TestCase>
-std::tuple<unittest::internals::testfunctor<TestCase>, std::string, std::shared_ptr<std::atomic_bool>, double>
+std::tuple<unittest::internals::testfunctor<TestCase>, std::shared_ptr<std::atomic_bool>, double>
 prepare_testrun(typename TestCase::context_type* context,
                 void (TestCase::*method)(),
                 std::string class_name,
@@ -397,7 +395,7 @@ prepare_testrun(typename TestCase::context_type* context,
                                                        args.handle_exceptions(),
                                                        has_timed_out, timeout,
                                                        skipped, skip_message);
-    return std::make_tuple(std::move(functor), std::move(method_id), has_timed_out, timeout);
+    return std::make_tuple(std::move(functor), has_timed_out, timeout);
 }
 
 } // internals
@@ -433,7 +431,7 @@ testrun(typename TestCase::context_type* context,
         done->store(false);
         auto function = [done](unittest::internals::testfunctor<TestCase> functor) { functor(); done->store(true); };
         std::thread thread(function, std::move(functor));
-        unittest::internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data), std::get<3>(data));
+        unittest::internals::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data));
     }
 }
 /**

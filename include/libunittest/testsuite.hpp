@@ -102,7 +102,6 @@ private:
     friend void
     observe_and_wait(std::thread&& thread,
                      std::shared_ptr<std::atomic_bool> done,
-                     const std::string& method_id,
                      std::shared_ptr<std::atomic_bool> has_timed_out,
                      double timeout,
                      std::chrono::milliseconds resolution);
