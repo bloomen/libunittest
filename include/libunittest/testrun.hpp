@@ -179,8 +179,8 @@ private:
     }
 
     bool
-    do_nothing(std::unique_ptr<TestCase>& test,
-               unittest::internals::testmonitor& monitor)
+    do_nothing(std::unique_ptr<TestCase>&,
+               unittest::internals::testmonitor&)
     {
         return true;
     }
@@ -235,7 +235,7 @@ private:
 
     bool
     _construct(std::unique_ptr<TestCase>& test,
-               unittest::internals::testmonitor& monitor)
+               unittest::internals::testmonitor&)
     {
         test = unittest::internals::make_unique<TestCase>();
         test->set_test_context(context_);
@@ -254,7 +254,7 @@ private:
 
     bool
     _set_up(std::unique_ptr<TestCase>& test,
-            unittest::internals::testmonitor& monitor)
+            unittest::internals::testmonitor&)
     {
         test->set_up();
         return true;
@@ -271,7 +271,7 @@ private:
 
     bool
     _execute(std::unique_ptr<TestCase>& test,
-             unittest::internals::testmonitor& monitor)
+             unittest::internals::testmonitor&)
     {
         (test.get()->*method_)();
         return true;
@@ -288,7 +288,7 @@ private:
 
     bool
     _tear_down(std::unique_ptr<TestCase>& test,
-               unittest::internals::testmonitor& monitor)
+               unittest::internals::testmonitor&)
     {
         test->tear_down();
         return true;
