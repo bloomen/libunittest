@@ -143,6 +143,42 @@ struct testfunctor {
           skip_message_(skip_message)
     {}
     /**
+     * @brief Copy constructor
+     */
+    testfunctor(const testfunctor& other)
+		: context_(other.context_),
+		  method_(other.method_),
+		  method_id_(other.method_id_),
+		  class_name_(other.class_name_),
+		  test_name_(other.test_name_),
+		  dry_run_(other.dry_run_),
+		  handle_exceptions_(other.handle_exceptions_),
+		  has_timed_out_(other.has_timed_out_),
+		  timeout_(other.timeout_),
+		  skipped_(other.skipped_),
+		  skip_message_(other.skip_message_)
+    {}
+    /**
+     * @brief Assignment operator
+     */
+    testfunctor& operator=(const testfunctor& other)
+    {
+    	if (this!=&other) {
+			context_ = other.context_;
+			method_ = other.method_;
+			method_id_ = other.method_id_;
+			class_name_ = other.class_name_;
+			test_name_ = other.test_name_;
+			dry_run_ = other.dry_run_;
+			handle_exceptions_ = other.handle_exceptions_;
+			has_timed_out_ = other.has_timed_out_;
+			timeout_ = other.timeout_;
+			skipped_ = other.skipped_;
+			skip_message_ = other.skip_message_;
+    	}
+    	return *this;
+    }
+    /**
      * @brief Executes the test
      */
     void

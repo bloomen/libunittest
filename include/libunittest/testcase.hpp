@@ -37,7 +37,7 @@ public:
      * @brief Constructor. Called before each test run.
      */
     testcase()
-        : context_(nullptr)
+        : context_(nullptr), test_id_("")
     {}
     /**
      * @brief Destructor. Called after each test run.

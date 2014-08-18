@@ -323,7 +323,8 @@ public:
         : unittest::random_object<Container>(),
           rand_(&rand),
           fixed_size_(true),
-          size_(size)
+          size_(size),
+          distribution_()
     {}
     /**
      * @brief Constructor
@@ -336,12 +337,37 @@ public:
                      size_t max_size)
         : unittest::random_object<Container>(),
           rand_(&rand),
-          fixed_size_(false)
+          fixed_size_(false),
+          size_(0),
+          distribution_()
     {
         if (!(min_size<max_size))
             throw std::invalid_argument("min_size must be lesser than max_size");
         typename dist_type::param_type params(min_size, max_size);
         distribution_.param(params);
+    }
+    /**
+     * @brief Copy constructor
+     */
+    random_container(const random_container& other)
+    	: unittest::random_object<Container>(),
+          rand_(new random_object<Container>(*other.rand_)),
+          fixed_size_(other.fixed_size_),
+          size_(other.size_),
+          distribution_(other.distribution_)
+    {}
+    /**
+     * @brief Assignment operator
+     */
+    random_container& operator=(const random_container& other)
+    {
+    	if (this!=&other) {
+			rand_ = new random_object<Container>(*other.rand_);
+			fixed_size_ = other.fixed_size_;
+			size_= other.size_;
+			distribution_= other.distribution_;
+    	}
+    	return *this;
     }
 
 private:

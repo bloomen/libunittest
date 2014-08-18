@@ -423,10 +423,16 @@ const double deps = std::numeric_limits<double>::epsilon();
 /**
  * @brief A utility class to indicate 'no type' property
  */
-class notype {};
+class notype {
+	notype() {}
+	virtual ~notype() {}
+};
 /**
  * @brief A utility class to indicate 'some type' property
  */
-struct sometype {};
+struct sometype {
+	sometype() {}
+	virtual ~sometype() {}
+};
 
 } // unittest

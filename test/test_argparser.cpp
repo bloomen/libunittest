@@ -6,6 +6,9 @@ using unittest::internals::argparser_error;
 
 struct test_argparser : unittest::testcase<> {
 
+	test_argparser(const test_argparser&) = delete;
+	test_argparser& operator=(const test_argparser&) = delete;
+
     static void run()
     {
         UNITTEST_CLASS(test_argparser)
@@ -35,7 +38,7 @@ struct test_argparser : unittest::testcase<> {
     char **arguments_;
 
     test_argparser()
-        : max_argc_(20)
+        : max_argc_(20), arguments_(nullptr)
     {
         arguments_ = new char*[max_argc_];
         arguments_[0] = (char*)"unittest_app";
