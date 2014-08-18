@@ -1,3 +1,4 @@
+include mk/common.mk
 MAJOR = 6
 MINOR = 0
 PATCH = 0
@@ -7,7 +8,6 @@ PROG = libunittest
 PROGVER = $(PROG)-$(VERSION)
 PROGVERTAR = $(PROGVER).tar.gz
 VERSIONFILE = version.hpp
-LIBDIR = lib
 INSTALLDIR = /usr/local
 
 ifeq ($(shell uname), Darwin)
@@ -15,25 +15,18 @@ ifeq ($(shell uname), Darwin)
 	LIBNAME = $(PROG).$(LIBEXT)
 	SONAME = $(PROG).$(MAJOR).$(LIBEXT)
 	REALNAME = $(PROG).$(VERSION).$(LIBEXT)
-    CXX = clang++
-    CXXFLAGS = -arch x86_64 -g -O0 -Wall -Wextra -pedantic -std=c++0x -stdlib=libc++
     LDFLAGS = -arch x86_64 -dynamiclib -install_name $(REALNAME) -compatibility_version $(MAJOR).$(MINOR).0 -current_version $(VERSION)
 else
 	LIBEXT = so
 	LIBNAME = $(PROG).$(LIBEXT)
 	SONAME = $(LIBNAME).$(MAJOR)
 	REALNAME = $(LIBNAME).$(VERSION)
-    CXX = g++
-    CXXFLAGS = -g -O0 -Wall -Wextra -Weffc++ -pedantic -std=c++0x -pthread -fPIC -fmessage-length=0 -D_GLIBCXX_USE_NANOSLEEP
     LDFLAGS = -shared -Wl,-soname,$(SONAME)
 endif
-LD = $(CXX)
 
-INCDIR = include
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
 FULLVERFILE = $(INCDIR)/$(PROG)/$(VERSIONFILE)
 
-RM = rm -f
 MKDIR = mkdir -p
 LN = ln -s
 ECHO = echo
@@ -54,9 +47,6 @@ TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/do
 
 default : $(LIBDIR)/$(REALNAME)
 all : default
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -I./$(INCDIR) -c $< -o $@
 
 $(LIBDIR)/$(REALNAME) : $(LIBDIR) $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(REALNAME)
@@ -136,7 +126,7 @@ version :
 	@$(ECHO)  >> $(FULLVERFILE)
 	@$(ECHO) "} // unittest" >> $(FULLVERFILE)
 
-upload :
+upload : dist
 	@$(ECHO) "Uploading version "$(VERSION)
 	@./upload.sh $(VERSION) || exit 1
  
