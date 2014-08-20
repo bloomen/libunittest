@@ -29,7 +29,7 @@ struct fixture {
     fixture()
         : message_("here I am")
     {}
-    ~fixture()
+    virtual ~fixture()
     {}
 };
 

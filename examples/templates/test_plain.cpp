@@ -19,6 +19,8 @@ struct fixture {
     fixture()
         : value_(1)
     {}
+    virtual ~fixture()
+    {}
 };
 
 TEST_TPL_FIXTURE(fixture, test_fixture)

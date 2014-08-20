@@ -130,7 +130,8 @@ public:
      * @brief Constructor, range: [0, 1]
      */
     random_value()
-        : unittest::random_object<T>()
+        : unittest::random_object<T>(),
+          distribution_()
     {
         typename dist_type::param_type params(0, 1);
         distribution_.param(params);
@@ -140,7 +141,8 @@ public:
      * @param maximum The upper bound
      */
     random_value(const T& maximum)
-        : unittest::random_object<T>()
+        : unittest::random_object<T>(),
+          distribution_()
     {
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
@@ -154,7 +156,8 @@ public:
      */
     random_value(const T& minimum,
                  const T& maximum)
-        : unittest::random_object<T>()
+        : unittest::random_object<T>(),
+          distribution_()
     {
         if (!(minimum<maximum))
             throw std::invalid_argument("minimum must be lesser than maximum");
@@ -253,7 +256,8 @@ public:
      */
     random_choice(const Container& container)
         : unittest::random_object<element_type>(),
-          container_(container)
+          container_(container),
+          distribution_()
     {
         if (container_.size()==0)
             throw std::invalid_argument("container is empty");
@@ -351,7 +355,7 @@ public:
      */
     random_container(const random_container& other)
     	: unittest::random_object<Container>(),
-          rand_(new random_object<Container>(*other.rand_)),
+          rand_(other.rand_),
           fixed_size_(other.fixed_size_),
           size_(other.size_),
           distribution_(other.distribution_)
@@ -362,7 +366,7 @@ public:
     random_container& operator=(const random_container& other)
     {
     	if (this!=&other) {
-			rand_ = new random_object<Container>(*other.rand_);
+			rand_ = other.rand_;
 			fixed_size_ = other.fixed_size_;
 			size_= other.size_;
 			distribution_= other.distribution_;
@@ -548,6 +552,28 @@ public:
           rand_fst_(&rand_fst),
           rand_snd_(&rand_snd)
     {}
+    /**
+     * @brief Copy constructor
+     * @param other Another instance of random_pair
+     */
+    random_pair(const random_pair& other)
+    	: unittest::random_object<std::pair<F,S>>(),
+    	  rand_fst_(other.rand_fst_),
+    	  rand_snd_(other.rand_snd_)
+    {}
+    /**
+     * @brief Assignment operator
+     * @param other Another instance of random_pair
+     * @returns A reference to this
+     */
+    random_pair& operator=(const random_pair& other)
+    {
+    	if (this!=*other) {
+    		rand_fst_ = other.rand_fst_;
+    		rand_snd_ = other.rand_snd_;
+    	}
+    	return *this;
+    }
 
 private:
 

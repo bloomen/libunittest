@@ -144,6 +144,7 @@ struct testfunctor {
     {}
     /**
      * @brief Copy constructor
+     * @param other Another instance of testfunctor
      */
     testfunctor(const testfunctor& other)
 		: context_(other.context_),
@@ -160,6 +161,8 @@ struct testfunctor {
     {}
     /**
      * @brief Assignment operator
+     * @param other Another instance of testfunctor
+     * @returns An instance of testfunctor
      */
     testfunctor& operator=(const testfunctor& other)
     {
