@@ -1,7 +1,7 @@
 include mk/common.mk
-MAJOR = 6
+MAJOR = 7
 MINOR = 0
-PATCH = 1
+PATCH = 0
 VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest

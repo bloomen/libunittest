@@ -11,6 +11,6 @@ namespace unittest {
 /**
  * @brief The libunittest version
  */
-const std::string version = "6.0.1";
+const std::string version = "7.0.0";
 
 } // unittest
