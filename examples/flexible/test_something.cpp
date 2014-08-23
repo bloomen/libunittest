@@ -23,10 +23,10 @@ struct test_something : unittest::testcase<test_context> {
     {
         UNITTEST_CLASS(test_something)
         test_context context; // context can be shared across tests
-        UNITTEST_RUNCXT(context, test_has_context)
-        UNITTEST_RUNCXT_TIME(context, test_correct_message, 3.5) // a timeout of 3.5s
+        UNITTEST_RUNCTX(context, test_has_context)
+        UNITTEST_RUNCTX_TIME(context, test_correct_message, 3.5) // a timeout of 3.5s
         UNITTEST_RUN(test_no_context)
-        UNITTEST_RUNCXT_TIME_SKIP(context, test_it_but_skipped, 5, "to show how tests are skipped")
+        UNITTEST_RUNCTX_TIME_SKIP(context, test_it_but_skipped, 5, "to show how tests are skipped")
     }
 
     void test_has_context()

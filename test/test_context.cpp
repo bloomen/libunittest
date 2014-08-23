@@ -11,7 +11,7 @@ struct test_context : unittest::testcase<context> {
         UNITTEST_CLASS(test_context)
         UNITTEST_RUN(test_testcase_has_no_context)
         context cxt;
-        UNITTEST_RUNCXT(cxt, test_testcase_has_context)
+        UNITTEST_RUNCTX(cxt, test_testcase_has_context)
     }
 
     void test_testcase_has_no_context()

@@ -3,7 +3,7 @@ libunittest (7.0.0) stable; urgency=low
   * !!! This version changes macro names and function/class interfaces !!!
   * Use of std::shared_ptr in classes and functions within random namespace
   	-> see example: random
-  *
+  * Renamed run macros with context from *_RUNCXT to *_RUNCTX
   *
   * better documentation   
 

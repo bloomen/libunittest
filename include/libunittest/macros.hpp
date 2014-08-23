@@ -60,7 +60,7 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, !is_run, skip_
  * @param test_context The test context
  * @param test_method The test method
  */
-#define UNITTEST_RUNCXT(test_context, test_method) \
+#define UNITTEST_RUNCTX(test_context, test_method) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, false, "");
 /**
  * @brief A skipped test run with a test context
@@ -68,7 +68,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param test_method The test method
  * @param skip_message A message explaining why the test is skipped
  */
-#define UNITTEST_RUNCXT_SKIP(test_context, test_method, skip_message) \
+#define UNITTEST_RUNCTX_SKIP(test_context, test_method, skip_message) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message);
 /**
  * @brief A maybe test run with a test context
@@ -77,7 +77,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param is_run Whether the test is run
  * @param skip_message A message explaining why the test is skipped
  */
-#define UNITTEST_RUNCXT_MAYBE(test_context, test_method, is_run, skip_message) \
+#define UNITTEST_RUNCTX_MAYBE(test_context, test_method, is_run, skip_message) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message);
 /**
  * @brief A test run with a test context and timeout
@@ -85,7 +85,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
-#define UNITTEST_RUNCXT_TIME(test_context, test_method, timeout) \
+#define UNITTEST_RUNCTX_TIME(test_context, test_method, timeout) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, false, "", timeout);
 /**
  * @brief A skipped test run with a test context and timeout
@@ -94,7 +94,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  * @param skip_message A message explaining why the test is skipped
  */
-#define UNITTEST_RUNCXT_TIME_SKIP(test_context, test_method, timeout, skip_message) \
+#define UNITTEST_RUNCTX_TIME_SKIP(test_context, test_method, timeout, skip_message) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
 /**
  * @brief A maybe test run with a test context and timeout
@@ -104,7 +104,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param is_run Whether the test is run
  * @param skip_message A message explaining why the test is skipped
  */
-#define UNITTEST_RUNCXT_TIME_MAYBE(test_context, test_method, timeout, is_run, skip_message) \
+#define UNITTEST_RUNCTX_TIME_MAYBE(test_context, test_method, timeout, is_run, skip_message) \
 unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
 /**
  * @brief Defines a string with info about the current file name

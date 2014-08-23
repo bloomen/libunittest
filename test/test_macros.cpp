@@ -22,14 +22,14 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
         UNITTEST_RUN_TIME_MAYBE(test_unittest_run_time_maybe_run, 0.1, true, "ok")
         UNITTEST_RUN_TIME_MAYBE(test_unittest_run_time_maybe_not_run, 0.1, false, "ok")
         unittest::sometype cxt;
-        UNITTEST_RUNCXT(cxt, test_unittest_runcxt)
-        UNITTEST_RUNCXT_SKIP(cxt, test_unittest_runcxt_skip, "ok")
-        UNITTEST_RUNCXT_MAYBE(cxt, test_unittest_runcxt_maybe_run, true, "ok")
-        UNITTEST_RUNCXT_MAYBE(cxt, test_unittest_runcxt_maybe_not_run, false, "ok")
-        UNITTEST_RUNCXT_TIME(cxt, test_unittest_runcxt_time, 0.1)
-        UNITTEST_RUNCXT_TIME_SKIP(cxt, test_unittest_runcxt_time_skip, 0.1, "ok")
-        UNITTEST_RUNCXT_TIME_MAYBE(cxt, test_unittest_runcxt_time_maybe_run, 0.1, true, "ok")
-        UNITTEST_RUNCXT_TIME_MAYBE(cxt, test_unittest_runcxt_time_maybe_not_run, 0.1, false, "ok")
+        UNITTEST_RUNCTX(cxt, test_unittest_RUNCTX)
+        UNITTEST_RUNCTX_SKIP(cxt, test_unittest_RUNCTX_skip, "ok")
+        UNITTEST_RUNCTX_MAYBE(cxt, test_unittest_RUNCTX_maybe_run, true, "ok")
+        UNITTEST_RUNCTX_MAYBE(cxt, test_unittest_RUNCTX_maybe_not_run, false, "ok")
+        UNITTEST_RUNCTX_TIME(cxt, test_unittest_RUNCTX_time, 0.1)
+        UNITTEST_RUNCTX_TIME_SKIP(cxt, test_unittest_RUNCTX_time_skip, 0.1, "ok")
+        UNITTEST_RUNCTX_TIME_MAYBE(cxt, test_unittest_RUNCTX_time_maybe_run, 0.1, true, "ok")
+        UNITTEST_RUNCTX_TIME_MAYBE(cxt, test_unittest_RUNCTX_time_maybe_not_run, 0.1, false, "ok")
     }
 
     void test_unittest_run()
@@ -72,42 +72,42 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
         unittest::fail(__func__, "should be skipped");
     }
 
-    void test_unittest_runcxt()
+    void test_unittest_RUNCTX()
     {
         assert_true(true);
     }
 
-    void test_unittest_runcxt_skip()
+    void test_unittest_RUNCTX_skip()
     {
         unittest::fail(__func__, "should be skipped");
     }
 
-    void test_unittest_runcxt_maybe_run()
+    void test_unittest_RUNCTX_maybe_run()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
-    void test_unittest_runcxt_maybe_not_run()
+    void test_unittest_RUNCTX_maybe_not_run()
     {
         unittest::fail(__func__, "should be skipped");
     }
 
-    void test_unittest_runcxt_time()
+    void test_unittest_RUNCTX_time()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
-    void test_unittest_runcxt_time_skip()
+    void test_unittest_RUNCTX_time_skip()
     {
         unittest::fail(__func__, "should be skipped");
     }
 
-    void test_unittest_runcxt_time_maybe_run()
+    void test_unittest_RUNCTX_time_maybe_run()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
-    void test_unittest_runcxt_time_maybe_not_run()
+    void test_unittest_RUNCTX_time_maybe_not_run()
     {
         unittest::fail(__func__, "should be skipped");
     }
