@@ -4,7 +4,8 @@ libunittest (7.0.0) stable; urgency=low
   * Use of std::shared_ptr in classes and functions within random namespace
   	-> see example: random
   * Renamed run macros with context from *_RUNCXT to *_RUNCTX
-  *
+  * The test method is now passed around as std::function instead
+  	of a raw, nasty function pointer
   * better documentation   
 
  -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2014 XX:00:00 -0700

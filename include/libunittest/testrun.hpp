@@ -227,36 +227,34 @@ private:
     bool
     handle(std::unique_ptr<TestCase>& test,
            unittest::internals::testmonitor& monitor,
-           bool (testfunctor::*function)
-                       (std::unique_ptr<TestCase>&, unittest::internals::testmonitor&),
-           bool (testfunctor::*error_callback)
-                       (std::unique_ptr<TestCase>&, unittest::internals::testmonitor&))
+           std::function<bool(testfunctor*, std::unique_ptr<TestCase>&, unittest::internals::testmonitor&)> function,
+           std::function<bool(testfunctor*, std::unique_ptr<TestCase>&, unittest::internals::testmonitor&)> error_callback)
     {
         if (handle_exceptions_) {
             try {
-                (this->*function)(test, monitor);
+                function(this, test, monitor);
                 monitor.log_success();
                 return true;
             } catch (const unittest::testfailure& e) {
-                (this->*error_callback)(test, monitor);
+                error_callback(this, test, monitor);
                 monitor.log_failure(e);
                 return false;
             } catch (const std::exception& e) {
-                (this->*error_callback)(test, monitor);
+                error_callback(this, test, monitor);
                 monitor.log_error(e);
                 return false;
             } catch (...) {
-                (this->*error_callback)(test, monitor);
+                error_callback(this, test, monitor);
                 monitor.log_unknown_error();
                 return false;
             }
         } else {
             try {
-                (this->*function)(test, monitor);
+                function(this, test, monitor);
                 monitor.log_success();
                 return true;
             } catch (const unittest::testfailure& e) {
-                (this->*error_callback)(test, monitor);
+                error_callback(this, test, monitor);
                 monitor.log_failure(e);
                 return false;
             }
@@ -268,8 +266,8 @@ private:
               unittest::internals::testmonitor& monitor)
     {
         return handle(test, monitor,
-                      &testfunctor<TestCase>::_construct,
-                      &testfunctor<TestCase>::do_nothing);
+                      &testfunctor::_construct,
+                      &testfunctor::do_nothing);
     }
 
     bool
@@ -287,8 +285,8 @@ private:
            unittest::internals::testmonitor& monitor)
     {
         return this->handle(test, monitor,
-                            &testfunctor<TestCase>::_set_up,
-                            &testfunctor<TestCase>::tear_down);
+                            &testfunctor::_set_up,
+                            &testfunctor::tear_down);
     }
 
     bool
@@ -304,8 +302,8 @@ private:
             unittest::internals::testmonitor& monitor)
     {
         return this->handle(test, monitor,
-                            &testfunctor<TestCase>::_execute,
-                            &testfunctor<TestCase>::tear_down);
+                            &testfunctor::_execute,
+                            &testfunctor::tear_down);
     }
 
     bool
@@ -321,8 +319,8 @@ private:
               unittest::internals::testmonitor& monitor)
     {
         return this->handle(test, monitor,
-                            &testfunctor<TestCase>::_tear_down,
-                            &testfunctor<TestCase>::do_nothing);
+                            &testfunctor::_tear_down,
+                            &testfunctor::do_nothing);
     }
 
     bool
