@@ -1,5 +1,5 @@
 /**
- * @brief A collection of classes and factory functions for random functionality
+ * @brief A collection of classes and factory functions for random data
  * @file random.hpp
  */
 #pragma once
@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <mutex>
+#include <memory>
 #include <libunittest/tuplemap.hpp>
 /**
  * @brief Unit testing in C++
@@ -140,6 +141,7 @@ public:
      * @brief Constructor, range: [0, maximum]
      * @param maximum The upper bound
      */
+    explicit
     random_value(const T& maximum)
         : unittest::random_object<T>(),
           distribution_()
@@ -178,37 +180,37 @@ private:
 };
 /**
  * @brief Factory function for random_value, range: [0, 1]
- * @returns An instance of random_value
+ * @returns A random_object
  */
 template<typename T>
-unittest::random_value<T>
+std::shared_ptr<unittest::random_object<T>>
 make_random_value()
 {
-    return unittest::random_value<T>();
+    return std::make_shared<unittest::random_value<T>>();
 }
 /**
  * @brief Factory function for random_value, range: [0, maximum]
  * @param maximum The upper bound
- * @returns An instance of random_value
+ * @returns A random_object
  */
 template<typename T>
-unittest::random_value<T>
+std::shared_ptr<unittest::random_object<T>>
 make_random_value(const T& maximum)
 {
-    return unittest::random_value<T>(maximum);
+    return std::make_shared<unittest::random_value<T>>(maximum);
 }
 /**
  * @brief Factory function for random_value, range: [minimum, maximum]
  * @param minimum The lower bound
  * @param maximum The upper bound
- * @returns An instance of random_value
+ * @returns A random_object
  */
 template<typename T>
-unittest::random_value<T>
+std::shared_ptr<unittest::random_object<T>>
 make_random_value(const T& minimum,
                   const T& maximum)
 {
-    return unittest::random_value<T>(minimum, maximum);
+    return std::make_shared<unittest::random_value<T>>(minimum, maximum);
 }
 /**
  * @brief A random bool (true, false)
@@ -231,9 +233,9 @@ private:
 };
 /**
  * @brief Factory function for random_value<bool> (true, false)
- * @returns An instance of random_value<bool>
+ * @returns A random_object
  */
-unittest::random_value<bool>
+std::shared_ptr<unittest::random_object<bool>>
 make_random_bool();
 /**
  * @brief A random choice from a given container
@@ -254,6 +256,7 @@ public:
      * @brief Constructor
      * @param container The container to choose from
      */
+    explicit
     random_choice(const Container& container)
         : unittest::random_object<element_type>(),
           container_(container),
@@ -294,13 +297,13 @@ private:
 /**
  * @brief Factory function for random_choice
  * @param container A container
- * @returns An instance of random_choice
+ * @returns A random_object
  */
 template<typename Container>
-unittest::random_choice<Container>
+std::shared_ptr<unittest::random_object<typename Container::value_type>>
 make_random_choice(const Container& container)
 {
-    return unittest::random_choice<Container>(container);
+    return std::make_shared<unittest::random_choice<Container>>(container);
 }
 /**
  * @brief A random container
@@ -322,10 +325,10 @@ public:
      * @param rand The random object used to fill the container
      * @param size The container size
      */
-    random_container(unittest::random_object<element_type>& rand,
+    random_container(std::shared_ptr<unittest::random_object<element_type>> rand,
                      size_t size)
         : unittest::random_object<Container>(),
-          rand_(&rand),
+          rand_(rand),
           fixed_size_(true),
           size_(size),
           distribution_()
@@ -336,11 +339,11 @@ public:
      * @param min_size The minimum container size (including)
      * @param max_size The maximum container size (including)
      */
-    random_container(unittest::random_object<element_type>& rand,
+    random_container(std::shared_ptr<unittest::random_object<element_type>> rand,
                      size_t min_size,
                      size_t max_size)
         : unittest::random_object<Container>(),
-          rand_(&rand),
+          rand_(rand),
           fixed_size_(false),
           size_(0),
           distribution_()
@@ -396,7 +399,7 @@ private:
         this->gen().seed(seed);
     }
 
-    unittest::random_object<element_type>* rand_;
+    std::shared_ptr<unittest::random_object<element_type>> rand_;
     bool fixed_size_;
     size_t size_;
     dist_type distribution_;
@@ -406,57 +409,57 @@ private:
  * @brief Factory function for random_container
  * @param rand The random object used to fill the container
  * @param size The container size
- * @returns An instance of random_container
+ * @returns A random_object
  */
 template<typename Container>
-unittest::random_container<Container>
-make_random_container(unittest::random_object<typename Container::value_type>& rand,
+std::shared_ptr<unittest::random_object<Container>>
+make_random_container(std::shared_ptr<unittest::random_object<typename Container::value_type>> rand,
                       size_t size)
 {
-    return unittest::random_container<Container>(rand, size);
+    return std::make_shared<unittest::random_container<Container>>(rand, size);
 }
 /**
  * @brief Factory function for random_container
  * @param rand The random object used to fill the container
  * @param min_size The minimum container size (including)
  * @param max_size The maximum container size (including)
- * @returns An instance of random_container
+ * @returns A random_object
  */
 template<typename Container>
-unittest::random_container<Container>
-make_random_container(unittest::random_object<typename Container::value_type>& rand,
+std::shared_ptr<unittest::random_object<Container>>
+make_random_container(std::shared_ptr<unittest::random_object<typename Container::value_type>> rand,
                       size_t min_size,
                       size_t max_size)
 {
-    return unittest::random_container<Container>(rand, min_size, max_size);
+    return std::make_shared<unittest::random_container<Container>>(rand, min_size, max_size);
 }
 /**
  * @brief Factory function for random_container<vector>
  * @param rand The random object used to fill the vector
  * @param size The vector size
- * @returns An instance of random_container<vector>
+ * @returns A random_object
  */
 template<typename T>
-unittest::random_container<std::vector<T>>
-make_random_vector(unittest::random_object<T>& rand,
+std::shared_ptr<unittest::random_object<std::vector<T>>>
+make_random_vector(std::shared_ptr<unittest::random_object<T>> rand,
                    size_t size)
 {
-    return unittest::random_container<std::vector<T>>(rand, size);
+    return std::make_shared<unittest::random_container<std::vector<T>>>(rand, size);
 }
 /**
  * @brief Factory function for random_container<vector>
  * @param rand The random object used to fill the vector
  * @param min_size The minimum vector size (including)
  * @param max_size The maximum vector size (including)
- * @returns An instance of random_container<vector>
+ * @returns A random_object
  */
 template<typename T>
-unittest::random_container<std::vector<T>>
-make_random_vector(unittest::random_object<T>& rand,
+std::shared_ptr<unittest::random_object<std::vector<T>>>
+make_random_vector(std::shared_ptr<unittest::random_object<T>> rand,
                    size_t min_size,
                    size_t max_size)
 {
-    return unittest::random_container<std::vector<T>>(rand, min_size, max_size);
+    return std::make_shared<unittest::random_container<std::vector<T>>>(rand, min_size, max_size);
 }
 /**
  * @brief A random tuple build from random objects
@@ -468,9 +471,9 @@ public:
      * @brief Constructor
      * @param rands Random objects used to fill the tuple
      */
-    random_tuple(unittest::random_object<Args>&... rands)
+    random_tuple(std::shared_ptr<unittest::random_object<Args>>... rands)
         : unittest::random_object<std::tuple<Args...>>(),
-          rand_tuple_(&rands...)
+          rand_tuple_(rands...)
     {}
 
 private:
@@ -499,7 +502,7 @@ private:
          * @param seed The random seed
          */
         template<typename T>
-        void operator()(unittest::random_object<T>* rand, int seed) const
+        void operator()(std::shared_ptr<unittest::random_object<T>> rand, int seed) const
         {
             rand->seed(seed);
         }
@@ -514,25 +517,25 @@ private:
          * @returns A random object
          */
         template<typename T>
-        T operator()(unittest::random_object<T>* rand) const
+        T operator()(std::shared_ptr<unittest::random_object<T>> rand) const
         {
             return rand->get();
         }
     };
 
-    std::tuple<unittest::random_object<Args>*...> rand_tuple_;
+    std::tuple<std::shared_ptr<unittest::random_object<Args>>...> rand_tuple_;
 
 };
 /**
  * @brief Factory function for random_tuple
  * @param rands The random objects used to fill the tuple
- * @returns An instance of random_tuple
+ * @returns A random_object
  */
 template<typename ...Args>
-unittest::random_tuple<Args...>
-make_random_tuple(unittest::random_object<Args>&... rands)
+std::shared_ptr<unittest::random_object<std::tuple<Args...>>>
+make_random_tuple(std::shared_ptr<unittest::random_object<Args>>... rands)
 {
-    return unittest::random_tuple<Args...>(rands...);
+    return std::make_shared<unittest::random_tuple<Args...>>(rands...);
 }
 /**
  * @brief A random pair build from two random objects
@@ -546,11 +549,11 @@ public:
      * @param rand_fst Random object used to fill the first pair element
      * @param rand_snd Random object used to fill the second pair element
      */
-    random_pair(unittest::random_object<F>& rand_fst,
-                unittest::random_object<S>& rand_snd)
+    random_pair(std::shared_ptr<unittest::random_object<F>> rand_fst,
+                std::shared_ptr<unittest::random_object<S>> rand_snd)
         : unittest::random_object<std::pair<F,S>>(),
-          rand_fst_(&rand_fst),
-          rand_snd_(&rand_snd)
+          rand_fst_(rand_fst),
+          rand_snd_(rand_snd)
     {}
     /**
      * @brief Copy constructor
@@ -590,22 +593,22 @@ private:
         rand_snd_->seed(seed);
     }
 
-    unittest::random_object<F>* rand_fst_;
-    unittest::random_object<S>* rand_snd_;
+    std::shared_ptr<unittest::random_object<F>> rand_fst_;
+    std::shared_ptr<unittest::random_object<S>> rand_snd_;
 };
 /**
  * @brief Factory function for random_pair
  * @param rand_fst The random object used to fill the first pair element
  * @param rand_snd The random object used to fill the second pair element
- * @returns An instance of random_pair
+ * @returns A random_object
  */
 template<typename F,
          typename S>
-unittest::random_pair<F,S>
-make_random_pair(unittest::random_object<F>& rand_fst,
-                 unittest::random_object<S>& rand_snd)
+std::shared_ptr<unittest::random_object<std::pair<F,S>>>
+make_random_pair(std::shared_ptr<unittest::random_object<F>> rand_fst,
+				 std::shared_ptr<unittest::random_object<S>> rand_snd)
 {
-    return unittest::random_pair<F,S>(rand_fst, rand_snd);
+    return std::make_shared<unittest::random_pair<F,S>>(rand_fst, rand_snd);
 }
 /**
  * @brief A random shuffle of a given container
@@ -617,6 +620,7 @@ public:
      * @brief Constructor
      * @param container The container
      */
+    explicit
     random_shuffle(const Container& container)
         : unittest::random_object<Container>(),
           vector_(std::begin(container), std::end(container)),
@@ -655,26 +659,26 @@ private:
 /**
  * @brief Factory function for random_shuffle
  * @param container A container
- * @returns An instance of random_shuffle
+ * @returns A random_object
  */
 template<typename Container>
-unittest::random_shuffle<Container>
+std::shared_ptr<unittest::random_object<Container>>
 make_random_shuffle(const Container& container)
 {
-    return unittest::random_shuffle<Container>(container);
+    return std::make_shared<unittest::random_shuffle<Container>>(container);
 }
 /**
  * @brief Factory function for random_shuffle
  * @param container A container
  * @param size The size of the shuffled container
- * @returns An instance of random_shuffle
+ * @returns A random_object
  */
 template<typename Container>
-unittest::random_shuffle<Container>
+std::shared_ptr<unittest::random_object<Container>>
 make_random_shuffle(const Container& container,
                     size_t size)
 {
-    return unittest::random_shuffle<Container>(container, size);
+    return std::make_shared<unittest::random_shuffle<Container>>(container, size);
 }
 
 /**
@@ -765,16 +769,16 @@ private:
  * @param container1 A container
  * @param container2 Another container
  * @param size The number of combinations
- * @returns An instance of random_combination
+ * @returns A random_object
  */
 template<typename Container1,
          typename Container2>
-unittest::random_combination<Container1, Container2>
+std::shared_ptr<unittest::random_object<typename unittest::internals::combination<Container1, Container2>::type>>
 make_random_combination(const Container1& container1,
                         const Container2& container2,
                         size_t size)
 {
-    return unittest::random_combination<Container1, Container2>(container1, container2, size);
+    return std::make_shared<unittest::random_combination<Container1, Container2>>(container1, container2, size);
 }
 
 } // unittest

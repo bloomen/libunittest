@@ -12,10 +12,10 @@ random_value<bool>::do_get()
     return distribution_(this->gen()) == 1;
 }
 
-random_value<bool>
+std::shared_ptr<random_object<bool>>
 make_random_bool()
 {
-    return random_value<bool>();
+    return std::make_shared<random_value<bool>>();
 }
 
 } // unittest

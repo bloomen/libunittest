@@ -12,7 +12,7 @@ void assert_random_container_fixed(RandomCont& random_object,
                                    const std::string& spot)
 {
     for (int i=0; i<100; ++i) {
-        const auto rand_cont = random_object.get();
+        const auto rand_cont = random_object->get();
         assert_equal(length, rand_cont.size(), spot);
         for (auto& value : rand_cont)
             assert_in_container(value, container, spot);
@@ -29,7 +29,7 @@ void assert_random_container_range(RandomCont& random_object,
                                    const std::string& spot)
 {
     for (int i=0; i<100; ++i) {
-        const auto rand_cont = random_object.get();
+        const auto rand_cont = random_object->get();
         assert_in_range(rand_cont.size(), min_length, max_length, spot);
         for (auto& value : rand_cont)
             assert_in_container(value, container, spot);
@@ -72,9 +72,9 @@ struct test_random : unittest::testcase<> {
         auto randomB = unittest::make_random_value<long>(2, 4);
         auto randomC = unittest::make_random_value<long long>(-9, -2);
         for (int i=0; i<100; ++i) {
-            assert_in_range(randomA.get(), 0, 3, SPOT);
-            assert_in_range(randomB.get(), 2, 4, SPOT);
-            assert_in_range(randomC.get(), -9, -2, SPOT);
+            assert_in_range(randomA->get(), 0, 3, SPOT);
+            assert_in_range(randomB->get(), 2, 4, SPOT);
+            assert_in_range(randomC->get(), -9, -2, SPOT);
         }
     }
 
@@ -93,7 +93,7 @@ struct test_random : unittest::testcase<> {
         auto random = unittest::make_random_bool();
         const std::vector<bool> container = {true, false};
         for (int i=0; i<100; ++i) {
-            assert_in_container(random.get(), container, SPOT);
+            assert_in_container(random->get(), container, SPOT);
         }
     }
 
@@ -102,8 +102,8 @@ struct test_random : unittest::testcase<> {
         auto randomA = unittest::make_random_value(3.);
         auto randomB = unittest::make_random_value(1.5, 4.2);
         for (int i=0; i<100; ++i) {
-            assert_in_range(randomA.get(), 0, 3+1e-6, SPOT);
-            assert_in_range(randomB.get(), 1.5, 4.2+1e-6, SPOT);
+            assert_in_range(randomA->get(), 0, 3+1e-6, SPOT);
+            assert_in_range(randomB->get(), 1.5, 4.2+1e-6, SPOT);
         }
     }
 
@@ -122,7 +122,7 @@ struct test_random : unittest::testcase<> {
         const std::string characters("abc");
         auto random = unittest::make_random_choice(characters);
         for (int i=0; i<100; ++i) {
-            assert_in_container(random.get(), characters, SPOT);
+            assert_in_container(random->get(), characters, SPOT);
         }
     }
 
@@ -131,7 +131,7 @@ struct test_random : unittest::testcase<> {
         const std::vector<double> vector = {1, 2, 3};
         auto random = unittest::make_random_choice(vector);
         for (int i=0; i<100; ++i) {
-            assert_in_container(random.get(), vector, SPOT);
+            assert_in_container(random->get(), vector, SPOT);
         }
     }
 
@@ -140,7 +140,7 @@ struct test_random : unittest::testcase<> {
         const std::list<int> a_list = {1, 2, 3};
         auto random = unittest::make_random_choice(a_list);
         for (int i=0; i<100; ++i) {
-            assert_in_container(random.get(), a_list, SPOT);
+            assert_in_container(random->get(), a_list, SPOT);
         }
     }
 
@@ -197,7 +197,7 @@ struct test_random : unittest::testcase<> {
         auto random = unittest::make_random_tuple(rand_float, rand_int, rand_bool);
         const std::vector<bool> container = {true, false};
         for (int i=0; i<100; ++i) {
-            const auto rand_tuple = random.get();
+            const auto rand_tuple = random->get();
             assert_equal<unsigned>(3, std::tuple_size<std::tuple<float, int, bool>>::value, SPOT);
             assert_in_range(std::get<0>(rand_tuple), 2.0, 3.0, SPOT);
             assert_in_range(std::get<1>(rand_tuple), 4, 8, SPOT);
@@ -211,7 +211,7 @@ struct test_random : unittest::testcase<> {
         auto rand_int   = unittest::make_random_value<int>(4, 8);
         auto random = unittest::make_random_pair(rand_float, rand_int);
         for (int i=0; i<100; ++i) {
-            const auto rand_pair = random.get();
+            const auto rand_pair = random->get();
             assert_in_range(rand_pair.first, 2.0, 3.0, SPOT);
             assert_in_range(rand_pair.second, 4, 8, SPOT);
         }
@@ -222,7 +222,7 @@ struct test_random : unittest::testcase<> {
         const std::vector<int> vector = {1, 2, 3};
         auto random = unittest::make_random_shuffle(vector);
         for (int i=0; i<100; ++i) {
-            const auto perm_vector = random.get();
+            const auto perm_vector = random->get();
             assert_in_container(perm_vector[0], vector, SPOT);
             assert_in_container(perm_vector[1], vector, SPOT);
             assert_in_container(perm_vector[2], vector, SPOT);
@@ -235,7 +235,7 @@ struct test_random : unittest::testcase<> {
         const std::list<double> a_list = {1, 2, 3};
         auto random = unittest::make_random_shuffle(a_list, 2);
         for (int i=0; i<100; ++i) {
-            const auto perm_list = random.get();
+            const auto perm_list = random->get();
             auto first = std::begin(perm_list);
             auto sum = *first;
             assert_in_container(*first, a_list, SPOT);
@@ -261,7 +261,7 @@ struct test_random : unittest::testcase<> {
         const std::vector<double> vector2 = {5, 6};
         auto rand_combo = unittest::make_random_combination(vector1, vector2, 4);
         for (int i=0; i<100; ++i) {
-            const auto combo = rand_combo.get();
+            const auto combo = rand_combo->get();
             assert_equal<unsigned>(4, combo.size(), SPOT);
             for (auto& value : combo) {
                 assert_in_container(value.first, vector1, SPOT);
@@ -276,7 +276,7 @@ struct test_random : unittest::testcase<> {
         const std::list<double> list2 = {5, 6};
         auto rand_combo = unittest::make_random_combination(list1, list2, 3);
         for (int i=0; i<100; ++i) {
-            const auto combo = rand_combo.get();
+            const auto combo = rand_combo->get();
             assert_equal<unsigned>(3, combo.size(), SPOT);
             for (auto& value : combo) {
                 assert_in_container(value.first, list1, SPOT);
@@ -297,7 +297,7 @@ struct test_random : unittest::testcase<> {
 
     void test_random_value_copy_constructor()
     {
-        auto random1 = unittest::make_random_value<double>();
+        unittest::random_value<double> random1;
         random1.get();
         unittest::random_value<double> random2(random1);
         assert_equal(random1.get(), random2.get(), SPOT);
@@ -305,7 +305,7 @@ struct test_random : unittest::testcase<> {
 
     void test_random_value_assignment_operator()
     {
-        auto random1 = unittest::make_random_value<double>();
+        unittest::random_value<double> random1;
         random1.get();
         random1.get();
         unittest::random_value<double> random2 = random1;
@@ -319,10 +319,10 @@ struct test_random : unittest::testcase<> {
         std::vector<std::function<void()>> functions(100);
         for (auto& function : functions)
             function = std::move([&]() {
-                auto seed = random2.get();
+                auto seed = random2->get();
                 assert_in_range(seed, 0, 1000, SPOT);
-                random1.seed(seed);
-                assert_in_range(random1.get(), 0, 1, SPOT);
+                random1->seed(seed);
+                assert_in_range(random1->get(), 0, 1, SPOT);
             });
         unittest::internals::call_functions(functions, 100);
     }
