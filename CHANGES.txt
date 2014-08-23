@@ -1,3 +1,14 @@
+libunittest (7.0.0) stable; urgency=low
+
+  * !!! This version changes macro names and function/class interfaces !!!
+  * Use of std::shared_ptr in classes and functions within random namespace
+  	-> see example: random
+  *
+  *
+  * better documentation   
+
+ -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2014 XX:00:00 -0700
+
 libunittest (6.0.0) stable; urgency=low
 
   * Fixed bug: The duration of the test suite was not displayed correctly
