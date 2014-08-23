@@ -15,14 +15,14 @@ typedef test_class __test_class__;
  * @param test_method The test method
  */
 #define UNITTEST_RUN(test_method) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, false, "");
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, false, "");
 /**
  * @brief A skipped test run
  * @param test_method The test method
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_SKIP(test_method, skip_message) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_message);
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, true, skip_message);
 /**
  * @brief A maybe test run
  * @param test_method The test method
@@ -30,14 +30,14 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_mes
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_MAYBE(test_method, is_run, skip_message) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, !is_run, skip_message);
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, !is_run, skip_message);
 /**
  * @brief A test run with timeout
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUN_TIME(test_method, timeout) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, false, "", timeout);
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, false, "", timeout);
 /**
  * @brief A skipped test run with timeout
  * @param test_method The test method
@@ -45,7 +45,7 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, false, "", tim
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_TIME_SKIP(test_method, timeout, skip_message) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_message, timeout);
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, true, skip_message, timeout);
 /**
  * @brief A maybe test run with timeout
  * @param test_method The test method
@@ -54,14 +54,14 @@ unittest::testrun(&__test_class__::test_method, "", #test_method, true, skip_mes
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_TIME_MAYBE(test_method, timeout, is_run, skip_message) \
-unittest::testrun(&__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
+unittest::testrun<__test_class__>(&__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
 /**
  * @brief A test run with a test context
  * @param test_context The test context
  * @param test_method The test method
  */
 #define UNITTEST_RUNCTX(test_context, test_method) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, false, "");
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, false, "");
 /**
  * @brief A skipped test run with a test context
  * @param test_context The test context
@@ -69,7 +69,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_SKIP(test_context, test_method, skip_message) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message);
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message);
 /**
  * @brief A maybe test run with a test context
  * @param test_context The test context
@@ -78,7 +78,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_MAYBE(test_context, test_method, is_run, skip_message) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message);
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message);
 /**
  * @brief A test run with a test context and timeout
  * @param test_context The test context
@@ -86,7 +86,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUNCTX_TIME(test_context, test_method, timeout) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, false, "", timeout);
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, false, "", timeout);
 /**
  * @brief A skipped test run with a test context and timeout
  * @param test_context The test context
@@ -95,7 +95,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_TIME_SKIP(test_context, test_method, timeout, skip_message) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
 /**
  * @brief A maybe test run with a test context and timeout
  * @param test_context The test context
@@ -105,7 +105,7 @@ unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method,
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_TIME_MAYBE(test_context, test_method, timeout, is_run, skip_message) \
-unittest::testrun(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
+unittest::testrun<__test_class__>(&test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
 /**
  * @brief Defines a string with info about the current file name
  *  and the current line number
@@ -261,7 +261,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message); \
+        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -281,7 +281,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
     } \
     void test(); \
 }; \
@@ -397,7 +397,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message); \
+        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -418,7 +418,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
     } \
     void test(); \
 }; \

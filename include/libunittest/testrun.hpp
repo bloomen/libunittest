@@ -120,7 +120,7 @@ struct testfunctor {
      * @param skip_message A message explaining why the test is skipped
      */
     testfunctor(typename TestCase::context_type* context,
-                void (TestCase::*method)(),
+                std::function<void(TestCase*)> method,
                 const std::string& method_id,
                 const std::string& class_name,
                 const std::string& test_name,
@@ -312,7 +312,7 @@ private:
     _execute(std::unique_ptr<TestCase>& test,
              unittest::internals::testmonitor&)
     {
-        (test.get()->*method_)();
+    	method_(test.get());
         return true;
     }
 
@@ -334,7 +334,7 @@ private:
     }
 
     typename TestCase::context_type *context_;
-    void (TestCase::*method_)();
+    std::function<void(TestCase*)> method_;
     std::string method_id_;
     std::string class_name_;
     std::string test_name_;
@@ -415,7 +415,7 @@ observe_and_wait(std::thread&& thread,
 template<typename TestCase>
 std::tuple<unittest::internals::testfunctor<TestCase>, std::shared_ptr<std::atomic_bool>, double>
 prepare_testrun(typename TestCase::context_type* context,
-                void (TestCase::*method)(),
+                std::function<void(TestCase*)> method,
                 std::string class_name,
                 std::string test_name,
                 bool skipped,
@@ -452,7 +452,7 @@ prepare_testrun(typename TestCase::context_type* context,
 template<typename TestCase>
 void
 testrun(typename TestCase::context_type* context,
-        void (TestCase::*method)(),
+        std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
         bool skipped,
@@ -485,7 +485,7 @@ testrun(typename TestCase::context_type* context,
 template<typename TestCase>
 void
 testrun(typename TestCase::context_type* context,
-        void (TestCase::*method)(),
+        std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
         bool skipped,
@@ -509,7 +509,7 @@ testrun(typename TestCase::context_type* context,
  */
 template<typename TestCase>
 void
-testrun(void (TestCase::*method)(),
+testrun(std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
         bool skipped,
@@ -529,7 +529,7 @@ testrun(void (TestCase::*method)(),
  */
 template<typename TestCase>
 void
-testrun(void (TestCase::*method)(),
+testrun(std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
         bool skipped,
