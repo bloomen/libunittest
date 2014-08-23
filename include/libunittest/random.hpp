@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <mutex>
 #include <memory>
+#include <tuple>
 #include <libunittest/tuplemap.hpp>
 /**
  * @brief Unit testing in C++
@@ -26,6 +27,17 @@ public:
     virtual
     ~random_object()
     {}
+    /**
+     * @brief Returns a clone of this random object
+     * @returns A clone of this random object
+     */
+    std::shared_ptr<random_object>
+    clone()
+    {
+        static std::mutex clone_mutex_;
+        std::lock_guard<std::mutex> lock(clone_mutex_);
+        return do_clone();
+    }
     /**
      * @brief Returns a new random object
      * @returns A random object
@@ -68,6 +80,9 @@ protected:
     }
 
 private:
+
+    virtual std::shared_ptr<random_object>
+    do_clone() = 0;
 
     virtual T
     do_get() = 0;
@@ -134,7 +149,7 @@ public:
         : unittest::random_object<T>(),
           distribution_()
     {
-        typename dist_type::param_type params(0, 1);
+        typename dist_type::param_type params(static_cast<T>(0), static_cast<T>(1));
         distribution_.param(params);
     }
     /**
@@ -148,7 +163,7 @@ public:
     {
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
-        typename dist_type::param_type params(0, maximum);
+        typename dist_type::param_type params(static_cast<T>(0), maximum);
         distribution_.param(params);
     }
     /**
@@ -168,6 +183,12 @@ public:
     }
 
 private:
+
+    std::shared_ptr<unittest::random_object<T>>
+    do_clone()
+    {
+    	return std::make_shared<random_value>(*this);
+    }
 
     T
     do_get()
@@ -225,6 +246,9 @@ public:
 
 private:
 
+    std::shared_ptr<random_object<bool>>
+    do_clone();
+
     bool
     do_get();
 
@@ -265,12 +289,18 @@ public:
         if (container_.size()==0)
             throw std::invalid_argument("container is empty");
         if (container_.size()>=2) {
-            typename dist_type::param_type params(0, container_.size() - 1);
+            typename dist_type::param_type params(static_cast<size_t>(0), static_cast<size_t>(container_.size() - 1));
             distribution_.param(params);
         }
     }
 
 private:
+
+    std::shared_ptr<unittest::random_object<typename Container::value_type>>
+    do_clone()
+    {
+    	return std::make_shared<random_choice>(*this);
+    }
 
     element_type
     do_get()
@@ -355,6 +385,12 @@ public:
     }
 
 private:
+
+    std::shared_ptr<unittest::random_object<Container>>
+    do_clone()
+    {
+    	return std::make_shared<random_container>(*this);
+    }
 
     Container
     do_get()
@@ -455,6 +491,12 @@ public:
 
 private:
 
+    std::shared_ptr<unittest::random_object<std::tuple<Args...>>>
+    do_clone()
+    {
+    	return std::make_shared<random_tuple>(*this);
+    }
+
     std::tuple<Args...>
     do_get()
     {
@@ -535,6 +577,12 @@ public:
 
 private:
 
+    std::shared_ptr<unittest::random_object<std::pair<F,S>>>
+    do_clone()
+    {
+    	return std::make_shared<random_pair>(*this);
+    }
+
     std::pair<F,S>
     do_get()
     {
@@ -597,6 +645,12 @@ public:
     }
 
 private:
+
+    std::shared_ptr<unittest::random_object<Container>>
+    do_clone()
+    {
+    	return std::make_shared<random_shuffle>(*this);
+    }
 
     Container
     do_get()
@@ -695,6 +749,12 @@ public:
     }
 
 private:
+
+    std::shared_ptr<unittest::random_object<combination_type>>
+    do_clone()
+    {
+    	return std::make_shared<random_combination>(*this);
+    }
 
     combination_type
     do_get()

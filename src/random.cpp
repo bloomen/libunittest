@@ -3,8 +3,14 @@
 namespace unittest {
 
 random_value<bool>::random_value()
-    : random_object<bool>(), distribution_(0, 1)
+    : random_object<bool>(), distribution_(static_cast<int>(0), static_cast<int>(1))
 {}
+
+std::shared_ptr<random_object<bool>>
+random_value<bool>::do_clone()
+{
+	return std::make_shared<random_value<bool>>(*this);
+}
 
 bool
 random_value<bool>::do_get()
