@@ -5,6 +5,7 @@
 #pragma once
 #include <libunittest/assertions.hpp>
 #include <string>
+#include <memory>
 /**
  * @brief Unit testing in C++
  */
@@ -61,7 +62,7 @@ public:
      * @brief Returns a pointer to the optional test context
      * @returns A pointer to the test context, nullptr if not defined
      */
-    context_type*
+    std::shared_ptr<context_type>
     get_test_context() const
     {
         return context_;
@@ -92,7 +93,7 @@ private:
     friend struct unittest::internals::testfunctor;
 
     void
-    set_test_context(context_type *context)
+    set_test_context(std::shared_ptr<context_type> context)
     {
         context_ = context;
     }
@@ -103,7 +104,7 @@ private:
         test_id_ = test_id;
     }
 
-    context_type *context_;
+    std::shared_ptr<context_type> context_;
     std::string test_id_;
 };
 

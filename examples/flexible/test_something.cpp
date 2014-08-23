@@ -22,7 +22,7 @@ struct test_something : unittest::testcase<test_context> {
     static void run()
     {
         UNITTEST_CLASS(test_something)
-        test_context context; // context can be shared across tests
+        auto context = std::make_shared<test_context>(); // context can be shared across tests
         UNITTEST_RUNCTX(context, test_has_context)
         UNITTEST_RUNCTX_TIME(context, test_correct_message, 3.5) // a timeout of 3.5s
         UNITTEST_RUN(test_no_context)

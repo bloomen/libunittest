@@ -119,7 +119,7 @@ struct testfunctor {
      * @param skipped Whether the current test is skipped
      * @param skip_message A message explaining why the test is skipped
      */
-    testfunctor(typename TestCase::context_type* context,
+    testfunctor(std::shared_ptr<typename TestCase::context_type> context,
                 std::function<void(TestCase*)> method,
                 const std::string& method_id,
                 const std::string& class_name,
@@ -142,45 +142,6 @@ struct testfunctor {
           skipped_(skipped),
           skip_message_(skip_message)
     {}
-    /**
-     * @brief Copy constructor
-     * @param other Another instance of testfunctor
-     */
-    testfunctor(const testfunctor& other)
-		: context_(other.context_),
-		  method_(other.method_),
-		  method_id_(other.method_id_),
-		  class_name_(other.class_name_),
-		  test_name_(other.test_name_),
-		  dry_run_(other.dry_run_),
-		  handle_exceptions_(other.handle_exceptions_),
-		  has_timed_out_(other.has_timed_out_),
-		  timeout_(other.timeout_),
-		  skipped_(other.skipped_),
-		  skip_message_(other.skip_message_)
-    {}
-    /**
-     * @brief Assignment operator
-     * @param other Another instance of testfunctor
-     * @returns An instance of testfunctor
-     */
-    testfunctor& operator=(const testfunctor& other)
-    {
-    	if (this!=&other) {
-			context_ = other.context_;
-			method_ = other.method_;
-			method_id_ = other.method_id_;
-			class_name_ = other.class_name_;
-			test_name_ = other.test_name_;
-			dry_run_ = other.dry_run_;
-			handle_exceptions_ = other.handle_exceptions_;
-			has_timed_out_ = other.has_timed_out_;
-			timeout_ = other.timeout_;
-			skipped_ = other.skipped_;
-			skip_message_ = other.skip_message_;
-    	}
-    	return *this;
-    }
     /**
      * @brief Executes the test
      */
@@ -331,7 +292,7 @@ private:
         return true;
     }
 
-    typename TestCase::context_type *context_;
+    std::shared_ptr<typename TestCase::context_type> context_;
     std::function<void(TestCase*)> method_;
     std::string method_id_;
     std::string class_name_;
@@ -412,7 +373,7 @@ observe_and_wait(std::thread&& thread,
  */
 template<typename TestCase>
 std::tuple<unittest::internals::testfunctor<TestCase>, std::shared_ptr<std::atomic_bool>, double>
-prepare_testrun(typename TestCase::context_type* context,
+prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
                 std::function<void(TestCase*)> method,
                 std::string class_name,
                 std::string test_name,
@@ -449,7 +410,7 @@ prepare_testrun(typename TestCase::context_type* context,
  */
 template<typename TestCase>
 void
-testrun(typename TestCase::context_type* context,
+testrun(std::shared_ptr<typename TestCase::context_type> context,
         std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
@@ -482,7 +443,7 @@ testrun(typename TestCase::context_type* context,
  */
 template<typename TestCase>
 void
-testrun(typename TestCase::context_type* context,
+testrun(std::shared_ptr<typename TestCase::context_type> context,
         std::function<void(TestCase*)> method,
         std::string class_name,
         std::string test_name,
@@ -514,7 +475,7 @@ testrun(std::function<void(TestCase*)> method,
         std::string skip_message,
         double timeout)
 {
-	typename TestCase::context_type* context = nullptr;
+	std::shared_ptr<typename TestCase::context_type> context(nullptr);
     unittest::testrun(context, method, class_name, test_name, skipped, skip_message, timeout);
 }
 /**
@@ -533,7 +494,7 @@ testrun(std::function<void(TestCase*)> method,
         bool skipped,
         std::string skip_message)
 {
-	typename TestCase::context_type* context = nullptr;
+	std::shared_ptr<typename TestCase::context_type> context(nullptr);
     unittest::testrun(context, method, class_name, test_name, skipped, skip_message);
 }
 
