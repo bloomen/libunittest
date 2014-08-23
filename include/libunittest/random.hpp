@@ -353,29 +353,6 @@ public:
         typename dist_type::param_type params(min_size, max_size);
         distribution_.param(params);
     }
-    /**
-     * @brief Copy constructor
-     */
-    random_container(const random_container& other)
-    	: unittest::random_object<Container>(),
-          rand_(other.rand_),
-          fixed_size_(other.fixed_size_),
-          size_(other.size_),
-          distribution_(other.distribution_)
-    {}
-    /**
-     * @brief Assignment operator
-     */
-    random_container& operator=(const random_container& other)
-    {
-    	if (this!=&other) {
-			rand_ = other.rand_;
-			fixed_size_ = other.fixed_size_;
-			size_= other.size_;
-			distribution_= other.distribution_;
-    	}
-    	return *this;
-    }
 
 private:
 
@@ -555,28 +532,6 @@ public:
           rand_fst_(rand_fst),
           rand_snd_(rand_snd)
     {}
-    /**
-     * @brief Copy constructor
-     * @param other Another instance of random_pair
-     */
-    random_pair(const random_pair& other)
-    	: unittest::random_object<std::pair<F,S>>(),
-    	  rand_fst_(other.rand_fst_),
-    	  rand_snd_(other.rand_snd_)
-    {}
-    /**
-     * @brief Assignment operator
-     * @param other Another instance of random_pair
-     * @returns A reference to this
-     */
-    random_pair& operator=(const random_pair& other)
-    {
-    	if (this!=*other) {
-    		rand_fst_ = other.rand_fst_;
-    		rand_snd_ = other.rand_snd_;
-    	}
-    	return *this;
-    }
 
 private:
 
