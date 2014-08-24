@@ -20,7 +20,7 @@ observe_and_wait(std::thread&& thread,
     if (timeout > 0) {
         const double wait_sec = duration_in_seconds(resolution);
         double duration = 0;
-        while (done->load() != true) {
+        while (!done->load()) {
             if (duration > timeout) {
                 has_timed_out->store(true);
                 auto suite = testsuite::instance();
