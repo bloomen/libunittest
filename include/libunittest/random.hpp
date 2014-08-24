@@ -34,9 +34,7 @@ public:
     std::shared_ptr<random_object>
     clone()
     {
-        static std::mutex clone_mutex_;
-        std::lock_guard<std::mutex> lock(clone_mutex_);
-        return do_clone();
+        return this->do_clone();
     }
     /**
      * @brief Returns a new random object
@@ -45,8 +43,6 @@ public:
     T
     get()
     {
-        static std::mutex get_mutex_;
-        std::lock_guard<std::mutex> lock(get_mutex_);
         return this->do_get();
     }
     /**
@@ -56,8 +52,6 @@ public:
     void
     seed(int seed)
     {
-        static std::mutex seed_mutex_;
-        std::lock_guard<std::mutex> lock(seed_mutex_);
         this->do_seed(seed);
     }
 
@@ -76,6 +70,8 @@ protected:
     std::mt19937&
     gen()
     {
+    	static std::mutex mutex_;
+        std::lock_guard<std::mutex> lock(mutex_);
         return generator_;
     }
 
@@ -149,7 +145,7 @@ public:
         : unittest::random_object<T>(),
           distribution_()
     {
-        typename dist_type::param_type params(static_cast<T>(0), static_cast<T>(1));
+        typename dist_type::param_type params(0, 1);
         distribution_.param(params);
     }
     /**
@@ -163,7 +159,7 @@ public:
     {
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
-        typename dist_type::param_type params(static_cast<T>(0), maximum);
+        typename dist_type::param_type params(0, maximum);
         distribution_.param(params);
     }
     /**
@@ -289,7 +285,7 @@ public:
         if (container_.size()==0)
             throw std::invalid_argument("container is empty");
         if (container_.size()>=2) {
-            typename dist_type::param_type params(static_cast<size_t>(0), static_cast<size_t>(container_.size() - 1));
+            typename dist_type::param_type params(0, container_.size() - 1);
             distribution_.param(params);
         }
     }
