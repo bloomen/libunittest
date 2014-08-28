@@ -10,6 +10,7 @@
 #include <mutex>
 #include <memory>
 #include <tuple>
+#include <algorithm>
 #include <libunittest/tuplemap.hpp>
 /**
  * @brief Unit testing in C++
@@ -108,20 +109,20 @@ struct distribution;
  */
 template<typename T>
 struct distribution<T, true> {
-    /**
-     * @brief The distribution type for integral types
-     */
-    typedef typename std::uniform_int_distribution<T> type;
+	/**
+	 * @brief The distribution type for integral types
+	 */
+	typedef typename std::uniform_int_distribution<T> type;
 };
 /**
  * @brief The distribution type container for non-integral types
  */
 template<typename T>
 struct distribution<T, false> {
-  /**
-   * @brief The distribution type for non-integral types
-   */
-  typedef typename std::uniform_real_distribution<T> type;
+	/**
+	* @brief The distribution type for non-integral types
+	*/
+	typedef typename std::uniform_real_distribution<T> type;
 };
 
 } // internals
@@ -395,8 +396,7 @@ private:
         if (!fixed_size_)
             size = distribution_(this->gen());
         std::vector<element_type> result(size);
-        for (size_t i=0; i<size; ++i)
-            result[i] = rand_->get();
+        std::generate(result.begin(), result.end(), [this](){return rand_->get();});
         Container container(result.begin(), result.end());
         return std::move(container);
     }
@@ -740,8 +740,7 @@ public:
     {
         if (size<1 || size>granter_.size())
             throw std::invalid_argument("size out of range");
-        for (size_t i=0; i<size_; ++i)
-            granter_[i] = true;
+        std::fill(granter_.begin(), granter_.begin()+size_, true);
     }
 
 private:
