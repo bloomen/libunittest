@@ -27,7 +27,32 @@ public:
     /**
      * @brief Destructor
      */
+    virtual
     ~argparser();
+    /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of argparser
+     */
+    argparser(const argparser& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of argparser
+     * @returns An argparser instance
+     */
+    argparser&
+    operator=(const argparser& other) = delete;
+    /**
+     * @brief Move constructor. Deleted
+     * @param other An instance of argparser
+     */
+    argparser(argparser&& other) = delete;
+    /**
+     * @brief Move assignment operator. Deleted
+     * @param other An instance of argparser
+     * @returns An argparser instance
+     */
+    argparser&
+    operator=(argparser&& other) = delete;
     /**
      * @brief Parses the arguments and assigns given values
      * @param argc The number of arguments
@@ -37,15 +62,6 @@ public:
     parse(int argc, char **argv);
 
 private:
-
-    argparser(const argparser& other) = delete;
-
-    argparser& operator=(const argparser& other) = delete;
-
-    argparser(argparser&& other) = delete;
-
-    argparser& operator=(argparser&& other) = delete;
-
     struct impl;
     std::unique_ptr<impl> impl_;
 };

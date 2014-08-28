@@ -47,6 +47,30 @@ public:
     ~testcase()
     {}
     /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of testcase
+     */
+    testcase(const testcase& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of testcase
+     * @returns An testcase instance
+     */
+    testcase&
+    operator=(const testcase& other) = delete;
+    /**
+     * @brief Move constructor. Deleted
+     * @param other An instance of testcase
+     */
+    testcase(testcase&& other) = delete;
+    /**
+     * @brief Move assignment operator. Deleted
+     * @param other An instance of testcase
+     * @returns An testcase instance
+     */
+    testcase&
+    operator=(testcase&& other) = delete;
+    /**
      * @brief This is called before each test run.
      */
     virtual void
@@ -78,16 +102,6 @@ public:
     }
 
 private:
-
-    testcase(const testcase&) = delete;
-
-    testcase&
-    operator=(const testcase&) = delete;
-
-    testcase(testcase&&) = delete;
-
-    testcase&
-    operator=(testcase&&) = delete;
 
     template<typename TestCase>
     friend struct unittest::internals::testfunctor;

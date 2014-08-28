@@ -34,6 +34,7 @@ public:
     /**
      * @brief Destructor
      */
+    virtual
     ~testfailure() noexcept;
     /**
      * @brief Returns the name of the assertion

@@ -32,7 +32,32 @@ public:
     /**
      * @brief Destructor
      */
+    virtual
     ~testsuite();
+    /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of testsuite
+     */
+    testsuite(const testsuite& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of testsuite
+     * @returns An testsuite instance
+     */
+    testsuite&
+    operator=(const testsuite& other) = delete;
+    /**
+     * @brief Move constructor. Deleted
+     * @param other An instance of testsuite
+     */
+    testsuite(testsuite&& other) = delete;
+    /**
+     * @brief Move assignment operator. Deleted
+     * @param other An instance of testsuite
+     * @returns An testsuite instance
+     */
+    testsuite&
+    operator=(testsuite&& other) = delete;
     /**
      * @brief Assigns the user arguments
      * @param arguments The user arguments
@@ -82,16 +107,6 @@ public:
 private:
 
     testsuite();
-
-    testsuite(const testsuite&) = delete;
-
-    testsuite&
-    operator=(const testsuite&) = delete;
-
-    testsuite(testsuite&&) = delete;
-
-    testsuite&
-    operator=(testsuite&&) = delete;
 
     friend class testmonitor;
 

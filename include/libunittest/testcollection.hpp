@@ -27,6 +27,30 @@ public:
     virtual
     ~testcollection();
     /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of testcollection
+     */
+    testcollection(const testcollection& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of testcollection
+     * @returns An testcollection instance
+     */
+    testcollection&
+    operator=(const testcollection& other) = delete;
+    /**
+     * @brief Move constructor. Deleted
+     * @param other An instance of testcollection
+     */
+    testcollection(testcollection&& other) = delete;
+    /**
+     * @brief Move assignment operator. Deleted
+     * @param other An instance of testcollection
+     * @returns An testcollection instance
+     */
+    testcollection&
+    operator=(testcollection&& other) = delete;
+    /**
      * @brief Returns the collection name
      * @returns The collection name
      */
@@ -38,18 +62,6 @@ public:
      */
     static std::string
     inactive_name();
-
-private:
-
-    testcollection(const testcollection&) = delete;
-
-    testcollection&
-    operator=(const testcollection&) = delete;
-
-    testcollection(testcollection&&) = delete;
-
-    testcollection&
-    operator=(testcollection&&) = delete;
 
 };
 

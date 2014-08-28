@@ -31,11 +31,14 @@ struct construct_range<end, idx, i... >
 	/**
 	 * @brief Constructor
 	 */
-	construct_range() {}
+	construct_range()
+	{}
 	/**
 	 * @brief Destructor
 	 */
-	virtual ~construct_range() {}
+	virtual
+	~construct_range()
+	{}
 };
 /**
  * @brief Partial specialization of construct_range struct for finished ranges.
@@ -45,11 +48,14 @@ struct construct_range< end, end, i... > {
 	/**
 	 * @brief Constructor
 	 */
-	construct_range() {}
+	construct_range()
+	{}
 	/**
 	 * @brief Destructor
 	 */
-	virtual ~construct_range() {}
+	virtual
+	~construct_range()
+	{}
     /**
      * @brief Type level index list
      */

@@ -34,7 +34,32 @@ public:
     /**
      * @brief Destructor
      */
+    virtual
     ~testmonitor();
+    /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of testmonitor
+     */
+    testmonitor(const testmonitor& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of testmonitor
+     * @returns An testmonitor instance
+     */
+    testmonitor&
+    operator=(const testmonitor& other) = delete;
+    /**
+     * @brief Move constructor. Deleted
+     * @param other An instance of testmonitor
+     */
+    testmonitor(testmonitor&& other) = delete;
+    /**
+     * @brief Move assignment operator. Deleted
+     * @param other An instance of testmonitor
+     * @returns An testmonitor instance
+     */
+    testmonitor&
+    operator=(testmonitor&& other) = delete;
     /**
      * @brief Returns whether to execute the current test
      * @returns Whether to execute the current test
@@ -76,15 +101,6 @@ public:
     has_timed_out(double timeout);
 
 private:
-
-    testmonitor(const testmonitor& other) = delete;
-
-    testmonitor& operator=(const testmonitor& other) = delete;
-
-    testmonitor(testmonitor&& other) = delete;
-
-    testmonitor& operator=(testmonitor&& other) = delete;
-
     struct impl;
     std::unique_ptr<impl> impl_;
 };
@@ -142,6 +158,36 @@ struct testfunctor {
           skipped_(skipped),
           skip_message_(skip_message)
     {}
+    /**
+     * @brief Destructor
+     */
+    virtual
+    ~testfunctor()
+    {}
+    /**
+     * @brief Copy constructor. Deleted
+     * @param other An instance of testfunctor
+     */
+    testfunctor(const testfunctor& other) = delete;
+    /**
+     * @brief Copy assignment operator. Deleted
+     * @param other An instance of testfunctor
+     * @returns An testfunctor instance
+     */
+    testfunctor&
+    operator=(const testfunctor& other) = delete;
+    /**
+     * @brief Move constructor. Default
+     * @param other An instance of testfunctor
+     */
+    testfunctor(testfunctor&& other) = default;
+    /**
+     * @brief Move assignment operator. Default
+     * @param other An instance of testfunctor
+     * @returns An testfunctor instance
+     */
+    testfunctor&
+    operator=(testfunctor&& other) = default;
     /**
      * @brief Executes the test
      */

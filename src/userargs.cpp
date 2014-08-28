@@ -41,9 +41,25 @@ userargs::userargs(const userargs& other)
     : impl_(make_unique<impl>(*(other.impl_)))
 {}
 
-userargs& userargs::operator=(const userargs& other)
+userargs&
+userargs::operator=(const userargs& other)
 {
-    *impl_ = *other.impl_;
+	if (this!=&other) {
+		*impl_ = *other.impl_;
+	}
+    return *this;
+}
+
+userargs::userargs(userargs&& other)
+    : impl_(make_unique<impl>(std::move(*(other.impl_))))
+{}
+
+userargs&
+userargs::operator=(userargs&& other)
+{
+	if (this!=&other) {
+		*impl_ = std::move(*other.impl_);
+	}
     return *this;
 }
 

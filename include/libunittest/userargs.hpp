@@ -29,15 +29,28 @@ public:
     ~userargs();
     /**
      * @brief Copy constructor
-     * @param other Another instance of userargs
+     * @param other An instance of userargs
      */
     userargs(const userargs& other);
     /**
      * @brief Copy assignment operator
-     * @param other Another instance of userargs
+     * @param other An instance of userargs
      * @returns An instance of userargs
      */
-    userargs& operator=(const userargs& other);
+    userargs&
+    operator=(const userargs& other);
+    /**
+     * @brief Move constructor
+     * @param other An instance of userargs
+     */
+    userargs(userargs&& other);
+    /**
+     * @brief Move assignment operator
+     * @param other An instance of userargs
+     * @returns An userargs instance
+     */
+    userargs&
+    operator=(userargs&& other);
     /**
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
@@ -196,11 +209,6 @@ public:
     max_string_length(int value);
 
 private:
-
-    userargs(userargs&& other) = delete;
-
-    userargs& operator=(userargs&& other) = delete;
-
     struct impl;
     std::unique_ptr<impl> impl_;
 };
