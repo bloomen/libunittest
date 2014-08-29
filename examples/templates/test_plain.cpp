@@ -19,7 +19,7 @@ struct fixture {
     fixture()
         : value_(1)
     {}
-    virtual ~fixture()
+    virtual ~fixture() noexcept(false)
     {}
 };
 

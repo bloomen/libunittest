@@ -5,7 +5,7 @@ using namespace unittest::assertions;
 struct fixture {
     int value;
     fixture() : value(42) {}
-    virtual ~fixture() {}
+    virtual ~fixture() noexcept(false) {}
 };
 
 struct test_macros_run : unittest::testcase<unittest::sometype> {

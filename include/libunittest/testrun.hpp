@@ -218,7 +218,9 @@ private:
         if (this->construct(test, monitor)) {
             if (this->set_up(test, monitor)) {
                 if (this->execute(test, monitor)) {
-                    this->tear_down(test, monitor);
+                    if (this->tear_down(test, monitor)) {
+                    	this->destruct(test, monitor);
+                    }
                 }
             }
         }
@@ -274,7 +276,7 @@ private:
     {
         return handle(test, monitor,
                       &testfunctor::_construct,
-                      &testfunctor::do_nothing);
+                      &testfunctor::destruct);
     }
 
     bool
@@ -327,7 +329,7 @@ private:
     {
         return this->handle(test, monitor,
                             &testfunctor::_tear_down,
-                            &testfunctor::do_nothing);
+                            &testfunctor::destruct);
     }
 
     bool
@@ -335,6 +337,23 @@ private:
                unittest::internals::testmonitor&)
     {
         test->tear_down();
+        return true;
+    }
+
+    bool
+    destruct(std::unique_ptr<TestCase>& test,
+             unittest::internals::testmonitor& monitor)
+    {
+        return this->handle(test, monitor,
+                            &testfunctor::_destruct,
+                            &testfunctor::do_nothing);
+    }
+
+    bool
+    _destruct(std::unique_ptr<TestCase>& test,
+              unittest::internals::testmonitor&)
+    {
+    	delete test.release();
         return true;
     }
 

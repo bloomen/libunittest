@@ -44,7 +44,7 @@ public:
      * @brief Destructor. Called after each test run.
      */
     virtual
-    ~testcase()
+    ~testcase() noexcept(false)
     {}
     /**
      * @brief Copy constructor. Deleted
