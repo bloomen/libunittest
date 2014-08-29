@@ -257,7 +257,6 @@ __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, !is_run, skip_message)
  */
 #define __UNITTEST_TEST_PLAIN(fixture, test_name, skipped, skip_message) \
 struct test_name : unittest::testcase<>, fixture { \
-    test_name() : fixture() {} \
     static void run() \
     { \
         __testcollection_type__ collection; \
@@ -277,7 +276,6 @@ void test_name::test()
  */
 #define __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, skipped, skip_message) \
 struct test_name : unittest::testcase<>, fixture { \
-    test_name() : fixture() {} \
     static void run() \
     { \
         __testcollection_type__ collection; \
@@ -393,7 +391,6 @@ __UNITTEST_TEST_TPL_TIME(fixture, test_name, timeout, !is_run, skip_message)
 #define __UNITTEST_TEST_TPL(fixture, test_name, skipped, skip_message) \
 template<typename Type1, typename Type2=unittest::notype, typename Type3=unittest::notype> \
 struct test_name : unittest::testcase<>, fixture { \
-    test_name() : fixture() {} \
     static void run() \
     { \
         __testcollection_type__ collection; \
@@ -414,7 +411,6 @@ void test_name<Type1,Type2,Type3>::test()
 #define __UNITTEST_TEST_TPL_TIME(fixture, test_name, timeout, skipped, skip_message) \
 template<typename Type1, typename Type2=unittest::notype, typename Type3=unittest::notype> \
 struct test_name : unittest::testcase<>, fixture { \
-    test_name() : fixture() {} \
     static void run() \
     { \
         __testcollection_type__ collection; \
