@@ -8,7 +8,7 @@
 #include <typeinfo>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 void
 observe_and_wait(std::thread&& thread,
@@ -180,7 +180,7 @@ update_testrun_info(const std::string& class_id,
                     std::string& test_name,
                     double& local_timeout)
 {
-    auto suite = internals::testsuite::instance();
+    auto suite = core::testsuite::instance();
     const auto& class_maps = suite->get_class_maps();
     update_class_name(class_name, class_id, class_maps);
     update_test_name(test_name, class_id, class_maps);

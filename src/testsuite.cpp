@@ -8,7 +8,7 @@
 #include <map>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 struct testsuite::impl {
 

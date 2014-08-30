@@ -97,7 +97,7 @@ private:
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Container of the distribution type used in random_value
  */
@@ -136,7 +136,7 @@ class random_value : public unittest::random_object<T> {
     /**
      * @brief The distribution type
      */
-    typedef typename internals::distribution<T, std::is_integral<T>::value>::type dist_type;
+    typedef typename core::distribution<T, std::is_integral<T>::value>::type dist_type;
 
 public:
     /**
@@ -497,14 +497,14 @@ private:
     do_get()
     {
         std::tuple<Args...> result;
-        unittest::internals::tuple_transform(get_func(), rand_tuple_, result);
+        unittest::core::tuple_transform(get_func(), rand_tuple_, result);
         return std::move(result);
     }
 
     void
     do_seed(int seed)
     {
-        unittest::internals::tuple_for_each(seed_func(), rand_tuple_, seed);
+        unittest::core::tuple_for_each(seed_func(), rand_tuple_, seed);
     }
 
     /**
@@ -689,7 +689,7 @@ make_random_shuffle(const Container& container,
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Container for the combination type used in random_combination
  */
@@ -716,11 +716,11 @@ struct combination {
  */
 template<typename Container1,
          typename Container2>
-class random_combination : public unittest::random_object<typename unittest::internals::combination<Container1, Container2>::type> {
+class random_combination : public unittest::random_object<typename unittest::core::combination<Container1, Container2>::type> {
     /**
      * @brief The type of the random combination
      */
-    typedef typename unittest::internals::combination<Container1, Container2>::type combination_type;
+    typedef typename unittest::core::combination<Container1, Container2>::type combination_type;
 
 public:
     /**
@@ -783,7 +783,7 @@ private:
  */
 template<typename Container1,
          typename Container2>
-std::shared_ptr<unittest::random_object<typename unittest::internals::combination<Container1, Container2>::type>>
+std::shared_ptr<unittest::random_object<typename unittest::core::combination<Container1, Container2>::type>>
 make_random_combination(const Container1& container1,
                         const Container2& container2,
                         size_t size)

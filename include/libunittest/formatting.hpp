@@ -13,7 +13,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Converts a given string stream to string by taking into account
  *  the maximum string length
@@ -33,9 +33,9 @@ std::string
 str(const T& value)
 {
     std::ostringstream stream;
-    stream.precision(unittest::internals::testsuite::instance()->get_arguments().max_value_precision());
+    stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision());
     stream << value;
-    return unittest::internals::stream_to_string(stream);
+    return unittest::core::stream_to_string(stream);
 }
 
 } // internals

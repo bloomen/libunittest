@@ -18,12 +18,12 @@ struct test_testrun : unittest::testcase<> {
     void test_make_method_id()
     {
         const std::string id = typeid(double).name();
-        assert_equal(id + "_m", unittest::internals::make_method_id<double>("_m"));
+        assert_equal(id + "_m", unittest::core::make_method_id<double>("_m"));
     }
 
     void test_update_local_timeout()
     {
-        auto function = unittest::internals::update_local_timeout;
+        auto function = unittest::core::update_local_timeout;
         double local_timeout = 1;
         double global_timeout = 2;
         function(local_timeout, global_timeout);
@@ -35,7 +35,7 @@ struct test_testrun : unittest::testcase<> {
 
     void test_update_class_name()
     {
-        auto function = unittest::internals::update_class_name;
+        auto function = unittest::core::update_class_name;
         std::map<std::string, std::string> maps;
         maps["a"] = "A";
         maps["b"] = "B";
@@ -46,14 +46,14 @@ struct test_testrun : unittest::testcase<> {
         name = "";
         function(name, "a", maps);
         assert_equal("A", name, SPOT);
-        name = unittest::internals::testcollection::inactive_name();
+        name = unittest::core::testcollection::inactive_name();
         function(name, "a", maps);
         assert_equal("", name, SPOT);
     }
 
     void test_update_test_name()
     {
-        auto function = unittest::internals::update_test_name;
+        auto function = unittest::core::update_test_name;
         std::map<std::string, std::string> maps;
         maps["a"] = "A";
         maps["b"] = "B";
@@ -71,7 +71,7 @@ struct test_testrun : unittest::testcase<> {
         std::map<std::string, std::string> maps;
         maps["a"] = "A";
         std::string name = "";
-        auto functor = [&](){ unittest::internals::update_test_name(name, "b", maps); };
+        auto functor = [&](){ unittest::core::update_test_name(name, "b", maps); };
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 
@@ -80,7 +80,7 @@ struct test_testrun : unittest::testcase<> {
         std::map<std::string, std::string> maps;
         maps["a"] = "A";
         std::string name = "";
-        auto functor = [&](){ unittest::internals::update_test_name(name, "b", maps); };
+        auto functor = [&](){ unittest::core::update_test_name(name, "b", maps); };
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 

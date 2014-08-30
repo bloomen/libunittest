@@ -1,7 +1,7 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 using namespace unittest::assertions;
-using namespace unittest::internals;
+using namespace unittest::core;
 
 struct test_formatting : unittest::testcase<> {
 

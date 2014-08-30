@@ -344,7 +344,7 @@ struct test_random : unittest::testcase<> {
         			ptr = std::current_exception();
         		}
             });
-        unittest::internals::call_functions(functions, 100);
+        unittest::core::call_functions(functions, 100);
 		if (ptr)
 			std::rethrow_exception(ptr);
     }

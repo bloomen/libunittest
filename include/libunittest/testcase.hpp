@@ -13,7 +13,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
@@ -104,7 +104,7 @@ public:
 private:
 
     template<typename TestCase>
-    friend struct unittest::internals::testfunctor;
+    friend struct unittest::core::testfunctor;
 
     void
     set_test_context(std::shared_ptr<context_type> context)

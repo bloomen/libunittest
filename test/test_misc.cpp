@@ -3,38 +3,38 @@
 #include <exception>
 using namespace unittest::assertions;
 
-unittest::internals::testresults make_sample_results()
+unittest::core::testresults make_sample_results()
 {
-    unittest::internals::testlog log1;
+    unittest::core::testlog log1;
     log1.class_name = "test_class";
     log1.test_name = "test1";
     log1.successful = true;
-    log1.status = unittest::internals::teststatus::success;
+    log1.status = unittest::core::teststatus::success;
     log1.error_type = "";
     log1.message = "message1";
     log1.duration = 1;
 
-    unittest::internals::testlog log2;
+    unittest::core::testlog log2;
     log2.class_name = "test_class";
     log2.test_name = "test2";
     log2.successful = false;
-    log2.status = unittest::internals::teststatus::failure;
+    log2.status = unittest::core::teststatus::failure;
     log2.error_type = "failure";
     log2.message = "message2";
     log2.duration = 2;
     log2.has_timed_out = true;
     log2.timeout = 2.4;
 
-    unittest::internals::testlog log3;
+    unittest::core::testlog log3;
     log3.class_name = "test_class";
     log3.test_name = "test3";
     log3.successful = false;
-    log3.status = unittest::internals::teststatus::error;
+    log3.status = unittest::core::teststatus::error;
     log3.error_type = "error";
     log3.message = "message3";
     log3.duration = 3;
 
-    unittest::internals::testresults results;
+    unittest::core::testresults results;
     results.successful = false;
     results.n_tests = 3;
     results.n_successes = 1;
@@ -88,7 +88,7 @@ struct test_misc : unittest::testcase<> {
 
     void test_userargs_defaults()
     {
-        unittest::internals::userargs args;
+        unittest::core::userargs args;
         assert_equal(false, args.verbose(), SPOT);
         assert_equal(false, args.failure_stop(), SPOT);
         assert_equal(false, args.generate_xml(), SPOT);
@@ -106,7 +106,7 @@ struct test_misc : unittest::testcase<> {
 
     void test_userargs_set_get()
     {
-        unittest::internals::userargs args;
+        unittest::core::userargs args;
         args.verbose(true);
         args.failure_stop(true);
         args.generate_xml(true);
@@ -137,11 +137,11 @@ struct test_misc : unittest::testcase<> {
 
     void test_write_xml_empty()
     {
-        const unittest::internals::testresults results;
+        const unittest::core::testresults results;
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::internals::write_xml(stream, results, time_point, false);
+        unittest::core::write_xml(stream, results, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
@@ -158,7 +158,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::internals::write_xml(stream, results, time_point, false);
+        unittest::core::write_xml(stream, results, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
@@ -178,12 +178,12 @@ struct test_misc : unittest::testcase<> {
 
     void test_write_summary_empty()
     {
-        const unittest::internals::testresults results;
+        const unittest::core::testresults results;
         std::ostringstream stream;
-        unittest::internals::write_summary(stream, results);
+        unittest::core::write_summary(stream, results);
         std::ostringstream expected;
         expected << "\n";
-        unittest::internals::write_horizontal_bar(expected, '-');
+        unittest::core::write_horizontal_bar(expected, '-');
         expected << "\nRan 0 tests in 0s\n\nOK\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
@@ -192,19 +192,19 @@ struct test_misc : unittest::testcase<> {
     {
         const auto results = make_sample_results();
         std::ostringstream stream;
-        unittest::internals::write_summary(stream, results);
+        unittest::core::write_summary(stream, results);
         std::ostringstream expected;
         expected << "\n";
-        unittest::internals::write_horizontal_bar(expected, '-');
+        unittest::core::write_horizontal_bar(expected, '-');
         expected << "\nRan 3 tests in 6s\n\nFAILED (failures=1, errors=1, timeouts=1)\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
 
     void test_write_error_info_empty()
     {
-        const unittest::internals::testresults results;
+        const unittest::core::testresults results;
         std::ostringstream stream;
-        unittest::internals::write_error_info(stream, results.testlogs, results.successful);
+        unittest::core::write_error_info(stream, results.testlogs, results.successful);
         assert_equal("", stream.str(), SPOT);
     }
 
@@ -212,51 +212,51 @@ struct test_misc : unittest::testcase<> {
     {
         const auto results = make_sample_results();
         std::ostringstream stream;
-        unittest::internals::write_error_info(stream, results.testlogs, results.successful);
+        unittest::core::write_error_info(stream, results.testlogs, results.successful);
         std::ostringstream expected;
         expected << "\n";
-        unittest::internals::write_horizontal_bar(expected, '=');
+        unittest::core::write_horizontal_bar(expected, '=');
         expected << "\nFAIL: test_class::test2 [2s] (TIMEOUT)\n";
-        unittest::internals::write_horizontal_bar(expected, '-');
+        unittest::core::write_horizontal_bar(expected, '-');
         expected << "\nfailure: message2\n\n";
-        unittest::internals::write_horizontal_bar(expected, '=');
+        unittest::core::write_horizontal_bar(expected, '=');
         expected << "\nERROR: test_class::test3 [3s]\n";
-        unittest::internals::write_horizontal_bar(expected, '-');
+        unittest::core::write_horizontal_bar(expected, '-');
         expected << "\nerror: message3\n\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
 
     void test_write_test_start_message()
     {
-        unittest::internals::testlog log;
+        unittest::core::testlog log;
         log.class_name = "stuff";
         log.test_name = "test_me";
 
         std::ostringstream stream;
-        unittest::internals::write_test_start_message(stream, log, false);
+        unittest::core::write_test_start_message(stream, log, false);
         assert_equal("", stream.str(), SPOT);
 
         std::ostringstream stream2;
-        unittest::internals::write_test_start_message(stream2, log, true);
+        unittest::core::write_test_start_message(stream2, log, true);
         assert_equal("stuff::test_me ... ", stream2.str(), SPOT);
     }
 
     void test_write_test_end_message()
     {
-        using unittest::internals::teststatus;
+        using unittest::core::teststatus;
         std::vector<std::tuple<teststatus, std::string, std::string>> data;
         data.push_back(std::make_tuple(teststatus::success, ".", "[0s] ok\n"));
         data.push_back(std::make_tuple(teststatus::failure, "F", "[0s] FAIL\n"));
         data.push_back(std::make_tuple(teststatus::error, "E", "[0s] ERROR\n"));
         data.push_back(std::make_tuple(teststatus::skipped, "S", "[0s] SKIP \n"));
         for (auto& t : data) {
-            unittest::internals::testlog log;
+            unittest::core::testlog log;
             log.status = std::get<0>(t);
             std::ostringstream stream;
-            unittest::internals::write_test_end_message(stream, log, false);
+            unittest::core::write_test_end_message(stream, log, false);
             assert_equal(std::get<1>(t), stream.str(), SPOT);
             std::ostringstream stream2;
-            unittest::internals::write_test_end_message(stream2, log, true);
+            unittest::core::write_test_end_message(stream2, log, true);
             assert_equal(std::get<2>(t), stream2.str(), SPOT);
         }
     }
@@ -264,16 +264,16 @@ struct test_misc : unittest::testcase<> {
     void test_write_test_timeout_message()
     {
         std::ostringstream stream1;
-        unittest::internals::write_test_timeout_message(stream1, false);
+        unittest::core::write_test_timeout_message(stream1, false);
         assert_equal("T", stream1.str(), SPOT);
         std::ostringstream stream2;
-        unittest::internals::write_test_timeout_message(stream2, true);
+        unittest::core::write_test_timeout_message(stream2, true);
         assert_equal("TIMEOUT\n", stream2.str(), SPOT);
     }
 
     void test_teststatus_integrals()
     {
-        using unittest::internals::teststatus;
+        using unittest::core::teststatus;
         assert_equal<unsigned>(0, teststatus::success, SPOT);
         assert_equal<unsigned>(1, teststatus::failure, SPOT);
         assert_equal<unsigned>(2, teststatus::error, SPOT);
@@ -282,18 +282,18 @@ struct test_misc : unittest::testcase<> {
 
     void test_testlog_defaults()
     {
-        unittest::internals::testlog log;
+        unittest::core::testlog log;
         assert_equal("", log.class_name, SPOT);
         assert_equal("", log.test_name, SPOT);
         assert_equal(true, log.successful, SPOT);
-        assert_equal(unittest::internals::teststatus::skipped, log.status, SPOT);
+        assert_equal(unittest::core::teststatus::skipped, log.status, SPOT);
         assert_equal("", log.message, SPOT);
         assert_equal(0, log.duration, SPOT);
     }
 
     void test_testresults_defaults()
     {
-        unittest::internals::testresults results;
+        unittest::core::testresults results;
         assert_equal(true, results.successful, SPOT);
         assert_equal(0, results.n_tests, SPOT);
         assert_equal(0, results.n_successes, SPOT);
@@ -380,7 +380,7 @@ struct test_misc : unittest::testcase<> {
 
     void test_is_test_executed()
     {
-        using unittest::internals::is_test_executed;
+        using unittest::core::is_test_executed;
         assert_true(is_test_executed("stuff.test_me", "", ""), SPOT);
         assert_true(is_test_executed("stuff.test_me", "", "stuff"), SPOT);
         assert_false(is_test_executed("stuff.test_me", "", "weird"), SPOT);
@@ -390,7 +390,7 @@ struct test_misc : unittest::testcase<> {
 
     void test_make_full_test_name()
     {
-        using unittest::internals::make_full_test_name;
+        using unittest::core::make_full_test_name;
         assert_equal("", make_full_test_name("",""), SPOT);
         assert_equal("a::b", make_full_test_name("a","b"), SPOT);
         assert_equal("a::", make_full_test_name("a",""), SPOT);
@@ -399,31 +399,31 @@ struct test_misc : unittest::testcase<> {
 
     void test_collection_get_name()
     {
-        using unittest::internals::testcollection;
+        using unittest::core::testcollection;
         testcollection collection;
         assert_equal(testcollection::inactive_name(), collection.get_name(), SPOT);
     }
 
     void test_keep_running_fail()
     {
-        using unittest::internals::keep_running;
-        unittest::internals::testlog log;
-        log.status = unittest::internals::teststatus::error;
+        using unittest::core::keep_running;
+        unittest::core::testlog log;
+        log.status = unittest::core::teststatus::error;
         assert_true(keep_running(log, false), SPOT);
         assert_false(keep_running(log, true), SPOT);
-        log.status = unittest::internals::teststatus::failure;
+        log.status = unittest::core::teststatus::failure;
         assert_true(keep_running(log, false), SPOT);
         assert_false(keep_running(log, true), SPOT);
     }
 
     void test_keep_running_ok()
     {
-        using unittest::internals::keep_running;
-        unittest::internals::testlog log;
-        log.status = unittest::internals::teststatus::success;
+        using unittest::core::keep_running;
+        unittest::core::testlog log;
+        log.status = unittest::core::teststatus::success;
         assert_true(keep_running(log, false), SPOT);
         assert_true(keep_running(log, true), SPOT);
-        log.status = unittest::internals::teststatus::skipped;
+        log.status = unittest::core::teststatus::skipped;
         assert_true(keep_running(log, false), SPOT);
         assert_true(keep_running(log, true), SPOT);
     }

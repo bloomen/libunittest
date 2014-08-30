@@ -14,11 +14,11 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief An argument parser
  */
-class argparser : public unittest::internals::userargs {
+class argparser : public unittest::core::userargs {
 public:
     /**
      * @brief Constructor

@@ -4,7 +4,7 @@
 #include <mutex>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 testresults::testresults()
     : successful(true), n_tests(0), n_successes(0), n_failures(0),

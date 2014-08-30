@@ -12,7 +12,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief High level user arguments to control application behavior
  */

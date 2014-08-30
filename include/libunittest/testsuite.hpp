@@ -17,7 +17,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief The test suite collecting test information (singleton, thread-safe)
  */
@@ -63,12 +63,12 @@ public:
      * @param arguments The user arguments
      */
     void
-    set_arguments(const unittest::internals::userargs& arguments);
+    set_arguments(const unittest::core::userargs& arguments);
     /**
      * @brief Returns a reference to the user arguments
      * @returns A reference to the user arguments
      */
-    unittest::internals::userargs&
+    unittest::core::userargs&
     get_arguments() const;
     /**
      * @brief Returns a reference to the vector of registered class runs
@@ -93,7 +93,7 @@ public:
      * @brief Returns the accumulated test results
      * @returns The test results
      */
-    unittest::internals::testresults
+    unittest::core::testresults
     get_results() const;
     /**
      * @brief Logs text for a given method
@@ -122,7 +122,7 @@ private:
                      std::chrono::milliseconds resolution);
 
     void
-    make_keep_running(const unittest::internals::testlog& log);
+    make_keep_running(const unittest::core::testlog& log);
 
     void
     start_timing();
@@ -131,7 +131,7 @@ private:
     stop_timing();
 
     void
-    collect(const unittest::internals::testlog& log);
+    collect(const unittest::core::testlog& log);
 
     bool
     is_test_run(const std::string& class_name,

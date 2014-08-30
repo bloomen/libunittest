@@ -69,7 +69,7 @@ assert_equal(const T& expected,
              const Args&... message)
 {
     if (!(expected == actual)) {
-        const std::string text = unittest::internals::str(expected) + " not equal to " + unittest::internals::str(actual);
+        const std::string text = unittest::core::str(expected) + " not equal to " + unittest::core::str(actual);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -89,7 +89,7 @@ assert_not_equal(const T& first,
                  const Args&... message)
 {
     if (first == second) {
-        const std::string text = unittest::internals::str(first) + " equal to " + unittest::internals::str(second);
+        const std::string text = unittest::core::str(first) + " equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -112,9 +112,9 @@ assert_approx_equal(const T& expected,
                     const V& epsilon,
                     const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::internals::is_approx_equal(expected, actual, epsilon)) {
-        const std::string text = unittest::internals::str(expected) + " not approx. equal to " + unittest::internals::str(actual) + " with epsilon = " + unittest::internals::str(epsilon);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
+        const std::string text = unittest::core::str(expected) + " not approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -137,9 +137,9 @@ assert_approx_not_equal(const T& first,
                         const V& epsilon,
                         const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (unittest::internals::is_approx_equal(first, second, epsilon)) {
-        const std::string text = unittest::internals::str(first) + " approx. equal to " + unittest::internals::str(second) + " with epsilon = " + unittest::internals::str(epsilon);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_approx_equal(first, second, epsilon)) {
+        const std::string text = unittest::core::str(first) + " approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -159,7 +159,7 @@ assert_greater(const T& first,
                const Args&... message)
 {
     if (!(first > second)) {
-        const std::string text = unittest::internals::str(first) + " not greater than " + unittest::internals::str(second);
+        const std::string text = unittest::core::str(first) + " not greater than " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -179,7 +179,7 @@ assert_greater_equal(const T& first,
                      const Args&... message)
 {
     if (first < second) {
-        const std::string text = unittest::internals::str(first) + " not greater than or equal to " + unittest::internals::str(second);
+        const std::string text = unittest::core::str(first) + " not greater than or equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -199,7 +199,7 @@ assert_lesser(const T& first,
               const Args&... message)
 {
     if (!(first < second)) {
-        const std::string text = unittest::internals::str(first) + " not lesser than " + unittest::internals::str(second);
+        const std::string text = unittest::core::str(first) + " not lesser than " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -219,7 +219,7 @@ assert_lesser_equal(const T& first,
                     const Args&... message)
 {
     if (first > second) {
-        const std::string text = unittest::internals::str(first) + " not lesser than or equal to " + unittest::internals::str(second);
+        const std::string text = unittest::core::str(first) + " not lesser than or equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -241,9 +241,9 @@ assert_in_range(const T& value,
                 const V& upper,
                 const Args&... message)
 {
-    unittest::internals::check_range_bounds(lower, upper, __func__, message...);
-    if (!unittest::internals::is_in_range(value, lower, upper)) {
-        const std::string text = unittest::internals::str(value) + " not in range [" + unittest::internals::str(lower) + ", " + unittest::internals::str(upper) + "]";
+    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    if (!unittest::core::is_in_range(value, lower, upper)) {
+        const std::string text = unittest::core::str(value) + " not in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
         unittest::fail(__func__, text, message...);
     }
 }
@@ -265,9 +265,9 @@ assert_not_in_range(const T& value,
                     const V& upper,
                     const Args&... message)
 {
-    unittest::internals::check_range_bounds(lower, upper, __func__, message...);
-    if (unittest::internals::is_in_range(value, lower, upper)) {
-        const std::string text = unittest::internals::str(value) + " in range [" + unittest::internals::str(lower) + ", " + unittest::internals::str(upper) + "]";
+    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    if (unittest::core::is_in_range(value, lower, upper)) {
+        const std::string text = unittest::core::str(value) + " in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
         unittest::fail(__func__, text, message...);
     }
 }
@@ -286,7 +286,7 @@ assert_in_container(const T& value,
                     const Container& container,
                     const Args&... message)
 {
-    if (!unittest::internals::is_contained(value, container)) {
+    if (!unittest::core::is_contained(value, container)) {
         const std::string text = "value not in container";
         unittest::fail(__func__, text, message...);
     }
@@ -306,7 +306,7 @@ assert_not_in_container(const T& value,
                         const Container& container,
                         const Args&... message)
 {
-    if (unittest::internals::is_contained(value, container)) {
+    if (unittest::core::is_contained(value, container)) {
         const std::string text = "value in container";
         unittest::fail(__func__, text, message...);
     }
@@ -330,8 +330,8 @@ assert_approx_in_container(const T& value,
                            const U& epsilon,
                            const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::internals::is_approx_contained(value, container, epsilon)) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value not approx. in container";
         unittest::fail(__func__, text, message...);
     }
@@ -355,8 +355,8 @@ assert_approx_not_in_container(const T& value,
                                const U& epsilon,
                                const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (unittest::internals::is_approx_contained(value, container, epsilon)) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value approx. in container";
         unittest::fail(__func__, text, message...);
     }
@@ -376,7 +376,7 @@ assert_equal_containers(const Container1& expected,
                         const Container2& actual,
                         const Args&... message)
 {
-    if (!unittest::internals::is_containers_equal(expected, actual)) {
+    if (!unittest::core::is_containers_equal(expected, actual)) {
         const std::string text = "containers are not equal";
         unittest::fail(__func__, text, message...);
     }
@@ -396,7 +396,7 @@ assert_not_equal_containers(const Container1& first,
                             const Container2& second,
                             const Args&... message)
 {
-    if (unittest::internals::is_containers_equal(first, second)) {
+    if (unittest::core::is_containers_equal(first, second)) {
         const std::string text = "containers are equal";
         unittest::fail(__func__, text, message...);
     }
@@ -420,8 +420,8 @@ assert_approx_equal_containers(const Container1& expected,
                                const V& epsilon,
                                const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::internals::is_containers_approx_equal(expected, actual, epsilon)) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_containers_approx_equal(expected, actual, epsilon)) {
         const std::string text = "containers are not approx. equal";
         unittest::fail(__func__, text, message...);
     }
@@ -446,8 +446,8 @@ assert_approx_not_equal_containers(const Container1& first,
                                    const V& epsilon,
                                    const Args&... message)
 {
-    unittest::internals::check_epsilon(epsilon, __func__, message...);
-    if (unittest::internals::is_containers_approx_equal(first, second, epsilon)) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_containers_approx_equal(first, second, epsilon)) {
         const std::string text = "containers are approx. equal";
         unittest::fail(__func__, text, message...);
     }
@@ -549,8 +549,8 @@ assert_regex_match(const std::string& string,
                    const std::string& regex,
                    const Args&... message)
 {
-    if (!unittest::internals::is_regex_matched(string, regex)) {
-        const std::string text = unittest::internals::str(string) + " does not match the pattern " + unittest::internals::str(regex);
+    if (!unittest::core::is_regex_matched(string, regex)) {
+        const std::string text = unittest::core::str(string) + " does not match the pattern " + unittest::core::str(regex);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -567,8 +567,8 @@ assert_regex_match(const std::string& string,
                    const std::regex& regex,
                    const Args&... message)
 {
-    if (!unittest::internals::is_regex_matched(string, regex)) {
-        const std::string text = unittest::internals::str(string) + " does not match the given pattern";
+    if (!unittest::core::is_regex_matched(string, regex)) {
+        const std::string text = unittest::core::str(string) + " does not match the given pattern";
         unittest::fail(__func__, text, message...);
     }
 }
@@ -585,8 +585,8 @@ assert_not_regex_match(const std::string& string,
                        const std::string& regex,
                        const Args&... message)
 {
-    if (unittest::internals::is_regex_matched(string, regex)) {
-        const std::string text = unittest::internals::str(string) + " matches the pattern " + unittest::internals::str(regex);
+    if (unittest::core::is_regex_matched(string, regex)) {
+        const std::string text = unittest::core::str(string) + " matches the pattern " + unittest::core::str(regex);
         unittest::fail(__func__, text, message...);
     }
 }
@@ -603,8 +603,8 @@ assert_not_regex_match(const std::string& string,
                        const std::regex& regex,
                        const Args&... message)
 {
-    if (unittest::internals::is_regex_matched(string, regex)) {
-        const std::string text = unittest::internals::str(string) + " matches the given pattern";
+    if (unittest::core::is_regex_matched(string, regex)) {
+        const std::string text = unittest::core::str(string) + " matches the given pattern";
         unittest::fail(__func__, text, message...);
     }
 }
@@ -622,7 +622,7 @@ assert_throw(Functor functor,
              const Args&... message)
 {
     bool caught = false;
-    if (unittest::internals::testsuite::instance()->get_arguments().handle_exceptions()) {
+    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions()) {
         try {
             functor();
         } catch (const Exception&) {
@@ -658,7 +658,7 @@ void
 assert_no_throw(Functor functor,
                 const Args&... message)
 {
-    if (unittest::internals::testsuite::instance()->get_arguments().handle_exceptions()) {
+    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions()) {
         try {
             functor();
         } catch (const std::exception& e) {

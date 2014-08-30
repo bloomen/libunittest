@@ -15,10 +15,10 @@ testfailure::testfailure(const std::string& assertion,
                          const std::string& message,
                          const std::string& user_msg)
     : std::runtime_error([&message,&user_msg]() -> std::string
-        { const auto msg = internals::remove_file_and_line(user_msg);
+        { const auto msg = core::remove_file_and_line(user_msg);
           return msg.size() ? message + " - " + msg : message; }()),
       assertion_(assertion),
-      spot_(internals::extract_file_and_line(user_msg))
+      spot_(core::extract_file_and_line(user_msg))
 {}
 
 testfailure::~testfailure() noexcept

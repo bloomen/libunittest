@@ -43,7 +43,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_limit_string_length()
     {
-        auto function = unittest::internals::limit_string_length;
+        auto function = unittest::core::limit_string_length;
         assert_equal("albert", function("albert", 8), SPOT);
         assert_equal("albert", function("albert", 6), SPOT);
         assert_equal("alber", function("albert", 5), SPOT);
@@ -55,7 +55,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_string_of_file_and_line()
     {
-        auto function = unittest::internals::string_of_file_and_line;
+        auto function = unittest::core::string_of_file_and_line;
         assert_equal("@SPOT@albert:13@SPOT@", function("albert", 13), SPOT);
         assert_equal("@SPOT@blöd:-42@SPOT@", function("blöd", -42), SPOT);
     }
@@ -74,20 +74,20 @@ struct test_utilities : unittest::testcase<> {
         std::ostringstream stream;
         const std::string value_string("pi");
         const double value_double(3.1415);
-        unittest::internals::write_to_stream(stream, value_string, " = ", value_double);
+        unittest::core::write_to_stream(stream, value_string, " = ", value_double);
         assert_equal("pi = 3.1415", stream.str(), SPOT);
     }
 
     void test_write_to_stream_overload()
     {
         std::ostringstream stream;
-        unittest::internals::write_to_stream(stream);
+        unittest::core::write_to_stream(stream);
         assert_equal("", stream.str(), SPOT);
     }
 
     void test_write_horizontal_bar()
     {
-        auto function = unittest::internals::write_horizontal_bar;
+        auto function = unittest::core::write_horizontal_bar;
         std::ostringstream stream;
         function(stream, 'x', 3);
         assert_equal("xxx", stream.str(), SPOT);
@@ -97,12 +97,12 @@ struct test_utilities : unittest::testcase<> {
     void test_duration_in_seconds()
     {
         const std::chrono::duration<double> duration(1);
-        assert_equal(1, unittest::internals::duration_in_seconds(duration), SPOT);
+        assert_equal(1, unittest::core::duration_in_seconds(duration), SPOT);
     }
 
     void test_xml_escape()
     {
-        auto function = unittest::internals::xml_escape;
+        auto function = unittest::core::xml_escape;
         assert_equal("", function(""), SPOT);
         assert_equal("stuff", function("stuff"), SPOT);
         assert_equal("blöd", function("blöd"), SPOT);
@@ -116,7 +116,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_make_iso_timestamp()
     {
-        auto function = unittest::internals::make_iso_timestamp;
+        auto function = unittest::core::make_iso_timestamp;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
         assert_equal("2009-02-13T23:31:30", function(time_point, false), SPOT);
@@ -124,7 +124,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_call_functions_empty_vector()
     {
-        using unittest::internals::call_functions;
+        using unittest::core::call_functions;
         std::vector<std::function<void()>> functions;
         assert_equal(0, call_functions(functions), SPOT);
         assert_equal(0, call_functions(functions, 0), SPOT);
@@ -133,7 +133,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_call_functions_vector_size_one()
     {
-        using unittest::internals::call_functions;
+        using unittest::core::call_functions;
         int a = 0;
         std::function<void()> func = [&a](){ ++a; };
         std::vector<std::function<void()>> functions = {func};
@@ -147,7 +147,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_call_functions_vector_size_two()
     {
-        using unittest::internals::call_functions;
+        using unittest::core::call_functions;
         int a = 0;
         std::function<void()> func1 = [&a](){ ++a; };
         int b = 0;
@@ -171,10 +171,10 @@ struct test_utilities : unittest::testcase<> {
     {
         std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>> threads;
         std::ostringstream stream1;
-        unittest::internals::make_threads_happy(stream1, threads, false);
+        unittest::core::make_threads_happy(stream1, threads, false);
         assert_equal("", stream1.str(), SPOT);
         std::ostringstream stream2;
-        unittest::internals::make_threads_happy(stream2, threads, true);
+        unittest::core::make_threads_happy(stream2, threads, true);
         assert_equal("", stream2.str(), SPOT);
     }
 
@@ -188,7 +188,7 @@ struct test_utilities : unittest::testcase<> {
             std::thread thread(function);
             threads.push_back(std::make_pair(std::move(thread), done));
         }
-        unittest::internals::make_threads_happy(stream, threads, verbose);
+        unittest::core::make_threads_happy(stream, threads, verbose);
         std::chrono::milliseconds wait_ms(1);
         for (auto& thread : threads)
             assert_true(thread.second->load(), SPOT);
@@ -209,21 +209,21 @@ struct test_utilities : unittest::testcase<> {
     {
         std::map<int, int> map;
         map[0] = 1;
-        assert_equal(1, unittest::internals::get_from_map(map, 0), SPOT);
+        assert_equal(1, unittest::core::get_from_map(map, 0), SPOT);
     }
 
     void test_get_from_map_key_not_found()
     {
         std::map<int, int> map;
         map[0] = 1;
-        auto functor = [&](){ unittest::internals::get_from_map(map, 2); };
+        auto functor = [&](){ unittest::core::get_from_map(map, 2); };
         assert_throw<std::runtime_error>(functor, SPOT);
     }
 
     void test_get_type_id()
     {
         const std::string id = typeid(double).name();
-        assert_equal(id, unittest::internals::get_type_id<double>(), SPOT);
+        assert_equal(id, unittest::core::get_type_id<double>(), SPOT);
     }
 
     void test_is_numeric()
@@ -232,17 +232,17 @@ struct test_utilities : unittest::testcase<> {
                 "764", " 132.0", "930 ", " 93.7 ", "\t\n42\t ", "97", "-102 bc"
         };
         for (auto& value : values_num)
-            assert_true(unittest::internals::is_numeric(value), SPOT, "value: ", value);
+            assert_true(unittest::core::is_numeric(value), SPOT, "value: ", value);
         std::vector<std::string> values_not_num = {
                 "", "XYZ", "a26"
         };
         for (auto& value : values_not_num)
-            assert_false(unittest::internals::is_numeric(value), SPOT, "value: ", value);
+            assert_false(unittest::core::is_numeric(value), SPOT, "value: ", value);
     }
 
     void test_to_number()
     {
-        using unittest::internals::to_number;
+        using unittest::core::to_number;
         assert_equal(764, to_number<int>("764"), SPOT);
         assert_equal(132, to_number<long>("132.0"), SPOT);
         assert_equal(930, to_number<float>("930"), SPOT);
@@ -254,7 +254,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_trim()
     {
-        auto function = unittest::internals::trim;
+        auto function = unittest::core::trim;
         assert_equal("albert", function("albert"), SPOT);
         assert_equal("albert peter", function("albert peter  "), SPOT);
         assert_equal("albert  püter", function("albert  püter  "), SPOT);
@@ -265,7 +265,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_remove_white_spaces()
     {
-        auto function = unittest::internals::remove_white_spaces;
+        auto function = unittest::core::remove_white_spaces;
         assert_equal("albert", function("albert"), SPOT);
         assert_equal("albert", function("alb ert "), SPOT);
         assert_equal("albert", function("  alber t "), SPOT);
@@ -275,13 +275,13 @@ struct test_utilities : unittest::testcase<> {
     {
         std::vector<std::string> args = { "-ag", "-i", "42", "-tpf", "-d-ga" };
         std::vector<std::string> exp_args = { "-a", "-g", "-i", "42", "-t", "-p", "-f" , "-d", "-g", "-a"};
-        const auto result = unittest::internals::expand_commandline_arguments(args);
+        const auto result = unittest::core::expand_commandline_arguments(args);
         assert_equal_containers(exp_args, result, SPOT);
     }
 
     void test_expand_commandline_arguments_empty_args()
     {
-        auto function = unittest::internals::expand_commandline_arguments;
+        auto function = unittest::core::expand_commandline_arguments;
         std::vector<std::string> args = {};
         std::vector<std::string> exp_args = {};
         assert_equal_containers(exp_args, function(args), SPOT);
@@ -289,7 +289,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_extract_file_and_line_spot_found()
     {
-        auto function = unittest::internals::extract_file_and_line;
+        auto function = unittest::core::extract_file_and_line;
         const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
         assert_equal("nada.cpp", result.first, SPOT);
         assert_equal(13, result.second, SPOT);
@@ -297,7 +297,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_extract_file_and_line_spot_found_two()
     {
-        auto function = unittest::internals::extract_file_and_line;
+        auto function = unittest::core::extract_file_and_line;
         const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text @SPOT@kalle.cpp:42@SPOT@");
         assert_equal("nada.cpp", result.first, SPOT);
         assert_equal(13, result.second, SPOT);
@@ -305,7 +305,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_extract_file_and_line_spot_not_found()
     {
-        auto function = unittest::internals::extract_file_and_line;
+        auto function = unittest::core::extract_file_and_line;
         const auto result = function("some text");
         assert_equal("", result.first, SPOT);
         assert_equal(-1, result.second, SPOT);
@@ -313,7 +313,7 @@ struct test_utilities : unittest::testcase<> {
 
     void test_extract_file_and_line_spot_weird()
     {
-        auto function = unittest::internals::extract_file_and_line;
+        auto function = unittest::core::extract_file_and_line;
         const auto result1 = function("some text @SPOT@nada.cpp:13 more text");
         assert_equal("", result1.first, SPOT);
         assert_equal(-1, result1.second, SPOT);
@@ -324,35 +324,35 @@ struct test_utilities : unittest::testcase<> {
 
     void test_remove_file_and_line_found()
     {
-        auto function = unittest::internals::remove_file_and_line;
+        auto function = unittest::core::remove_file_and_line;
         const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
         assert_equal("some text  more text", result, SPOT);
     }
 
     void test_remove_file_and_line_found_at_end()
     {
-        auto function = unittest::internals::remove_file_and_line;
+        auto function = unittest::core::remove_file_and_line;
         const auto result = function("some text@SPOT@nada.cpp:13@SPOT@");
         assert_equal("some text", result, SPOT);
     }
 
     void test_remove_file_and_line_found_two()
     {
-        auto function = unittest::internals::remove_file_and_line;
+        auto function = unittest::core::remove_file_and_line;
         const auto result = function("some text @SPOT@nada.cpp:13@SPOT@cool@SPOT@kunde.cpp:42@SPOT@");
         assert_equal("some text cool", result, SPOT);
     }
 
     void test_remove_file_and_line_not_found()
     {
-        auto function = unittest::internals::remove_file_and_line;
+        auto function = unittest::core::remove_file_and_line;
         const auto result = function("some text");
         assert_equal("some text", result, SPOT);
     }
 
     void test_make_unique()
     {
-        using unittest::internals::make_unique;
+        using unittest::core::make_unique;
 
         assert_true(make_unique<int>(), SPOT);
         assert_true(make_unique<std::string>(), SPOT);

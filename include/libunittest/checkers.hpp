@@ -13,7 +13,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Checks if an epsilon is valid
  * @param epsilon The epsilon

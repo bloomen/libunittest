@@ -11,7 +11,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief A test collection
  */
@@ -71,4 +71,4 @@ public:
 /**
  * @brief The test collection type
  */
-typedef unittest::internals::testcollection __testcollection_type__;
+typedef unittest::core::testcollection __testcollection_type__;

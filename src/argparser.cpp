@@ -5,7 +5,7 @@
 #include <sstream>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 struct argparser::impl {
 
@@ -79,7 +79,7 @@ struct argparser::impl {
 
 argparser::argparser()
     : userargs(),
-      impl_(internals::make_unique<impl>())
+      impl_(core::make_unique<impl>())
 {}
 
 argparser::~argparser()

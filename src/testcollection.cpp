@@ -1,7 +1,7 @@
 #include <libunittest/testcollection.hpp>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 testcollection::testcollection()
 {}

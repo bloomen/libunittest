@@ -5,7 +5,7 @@
 #include <mutex>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 testlog::testlog()
     : class_name(""), test_name(""), successful(true),

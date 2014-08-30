@@ -11,28 +11,28 @@ namespace unittest {
 int
 process(int argc, char **argv)
 {
-    internals::argparser arguments;
+    core::argparser arguments;
     try {
         arguments.parse(argc, argv);
-    } catch (const internals::argparser_error& e) {
+    } catch (const core::argparser_error& e) {
         std::cout << "Error: " << e.what();
         std::exit(EXIT_FAILURE);
     }
 
-    auto suite = internals::testsuite::instance();
+    auto suite = core::testsuite::instance();
     suite->set_arguments(arguments);
 
     const auto class_runs = suite->get_class_runs();
     const int n_threads = arguments.concurrent_threads();
-    internals::call_functions(class_runs, n_threads);
+    core::call_functions(class_runs, n_threads);
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results.testlogs, results.successful);
     auto& threads = suite->get_lonely_threads();
-    internals::make_threads_happy(std::cout, threads, arguments.verbose());
+    core::make_threads_happy(std::cout, threads, arguments.verbose());
     const auto full_results = suite->get_results();
 
-    std::vector<internals::testlog> delta_testlogs;
+    std::vector<core::testlog> delta_testlogs;
     bool successful = true;
     for (auto i=results.testlogs.size(); i<full_results.testlogs.size(); ++i) {
         delta_testlogs.push_back(full_results.testlogs[i]);

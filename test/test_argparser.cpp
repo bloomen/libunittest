@@ -1,8 +1,8 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 using namespace unittest::assertions;
-using unittest::internals::argparser;
-using unittest::internals::argparser_error;
+using unittest::core::argparser;
+using unittest::core::argparser_error;
 
 struct test_argparser : unittest::testcase<> {
 

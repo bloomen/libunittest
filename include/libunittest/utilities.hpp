@@ -21,7 +21,7 @@ namespace unittest {
 /**
  * @brief Internal functionality, not relevant for most users
  */
-namespace internals {
+namespace core {
 /**
  * @brief Escapes a string for use in an XML document
  * @param data Some string
@@ -58,7 +58,7 @@ write_to_stream(std::ostream& stream,
                 const Args&... args)
 {
     stream << arg;
-    unittest::internals::write_to_stream(stream, args...);
+    unittest::core::write_to_stream(stream, args...);
 }
 /**
  * @brief Writes a horizontal bar to the given output stream
@@ -152,7 +152,7 @@ is_approx_contained(const T& value,
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
-        if (unittest::internals::is_approx_equal(*first, value, eps)) return true;
+        if (unittest::core::is_approx_equal(*first, value, eps)) return true;
         ++first;
     }
     return false;
@@ -201,7 +201,7 @@ is_containers_approx_equal(const Container1& first,
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (!unittest::internals::is_approx_equal(*begin1, *begin2, eps)) return false;
+        if (!unittest::core::is_approx_equal(*begin1, *begin2, eps)) return false;
         ++begin1;
         ++begin2;
     }
@@ -389,7 +389,7 @@ template<typename T,
 std::unique_ptr<T>
 make_unique(Args&&... args)
 {
-    return unittest::internals::make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
+    return unittest::core::make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
 }
 
 } // internals
@@ -409,7 +409,7 @@ join(const T& arg,
 {
     std::ostringstream stream;
     stream << arg;
-    unittest::internals::write_to_stream(stream, args...);
+    unittest::core::write_to_stream(stream, args...);
     return stream.str();
 }
 /**

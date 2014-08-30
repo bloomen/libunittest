@@ -2,7 +2,7 @@
 #include <libunittest/utilities.hpp>
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 struct userargs::impl {
 

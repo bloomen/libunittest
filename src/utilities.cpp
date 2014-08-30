@@ -8,7 +8,7 @@
 
 
 namespace unittest {
-namespace internals {
+namespace core {
 
 std::string
 xml_escape(const std::string& data)
