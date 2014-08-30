@@ -111,12 +111,12 @@ unittest::testrun<__test_class__>(test_context, &__test_class__::test_method, ""
  *  and the current line number
  */
 #define UNITTEST_SPOT \
-unittest::internals::string_of_file_and_line(__FILE__, __LINE__)
+unittest::core::string_of_file_and_line(__FILE__, __LINE__)
 /**
  * @brief Logs info for the current test
  */
 #define UNITTEST_TESTINFO(...) \
-unittest::internals::testsuite::instance()->log_text(this->get_test_id(), unittest::join(__VA_ARGS__));
+unittest::core::testsuite::instance()->log_text(this->get_test_id(), unittest::join(__VA_ARGS__));
 /**
  * @brief Joins two symbols. Just for internals
  * @param symbol1 A symbol
@@ -135,14 +135,14 @@ symbol1##symbol2
  * @brief Registers a test class at the global registry
  */
 #define UNITTEST_REGISTER(...) \
-static unittest::internals::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__)(#__VA_ARGS__);
+static unittest::core::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__)(#__VA_ARGS__);
 /**
  * @brief A test collection
  * @param name The name of the test collection
  */
 #define UNITTEST_COLLECTION(name) \
 namespace name { \
-    struct __testcollection_child__ : unittest::internals::testcollection { \
+    struct __testcollection_child__ : unittest::core::testcollection { \
         std::string \
         get_name() const \
         { \
