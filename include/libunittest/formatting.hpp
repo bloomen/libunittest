@@ -33,7 +33,7 @@ std::string
 str(const T& value)
 {
     std::ostringstream stream;
-    stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision());
+    stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision);
     stream << value;
     return unittest::core::stream_to_string(stream);
 }

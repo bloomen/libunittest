@@ -5,6 +5,8 @@ namespace core {
 
 
 argparser::argparser()
+		: command_line_(), app_name_(), args_(), registry_(),
+		  ordered_registry_()
 {
 	register_trigger('h', "", "Displays this help message and exits", false);
 }
@@ -123,7 +125,7 @@ argparser::assign_value<bool>(bool& result,
 
 template<>
 std::string
-argparser::get_value<std::string>(std::string argument,
+argparser::get_value<std::string>(std::string,
 				     	 	 	  std::string value)
 {
 	return value;
@@ -204,6 +206,27 @@ operator<<(std::ostream& os, const argparser& obj)
     os << std::flush;
     return os;
 }
+
+argparser::argrow::argrow()
+	: index(0), is_trigger(false), value_name(),
+	  long_value_name(), description(),
+	  default_value(), representation(),
+	  required(false)
+{}
+
+argparser::argrow::argrow(size_t index,
+                  	  	  bool is_trigger,
+                  	  	  std::string value_name,
+                  	  	  std::string long_value_name,
+                  	  	  std::string description,
+                  	  	  std::string default_value,
+                  	  	  std::string representation,
+                  	  	  bool required)
+	: index(index), is_trigger(is_trigger), value_name(value_name),
+	  long_value_name(long_value_name), description(description),
+	  default_value(default_value), representation(representation),
+	  required(required)
+{}
 
 
 argparser_error::argparser_error(const std::string& message)

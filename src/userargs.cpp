@@ -27,8 +27,8 @@ userargs::register_arguments()
 	register_trigger('d', "dry_run", "A dry run without actually executing any tests", dry_run);
 	register_trigger('s', "failure_stop", "Stops running tests after the first test fails", failure_stop);
 	register_trigger('x', "generate_xml", "Enables the generation of the XML output", generate_xml);
-	register_trigger('e', "handle_except", "Turns off handling of unexpected exceptions", handle_exceptions);
-	register_trigger('i', "disable_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
+	register_trigger('e', "handle_exc", "Turns off handling of unexpected exceptions", handle_exceptions);
+	register_trigger('i', "no_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
 	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads);
 	register_argument('f', "filter", "A run filter applied to the beginning of the test names", name_filter);
 	register_argument('n', "name", "A certain test to be run superseding the name filter", test_name);
@@ -61,7 +61,6 @@ userargs::assign_values()
 void
 userargs::check_values()
 {
-
 }
 
 } // core

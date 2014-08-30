@@ -454,8 +454,8 @@ prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
     has_timed_out->store(false);
     unittest::core::testfunctor<TestCase> functor(context, method, method_id,
                                                        class_name, test_name,
-                                                       args.dry_run(),
-                                                       args.handle_exceptions(),
+                                                       args.dry_run,
+                                                       args.handle_exceptions,
                                                        has_timed_out, timeout,
                                                        skipped, skip_message);
     return std::make_tuple(std::move(functor), has_timed_out, timeout);
@@ -487,7 +487,7 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
                                                      class_name, test_name,
                                                      skipped, skip_message, timeout);
     unittest::core::testfunctor<TestCase> functor = std::move(std::get<0>(data));
-    if (unittest::core::testsuite::instance()->get_arguments().disable_timeout() || timeout<=0) {
+    if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
         functor();
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();

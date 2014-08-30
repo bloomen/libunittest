@@ -622,7 +622,7 @@ assert_throw(Functor functor,
              const Args&... message)
 {
     bool caught = false;
-    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions()) {
+    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions) {
         try {
             functor();
         } catch (const Exception&) {
@@ -658,7 +658,7 @@ void
 assert_no_throw(Functor functor,
                 const Args&... message)
 {
-    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions()) {
+    if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions) {
         try {
             functor();
         } catch (const std::exception& e) {

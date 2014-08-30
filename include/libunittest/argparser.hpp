@@ -3,8 +3,11 @@
  * @file argparser.hpp
  */
 #pragma once
+#include <string>
+#include <vector>
 #include <iostream>
 #include <map>
+#include <libunittest/utilities.hpp>
 /**
  * @brief Unit testing in C++
  */
@@ -138,6 +141,15 @@ protected:
 private:
 
 	struct argrow {
+		argrow();
+		argrow(size_t index,
+			   bool is_trigger,
+			   std::string value_name,
+			   std::string long_value_name,
+               std::string description,
+			   std::string default_value,
+			   std::string representation,
+			   bool required);
 		size_t index;
 		bool is_trigger;
 		std::string value_name;
@@ -167,19 +179,6 @@ private:
     make_repr(T value)
     {
     	return join(value);
-    }
-
-    template<typename T>
-    T
-    to_number(const std::string& value)
-    {
-        std::istringstream stream(value);
-        double number;
-        if (stream >> number) {
-            return static_cast<T>(number);
-        } else {
-            throw std::invalid_argument("Not numeric: " + value);
-        }
     }
 
 	std::string

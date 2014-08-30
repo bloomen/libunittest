@@ -54,8 +54,6 @@ struct test_misc : unittest::testcase<> {
     {
         UNITTEST_CLASS(test_misc)
         UNITTEST_RUN(test_version)
-        UNITTEST_RUN(test_userargs_defaults)
-        UNITTEST_RUN(test_userargs_set_get)
         UNITTEST_RUN(test_write_xml_empty)
         UNITTEST_RUN(test_write_xml_filled)
         UNITTEST_RUN(test_write_summary_empty)
@@ -84,55 +82,6 @@ struct test_misc : unittest::testcase<> {
     {
         const unsigned size = 5;
         assert_greater_equal(unittest::version.size(), size);
-    }
-
-    void test_userargs_defaults()
-    {
-        unittest::core::userargs args;
-        assert_equal(false, args.verbose(), SPOT);
-        assert_equal(false, args.failure_stop(), SPOT);
-        assert_equal(false, args.generate_xml(), SPOT);
-        assert_equal(true, args.handle_exceptions(), SPOT);
-        assert_equal(false, args.dry_run(), SPOT);
-        assert_equal(false, args.disable_timeout(), SPOT);
-        assert_equal(0, args.concurrent_threads(), SPOT);
-        assert_equal("", args.name_filter(), SPOT);
-        assert_equal("", args.test_name(), SPOT);
-        assert_equal(-1, args.timeout(), SPOT);
-        assert_equal("libunittest.xml", args.xml_filename(), SPOT);
-        assert_equal(500, args.max_string_length(), SPOT);
-        assert_equal(10, args.max_value_precision(), SPOT);
-    }
-
-    void test_userargs_set_get()
-    {
-        unittest::core::userargs args;
-        args.verbose(true);
-        args.failure_stop(true);
-        args.generate_xml(true);
-        args.handle_exceptions(false);
-        args.dry_run(true);
-        args.disable_timeout(true);
-        args.concurrent_threads(3);
-        args.name_filter("test_me");
-        args.test_name("test_me_more");
-        args.max_string_length(13);
-        args.max_value_precision(42);
-        args.timeout(10);
-        args.xml_filename("awesome_tests.xml");
-        assert_equal(true, args.verbose(), SPOT);
-        assert_equal(true, args.failure_stop(), SPOT);
-        assert_equal(true, args.generate_xml(), SPOT);
-        assert_equal(false, args.handle_exceptions(), SPOT);
-        assert_equal(true, args.dry_run(), SPOT);
-        assert_equal(true, args.disable_timeout(), SPOT);
-        assert_equal(3, args.concurrent_threads(), SPOT);
-        assert_equal("test_me", args.name_filter(), SPOT);
-        assert_equal("test_me_more", args.test_name(), SPOT);
-        assert_equal(10, args.timeout(), SPOT);
-        assert_equal("awesome_tests.xml", args.xml_filename(), SPOT);
-        assert_equal(13, args.max_string_length(), SPOT);
-        assert_equal(42, args.max_value_precision(), SPOT);
     }
 
     void test_write_xml_empty()

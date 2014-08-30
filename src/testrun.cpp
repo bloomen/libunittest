@@ -24,7 +24,7 @@ observe_and_wait(std::thread&& thread,
             if (duration > timeout) {
                 has_timed_out->store(true);
                 auto suite = testsuite::instance();
-                write_test_timeout_message(std::cout, suite->get_arguments().verbose());
+                write_test_timeout_message(std::cout, suite->get_arguments().verbose);
                 suite->add_lonely_thread(std::move(thread), done);
                 break;
             }
@@ -63,7 +63,7 @@ testmonitor::testmonitor(const std::string& class_name,
     if (impl_->is_executed_) {
         suite->start_timing();
         impl_->start_ = std::chrono::high_resolution_clock::now();
-        write_test_start_message(std::cout, impl_->log_, suite->get_arguments().verbose());
+        write_test_start_message(std::cout, impl_->log_, suite->get_arguments().verbose);
     }
 }
 
@@ -71,7 +71,7 @@ testmonitor::~testmonitor()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
-    	if (!suite->get_arguments().dry_run()) {
+    	if (!suite->get_arguments().dry_run) {
     		suite->stop_timing();
     		if (impl_->log_.status!=teststatus::skipped) {
     			const auto end = std::chrono::high_resolution_clock::now();
@@ -81,7 +81,7 @@ testmonitor::~testmonitor()
         suite->make_keep_running(impl_->log_);
         impl_->log_.successful = impl_->log_.status==teststatus::success ||
                                  impl_->log_.status==teststatus::skipped;
-        write_test_end_message(std::cout, impl_->log_, suite->get_arguments().verbose());
+        write_test_end_message(std::cout, impl_->log_, suite->get_arguments().verbose);
     }
     suite->collect(impl_->log_);
 }
@@ -184,7 +184,7 @@ update_testrun_info(const std::string& class_id,
     const auto& class_maps = suite->get_class_maps();
     update_class_name(class_name, class_id, class_maps);
     update_test_name(test_name, class_id, class_maps);
-    const double global_timeout = suite->get_arguments().timeout();
+    const double global_timeout = suite->get_arguments().timeout;
     update_local_timeout(local_timeout, global_timeout);
 }
 

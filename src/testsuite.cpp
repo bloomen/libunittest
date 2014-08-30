@@ -93,7 +93,7 @@ testsuite::get_results() const
 {
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
-    if (!get_arguments().dry_run())
+    if (!get_arguments().dry_run)
         results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
     impl_->assign_logged_texts(results.testlogs);
     return results;
@@ -104,7 +104,7 @@ testsuite::make_keep_running(const testlog& log)
 {
     static std::mutex make_keep_running_mutex_;
     std::lock_guard<std::mutex> lock(make_keep_running_mutex_);
-    impl_->keep_running_ = keep_running(log, get_arguments().failure_stop());
+    impl_->keep_running_ = keep_running(log, get_arguments().failure_stop);
 }
 
 void
@@ -150,7 +150,7 @@ testsuite::is_test_run(const std::string& class_name,
     	return false;
     } else {
     	const std::string full_name = make_full_test_name(class_name, test_name);
-    	return is_test_executed(full_name, get_arguments().test_name(), get_arguments().name_filter());
+    	return is_test_executed(full_name, get_arguments().test_name, get_arguments().name_filter);
     }
 }
 
