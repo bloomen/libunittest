@@ -20,7 +20,7 @@ argparser::command_line() const
 }
 
 std::string
-argparser::make_arg_string(char arg)
+argparser::make_arg_string(char arg) const
 {
 	return join('-', arg);
 }
@@ -152,21 +152,21 @@ argparser::assign_value<bool>(bool& result,
 template<>
 std::string
 argparser::get_value<std::string>(std::string,
-				     	 	 	  std::string value)
+				     	 	 	  std::string value) const
 {
 	return value;
 }
 
 template<>
 std::string
-argparser::make_repr<bool>(bool value)
+argparser::make_repr<bool>(bool value) const
 {
 	return value ? "true" : "false";
 }
 
 template<>
 std::string
-argparser::make_repr<std::string>(std::string value)
+argparser::make_repr<std::string>(std::string value) const
 {
        return join("\"", value, "\"");
 }
@@ -225,7 +225,7 @@ operator<<(std::ostream& os, const argparser& obj)
 {
     for (auto& row : obj.registry_) {
     	if (row.second.value_name.size()) {
-    		os << row.second.long_value_name << " = " << row.second.representation << std::endl;
+    		os << row.second.long_value_name << " (" << obj.make_arg_string(row.first) << ") = " << row.second.representation << std::endl;
     	}
     }
     os << std::flush;

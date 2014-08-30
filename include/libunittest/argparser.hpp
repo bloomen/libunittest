@@ -180,7 +180,7 @@ private:
     template<typename T>
     T
     get_value(std::string flag,
-              std::string value)
+              std::string value) const
     {
     	T result;
         try {
@@ -193,13 +193,13 @@ private:
 
     template<typename T>
     std::string
-    make_repr(T value)
+    make_repr(T value) const
     {
     	return unittest::join(value);
     }
 
 	std::string
-	make_arg_string(char arg);
+	make_arg_string(char arg) const;
 
 	void
 	write_help(std::ostream& stream);
@@ -246,7 +246,7 @@ argparser::assign_value<bool>(bool& result,
 template<>
 std::string
 argparser::get_value<std::string>(std::string arg,
-					 	 	 	  std::string value);
+					 	 	 	  std::string value) const;
 /**
  * @brief Returns a string repr. for a given value. Spec. for bool
  * @param value The value
@@ -254,7 +254,7 @@ argparser::get_value<std::string>(std::string arg,
  */
 template<>
 std::string
-argparser::make_repr<bool>(bool value);
+argparser::make_repr<bool>(bool value) const;
 /**
  * @brief Returns a string repr. for a given value. Spec. for string
  * @param value The value
@@ -262,7 +262,7 @@ argparser::make_repr<bool>(bool value);
  */
 template<>
 std::string
-argparser::make_repr<std::string>(std::string value);
+argparser::make_repr<std::string>(std::string value) const;
 /**
  * @brief Output stream operator for argparser
  * @param os The output stream
