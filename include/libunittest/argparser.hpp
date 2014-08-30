@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <map>
 #include <libunittest/utilities.hpp>
 /**
  * @brief Unit testing in C++
@@ -24,7 +23,8 @@ public:
 	/**
 	 * @brief Destructor
 	 */
-	virtual ~argparser();
+	virtual
+	~argparser();
 	/**
 	 * @brief Parses the arguments
 	 * @param argc The number of arguments
@@ -71,66 +71,75 @@ protected:
 	argparser();
 	/**
 	 * @brief Registers an argument
-	 * @param argument The argument flag
+	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description
 	 * @param default_value The default value
+	 * @param display_default Whether to display the default value
 	 * @param required Whether this argument is required
 	 */
 	template<typename T>
 	void
-	register_argument(char argument,
+	register_argument(char arg,
 					  std::string value_name,
 					  std::string description,
 					  T default_value,
+					  bool display_default,
 					  bool required=false)
 	{
-		check_already_registered(argument);
-		registry_[argument] = {registry_.size(), false, value_name, value_name, description, join(default_value), make_repr(default_value), required};
+		argparser::argrow row = {registry_.size(), false, value_name, value_name, description, unittest::join(default_value), this->make_repr(default_value), display_default, required};
+		this->add_to_registry(arg, row);
 	}
 	/**
 	 * @brief Registers a trigger
-	 * @param argument The argument flag
+	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description
 	 * @param default_value The default value
 	 */
 	void
-	register_trigger(char argument,
+	register_trigger(char arg,
 					 std::string value_name,
 					 std::string description,
     				 bool default_value);
 	/**
 	 * @brief Assigns a value through the given argument flag
 	 * @param result The resulting value
-	 * @param argument The argument flag
+	 * @param arg The argument flag
 	 */
 	template<typename T>
 	void
 	assign_value(T& result,
-				 char argument)
+				 char arg)
 	{
-		const auto row = get_argrow(argument);
-		const std::string flag = make_arg_string(argument);
-		result = get_value<T>(flag, row.default_value);
+		const auto row = this->from_registry(arg);
+		const std::string flag = this->make_arg_string(arg);
+		result = this->get_value<T>(flag, row.default_value);
 		bool found = false;
 		for (size_t i=0; i<args_.size(); ++i) {
 			if (args_[i]==flag) {
 	        	if (++i<args_.size()) {
-	        		result = get_value<T>(flag, args_[i]);
-	        		registry_[argument].representation = make_repr(result);
+	        		result = this->get_value<T>(flag, args_[i]);
+	        		this->from_registry(arg).representation = this->make_repr(result);
 					args_.erase(args_.begin()+i-1, args_.begin()+i+1);
 					found = true;
 					break;
 	        	} else {
-	                error(join("Missing value to argument '", flag, "'"));
+	        		this->error(unittest::join("Missing value to argument '", flag, "'"));
 	        	}
 			}
 		}
 		if (row.required && !found) {
-			error(join("Missing required argument '", flag, "'"));
+			this->error(unittest::join("Missing required argument '", flag, "'"));
 		}
 	}
+	/**
+	 * @brief Returns whether the given argument flag is registered
+	 * @param arg The argument flag
+	 * @returns Whether the given argument flag is registered
+	 */
+	bool
+	is_registered(char arg);
 	/**
 	 * @brief Writes help to screen and throws an argparser_error
 	 * @param message The exception message
@@ -149,6 +158,7 @@ private:
                std::string description,
 			   std::string default_value,
 			   std::string representation,
+			   bool display_default,
 			   bool required);
 		size_t index;
 		bool is_trigger;
@@ -157,6 +167,7 @@ private:
 		std::string description;
 		std::string default_value;
 		std::string representation;
+		bool display_default;
 		bool required;
 	};
 
@@ -167,9 +178,9 @@ private:
     {
     	T result;
         try {
-        	result = to_number<T>(value);
+        	result = unittest::core::to_number<T>(value);
         } catch (const std::invalid_argument&) {
-            error(join("The value to '", flag,"' must be numeric, not: ", value));
+        	this->error(unittest::join("The value to '", flag,"' must be numeric, not: ", value));
         }
         return result;
     }
@@ -178,14 +189,11 @@ private:
     std::string
     make_repr(T value)
     {
-    	return join(value);
+    	return unittest::join(value);
     }
 
 	std::string
 	make_arg_string(char arg);
-
-    argrow
-    get_argrow(char argument);
 
 	void
 	write_help(std::ostream& stream);
@@ -194,10 +202,13 @@ private:
     expand_arguments(int argc, char **argv);
 
 	void
-	check_already_registered(char argument);
+	add_to_registry(char arg, argparser::argrow row);
 
-	static std::vector<std::string>
-	expand_commandline_arguments(const std::vector<std::string>& arguments);
+	bool
+	in_registry(char arg);
+
+	argparser::argrow&
+	from_registry(char arg);
 
 	friend std::ostream&
 	operator<<(std::ostream& os, const argparser& obj);
@@ -205,27 +216,26 @@ private:
 	std::string command_line_;
     std::string app_name_;
     std::vector<std::string> args_;
-    std::map<char,argrow> registry_;
-    std::vector<std::pair<char,argrow>> ordered_registry_;
+    std::vector<std::pair<char,argparser::argrow>> registry_;
 };
 /**
  * @brief Assigns a value through the given argument flag. Spec. for bool
  * @param result The resulting value
- * @param argument The argument flag
+ * @param arg The argument flag
  */
 template<>
 void
 argparser::assign_value<bool>(bool& result,
-					    	  char argument);
+					    	  char arg);
 /**
  * @brief Returns a value for a given argument. Spec. for string
- * @param argument The argument
+ * @param arg The argument
  * @param value The value
  * @returns The resulting value
  */
 template<>
 std::string
-argparser::get_value<std::string>(std::string argument,
+argparser::get_value<std::string>(std::string arg,
 					 	 	 	  std::string value);
 /**
  * @brief Returns a string repr. for a given value. Spec. for bool

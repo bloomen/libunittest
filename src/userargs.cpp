@@ -29,14 +29,14 @@ userargs::register_arguments()
 	register_trigger('x', "generate_xml", "Enables the generation of the XML output", generate_xml);
 	register_trigger('e', "handle_exc", "Turns off handling of unexpected exceptions", handle_exceptions);
 	register_trigger('i', "no_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
-	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads);
-	register_argument('f', "filter", "A run filter applied to the beginning of the test names", name_filter);
-	register_argument('n', "name", "A certain test to be run superseding the name filter", test_name);
-	register_argument('t', "timeout", "A timeout in seconds for tests without local timeouts", timeout);
-	register_argument('o', "xmlfile", "The XML output file name", xml_filename);
-	register_argument('l', "length", "The maximum displayed string length", max_string_length);
-	register_argument('r', "precision", "The maximum displayed value precision", max_value_precision);
-	register_argument('u', "suite", "The name of the test suite", suite_name);
+	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads, false);
+	register_argument('f', "filter", "A run filter applied to the beginning of the test names", name_filter, false);
+	register_argument('n', "name", "A certain test to be run superseding the name filter", test_name, false);
+	register_argument('t', "timeout", "A timeout in seconds for tests without local timeouts", timeout, false);
+	register_argument('o', "xmlfile", "The XML output file name", xml_filename, true);
+	register_argument('l', "length", "The maximum displayed string length", max_string_length, true);
+	register_argument('r', "precision", "The maximum displayed value precision", max_value_precision, true);
+	register_argument('u', "suite", "The name of the test suite", suite_name, true);
 }
 
 void

@@ -5,8 +5,7 @@ namespace core {
 
 
 argparser::argparser()
-		: command_line_(), app_name_(), args_(), registry_(),
-		  ordered_registry_()
+	: command_line_(), app_name_(), args_(), registry_()
 {
 	register_trigger('h', "", "Displays this help message and exits", false);
 }
@@ -20,7 +19,6 @@ argparser::command_line() const
 	return command_line_;
 }
 
-
 std::string
 argparser::make_arg_string(char arg)
 {
@@ -28,20 +26,43 @@ argparser::make_arg_string(char arg)
 }
 
 void
-argparser::check_already_registered(char argument)
+argparser::add_to_registry(char arg, argrow row)
 {
-    if (registry_.find(argument)!=registry_.end())
-        throw std::invalid_argument(join("Argument already registered: ", argument));
+    if (in_registry(arg))
+        throw std::invalid_argument(join("Argument already registered: ", arg));
+	registry_.push_back(std::make_pair(arg, row));
+
+}
+
+bool
+argparser::in_registry(char arg)
+{
+	try {
+		from_registry(arg);
+		return true;
+	} catch (const std::out_of_range&) {
+		return false;
+	}
+}
+
+argparser::argrow&
+argparser::from_registry(char arg)
+{
+	for (auto& pair : registry_) {
+		if (pair.first==arg)
+			return pair.second;
+	}
+	throw std::out_of_range(join("Asking for unregistered argument: ", arg));
 }
 
 void
-argparser::register_trigger(char argument,
+argparser::register_trigger(char arg,
 							std::string value_name,
 							std::string description,
 							bool default_value)
 {
-	check_already_registered(argument);
-	registry_[argument] = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false};
+	argrow row = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false, false};
+	add_to_registry(arg, row);
 }
 
 void
@@ -50,18 +71,18 @@ argparser::write_help(std::ostream& stream)
 	const auto desc = description();
 	if (desc.size()) stream << desc << "\n\n";
     stream << "Usage: " << app_name_ << " ";
-    for (auto& row : ordered_registry_) {
+    for (auto& row : registry_) {
     	if (row.second.required) {
     		stream << make_arg_string(row.first) << " " << row.second.value_name << " ";
     	}
     }
     stream << "[Arguments]\n\n";
     stream << "Arguments:\n";
-    for (auto& row : ordered_registry_) {
+    for (auto& row : registry_) {
     	std::string appendix;
 		if (row.second.required)
 			appendix = " (required)";
-		else if (!row.second.is_trigger)
+		else if (!row.second.is_trigger && row.second.display_default)
 			appendix = " (default: " + row.second.default_value + ")";
 		std::string value_name = row.second.long_value_name;
 		if (row.second.is_trigger)
@@ -82,42 +103,39 @@ argparser::error(const std::string& message)
 std::vector<std::string>
 argparser::expand_arguments(int argc, char **argv)
 {
-    std::vector<std::string> arguments;
-    arguments.reserve(argc - 1);
-    const std::string prefix = "--";
+	const std::string bad_prefix = "--";
+    const char flag = '-';
+    const std::string sflag(1, flag);
+    std::vector<std::string> args;
     for (int i=1; i<argc; ++i) {
-        arguments.push_back(argv[i]);
-        if (arguments.back().substr(0, prefix.size())==prefix) {
+    	const std::string value = argv[i];
+        if (value.substr(0, bad_prefix.size())==bad_prefix)
             error("Only options with a single '-' are supported");
+        if (value.substr(0, 1)==sflag) {
+            const std::string expanded(value.substr(1, value.size()));
+            for (auto& val : expanded) {
+                if (val != flag)
+                    args.push_back(join(flag, val));
+            }
+        } else {
+            args.push_back(value);
         }
     }
-    return argparser::expand_commandline_arguments(arguments);
-}
-
-argparser::argrow
-argparser::get_argrow(char argument)
-{
-	argrow row;
-	try {
-		row = registry_.at(argument);
-	} catch (const std::out_of_range&) {
-		throw std::out_of_range(join("Asking for unregistered argument: ", argument));
-	}
-	return row;
+    return args;
 }
 
 template<>
 void
 argparser::assign_value<bool>(bool& result,
-					    	  char argument)
+					    	  char arg)
 {
-	const auto row = get_argrow(argument);
-	const std::string flag = make_arg_string(argument);
+	const auto row = from_registry(arg);
+	const std::string flag = make_arg_string(arg);
 	result = get_value<bool>(flag, row.default_value);
 	for (size_t i=0; i<args_.size(); ++i) {
 		if (args_[i]==flag) {
 			result = !result;
-    		registry_[argument].representation = make_repr(result);
+    		from_registry(arg).representation = make_repr(result);
 			args_.erase(args_.begin()+i);
 		}
 	}
@@ -142,7 +160,7 @@ template<>
 std::string
 argparser::make_repr<std::string>(std::string value)
 {
-	return join("'", value, "'");
+       return join("\"", value, "\"");
 }
 
 void
@@ -156,14 +174,11 @@ argparser::parse(int argc, char **argv)
     app_name_ = argv[0];
     args_ = expand_arguments(argc, argv);
 	size_t max_length = 0;
-	ordered_registry_ = std::vector<std::pair<char,argrow>>(registry_.size());
-    for (auto row : registry_) {
-    	ordered_registry_[row.second.index] = std::make_pair(row.first, row.second);
-    	if (row.second.value_name.length() > max_length) {
+    for (auto& row : registry_) {
+    	if (row.second.value_name.length() > max_length)
     		max_length = row.second.value_name.length();
-    	}
     }
-    for (auto& row : ordered_registry_) {
+    for (auto& row : registry_) {
 		row.second.long_value_name += std::string(max_length - row.second.value_name.length(), ' ');
     }
     bool help;
@@ -173,39 +188,16 @@ argparser::parse(int argc, char **argv)
 		std::exit(EXIT_SUCCESS);
 	}
     assign_values();
-    if (args_.size()!=0) {
+    if (args_.size()) {
     	error(join("No such argument: '", args_[0], "'"));
     }
     check_values();
-    for (auto row : registry_) {
-    	ordered_registry_[row.second.index].second.representation = row.second.representation;
-    }
-}
-
-std::vector<std::string>
-argparser::expand_commandline_arguments(const std::vector<std::string>& arguments)
-{
-    const char flag = '-';
-    const std::string sflag(1, flag);
-    std::vector<std::string> args;
-    for (auto& value : arguments) {
-        if (value.substr(0, 1)==sflag) {
-            const std::string expanded(value.substr(1, value.size()));
-            for (auto& val : expanded) {
-                if (val != flag)
-                    args.push_back(join(flag, val));
-            }
-        } else {
-            args.push_back(value);
-        }
-    }
-    return args;
 }
 
 std::ostream&
 operator<<(std::ostream& os, const argparser& obj)
 {
-    for (auto& row : obj.ordered_registry_) {
+    for (auto& row : obj.registry_) {
     	if (row.second.value_name.size()) {
     		os << row.second.long_value_name << " = " << row.second.representation << std::endl;
     	}
@@ -218,7 +210,7 @@ argparser::argrow::argrow()
 	: index(0), is_trigger(false), value_name(),
 	  long_value_name(), description(),
 	  default_value(), representation(),
-	  required(false)
+	  display_default(true), required(false)
 {}
 
 argparser::argrow::argrow(size_t index,
@@ -228,11 +220,12 @@ argparser::argrow::argrow(size_t index,
                   	  	  std::string description,
                   	  	  std::string default_value,
                   	  	  std::string representation,
+                  	  	  bool display_default,
                   	  	  bool required)
 	: index(index), is_trigger(is_trigger), value_name(value_name),
 	  long_value_name(long_value_name), description(description),
 	  default_value(default_value), representation(representation),
-	  required(required)
+	  display_default(display_default), required(required)
 {}
 
 
