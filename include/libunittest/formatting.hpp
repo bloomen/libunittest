@@ -37,6 +37,14 @@ str(const T& value)
     stream << value;
     return unittest::core::stream_to_string(stream);
 }
+/**
+ * @brief Converts a given value to string. Spec. for bool
+ * @param value The value
+ * @returns A string
+ */
+template<>
+std::string
+str<bool>(const bool& value);
 
 } // core
 } // unittest
