@@ -31,6 +31,7 @@ struct argparser::impl {
         stream << "-o xmlfile    The XML output file name (default: libunittest.xml)\n";
         stream << "-l length     The maximum displayed string length (default: 500)\n";
         stream << "-r precision  The maximum displayed value precision (default: 10)\n";
+        stream << "-u suite      The name of the test suite (default: libunittest)\n";
         stream << std::flush;
     }
 
@@ -143,6 +144,11 @@ argparser::parse(int argc, char **argv)
                 max_value_precision(impl_->make_number<int>(app_name, "-r", args[i]));
             else
                 impl_->help_and_throw(app_name, "Option '-r' needs the maximum displayed value precision");
+        } else if (args[i]=="-u") {
+            if (++i<length)
+                suite_name(args[i]);
+            else
+                impl_->help_and_throw(app_name, "Option '-u' needs a suite name");
         } else {
         	impl_->help_and_throw(app_name, join("Unknown option '", args[i], "'"));
         }

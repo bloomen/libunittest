@@ -38,7 +38,7 @@ struct test_argparser : unittest::testcase<> {
     char **arguments_;
 
     test_argparser()
-        : max_argc_(20), arguments_(nullptr)
+        : max_argc_(22), arguments_(nullptr)
     {
         arguments_ = new char*[max_argc_];
         arguments_[0] = (char*)"unittest_app";
@@ -263,6 +263,27 @@ struct test_argparser : unittest::testcase<> {
         assert_equal(10, args.max_value_precision(), SPOT);
     }
 
+    void test_suite_name()
+    {
+        arguments_[1] = (char*)"-u";
+        arguments_[2] = (char*)"stuff.xml";
+        argparser args;
+        args.parse(3, arguments_);
+        assert_equal(false, args.verbose(), SPOT);
+        assert_equal(false, args.failure_stop(), SPOT);
+        assert_equal(true, args.generate_xml(), SPOT);
+        assert_equal(true, args.handle_exceptions(), SPOT);
+        assert_equal(false, args.dry_run(), SPOT);
+        assert_equal(false, args.disable_timeout(), SPOT);
+        assert_equal("", args.name_filter(), SPOT);
+        assert_equal("", args.test_name(), SPOT);
+        assert_equal(-1, args.timeout(), SPOT);
+        assert_equal("libunittest.xml", args.xml_filename(), SPOT);
+        assert_equal(500, args.max_string_length(), SPOT);
+        assert_equal(10, args.max_value_precision(), SPOT);
+        assert_equal("stuff.xml", args.suite_name(), SPOT);
+    }
+
     void test_disable_timeout()
     {
         arguments_[1] = (char*)"-i";
@@ -434,8 +455,10 @@ struct test_argparser : unittest::testcase<> {
         arguments_[17] = (char*)"13";
         arguments_[18] = (char*)"-r";
         arguments_[19] = (char*)"42";
+        arguments_[20] = (char*)"-u";
+        arguments_[21] = (char*)"peter";
         argparser args;
-        args.parse(20, arguments_);
+        args.parse(22, arguments_);
         assert_equal(true, args.verbose(), SPOT);
         assert_equal(true, args.failure_stop(), SPOT);
         assert_equal(true, args.generate_xml(), SPOT);
@@ -449,6 +472,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("stuff.xml", args.xml_filename(), SPOT);
         assert_equal(13, args.max_string_length(), SPOT);
         assert_equal(42, args.max_value_precision(), SPOT);
+        assert_equal("peter", args.suite_name(), SPOT);
     }
 
     void test_argparser_errors()
