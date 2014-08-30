@@ -86,7 +86,7 @@ private:
 
     void assign_values();
 
-    void check_values();
+    void post_parse();
 
 };
 

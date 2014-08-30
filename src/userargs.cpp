@@ -25,8 +25,8 @@ userargs::register_arguments()
 {
 	register_trigger('v', "verbose", "Sets verbose output for running tests", verbose);
 	register_trigger('d', "dry_run", "A dry run without actually executing any tests", dry_run);
-	register_trigger('s', "failure_stop", "Stops running tests after the first test fails", failure_stop);
-	register_trigger('x', "generate_xml", "Enables the generation of the XML output", generate_xml);
+	register_trigger('s', "fail_stop", "Stops running tests after the first test fails", failure_stop);
+	register_trigger('x', "gen_xml", "Enables the generation of the XML output", generate_xml);
 	register_trigger('e', "handle_exc", "Turns off handling of unexpected exceptions", handle_exceptions);
 	register_trigger('i', "no_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
 	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads, false);
@@ -59,8 +59,12 @@ userargs::assign_values()
 }
 
 void
-userargs::check_values()
+userargs::post_parse()
 {
+	if (was_used('o')) generate_xml = true;
+	if (concurrent_threads<0) concurrent_threads = 0;
+	if (max_string_length<10) max_string_length = 10;
+	if (max_value_precision<3) max_value_precision = 3;
 }
 
 } // core

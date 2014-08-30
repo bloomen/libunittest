@@ -5,7 +5,7 @@ namespace core {
 
 
 argparser::argparser()
-	: command_line_(), app_name_(), args_(), registry_()
+	: command_line_(), app_name_(), args_(), assign_args_(), registry_()
 {
 	register_trigger('h', "", "Displays this help message and exits", false);
 }
@@ -55,13 +55,19 @@ argparser::from_registry(char arg)
 	throw std::out_of_range(join("Asking for unregistered argument: ", arg));
 }
 
+bool
+argparser::was_used(char arg)
+{
+	return from_registry(arg).is_used;
+}
+
 void
 argparser::register_trigger(char arg,
 							std::string value_name,
 							std::string description,
 							bool default_value)
 {
-	argrow row = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false, false};
+	argrow row = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false, false, false};
 	add_to_registry(arg, row);
 }
 
@@ -111,7 +117,7 @@ argparser::expand_arguments(int argc, char **argv)
     	const std::string value = argv[i];
         if (value.substr(0, bad_prefix.size())==bad_prefix)
             error("Only options with a single '-' are supported");
-        if (value.substr(0, 1)==sflag) {
+        if (value.substr(0, 1)==sflag && !unittest::core::is_numeric(value)) {
             const std::string expanded(value.substr(1, value.size()));
             for (auto& val : expanded) {
                 if (val != flag)
@@ -129,13 +135,15 @@ void
 argparser::assign_value<bool>(bool& result,
 					    	  char arg)
 {
-	const auto row = from_registry(arg);
+	assign_args_ += std::string(1, arg);
+	auto& row = from_registry(arg);
 	const std::string flag = make_arg_string(arg);
 	result = get_value<bool>(flag, row.default_value);
 	for (size_t i=0; i<args_.size(); ++i) {
 		if (args_[i]==flag) {
 			result = !result;
-    		from_registry(arg).representation = make_repr(result);
+    		row.representation = make_repr(result);
+    		row.is_used = true;
 			args_.erase(args_.begin()+i);
 		}
 	}
@@ -188,10 +196,28 @@ argparser::parse(int argc, char **argv)
 		std::exit(EXIT_SUCCESS);
 	}
     assign_values();
+    check_assign_args();
     if (args_.size()) {
     	error(join("No such argument: '", args_[0], "'"));
     }
-    check_values();
+    post_parse();
+}
+
+void
+argparser::check_assign_args()
+{
+	bool good = true;
+	if (assign_args_.size()!=registry_.size())
+		good = false;
+	std::set<char> set(assign_args_.begin(), assign_args_.end());
+	if (set.size()!=registry_.size())
+		good = false;
+	for (auto value : set) {
+		if (!in_registry(value))
+			good = false;
+	}
+	if (!good)
+		throw std::out_of_range("Assign argument flags don't match those registered");
 }
 
 std::ostream&
@@ -210,7 +236,8 @@ argparser::argrow::argrow()
 	: index(0), is_trigger(false), value_name(),
 	  long_value_name(), description(),
 	  default_value(), representation(),
-	  display_default(true), required(false)
+	  display_default(true), required(false),
+	  is_used(false)
 {}
 
 argparser::argrow::argrow(size_t index,
@@ -221,11 +248,12 @@ argparser::argrow::argrow(size_t index,
                   	  	  std::string default_value,
                   	  	  std::string representation,
                   	  	  bool display_default,
-                  	  	  bool required)
+                  	  	  bool required,
+                  	  	  bool is_used)
 	: index(index), is_trigger(is_trigger), value_name(value_name),
 	  long_value_name(long_value_name), description(description),
 	  default_value(default_value), representation(representation),
-	  display_default(display_default), required(required)
+	  display_default(display_default), required(required), is_used(is_used)
 {}
 
 

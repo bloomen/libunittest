@@ -5,6 +5,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <set>
 #include <iostream>
 #include <libunittest/utilities.hpp>
 /**
@@ -59,10 +60,11 @@ private:
     virtual void
     assign_values() {}
     /**
-     * @brief Override this to check the assigned values
+     * @brief Override this to do stuff right after parsing, e.g., checking
+     * 	assigned values
      */
     virtual void
-    check_values() {}
+    post_parse() {}
 
 protected:
     /**
@@ -87,7 +89,7 @@ protected:
 					  bool display_default,
 					  bool required=false)
 	{
-		argparser::argrow row = {registry_.size(), false, value_name, value_name, description, unittest::join(default_value), this->make_repr(default_value), display_default, required};
+		argparser::argrow row = {registry_.size(), false, value_name, value_name, description, unittest::join(default_value), this->make_repr(default_value), display_default, required, false};
 		this->add_to_registry(arg, row);
 	}
 	/**
@@ -112,7 +114,8 @@ protected:
 	assign_value(T& result,
 				 char arg)
 	{
-		const auto row = this->from_registry(arg);
+		assign_args_ += std::string(1, arg);
+		auto& row = this->from_registry(arg);
 		const std::string flag = this->make_arg_string(arg);
 		result = this->get_value<T>(flag, row.default_value);
 		bool found = false;
@@ -120,7 +123,8 @@ protected:
 			if (args_[i]==flag) {
 	        	if (++i<args_.size()) {
 	        		result = this->get_value<T>(flag, args_[i]);
-	        		this->from_registry(arg).representation = this->make_repr(result);
+	        		row.representation = this->make_repr(result);
+	        		row.is_used = true;
 					args_.erase(args_.begin()+i-1, args_.begin()+i+1);
 					found = true;
 					break;
@@ -134,12 +138,12 @@ protected:
 		}
 	}
 	/**
-	 * @brief Returns whether the given argument flag is registered
+	 * @brief Returns whether the given argument flag was used by the client
 	 * @param arg The argument flag
-	 * @returns Whether the given argument flag is registered
+	 * @returns Whether the given argument flag was used
 	 */
 	bool
-	is_registered(char arg);
+	was_used(char arg);
 	/**
 	 * @brief Writes help to screen and throws an argparser_error
 	 * @param message The exception message
@@ -159,7 +163,8 @@ private:
 			   std::string default_value,
 			   std::string representation,
 			   bool display_default,
-			   bool required);
+			   bool required,
+			   bool is_used);
 		size_t index;
 		bool is_trigger;
 		std::string value_name;
@@ -169,6 +174,7 @@ private:
 		std::string representation;
 		bool display_default;
 		bool required;
+		bool is_used;
 	};
 
     template<typename T>
@@ -210,12 +216,16 @@ private:
 	argparser::argrow&
 	from_registry(char arg);
 
+	void
+	check_assign_args();
+
 	friend std::ostream&
 	operator<<(std::ostream& os, const argparser& obj);
 
 	std::string command_line_;
     std::string app_name_;
     std::vector<std::string> args_;
+    std::string assign_args_;
     std::vector<std::pair<char,argparser::argrow>> registry_;
 };
 /**
