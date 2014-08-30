@@ -225,7 +225,7 @@ operator<<(std::ostream& os, const argparser& obj)
 {
     for (auto& row : obj.registry_) {
     	if (row.second.value_name.size()) {
-    		os << row.second.long_value_name << " (" << obj.make_arg_string(row.first) << ") = " << row.second.representation << std::endl;
+    		os << obj.make_arg_string(row.first) << " " << row.second.long_value_name << " = " << row.second.representation << std::endl;
     	}
     }
     os << std::flush;
