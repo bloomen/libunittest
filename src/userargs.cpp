@@ -1,236 +1,67 @@
 #include <libunittest/userargs.hpp>
 #include <libunittest/utilities.hpp>
+#include <libunittest/version.hpp>
 
 namespace unittest {
 namespace core {
 
-struct userargs::impl {
-
-    bool verbose_;
-    bool failure_stop_;
-    bool generate_xml_;
-    bool handle_exceptions_;
-    bool dry_run_;
-    int concurrent_threads_;
-    std::string name_filter_;
-    std::string test_name_;
-    double timeout_;
-    std::string xml_filename_;
-    bool disable_timeout_;
-    int max_value_precision_;
-    int max_string_length_;
-    std::string suite_name_;
-
-    impl()
-        : verbose_(false), failure_stop_(false), generate_xml_(false),
-          handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
-          name_filter_(""), test_name_(""), timeout_(-1),
-          xml_filename_("libunittest.xml"), disable_timeout_(false),
-          max_value_precision_(10), max_string_length_(500),
-          suite_name_("libunittest")
-    {}
-
-};
 
 userargs::userargs()
-    : impl_(make_unique<impl>())
+	: verbose(false), failure_stop(false), generate_xml(false),
+	  handle_exceptions(true), dry_run(false), concurrent_threads(0),
+	  name_filter(""), test_name(""), timeout(-1), xml_filename("libunittest.xml"),
+	  disable_timeout(false), max_value_precision(10), max_string_length(500),
+	  suite_name("libunittest")
 {}
 
-userargs::~userargs()
-{}
-
-userargs::userargs(const userargs& other)
-    : impl_(make_unique<impl>(*(other.impl_)))
-{}
-
-userargs&
-userargs::operator=(const userargs& other)
-{
-	if (this!=&other) {
-		*impl_ = *other.impl_;
-	}
-    return *this;
-}
-
-userargs::userargs(userargs&& other)
-    : impl_(make_unique<impl>(std::move(*(other.impl_))))
-{}
-
-userargs&
-userargs::operator=(userargs&& other)
-{
-	if (this!=&other) {
-		*impl_ = std::move(*other.impl_);
-	}
-    return *this;
-}
-
-bool
-userargs::verbose() const
-{
-    return impl_->verbose_;
-}
-
-void
-userargs::verbose(bool value)
-{
-    impl_->verbose_ = value;
-}
-
-bool
-userargs::failure_stop() const
-{
-    return impl_->failure_stop_;
-}
-
-void
-userargs::failure_stop(bool value)
-{
-    impl_->failure_stop_ = value;
-}
-
-bool
-userargs::generate_xml() const
-{
-    return impl_->generate_xml_;
-}
-
-void
-userargs::generate_xml(bool value)
-{
-    impl_->generate_xml_ = value;
-}
-
-bool
-userargs::handle_exceptions() const
-{
-    return impl_->handle_exceptions_;
-}
-
-void
-userargs::handle_exceptions(bool value)
-{
-    impl_->handle_exceptions_ = value;
-}
-
 std::string
-userargs::name_filter() const
+userargs::description()
 {
-    return impl_->name_filter_;
+	return "This is your testing application using libunittest-" + version;
 }
 
 void
-userargs::name_filter(const std::string& value)
+userargs::register_arguments()
 {
-    impl_->name_filter_ = value;
-}
-
-std::string
-userargs::test_name() const
-{
-    return impl_->test_name_;
-}
-
-void
-userargs::test_name(const std::string& value)
-{
-    impl_->test_name_ = value;
-}
-
-double
-userargs::timeout() const
-{
-    return impl_->timeout_;
+	register_trigger('v', "verbose", "Sets verbose output for running tests", verbose);
+	register_trigger('d', "dry_run", "A dry run without actually executing any tests", dry_run);
+	register_trigger('s', "failure_stop", "Stops running tests after the first test fails", failure_stop);
+	register_trigger('x', "generate_xml", "Enables the generation of the XML output", generate_xml);
+	register_trigger('e', "handle_except", "Turns off handling of unexpected exceptions", handle_exceptions);
+	register_trigger('i', "disable_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
+	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads);
+	register_argument('f', "filter", "A run filter applied to the beginning of the test names", name_filter);
+	register_argument('n', "name", "A certain test to be run superseding the name filter", test_name);
+	register_argument('t', "timeout", "A timeout in seconds for tests without local timeouts", timeout);
+	register_argument('o', "xmlfile", "The XML output file name", xml_filename);
+	register_argument('l', "length", "The maximum displayed string length", max_string_length);
+	register_argument('r', "precision", "The maximum displayed value precision", max_value_precision);
+	register_argument('u', "suite", "The name of the test suite", suite_name);
 }
 
 void
-userargs::timeout(double value)
+userargs::assign_values()
 {
-    impl_->timeout_ = value;
-}
-
-std::string
-userargs::xml_filename() const
-{
-    return impl_->xml_filename_;
-}
-
-void
-userargs::xml_filename(const std::string& value)
-{
-    impl_->xml_filename_ = value;
-}
-
-bool
-userargs::dry_run() const
-{
-    return impl_->dry_run_;
+	assign_value(verbose, 'v');
+	assign_value(dry_run, 'd');
+	assign_value(failure_stop, 's');
+	assign_value(generate_xml, 'x');
+	assign_value(handle_exceptions, 'e');
+	assign_value(disable_timeout, 'i');
+	assign_value(concurrent_threads, 'p');
+	assign_value(name_filter, 'f');
+	assign_value(test_name, 'n');
+	assign_value(timeout, 't');
+	assign_value(xml_filename, 'o');
+	assign_value(max_string_length, 'l');
+	assign_value(max_value_precision, 'r');
+	assign_value(suite_name, 'u');
 }
 
 void
-userargs::dry_run(bool value)
+userargs::check_values()
 {
-    impl_->dry_run_ = value;
-}
 
-int
-userargs::concurrent_threads() const
-{
-    return impl_->concurrent_threads_;
-}
-
-void
-userargs::concurrent_threads(int value)
-{
-    impl_->concurrent_threads_ = value;
-}
-
-bool
-userargs::disable_timeout() const
-{
-    return impl_->disable_timeout_;
-}
-
-void
-userargs::disable_timeout(bool value)
-{
-    impl_->disable_timeout_ = value;
-}
-
-int
-userargs::max_value_precision() const
-{
-    return impl_->max_value_precision_;
-}
-
-void
-userargs::max_value_precision(int value)
-{
-    impl_->max_value_precision_ = value;
-}
-
-int
-userargs::max_string_length() const
-{
-    return impl_->max_string_length_;
-}
-
-void
-userargs::max_string_length(int value)
-{
-    impl_->max_string_length_ = value;
-}
-
-std::string
-userargs::suite_name() const
-{
-    return impl_->suite_name_;
-}
-
-void
-userargs::suite_name(const std::string& value)
-{
-    impl_->suite_name_ = value;
 }
 
 } // core
