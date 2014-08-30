@@ -23,6 +23,7 @@ struct test_argparser : unittest::testcase<> {
         UNITTEST_RUN(test_test_name)
         UNITTEST_RUN(test_timeout)
         UNITTEST_RUN(test_xml_filename)
+        UNITTEST_RUN(test_suite_name)
         UNITTEST_RUN(test_disable_timeout)
         UNITTEST_RUN(test_max_string_length)
         UNITTEST_RUN(test_max_value_precision)
@@ -266,12 +267,12 @@ struct test_argparser : unittest::testcase<> {
     void test_suite_name()
     {
         arguments_[1] = (char*)"-u";
-        arguments_[2] = (char*)"stuff.xml";
+        arguments_[2] = (char*)"stuff";
         argparser args;
         args.parse(3, arguments_);
         assert_equal(false, args.verbose(), SPOT);
         assert_equal(false, args.failure_stop(), SPOT);
-        assert_equal(true, args.generate_xml(), SPOT);
+        assert_equal(false, args.generate_xml(), SPOT);
         assert_equal(true, args.handle_exceptions(), SPOT);
         assert_equal(false, args.dry_run(), SPOT);
         assert_equal(false, args.disable_timeout(), SPOT);
@@ -281,7 +282,7 @@ struct test_argparser : unittest::testcase<> {
         assert_equal("libunittest.xml", args.xml_filename(), SPOT);
         assert_equal(500, args.max_string_length(), SPOT);
         assert_equal(10, args.max_value_precision(), SPOT);
-        assert_equal("stuff.xml", args.suite_name(), SPOT);
+        assert_equal("stuff", args.suite_name(), SPOT);
     }
 
     void test_disable_timeout()
