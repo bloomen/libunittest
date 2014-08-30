@@ -64,12 +64,14 @@ struct testresults {
  * @brief Writes the test results as an XML to the given output stream
  * @param stream The output stream
  * @param results The test results
+ * @param suite_name the name of the test suite
  * @param time_point The time point used in the root tag (defaults to now)
  * @param local_time Whether timestamps are displayed in local time
  */
 void
 write_xml(std::ostream& stream,
           const unittest::core::testresults& results,
+          const std::string& suite_name,
           const std::chrono::system_clock::time_point& time_point=std::chrono::system_clock::now(),
           bool local_time=true);
 /**

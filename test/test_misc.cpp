@@ -141,7 +141,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::core::write_xml(stream, results, time_point, false);
+        unittest::core::write_xml(stream, results, "libunittest", time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
@@ -158,10 +158,10 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::core::write_xml(stream, results, time_point, false);
+        unittest::core::write_xml(stream, results, "peter", time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        expected << "<testsuite name=\"libunittest\" ";
+        expected << "<testsuite name=\"peter\" ";
         expected << "timestamp=\"2009-02-13T23:31:30\" ";
         expected << "tests=\"3\" errors=\"1\" ";
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";

@@ -14,6 +14,7 @@ testresults::testresults()
 void
 write_xml(std::ostream& stream,
           const testresults& results,
+          const std::string& suite_name,
           const std::chrono::system_clock::time_point& time_point,
           bool local_time)
 {
@@ -22,7 +23,7 @@ write_xml(std::ostream& stream,
     stream.setf(std::ios_base::fixed);
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     stream << "\n";
-    stream << "<testsuite name=\"libunittest";
+    stream << "<testsuite name=\"" << xml_escape(trim(suite_name));
     stream << "\" timestamp=\"" << make_iso_timestamp(time_point, local_time);
     stream << "\" tests=\"" << results.n_tests + results.n_skipped;
     stream << "\" errors=\"" << results.n_errors;

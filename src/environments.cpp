@@ -44,7 +44,7 @@ process(int argc, char **argv)
     write_summary(std::cout, full_results);
     if (arguments.generate_xml()) {
         std::ofstream file(arguments.xml_filename());
-        write_xml(file, full_results);
+        write_xml(file, full_results, arguments.suite_name());
     }
 
     return full_results.successful ? EXIT_SUCCESS : EXIT_FAILURE;
