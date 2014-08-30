@@ -236,6 +236,14 @@ template<>
 std::string
 argparser::make_repr<bool>(bool value);
 /**
+ * @brief Returns a string repr. for a given value. Spec. for string
+ * @param value The value
+ * @returns A string repr.
+ */
+template<>
+std::string
+argparser::make_repr<std::string>(std::string value);
+/**
  * @brief Output stream operator for argparser
  * @param os The output stream
  * @param obj An instance of argparser

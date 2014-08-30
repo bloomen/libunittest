@@ -138,6 +138,13 @@ argparser::make_repr<bool>(bool value)
 	return value ? "true" : "false";
 }
 
+template<>
+std::string
+argparser::make_repr<std::string>(std::string value)
+{
+	return join("'", value, "'");
+}
+
 void
 argparser::parse(int argc, char **argv)
 {
