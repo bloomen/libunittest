@@ -14,6 +14,7 @@ libunittest (7.0.0) stable; urgency=low
   	of a raw, nasty function pointer
   * The test context now needs to be passed in as a std::shared_ptr
   	-> see example: flexible
+  * Improved argument parsing
   * better documentation   
 
  -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2014 XX:00:00 -0700
