@@ -28,29 +28,29 @@ public:
     virtual
     ~userargs();
     /**
-     * @brief Copy constructor
+     * @brief Copy constructor. Deleted
      * @param other An instance of userargs
      */
-    userargs(const userargs& other);
+    userargs(const userargs& other) = delete;
     /**
-     * @brief Copy assignment operator
+     * @brief Copy assignment operator. Deleted
      * @param other An instance of userargs
      * @returns An instance of userargs
      */
     userargs&
-    operator=(const userargs& other);
+    operator=(const userargs& other) = delete;
     /**
-     * @brief Move constructor
+     * @brief Move constructor. Deleted
      * @param other An instance of userargs
      */
-    userargs(userargs&& other);
+    userargs(userargs&& other) = delete;
     /**
-     * @brief Move assignment operator
+     * @brief Move assignment operator. Deleted
      * @param other An instance of userargs
      * @returns An userargs instance
      */
     userargs&
-    operator=(userargs&& other);
+    operator=(userargs&& other) = delete;
     /**
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
@@ -207,6 +207,18 @@ public:
      */
     void
     max_string_length(int value);
+    /**
+     * @brief Returns the name of the test suite
+     * @returns The name of the test suite
+     */
+    std::string
+    suite_name() const;
+    /**
+     * @brief Sets the name of the test suite (default: "libunittest")
+     * @param value The value
+     */
+    void
+    suite_name(const std::string& value);
 
 private:
     struct impl;

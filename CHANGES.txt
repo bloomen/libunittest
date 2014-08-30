@@ -1,6 +1,7 @@
 libunittest (7.0.0) stable; urgency=low
 
   * !!! This version changes various names and function/class interfaces !!!
+  	-> Do not use it if you're not ready to migrate
   * Add noexcept(false) to ~testcase() which ensures that exceptions
   	can be handled that may be thrown by destructors in derived classes
   * Renamed internals namespace to core

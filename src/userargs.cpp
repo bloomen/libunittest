@@ -19,13 +19,15 @@ struct userargs::impl {
     bool disable_timeout_;
     int max_value_precision_;
     int max_string_length_;
+    std::string suite_name_;
 
     impl()
         : verbose_(false), failure_stop_(false), generate_xml_(false),
           handle_exceptions_(true), dry_run_(false), concurrent_threads_(0),
           name_filter_(""), test_name_(""), timeout_(-1),
           xml_filename_("libunittest.xml"), disable_timeout_(false),
-          max_value_precision_(10), max_string_length_(500)
+          max_value_precision_(10), max_string_length_(500),
+          suite_name_("libunittest")
     {}
 
 };
@@ -36,32 +38,6 @@ userargs::userargs()
 
 userargs::~userargs()
 {}
-
-userargs::userargs(const userargs& other)
-    : impl_(make_unique<impl>(*(other.impl_)))
-{}
-
-userargs&
-userargs::operator=(const userargs& other)
-{
-	if (this!=&other) {
-		*impl_ = *other.impl_;
-	}
-    return *this;
-}
-
-userargs::userargs(userargs&& other)
-    : impl_(make_unique<impl>(std::move(*(other.impl_))))
-{}
-
-userargs&
-userargs::operator=(userargs&& other)
-{
-	if (this!=&other) {
-		*impl_ = std::move(*other.impl_);
-	}
-    return *this;
-}
 
 bool
 userargs::verbose() const
@@ -217,6 +193,18 @@ void
 userargs::max_string_length(int value)
 {
     impl_->max_string_length_ = value;
+}
+
+std::string
+userargs::suite_name() const
+{
+    return impl_->suite_name_;
+}
+
+void
+userargs::suite_name(const std::string& value)
+{
+    impl_->suite_name_ = value;
 }
 
 } // core
