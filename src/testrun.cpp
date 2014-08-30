@@ -188,5 +188,5 @@ update_testrun_info(const std::string& class_id,
     update_local_timeout(local_timeout, global_timeout);
 }
 
-} // internals
+} // core
 } // unittest

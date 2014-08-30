@@ -21,5 +21,5 @@ enum teststatus : unsigned int {
     skipped = 3
 };
 
-} // internals
+} // core
 } // unittest

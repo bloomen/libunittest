@@ -65,7 +65,7 @@ public:
 
 };
 
-} // internals
+} // core
 } // unittest
 
 /**

@@ -392,7 +392,7 @@ make_unique(Args&&... args)
     return unittest::core::make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
 }
 
-} // internals
+} // core
 
 /**
  * @brief Joins an arbitrary number of input arguments to a single string.

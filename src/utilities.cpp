@@ -242,5 +242,5 @@ remove_file_and_line(std::string message)
     return std::move(message);
 }
 
-} // internals
+} // core
 } // unittest

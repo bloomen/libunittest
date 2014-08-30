@@ -54,5 +54,5 @@ check_range_bounds(const T& lower,
     }
 }
 
-} // internals
+} // core
 } // unittest

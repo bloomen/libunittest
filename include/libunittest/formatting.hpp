@@ -38,5 +38,5 @@ str(const T& value)
     return unittest::core::stream_to_string(stream);
 }
 
-} // internals
+} // core
 } // unittest

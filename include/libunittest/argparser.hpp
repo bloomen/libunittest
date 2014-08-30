@@ -82,5 +82,5 @@ public:
     ~argparser_error() noexcept;
 };
 
-} // internals
+} // core
 } // unittest

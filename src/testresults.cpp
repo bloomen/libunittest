@@ -178,5 +178,5 @@ write_error_info(std::ostream& stream,
     }
 }
 
-} // internals
+} // core
 } // unittest

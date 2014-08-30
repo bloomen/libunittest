@@ -91,5 +91,5 @@ write_error_info(std::ostream& stream,
                  const std::vector<unittest::core::testlog>& testlogs,
                  bool successful);
 
-} // internals
+} // core
 } // unittest

@@ -111,5 +111,5 @@ keep_running(const testlog& log,
         return true;
 }
 
-} // internals
+} // core
 } // unittest

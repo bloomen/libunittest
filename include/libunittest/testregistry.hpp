@@ -41,5 +41,5 @@ public:
     }
 };
 
-} // internals
+} // core
 } // unittest

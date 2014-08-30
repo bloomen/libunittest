@@ -219,5 +219,5 @@ userargs::max_string_length(int value)
     impl_->max_string_length_ = value;
 }
 
-} // internals
+} // core
 } // unittest

@@ -156,5 +156,5 @@ argparser_error::argparser_error(const std::string& message)
 argparser_error::~argparser_error() noexcept
 {}
 
-} // internals
+} // core
 } // unittest

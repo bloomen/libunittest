@@ -461,7 +461,7 @@ prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
     return std::make_tuple(std::move(functor), has_timed_out, timeout);
 }
 
-} // internals
+} // core
 
 /**
  * @brief A test run with a test context and with timeout measurement

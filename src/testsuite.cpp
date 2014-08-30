@@ -201,5 +201,5 @@ testsuite::log_text(const std::string& method_id,
     impl_->logged_texts_[method_id] = text;
 }
 
-} // internals
+} // core
 } // unittest

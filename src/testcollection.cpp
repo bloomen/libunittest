@@ -21,5 +21,5 @@ testcollection::inactive_name()
     return "__inactive_collection__";
 }
 
-} // internals
+} // core
 } // unittest

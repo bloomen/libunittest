@@ -21,7 +21,7 @@ namespace core {
 template<typename TestCase>
 struct testfunctor;
 
-} // internals
+} // core
 
 /**
  * @brief The class from which to derive when implementing a test case. The

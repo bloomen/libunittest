@@ -125,7 +125,7 @@ struct distribution<T, false> {
 	typedef typename std::uniform_real_distribution<T> type;
 };
 
-} // internals
+} // core
 
 /**
  * @brief A random value. The lower bounds are including. The upper bounds are
@@ -709,7 +709,7 @@ struct combination {
     type;
 };
 
-} // internals
+} // core
 
 /**
  * @brief A random combination of two containers

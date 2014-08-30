@@ -137,5 +137,5 @@ bool
 keep_running(const unittest::core::testlog& log,
              bool failure_stop);
 
-} // internals
+} // core
 } // unittest

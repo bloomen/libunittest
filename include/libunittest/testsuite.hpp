@@ -152,5 +152,5 @@ private:
     std::unique_ptr<impl> impl_;
 };
 
-} // internals
+} // core
 } // unittest

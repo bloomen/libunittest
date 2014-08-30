@@ -161,5 +161,5 @@ void tuple_transform(const F& f, const T& t, R& r, const Args&... args) {
     unittest::core::tuple_transform_index(index_list(), f, t, r, args...);
 }
 
-} // internals
+} // core
 } // unittest
