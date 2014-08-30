@@ -152,7 +152,7 @@ argparser::assign_value<bool>(bool& result,
 template<>
 std::string
 argparser::get_value<std::string>(std::string,
-				     	 	 	  std::string value) const
+				     	 	 	  std::string value)
 {
 	return value;
 }

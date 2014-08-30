@@ -180,7 +180,7 @@ private:
     template<typename T>
     T
     get_value(std::string flag,
-              std::string value) const
+              std::string value)
     {
     	T result;
         try {
@@ -246,7 +246,7 @@ argparser::assign_value<bool>(bool& result,
 template<>
 std::string
 argparser::get_value<std::string>(std::string arg,
-					 	 	 	  std::string value) const;
+					 	 	 	  std::string value);
 /**
  * @brief Returns a string repr. for a given value. Spec. for bool
  * @param value The value
