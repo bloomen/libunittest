@@ -28,29 +28,29 @@ public:
     virtual
     ~userargs();
     /**
-     * @brief Copy constructor. Deleted
+     * @brief Copy constructor
      * @param other An instance of userargs
      */
-    userargs(const userargs& other) = delete;
+    userargs(const userargs& other);
     /**
-     * @brief Copy assignment operator. Deleted
+     * @brief Copy assignment operator
      * @param other An instance of userargs
      * @returns An instance of userargs
      */
     userargs&
-    operator=(const userargs& other) = delete;
+    operator=(const userargs& other);
     /**
-     * @brief Move constructor. Deleted
+     * @brief Move constructor
      * @param other An instance of userargs
      */
-    userargs(userargs&& other) = delete;
+    userargs(userargs&& other);
     /**
-     * @brief Move assignment operator. Deleted
+     * @brief Move assignment operator
      * @param other An instance of userargs
      * @returns An userargs instance
      */
     userargs&
-    operator=(userargs&& other) = delete;
+    operator=(userargs&& other);
     /**
      * @brief Returns whether the output is verbose
      * @returns Whether the output is verbose
