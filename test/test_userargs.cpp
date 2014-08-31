@@ -2,7 +2,7 @@
 #include <libunittest/shortcuts.hpp>
 using namespace unittest::assertions;
 using unittest::core::userargs;
-using unittest::core::argparser_error;
+using unittest::core::argparser;
 
 struct test_userargs : unittest::testcase<> {
 
@@ -32,7 +32,7 @@ struct test_userargs : unittest::testcase<> {
         UNITTEST_RUN(test_failure_stop_generate_xml)
         UNITTEST_RUN(test_verbose_failure_stop_generate_xml)
         UNITTEST_RUN(test_all_arguments)
-        UNITTEST_RUN(test_argparser_errors)
+        UNITTEST_RUN(test_parsing_errors)
     }
 
     int max_argc_;
@@ -494,7 +494,7 @@ struct test_userargs : unittest::testcase<> {
         assert_equal("peter", args.suite_name, SPOT);
     }
 
-    void test_argparser_errors()
+    void test_parsing_errors()
     {
         const std::vector<char*> values = {
                 (char*)"-g", (char*)"-f", (char*)"-t", (char*)"-o", (char*)"--h"
@@ -502,7 +502,7 @@ struct test_userargs : unittest::testcase<> {
         for (auto value : values) {
             arguments_[1] = value;
             userargs args;
-            assert_throw<argparser_error>([&](){ args.parse(2, arguments_); }, SPOT);
+            assert_throw<argparser::exit_error>([&](){ args.parse(2, arguments_); }, SPOT);
         }
     }
 

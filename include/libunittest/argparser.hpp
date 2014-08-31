@@ -4,9 +4,9 @@
  */
 #pragma once
 #include <string>
+#include <sstream>
 #include <vector>
 #include <set>
-#include <iostream>
 #include <libunittest/utilities.hpp>
 /**
  * @brief Unit testing in C++
@@ -22,11 +22,6 @@ namespace core {
 class argparser {
 public:
 	/**
-	 * @brief Destructor
-	 */
-	virtual
-	~argparser();
-	/**
 	 * @brief Parses the arguments
 	 * @param argc The number of arguments
 	 * @param argv The array of arguments
@@ -39,6 +34,43 @@ public:
 	 */
 	std::string
 	command_line() const;
+	/**
+	 * @brief The exception class to indicate success exit
+	 */
+	class exit_success : public std::runtime_error {
+	public:
+	    /**
+	     * @brief Constructor
+	     * @param message The exception message
+	     */
+	    explicit
+	    exit_success(const std::string& message);
+	    /**
+	     * @brief Destructor
+	     */
+	    ~exit_success() noexcept;
+	};
+	/**
+	 * @brief The exception class to indicate parsing errors
+	 */
+	class exit_error : public std::runtime_error {
+	public:
+	    /**
+	     * @brief Constructor
+	     * @param message The exception message
+	     */
+	    explicit
+	    exit_error(const std::string& message);
+	    /**
+	     * @brief Destructor
+	     */
+	    ~exit_error() noexcept;
+	};
+	/**
+	 * @brief Destructor
+	 */
+	virtual
+	~argparser();
 
 private:
 	/**
@@ -145,7 +177,7 @@ protected:
 	bool
 	was_used(char arg);
 	/**
-	 * @brief Writes help to screen and throws an argparser_error
+	 * @brief Writes help to screen and throws an exit_error
 	 * @param message The exception message
 	 */
 	void
@@ -271,22 +303,6 @@ argparser::make_repr<std::string>(std::string value) const;
  */
 std::ostream&
 operator<<(std::ostream& os, const argparser& obj);
-/**
- * @brief The exception class to indicate argument errors
- */
-class argparser_error : public std::runtime_error {
-public:
-    /**
-     * @brief Constructor
-     * @param message The exception message
-     */
-    explicit
-    argparser_error(const std::string& message);
-    /**
-     * @brief Destructor
-     */
-    ~argparser_error() noexcept;
-};
 
 
 } // core

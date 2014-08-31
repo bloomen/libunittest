@@ -103,7 +103,7 @@ argparser::error(const std::string& message)
 {
     std::ostringstream stream;
     write_help(stream);
-    throw argparser_error(join(message, "\n\n", stream.str()));
+    throw exit_error(join(message, "\n\n", stream.str()));
 }
 
 std::vector<std::string>
@@ -192,8 +192,9 @@ argparser::parse(int argc, char **argv)
     bool help;
     assign_value(help, 'h');
 	if (help) {
-		write_help(std::cout);
-		std::exit(EXIT_SUCCESS);
+	    std::ostringstream stream;
+	    write_help(stream);
+	    throw exit_success(stream.str());
 	}
     assign_values();
     check_assign_args();
@@ -257,11 +258,19 @@ argparser::argrow::argrow(size_t index,
 {}
 
 
-argparser_error::argparser_error(const std::string& message)
+argparser::exit_success::exit_success(const std::string& message)
     : std::runtime_error(message)
 {}
 
-argparser_error::~argparser_error() noexcept
+argparser::exit_success::~exit_success() noexcept
+{}
+
+
+argparser::exit_error::exit_error(const std::string& message)
+    : std::runtime_error(message)
+{}
+
+argparser::exit_error::~exit_error() noexcept
 {}
 
 
