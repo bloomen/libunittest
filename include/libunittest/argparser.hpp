@@ -22,6 +22,18 @@ namespace core {
 class argparser {
 public:
 	/**
+	 * @brief Sets the name of the application
+	 * @param name The application name
+	 */
+	void
+	set_app_name(std::string name);
+	/**
+	 * @brief Returns the command help
+	 * @returns The command help
+	 */
+	std::string
+	get_help();
+	/**
 	 * @brief Parses the arguments
 	 * @param argc The number of arguments
 	 * @param argv The array of arguments
@@ -233,9 +245,6 @@ private:
 	std::string
 	make_arg_string(char arg) const;
 
-	void
-	write_help(std::ostream& stream);
-
 	std::vector<std::string>
     expand_arguments(int argc, char **argv);
 
@@ -260,6 +269,23 @@ private:
     std::string assign_args_;
     std::vector<std::pair<char,argparser::argrow>> registry_;
 };
+/**
+ * @brief Registers an argument. Spec. for bool which registers a trigger
+ * @param arg The argument flag
+ * @param value_name The name of the argument
+ * @param description A description
+ * @param default_value The default value
+ * @param display_default Whether to display the default value
+ * @param required Whether this argument is required
+ */
+template<>
+void
+argparser::register_argument<bool>(char arg,
+                                   std::string value_name,
+								   std::string description,
+								   bool default_value,
+								   bool display_default,
+								   bool required);
 /**
  * @brief Assigns a value through the given argument flag. Spec. for bool
  * @param result The resulting value

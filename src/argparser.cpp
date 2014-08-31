@@ -13,6 +13,12 @@ argparser::argparser()
 argparser::~argparser()
 {}
 
+void
+argparser::set_app_name(std::string name)
+{
+	app_name_ = name;
+}
+
 std::string
 argparser::command_line() const
 {
@@ -40,7 +46,7 @@ argparser::in_registry(char arg)
 	try {
 		from_registry(arg);
 		return true;
-	} catch (const std::out_of_range&) {
+	} catch (const std::invalid_argument&) {
 		return false;
 	}
 }
@@ -52,13 +58,25 @@ argparser::from_registry(char arg)
 		if (pair.first==arg)
 			return pair.second;
 	}
-	throw std::out_of_range(join("Asking for unregistered argument: ", arg));
+	throw std::invalid_argument(join("Asking for unregistered argument: ", arg));
 }
 
 bool
 argparser::was_used(char arg)
 {
 	return from_registry(arg).is_used;
+}
+
+template<>
+void
+argparser::register_argument<bool>(char arg,
+                                   std::string value_name,
+								   std::string description,
+								   bool default_value,
+								   bool,
+								   bool)
+{
+	register_trigger(arg, value_name, description, default_value);
 }
 
 void
@@ -71,12 +89,13 @@ argparser::register_trigger(char arg,
 	add_to_registry(arg, row);
 }
 
-void
-argparser::write_help(std::ostream& stream)
+std::string
+argparser::get_help()
 {
+	std::ostringstream stream;
 	const auto desc = description();
 	if (desc.size()) stream << desc << "\n\n";
-    stream << "Usage: " << app_name_ << " ";
+    stream << "Usage: " << (app_name_.size() ? app_name_ : "program") << " ";
     for (auto& row : registry_) {
     	if (row.second.required) {
     		stream << make_arg_string(row.first) << " " << row.second.value_name << " ";
@@ -96,14 +115,13 @@ argparser::write_help(std::ostream& stream)
     	stream << make_arg_string(row.first) << " " << value_name << "  " << row.second.description << appendix << std::endl;
     }
     stream << std::flush;
+    return stream.str();
 }
 
 void
 argparser::error(const std::string& message)
 {
-    std::ostringstream stream;
-    write_help(stream);
-    throw exit_error(join(message, "\n\n", stream.str()));
+    throw exit_error(join(message, '\n'));
 }
 
 std::vector<std::string>
@@ -179,7 +197,8 @@ argparser::parse(int argc, char **argv)
 		if (i<argc-1) command_line_ += " ";
 	}
 	register_arguments();
-    app_name_ = argv[0];
+	if (!app_name_.size())
+		app_name_ = argv[0];
     args_ = expand_arguments(argc, argv);
 	size_t max_length = 0;
     for (auto& row : registry_) {
@@ -192,9 +211,7 @@ argparser::parse(int argc, char **argv)
     bool help;
     assign_value(help, 'h');
 	if (help) {
-	    std::ostringstream stream;
-	    write_help(stream);
-	    throw exit_success(stream.str());
+	    throw exit_success(get_help());
 	}
     assign_values();
     check_assign_args();
