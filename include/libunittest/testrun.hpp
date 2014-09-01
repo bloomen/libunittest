@@ -468,7 +468,7 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
-        auto function = [done](unittest::core::testfunctor<TestCase> functor) { functor(); done->store(true); };
+        auto function = [done](unittest::core::testfunctor<TestCase>&& functor) { functor(); done->store(true); };
         std::thread thread(function, std::move(functor));
         unittest::core::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data));
     }
