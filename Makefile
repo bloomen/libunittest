@@ -39,7 +39,7 @@ UNTAR = tar xfz
 COPYING = COPYING.txt
 CHANGES = CHANGES.txt
 DISTDIR = distribution
-DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples doc
+DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples doc mk
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
