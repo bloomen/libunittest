@@ -1,6 +1,7 @@
 #include <libunittest/unittest.hpp>
 #include <libunittest/shortcuts.hpp>
 #include <list>
+#include <mutex>
 using namespace unittest::assertions;
 
 template<typename RandomCont,

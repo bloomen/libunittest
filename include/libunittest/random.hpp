@@ -7,7 +7,6 @@
 #include <random>
 #include <stdexcept>
 #include <type_traits>
-#include <mutex>
 #include <memory>
 #include <tuple>
 #include <algorithm>
@@ -38,8 +37,8 @@ public:
         return this->do_clone();
     }
     /**
-     * @brief Returns a new random object
-     * @returns A random object
+     * @brief Returns a new random value
+     * @returns A random value
      */
     T
     get()
@@ -71,8 +70,6 @@ protected:
     std::mt19937&
     gen()
     {
-    	static std::mutex mutex_;
-        std::lock_guard<std::mutex> lock(mutex_);
         return generator_;
     }
 
