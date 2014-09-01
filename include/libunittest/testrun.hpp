@@ -168,14 +168,14 @@ struct testfunctor {
      * @brief Copy constructor. Deleted
      * @param other An instance of testfunctor
      */
-    testfunctor(const testfunctor& other) = delete;
+    testfunctor(const testfunctor& other) = default;
     /**
      * @brief Copy assignment operator. Deleted
      * @param other An instance of testfunctor
      * @returns An testfunctor instance
      */
     testfunctor&
-    operator=(const testfunctor& other) = delete;
+    operator=(const testfunctor& other) = default;
     /**
      * @brief Move constructor. Default
      * @param other An instance of testfunctor
