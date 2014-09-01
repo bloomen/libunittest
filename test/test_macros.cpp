@@ -8,7 +8,12 @@ struct fixture {
     virtual ~fixture() noexcept(false) {}
 };
 
-struct test_macros_run : unittest::testcase<unittest::sometype> {
+struct context {
+	context() {}
+    virtual ~context() {}
+};
+
+struct test_macros_run : unittest::testcase<context> {
 
     static void run()
     {
@@ -21,7 +26,7 @@ struct test_macros_run : unittest::testcase<unittest::sometype> {
         UNITTEST_RUN_TIME_SKIP(test_unittest_run_time_skip, 0.1, "ok")
         UNITTEST_RUN_TIME_MAYBE(test_unittest_run_time_maybe_run, 0.1, true, "ok")
         UNITTEST_RUN_TIME_MAYBE(test_unittest_run_time_maybe_not_run, 0.1, false, "ok")
-        auto ctx = std::make_shared<unittest::sometype>();
+        auto ctx = std::make_shared<context>();
         UNITTEST_RUNCTX(ctx, test_unittest_runctx)
         UNITTEST_RUNCTX_SKIP(ctx, test_unittest_runctx_skip, "ok")
         UNITTEST_RUNCTX_MAYBE(ctx, test_unittest_runctx_maybe_run, true, "ok")
