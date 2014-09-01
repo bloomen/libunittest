@@ -165,30 +165,6 @@ struct testfunctor {
     ~testfunctor()
     {}
     /**
-     * @brief Copy constructor. Deleted
-     * @param other An instance of testfunctor
-     */
-    testfunctor(const testfunctor& other) = default;
-    /**
-     * @brief Copy assignment operator. Deleted
-     * @param other An instance of testfunctor
-     * @returns An testfunctor instance
-     */
-    testfunctor&
-    operator=(const testfunctor& other) = default;
-    /**
-     * @brief Move constructor. Default
-     * @param other An instance of testfunctor
-     */
-    testfunctor(testfunctor&& other) = default;
-    /**
-     * @brief Move assignment operator. Default
-     * @param other An instance of testfunctor
-     * @returns An testfunctor instance
-     */
-    testfunctor&
-    operator=(testfunctor&& other) = default;
-    /**
      * @brief Executes the test
      */
     void
