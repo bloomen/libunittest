@@ -12,16 +12,6 @@ userargs::userargs()
 	  name_filter(""), test_name(""), timeout(-1), xml_filename("libunittest.xml"),
 	  disable_timeout(false), max_value_precision(10), max_string_length(500),
 	  suite_name("libunittest")
-{}
-
-std::string
-userargs::description()
-{
-	return "This is your testing application using libunittest-" + version;
-}
-
-void
-userargs::register_arguments()
 {
 	register_trigger('v', "verbose", "Sets verbose output for running tests", verbose);
 	register_trigger('d', "dry_run", "A dry run without actually executing any tests", dry_run);
@@ -37,6 +27,12 @@ userargs::register_arguments()
 	register_argument('l', "length", "The maximum displayed string length", max_string_length, true);
 	register_argument('r', "precision", "The maximum displayed value precision", max_value_precision, true);
 	register_argument('u', "suite", "The name of the test suite", suite_name, true);
+}
+
+std::string
+userargs::description()
+{
+	return "This is your testing application using libunittest-" + version;
 }
 
 void

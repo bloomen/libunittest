@@ -22,12 +22,6 @@ namespace core {
 class argparser {
 public:
 	/**
-	 * @brief Sets the name of the application
-	 * @param name The application name
-	 */
-	void
-	set_app_name(std::string name);
-	/**
 	 * @brief Returns the command help
 	 * @returns The command help
 	 */
@@ -41,13 +35,13 @@ public:
 	void
 	parse(int argc, char **argv);
 	/**
-	 * Returns the command line
-	 * @return The command line
+	 * @brief Returns the command line
+	 * @returns The command line
 	 */
 	std::string
 	command_line() const;
 	/**
-	 * @brief The exception class to indicate success exit
+	 * @brief The exception class to indicate exit success
 	 */
 	class exit_success : public std::runtime_error {
 	public:
@@ -86,17 +80,17 @@ public:
 
 private:
 	/**
+	 * @brief Override this to provide the name of the application
+	 * @returns The application name
+	 */
+	virtual std::string
+	app_name() { return ""; }
+	/**
 	 * @brief Override this to provide a helpful command description
-	 * @return The command description
+	 * @returns The command description
 	 */
 	virtual std::string
     description() { return ""; }
-	/**
-	 * @brief Override this to register arguments through protected methods:
-	 * 	register_argument() and register_trigger()
-	 */
-    virtual void
-    register_arguments() {}
     /**
      * @brief Override this to assign values to variables through protected
      * 	method: assign_value()
@@ -116,7 +110,7 @@ protected:
      */
 	argparser();
 	/**
-	 * @brief Registers an argument
+	 * @brief Registers an argument. Calls this in the derivee's constructor
 	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description
@@ -137,7 +131,7 @@ protected:
 		this->add_to_registry(arg, row);
 	}
 	/**
-	 * @brief Registers a trigger
+	 * @brief Registers a trigger. Calls this in the derivee's constructor
 	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description
@@ -149,7 +143,8 @@ protected:
 					 std::string description,
     				 bool default_value);
 	/**
-	 * @brief Assigns a value through the given argument flag
+	 * @brief Assigns a value through the given argument flag. Call
+	 * 	this within the override of assign_values()
 	 * @param result The resulting value
 	 * @param arg The argument flag
 	 */
@@ -258,10 +253,13 @@ private:
 	from_registry(char arg);
 
 	void
+	set_long_value_names();
+
+	void
 	check_assign_args();
 
 	friend std::ostream&
-	operator<<(std::ostream& os, const argparser& obj);
+	operator<<(std::ostream& os, unittest::core::argparser& obj);
 
 	std::string command_line_;
     std::string app_name_;
@@ -328,7 +326,7 @@ argparser::make_repr<std::string>(std::string value) const;
  * @returns The output stream
  */
 std::ostream&
-operator<<(std::ostream& os, const argparser& obj);
+operator<<(std::ostream& os, unittest::core::argparser& obj);
 
 
 } // core

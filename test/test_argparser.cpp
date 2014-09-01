@@ -10,20 +10,22 @@ struct client_empty : argparser {};
 struct client_real : argparser {
 	client_real()
 		: a("duck"), b(3), c(false)
-	{}
-	std::string a;
-	double b;
-	bool c;
-private:
-	std::string description()
-	{
-		return "Wicked program";
-	}
-	void register_arguments()
 	{
 		register_argument('a', "", "aaa", a, true);
 		register_argument('b', "bb", "bbb", b, false, true);
 		register_trigger('c', "cc", "ccc", c);
+	}
+	std::string a;
+	double b;
+	bool c;
+private:
+	std::string app_name()
+	{
+		return "cool";
+	}
+	std::string description()
+	{
+		return "Wicked program";
 	}
 	void assign_values()
 	{
@@ -40,23 +42,24 @@ private:
 
 
 struct client_bad1 : argparser {
-	double a;
-private:
-	void register_arguments()
+	client_bad1()
+		: a(0)
 	{
 		register_argument('a', "aa", "aaa", a, true);
 		register_argument('a', "aa", "aaa", a, true);
 	}
+	double a;
 };
 
 
 struct client_bad2 : argparser {
-	double a;
-private:
-	void register_arguments()
+	client_bad2()
+		: a(0)
 	{
 		register_argument('a', "aa", "aaa", a, true);
 	}
+	double a;
+private:
 	void assign_values()
 	{
 		assign_value(a, 'c');
@@ -65,12 +68,13 @@ private:
 
 
 struct client_bad3 : argparser {
-	double a;
-private:
-	void register_arguments()
+	client_bad3()
+		: a(0)
 	{
 		register_argument('a', "aa", "aaa", a, true);
 	}
+	double a;
+private:
 	void assign_values()
 	{
 		assign_value(a, 'a');
@@ -99,6 +103,9 @@ struct test_argparser : unittest::testcase<> {
 		UNITTEST_RUN(test_real_client_with_provided_args)
 		UNITTEST_RUN(test_real_client_with_missing_value)
 		UNITTEST_RUN(test_real_client_with_wrong_value)
+		UNITTEST_RUN(test_client_bad1)
+		UNITTEST_RUN(test_client_bad2)
+		UNITTEST_RUN(test_client_bad3)
 	}
 
 	char** argv_;
@@ -136,11 +143,10 @@ struct test_argparser : unittest::testcase<> {
 	void test_empty_client_get_help()
 	{
 		client_empty client;
-		client.set_app_name("my_app");
 		std::string exp;
-		exp += "Usage: my_app [Arguments]\n\n";
+		exp += "Usage: program [Arguments]\n\n";
 		exp += "Arguments:\n";
-		exp += "-h   Displays this help message and exits\n";
+		exp += "-h    Displays this help message and exits\n";
 		assert_equal(exp, client.get_help(), SPOT);
 	}
 
@@ -158,7 +164,7 @@ struct test_argparser : unittest::testcase<> {
 		std::string exp;
 		exp += "Usage: wicked [Arguments]\n\n";
 		exp += "Arguments:\n";
-		exp += "-h   Displays this help message and exits\n";
+		exp += "-h    Displays this help message and exits\n";
 		assert_equal(exp, msg, SPOT);
 	}
 
@@ -191,7 +197,7 @@ struct test_argparser : unittest::testcase<> {
 		assert_equal(std::string(argv_[0]) + " -h", client.command_line(), SPOT);
 		std::string exp;
 		exp += "Wicked program\n\n";
-		exp += "Usage: wicked -b bb [Arguments]\n\n";
+		exp += "Usage: cool -b bb [Arguments]\n\n";
 		exp += "Arguments:\n";
 		exp += "-h     Displays this help message and exits\n";
 		exp += "-a     aaa (default: duck)\n";
@@ -203,12 +209,9 @@ struct test_argparser : unittest::testcase<> {
 	void test_real_client_get_help()
 	{
 		client_real client;
-		argv_[1] = (char*)"-b";
-		argv_[2] = (char*)"2";
-		client.parse(3, argv_);
 		std::string exp;
 		exp += "Wicked program\n\n";
-		exp += "Usage: wicked -b bb [Arguments]\n\n";
+		exp += "Usage: cool -b bb [Arguments]\n\n";
 		exp += "Arguments:\n";
 		exp += "-h     Displays this help message and exits\n";
 		exp += "-a     aaa (default: duck)\n";
@@ -222,13 +225,13 @@ struct test_argparser : unittest::testcase<> {
 		client_real client;
 		std::ostringstream os1;
 		os1 << client;
-		assert_equal("", os1.str(), SPOT);
+		assert_equal("-a    = \"duck\"\n-b bb = 3\n-c cc = false\n", os1.str(), SPOT);
 		argv_[1] = (char*)"-b";
 		argv_[2] = (char*)"2";
 		client.parse(3, argv_);
 		std::ostringstream os2;
 		os2 << client;
-		assert_equal("-b bb = 2\n-c cc = false\n", os2.str(), SPOT);
+		assert_equal("-a    = \"duck\"\n-b bb = 2\n-c cc = false\n", os2.str(), SPOT);
 	}
 
 	void test_real_client_with_missing_arg()
@@ -291,6 +294,24 @@ struct test_argparser : unittest::testcase<> {
 		std::string exp;
 		exp += "bb must be larger than -20\n";
 		assert_equal(exp, msg, SPOT);
+	}
+
+	void test_client_bad1()
+	{
+		auto functor = []() { client_bad1 c; };
+		assert_throw<std::invalid_argument>(functor, SPOT);
+	}
+
+	void test_client_bad2()
+	{
+		auto functor = [this]() { client_bad2 c; c.parse(1, argv_); };
+		assert_throw<std::invalid_argument>(functor, SPOT);
+	}
+
+	void test_client_bad3()
+	{
+		auto functor = [this]() { client_bad3 c; c.parse(1, argv_); };
+		assert_throw<std::invalid_argument>(functor, SPOT);
 	}
 
 };

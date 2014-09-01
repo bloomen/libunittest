@@ -82,8 +82,6 @@ private:
 
 	std::string description();
 
-    void register_arguments();
-
     void assign_values();
 
     void post_parse();

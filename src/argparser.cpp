@@ -7,17 +7,11 @@ namespace core {
 argparser::argparser()
 	: command_line_(), app_name_(), args_(), assign_args_(), registry_()
 {
-	register_trigger('h', "", "Displays this help message and exits", false);
+	register_trigger('h', "h", "Displays this help message and exits", false);
 }
 
 argparser::~argparser()
 {}
-
-void
-argparser::set_app_name(std::string name)
-{
-	app_name_ = name;
-}
 
 std::string
 argparser::command_line() const
@@ -92,9 +86,12 @@ argparser::register_trigger(char arg,
 std::string
 argparser::get_help()
 {
+	set_long_value_names();
 	std::ostringstream stream;
 	const auto desc = description();
 	if (desc.size()) stream << desc << "\n\n";
+	if (!app_name_.size())
+		app_name_ = app_name();
     stream << "Usage: " << (app_name_.size() ? app_name_ : "program") << " ";
     for (auto& row : registry_) {
     	if (row.second.required) {
@@ -186,7 +183,20 @@ template<>
 std::string
 argparser::make_repr<std::string>(std::string value) const
 {
-       return join("\"", value, "\"");
+	return join("\"", value, "\"");
+}
+
+void
+argparser::set_long_value_names()
+{
+    size_t max_length = 0;
+    for (auto& row : registry_) {
+    	if (row.second.long_value_name.length() > max_length)
+    		max_length = row.second.long_value_name.length();
+    }
+    for (auto& row : registry_) {
+		row.second.long_value_name += std::string(max_length - row.second.long_value_name.length(), ' ');
+    }
 }
 
 void
@@ -196,18 +206,10 @@ argparser::parse(int argc, char **argv)
 		command_line_ += std::string(argv[i]);
 		if (i<argc-1) command_line_ += " ";
 	}
-	register_arguments();
+	app_name_ = app_name();
 	if (!app_name_.size())
 		app_name_ = argv[0];
     args_ = expand_arguments(argc, argv);
-	size_t max_length = 0;
-    for (auto& row : registry_) {
-    	if (row.second.value_name.length() > max_length)
-    		max_length = row.second.value_name.length();
-    }
-    for (auto& row : registry_) {
-		row.second.long_value_name += std::string(max_length - row.second.value_name.length(), ' ');
-    }
     bool help;
     assign_value(help, 'h');
 	if (help) {
@@ -235,14 +237,15 @@ argparser::check_assign_args()
 			good = false;
 	}
 	if (!good)
-		throw std::out_of_range("Assign argument flags don't match those registered");
+		throw std::invalid_argument("Assign argument flags don't match those registered");
 }
 
 std::ostream&
-operator<<(std::ostream& os, const argparser& obj)
+operator<<(std::ostream& os, argparser& obj)
 {
+	obj.set_long_value_names();
     for (auto& row : obj.registry_) {
-    	if (row.second.value_name.size()) {
+    	if (row.first!='h') {
     		os << obj.make_arg_string(row.first) << " " << row.second.long_value_name << " = " << row.second.representation << std::endl;
     	}
     }
