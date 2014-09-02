@@ -8,19 +8,17 @@ libunittest (7.0.0) stable; urgency=low
   * Improved string representation of numbers and bools in assertions
   * Fixed bug apparent on VS2013 where the file name and line number were not
   	parsed correctly from UNITTEST_SPOT
+  * Renamed run macros with context from *_RUNCXT to *_RUNCTX
   * Renamed internals namespace to core
   * Use of std::shared_ptr in classes and functions within random namespace
   	-> see example: random
   * Add a clone method to all classes in the random namespace
-  * Renamed run macros with context from *_RUNCXT to *_RUNCTX
-  * The test method is now passed around as std::function instead
-  	of a raw, nasty function pointer
   * The test context now needs to be passed in as a std::shared_ptr
   	-> see example: flexible
   * Improved argument parsing
   * Better documentation   
 
- -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2014 XX:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Mon, 01 Sep 2014 22:00:00 -0700
 
 libunittest (6.0.0) stable; urgency=low
 
