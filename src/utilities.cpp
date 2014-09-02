@@ -232,7 +232,7 @@ extract_file_and_line(const std::string& message)
         const auto index_end = substr.find(id);
         if (index_end!=std::string::npos) {
             const auto spot = substr.substr(0, index_end);
-            const auto separator = spot.find(":");
+            const auto separator = spot.find_last_of(":");
             if (separator!=std::string::npos) {
                 filename = spot.substr(0, separator);
                 linenumber = to_number<int>(spot.substr(separator+1));

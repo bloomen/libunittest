@@ -290,8 +290,8 @@ struct test_utilities : unittest::testcase<> {
     void test_extract_file_and_line_spot_found()
     {
         auto function = unittest::core::extract_file_and_line;
-        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
-        assert_equal("nada.cpp", result.first, SPOT);
+        const auto result = function("some text @SPOT@c:\algo\nada.cpp:13@SPOT@ more text");
+        assert_equal("c:\algo\nada.cpp", result.first, SPOT);
         assert_equal(13, result.second, SPOT);
     }
 

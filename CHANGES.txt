@@ -6,6 +6,8 @@ libunittest (7.0.0) stable; urgency=low
   * Add noexcept(false) to ~testcase() which ensures that exceptions
   	can be handled that may be thrown by destructors in derived classes
   * Improved string representation of numbers and bools in assertions
+  * Fixed bug apparent on VS2013 where the file name and line number were not
+  	parsed correctly from UNITTEST_SPOT
   * Renamed internals namespace to core
   * Use of std::shared_ptr in classes and functions within random namespace
   	-> see example: random
