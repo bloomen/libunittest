@@ -330,6 +330,15 @@ to_number(const std::string& value)
     }
 }
 /**
+ * @brief Converts a given string to a boolean
+ * @param value The string to convert
+ * @returns The boolean
+ * @throws std::invalid_argument if given string is not a boolean
+ */
+template<>
+bool
+to_number<bool>(const std::string& value);
+/**
  * @brief Expands command line arguments (e.g. -ag becomes -a -g)
  * @param arguments The raw arguments
  * @returns The expanded arguments

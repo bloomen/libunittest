@@ -164,6 +164,19 @@ is_numeric(const std::string& value)
     return result;
 }
 
+template<>
+bool
+to_number<bool>(const std::string& value)
+{
+    std::istringstream stream(value);
+    int number;
+    if (stream >> number) {
+        return number;
+    } else {
+        throw std::invalid_argument("Not a boolean: " + value);
+    }
+}
+
 std::string
 trim(std::string value)
 {
