@@ -212,34 +212,36 @@ private:
     bool
     handle(std::unique_ptr<TestCase>& test,
            unittest::core::testmonitor& monitor,
-           std::function<bool(testfunctor*, std::unique_ptr<TestCase>&, unittest::core::testmonitor&)> function,
-           std::function<bool(testfunctor*, std::unique_ptr<TestCase>&, unittest::core::testmonitor&)> error_callback)
+           bool (testfunctor::*function)
+                       (std::unique_ptr<TestCase>&, unittest::core::testmonitor&),
+           bool (testfunctor::*error_callback)
+                       (std::unique_ptr<TestCase>&, unittest::core::testmonitor&))
     {
         if (handle_exceptions_) {
             try {
-                function(this, test, monitor);
+                (this->*function)(test, monitor);
                 monitor.log_success();
                 return true;
             } catch (const unittest::testfailure& e) {
-                error_callback(this, test, monitor);
+                (this->*error_callback)(test, monitor);
                 monitor.log_failure(e);
                 return false;
             } catch (const std::exception& e) {
-                error_callback(this, test, monitor);
+                (this->*error_callback)(test, monitor);
                 monitor.log_error(e);
                 return false;
             } catch (...) {
-                error_callback(this, test, monitor);
+                (this->*error_callback)(test, monitor);
                 monitor.log_unknown_error();
                 return false;
             }
         } else {
             try {
-                function(this, test, monitor);
+                (this->*function)(test, monitor);
                 monitor.log_success();
                 return true;
             } catch (const unittest::testfailure& e) {
-                error_callback(this, test, monitor);
+                (this->*error_callback)(test, monitor);
                 monitor.log_failure(e);
                 return false;
             }
