@@ -169,7 +169,7 @@ bool
 to_number<bool>(const std::string& value)
 {
     std::istringstream stream(value);
-    int number;
+    bool number;
     if (stream >> number) {
         return number;
     } else {
