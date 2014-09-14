@@ -1,5 +1,5 @@
 /**
- * @brief The formatting class defining a formatting interface
+ * @brief Formatting functionality
  * @file formatting.hpp
  */
 #pragma once
