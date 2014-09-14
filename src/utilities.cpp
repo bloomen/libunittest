@@ -199,26 +199,6 @@ remove_white_spaces(std::string value)
     return value;
 }
 
-std::vector<std::string>
-expand_commandline_arguments(const std::vector<std::string>& arguments)
-{
-    const char flag = '-';
-    const std::string sflag(1, flag);
-    std::vector<std::string> args;
-    for (auto& value : arguments) {
-        if (value.substr(0, 1)==sflag) {
-            const std::string expanded(value.substr(1, value.size()));
-            for (auto& val : expanded) {
-                if (val != flag)
-                    args.push_back(join(flag, val));
-            }
-        } else {
-            args.push_back(value);
-        }
-    }
-    return args;
-}
-
 std::pair<std::string, int>
 extract_file_and_line(const std::string& message)
 {

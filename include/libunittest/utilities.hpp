@@ -339,13 +339,6 @@ template<>
 bool
 to_number<bool>(const std::string& value);
 /**
- * @brief Expands command line arguments (e.g. -ag becomes -a -g)
- * @param arguments The raw arguments
- * @returns The expanded arguments
- */
-std::vector<std::string>
-expand_commandline_arguments(const std::vector<std::string>& arguments);
-/**
  * @brief Extracts file and line information from the given message
  * @param message The message
  * @returns A pair of file name and line number
