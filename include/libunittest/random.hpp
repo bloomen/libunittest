@@ -133,7 +133,7 @@ class random_value : public unittest::random_object<T> {
     /**
      * @brief The distribution type
      */
-    typedef typename core::distribution<T, std::is_integral<T>::value>::type dist_type;
+    typedef typename unittest::core::distribution<T, std::is_integral<T>::value>::type dist_type;
 
 public:
     /**
