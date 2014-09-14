@@ -1,5 +1,5 @@
 /**
- * @brief The assertions class providing a collection of test assertions
+ * @brief A collection of test assertions
  * @file assertions.hpp
  */
 #pragma once
