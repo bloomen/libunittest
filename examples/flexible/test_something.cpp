@@ -52,7 +52,7 @@ struct test_something : unittest::testcase<test_context> {
 
     void test_it_but_skipped()
     {
-        assert_true(false);
+        assert_true(false, SPOT);
     }
 
 };
