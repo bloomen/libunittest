@@ -15,11 +15,11 @@ struct test_whatever : unittest::testcase<> {
         UNITTEST_RUN_MAYBE(test_that_is_run, true, "message for when not run")
     }
 
-    test_whatever() {} // executed before each test
-    ~test_whatever() {} // executed after each test
+    test_whatever() {} // executed before each test and before set_up()
+    ~test_whatever() {} // executed after each test and after tear_down()
 
-    void set_up() {} // executed before each test
-    void tear_down() {} // executed after each test
+    void set_up() {} // executed before each test and after constructor
+    void tear_down() {} // executed after each test and before destructor
 
     void test_throw()
     {
@@ -42,12 +42,12 @@ struct test_whatever : unittest::testcase<> {
 
     void test_that_is_skipped()
     {
-        assert_true(true);
+        assert_true(false, SPOT);
     }
 
     void test_that_is_run()
     {
-        assert_true(true);
+        assert_true(true, SPOT);
     }
 
 };
