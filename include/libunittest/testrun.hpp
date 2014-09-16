@@ -431,11 +431,11 @@ prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
     std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
     unittest::core::testfunctor<TestCase> functor(context, method, method_id,
-                                                       class_name, test_name,
-                                                       args.dry_run,
-                                                       args.handle_exceptions,
-                                                       has_timed_out, timeout,
-                                                       skipped, skip_message);
+                                                  class_name, test_name,
+                                                  args.dry_run,
+                                                  args.handle_exceptions,
+                                                  has_timed_out, timeout,
+                                                  skipped, skip_message);
     return std::make_tuple(std::move(functor), has_timed_out, timeout);
 }
 
@@ -464,14 +464,13 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     auto data = unittest::core::prepare_testrun(context, method,
                                                      class_name, test_name,
                                                      skipped, skip_message, timeout);
-    unittest::core::testfunctor<TestCase> functor = std::move(std::get<0>(data));
     if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
-        functor();
+    	std::get<0>(data)();
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
         auto function = [done](unittest::core::testfunctor<TestCase> functor) { functor(); done->store(true); };
-        std::thread thread(function, std::move(functor));
+        std::thread thread(function, std::move(std::get<0>(data)));
         unittest::core::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data));
     }
 }
@@ -495,10 +494,9 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
 {
     const double timeout = -1;
     auto data = unittest::core::prepare_testrun(context, method,
-                                                     class_name, test_name,
-                                                     skipped, skip_message, timeout);
-    unittest::core::testfunctor<TestCase> functor = std::move(std::get<0>(data));
-    functor();
+												class_name, test_name,
+												skipped, skip_message, timeout);
+    std::get<0>(data)();
 }
 /**
  * @brief A test run without a test context and with timeout measurement
