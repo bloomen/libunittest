@@ -2,8 +2,9 @@ libunittest (7.0.1) stable; urgency=low
 
   * More explicit namespacing
   * Better documentation in code and tutorial
+  * Some minor code clean-up
 
- -- Christian Blume <chr.blume@gmail.com>  XXX, XX Sep 2014 22:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Mon, 15 Sep 2014 22:00:00 -0700
 
 libunittest (7.0.0) stable; urgency=low
 
