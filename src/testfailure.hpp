@@ -5,7 +5,7 @@
 #pragma once
 #include <string>
 #include <stdexcept>
-#include <libunittest/utilities.hpp>
+#include "utilities.hpp"
 /**
  * @brief Unit testing in C++
  */

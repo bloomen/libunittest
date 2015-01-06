@@ -1,3 +1,9 @@
+libunittest (7.0.3) stable; urgency=low
+
+  * working on it ...
+
+ -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2015 XX:XX:00 -0700
+
 libunittest (7.0.2) stable; urgency=low
 
   * removed explicit template argument from call to unittest::testrun

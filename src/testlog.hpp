@@ -3,7 +3,7 @@
  * @file testlog.hpp
  */
 #pragma once
-#include <libunittest/teststatus.hpp>
+#include "teststatus.hpp"
 #include <string>
 #include <ostream>
 /**

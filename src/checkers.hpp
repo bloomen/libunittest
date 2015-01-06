@@ -3,7 +3,7 @@
  * @file checkers.hpp
  */
 #pragma once
-#include <libunittest/testfailure.hpp>
+#include "testfailure.hpp"
 #include <string>
 /**
  * @brief Unit testing in C++

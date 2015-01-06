@@ -9,11 +9,9 @@ endif
 LD = $(CXX)
 
 ROOT = .
-INCDIR = $(ROOT)/include
 LIBDIR = $(ROOT)/lib
 XSD = $(ROOT)/doc/web/libunittest.xsd
-
 RM = rm -f
 
 %.o : %.cpp
-	$(CXX) $(CXXFLAGS) -I$(INCDIR) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@

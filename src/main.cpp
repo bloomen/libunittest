@@ -1,4 +1,4 @@
-#include <libunittest/main.hpp>
+#include "main.hpp"
 
 int main(int argc, char **argv)
 {

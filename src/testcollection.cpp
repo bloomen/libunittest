@@ -1,4 +1,4 @@
-#include <libunittest/testcollection.hpp>
+#include "testcollection.hpp"
 
 namespace unittest {
 namespace core {

@@ -6,5 +6,5 @@
  * @file all.hpp
  */
 #pragma once
-#include <libunittest/main.hpp>
-#include <libunittest/shortcuts.hpp>
+#include "main.hpp"
+#include "shortcuts.hpp"

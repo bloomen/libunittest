@@ -3,9 +3,9 @@
  * @file testsuite.hpp
  */
 #pragma once
-#include <libunittest/userargs.hpp>
-#include <libunittest/testresults.hpp>
-#include <libunittest/testlog.hpp>
+#include "userargs.hpp"
+#include "testresults.hpp"
+#include "testlog.hpp"
 #include <string>
 #include <thread>
 #include <map>

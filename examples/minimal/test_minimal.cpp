@@ -1,4 +1,4 @@
-#include <libunittest/all.hpp>
+#include "../../src/all.hpp" // replace with <libunittest/all.hpp> in your app
 using namespace unittest::assertions;
 
 TEST(test_value_is_true)

@@ -1,5 +1,4 @@
-#include <libunittest/unittest.hpp>
-#include <libunittest/shortcuts.hpp>
+#include "../src/all.hpp"
 using namespace unittest::assertions;
 using namespace unittest::core;
 

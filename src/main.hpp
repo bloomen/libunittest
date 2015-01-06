@@ -5,7 +5,7 @@
  * @file main.hpp
  */
 #pragma once
-#include <libunittest/unittest.hpp>
+#include "unittest.hpp"
 /**
  * @brief The main function
  * @param argc The number of arguments

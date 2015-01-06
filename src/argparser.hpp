@@ -7,7 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <set>
-#include <libunittest/utilities.hpp>
+#include "utilities.hpp"
 /**
  * @brief Unit testing in C++
  */

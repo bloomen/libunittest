@@ -1,7 +1,7 @@
 .cproject
 .project
 .settings
-distribution
+dist
 lib
 *.o
 *.obj

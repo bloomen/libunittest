@@ -3,9 +3,9 @@
  * @file testrun.hpp
  */
 #pragma once
-#include <libunittest/testfailure.hpp>
-#include <libunittest/testsuite.hpp>
-#include <libunittest/utilities.hpp>
+#include "testfailure.hpp"
+#include "testsuite.hpp"
+#include "utilities.hpp"
 #include <string>
 #include <stdexcept>
 #include <thread>

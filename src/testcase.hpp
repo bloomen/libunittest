@@ -3,7 +3,7 @@
  * @file testcase.hpp
  */
 #pragma once
-#include <libunittest/assertions.hpp>
+#include "assertions.hpp"
 #include <string>
 #include <memory>
 /**

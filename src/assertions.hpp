@@ -3,11 +3,11 @@
  * @file assertions.hpp
  */
 #pragma once
-#include <libunittest/utilities.hpp>
-#include <libunittest/formatting.hpp>
-#include <libunittest/testsuite.hpp>
-#include <libunittest/testfailure.hpp>
-#include <libunittest/checkers.hpp>
+#include "utilities.hpp"
+#include "formatting.hpp"
+#include "testsuite.hpp"
+#include "testfailure.hpp"
+#include "checkers.hpp"
 #include <string>
 #include <regex>
 #include <typeinfo>

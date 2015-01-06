@@ -1,6 +1,6 @@
-#include <libunittest/testresults.hpp>
-#include <libunittest/teststatus.hpp>
-#include <libunittest/utilities.hpp>
+#include "testresults.hpp"
+#include "teststatus.hpp"
+#include "utilities.hpp"
 #include <mutex>
 
 namespace unittest {

@@ -1,7 +1,7 @@
 include mk/common.mk
 MAJOR = 7
 MINOR = 0
-PATCH = 2
+PATCH = 3
 VERSION = $(MAJOR).$(MINOR).$(PATCH)
 
 PROG = libunittest
@@ -25,7 +25,7 @@ else
 endif
 
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
-FULLVERFILE = $(INCDIR)/$(PROG)/$(VERSIONFILE)
+FULLVERFILE = src/$(VERSIONFILE)
 
 MKDIR = mkdir -p
 LN = ln -s
@@ -38,8 +38,8 @@ UNTAR = tar xfz
 
 COPYING = COPYING.txt
 CHANGES = CHANGES.txt
-DISTDIR = distribution
-DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) include src test examples doc mk
+DISTDIR = dist
+DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) src test examples doc mk
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
@@ -66,11 +66,11 @@ install :
 	@$(RM) -r $(INSTALLDIR)/include/$(PROG) 
 	@$(MKDIR) $(INSTALLDIR)/include/$(PROG) 
 	@$(CP) $(LIBDIR)/$(REALNAME) $(INSTALLDIR)/lib
-	@$(CP) $(INCDIR)/$(PROG)/*.hpp $(INSTALLDIR)/include/$(PROG)
+	@$(CP) src/*.hpp $(INSTALLDIR)/include/$(PROG)
 	@$(RM) $(INSTALLDIR)/lib/$(SONAME)
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
-	@$(CD) $(INSTALLDIR)/lib; $(LN) $(REALNAME) $(SONAME)
-	@$(CD) $(INSTALLDIR)/lib; $(LN) $(SONAME) $(LIBNAME)
+	@$(CD) $(INSTALLDIR)/lib && $(LN) $(REALNAME) $(SONAME)
+	@$(CD) $(INSTALLDIR)/lib && $(LN) $(SONAME) $(LIBNAME)
 
 dist : version versioncheck
 	@$(RM) -r $(PROGVER)

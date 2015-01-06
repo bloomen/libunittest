@@ -3,8 +3,8 @@
  * @file testregistry.hpp
  */
 #pragma once
-#include <libunittest/testsuite.hpp>
-#include <libunittest/utilities.hpp>
+#include "testsuite.hpp"
+#include "utilities.hpp"
 /**
  * @brief Unit testing in C++
  */

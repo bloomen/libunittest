@@ -3,7 +3,7 @@
  * @file testresults.hpp
  */
 #pragma once
-#include <libunittest/testlog.hpp>
+#include "testlog.hpp"
 #include <ostream>
 #include <vector>
 #include <chrono>

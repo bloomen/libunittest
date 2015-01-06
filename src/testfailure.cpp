@@ -1,5 +1,5 @@
-#include <libunittest/testfailure.hpp>
-#include <libunittest/utilities.hpp>
+#include "testfailure.hpp"
+#include "utilities.hpp"
 
 
 namespace unittest {
