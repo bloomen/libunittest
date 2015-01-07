@@ -6,7 +6,7 @@ else
     LDFLAGS = -pthread
 endif
 
-LIBS = -Wl,-rpath,./$(LIBDIR) -L./$(LIBDIR) -lunittest
+LIBS = -L./$(LIBDIR) -lunittest
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 default : $(PROG)
@@ -16,7 +16,7 @@ $(PROG) : $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROG)
 
 run :
-	@./$(PROG) -x || exit 1
+	@export LD_LIBRARY_PATH=$(LIBDIR):$(LD_LIBRARY_PATH) && export DYLD_LIBRARY_PATH=$(LIBDIR):$(DYLD_LIBRARY_PATH) && export PATH=$(LIBDIR):$(PATH) && ./$(PROG) -x || exit 1
 	@xmllint --noout --schema $(XSD) libunittest.xml || exit 1
 
 clean :
