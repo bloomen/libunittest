@@ -1,4 +1,4 @@
-#include "../src/all.hpp"
+#include <libunittest/all.hpp>
 
 int main(int argc, char **argv)
 {

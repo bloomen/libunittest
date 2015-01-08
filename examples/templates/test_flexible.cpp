@@ -1,4 +1,4 @@
-#include "../../src/all.hpp" // replace with <libunittest/all.hpp> in your app
+#include <libunittest/all.hpp>
 using namespace unittest::assertions;
 
 template<typename T, typename U>

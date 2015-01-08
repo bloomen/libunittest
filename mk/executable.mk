@@ -12,6 +12,9 @@ OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 default : $(PROG)
 all : default
 
+%.o : %.cpp
+	$(CXX) $(CXXFLAGS) -I$(ROOT) -c $< -o $@
+
 $(PROG) : $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROG)
 

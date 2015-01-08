@@ -1,4 +1,4 @@
-#include "../src/all.hpp"
+#include <libunittest/all.hpp>
 using namespace unittest::assertions;
 using unittest::core::argparser;
 

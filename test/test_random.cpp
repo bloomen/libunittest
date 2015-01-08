@@ -1,4 +1,4 @@
-#include "../src/all.hpp"
+#include <libunittest/all.hpp>
 #include <list>
 #include <mutex>
 using namespace unittest::assertions;

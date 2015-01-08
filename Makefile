@@ -24,8 +24,8 @@ else
     LDFLAGS = -shared -Wl,-soname,$(SONAME)
 endif
 
-OBJECTS = $(patsubst %.cpp, %.o, $(wildcard src/*.cpp))
-FULLVERFILE = src/$(VERSIONFILE)
+OBJECTS = $(patsubst %.cpp, %.o, $(wildcard libunittest/*.cpp))
+FULLVERFILE = libunittest/$(VERSIONFILE)
 
 MKDIR = mkdir -p
 LN = ln -s
@@ -39,7 +39,7 @@ UNTAR = tar xfz
 COPYING = COPYING.txt
 CHANGES = CHANGES.txt
 DISTDIR = dist
-DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) src test examples doc mk
+DISTDATA = Makefile COPYING.txt README.txt $(CHANGES) libunittest test examples doc mk
 BUILDDIRS = test examples/flexible examples/collection examples/random examples/minimal examples/templates doc/doxygen
 TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/doxyfile
 
@@ -47,6 +47,9 @@ TODOSFILES = $(COPYING) README.txt $(CHANGES) examples/README.txt doc/doxygen/do
 
 default : $(LIBDIR)/$(REALNAME)
 all : default
+
+%.o : %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(LIBDIR)/$(REALNAME) : $(LIBDIR) $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $(LIBDIR)/$(REALNAME)
@@ -66,7 +69,7 @@ install :
 	@$(RM) -r $(INSTALLDIR)/include/$(PROG) 
 	@$(MKDIR) $(INSTALLDIR)/include/$(PROG) 
 	@$(CP) $(LIBDIR)/$(REALNAME) $(INSTALLDIR)/lib
-	@$(CP) src/*.hpp $(INSTALLDIR)/include/$(PROG)
+	@$(CP) libunittest/*.hpp $(INSTALLDIR)/include/$(PROG)
 	@$(RM) $(INSTALLDIR)/lib/$(SONAME)
 	@$(RM) $(INSTALLDIR)/lib/$(LIBNAME)
 	@$(CD) $(INSTALLDIR)/lib && $(LN) $(REALNAME) $(SONAME)
@@ -133,5 +136,5 @@ upload : dist
 clean :
 	@$(ECHO) "Cleaning up ..."
 	@$(RM) -r $(LIBDIR)
-	@$(RM) src/*.o
+	@$(RM) libunittest/*.o
 	@for dir in $(BUILDDIRS); do $(MAKE) -s -C $$dir $@ ; done

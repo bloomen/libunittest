@@ -1,4 +1,4 @@
-#include "../src/all.hpp"
+#include <libunittest/all.hpp>
 using namespace unittest::assertions;
 
 struct test_utilities : unittest::testcase<> {

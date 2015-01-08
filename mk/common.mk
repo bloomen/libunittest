@@ -12,6 +12,3 @@ ROOT = .
 LIBDIR = $(ROOT)/lib
 XSD = $(ROOT)/doc/web/libunittest.xsd
 RM = rm -f
-
-%.o : %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
