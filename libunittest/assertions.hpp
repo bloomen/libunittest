@@ -8,7 +8,7 @@
 #include "testsuite.hpp"
 #include "testfailure.hpp"
 #include "checkers.hpp"
-#include "type_traits.hpp"
+#include "typetraits.hpp"
 #include <string>
 #include <regex>
 #include <typeinfo>

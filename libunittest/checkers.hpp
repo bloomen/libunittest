@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "testfailure.hpp"
+#include "typetraits.hpp"
 #include <string>
 /**
  * @brief Unit testing in C++
