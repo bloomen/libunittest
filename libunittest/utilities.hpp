@@ -3,6 +3,7 @@
  * @file utilities.hpp
  */
 #pragma once
+#include "type_traits.hpp"
 #include <ostream>
 #include <string>
 #include <chrono>
@@ -57,6 +58,7 @@ write_to_stream(std::ostream& stream,
                 const T& arg,
                 const Args&... args)
 {
+	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     stream << arg;
     unittest::core::write_to_stream(stream, args...);
 }
@@ -174,7 +176,7 @@ is_containers_equal(const Container1& first,
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (*begin1!=*begin2) return false;
+        if (!(*begin1==*begin2)) return false;
         ++begin1;
         ++begin2;
     }
@@ -321,6 +323,7 @@ template<typename T>
 T
 to_number(const std::string& value)
 {
+	static_assert(std::is_arithmetic<T>::value, "type is not arithmetic");
     std::istringstream stream(value);
     double number;
     if (stream >> number) {
@@ -409,6 +412,7 @@ std::string
 join(const T& arg,
      const Args&... args)
 {
+	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
     stream << arg;
     unittest::core::write_to_stream(stream, args...);

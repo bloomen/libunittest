@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "testsuite.hpp"
+#include "type_traits.hpp"
 #include <string>
 #include <sstream>
 /**
@@ -32,6 +33,7 @@ template<typename T>
 std::string
 str(const T& value)
 {
+	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
     stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision);
     stream << value;

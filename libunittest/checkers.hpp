@@ -27,7 +27,9 @@ check_epsilon(const T& epsilon,
               const std::string& caller,
               const Args&... message)
 {
-    if (!(epsilon > 0)) {
+	static_assert(unittest::core::is_lesser_comparable<T>::value, "epsilon is not lesser comparable");
+	static_assert(unittest::core::is_greater_comparable<T>::value, "epsilon is not greater comparable");
+    if (!(epsilon > static_cast<T>(0))) {
         const std::string text = "epsilon not greater than zero";
         unittest::fail(caller, text, message...);
     }
@@ -48,6 +50,10 @@ check_range_bounds(const T& lower,
                    const std::string& caller,
                    const Args&... message)
 {
+	static_assert(unittest::core::is_lesser_comparable<T>::value, "lower is not lesser comparable");
+	static_assert(unittest::core::is_greater_comparable<T>::value, "lower is not greater comparable");
+	static_assert(unittest::core::is_lesser_comparable<U>::value, "upper is not lesser comparable");
+	static_assert(unittest::core::is_greater_comparable<U>::value, "upper is not greater comparable");
     if (lower > upper) {
         const std::string text = "lower bound cannot be greater than upper bound";
         unittest::fail(caller, text, message...);
