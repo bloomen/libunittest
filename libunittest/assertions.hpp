@@ -69,8 +69,6 @@ assert_equal(const T& expected,
              const U& actual,
              const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<T>::value, "expected is not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<U>::value, "actual is not equality comparable");
     if (!(expected == actual)) {
         const std::string text = unittest::core::str(expected) + " not equal to " + unittest::core::str(actual);
         unittest::fail(__func__, text, message...);
@@ -91,8 +89,6 @@ assert_not_equal(const T& first,
                  const U& second,
                  const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<T>::value, "first is not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<U>::value, "second is not equality comparable");
     if (first == second) {
         const std::string text = unittest::core::str(first) + " equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
@@ -117,10 +113,6 @@ assert_approx_equal(const T& expected,
                     const V& epsilon,
                     const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "expected is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "expected is not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<U>::value, "actual is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<U>::value, "actual is not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(expected) + " not approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
@@ -146,10 +138,6 @@ assert_approx_not_equal(const T& first,
                         const V& epsilon,
                         const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "first is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "first is not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<U>::value, "second is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<U>::value, "second is not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (unittest::core::is_approx_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(first) + " approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
@@ -171,8 +159,6 @@ assert_greater(const T& first,
                const U& second,
                const Args&... message)
 {
-	static_assert(unittest::core::is_greater_comparable<T>::value, "first is not greater comparable");
-	static_assert(unittest::core::is_greater_comparable<U>::value, "second is not greater comparable");
     if (!(first > second)) {
         const std::string text = unittest::core::str(first) + " not greater than " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
@@ -193,8 +179,6 @@ assert_greater_equal(const T& first,
                      const U& second,
                      const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "first is not lesser comparable");
-	static_assert(unittest::core::is_lesser_comparable<U>::value, "second is not lesser comparable");
     if (first < second) {
         const std::string text = unittest::core::str(first) + " not greater than or equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
@@ -215,8 +199,6 @@ assert_lesser(const T& first,
               const U& second,
               const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "first is not lesser comparable");
-	static_assert(unittest::core::is_lesser_comparable<U>::value, "second is not lesser comparable");
     if (!(first < second)) {
         const std::string text = unittest::core::str(first) + " not lesser than " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
@@ -237,8 +219,6 @@ assert_lesser_equal(const T& first,
                     const U& second,
                     const Args&... message)
 {
-	static_assert(unittest::core::is_greater_comparable<T>::value, "first is not greater comparable");
-	static_assert(unittest::core::is_greater_comparable<U>::value, "second is not greater comparable");
     if (first > second) {
         const std::string text = unittest::core::str(first) + " not lesser than or equal to " + unittest::core::str(second);
         unittest::fail(__func__, text, message...);
@@ -262,8 +242,6 @@ assert_in_range(const T& value,
                 const V& upper,
                 const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "value is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "value is not greater comparable");
     unittest::core::check_range_bounds(lower, upper, __func__, message...);
     if (!unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " not in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -288,8 +266,6 @@ assert_not_in_range(const T& value,
                     const V& upper,
                     const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "value is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "value is not greater comparable");
     unittest::core::check_range_bounds(lower, upper, __func__, message...);
     if (unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -311,8 +287,6 @@ assert_in_container(const T& value,
                     const Container& container,
                     const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<T>::value, "value is not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(container))>::value, "container elements are not equality comparable");
     if (!unittest::core::is_contained(value, container)) {
         const std::string text = "value not in container";
         unittest::fail(__func__, text, message...);
@@ -333,8 +307,6 @@ assert_not_in_container(const T& value,
                         const Container& container,
                         const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<T>::value, "value is not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(container))>::value, "container elements are not equality comparable");
     if (unittest::core::is_contained(value, container)) {
         const std::string text = "value in container";
         unittest::fail(__func__, text, message...);
@@ -359,10 +331,6 @@ assert_approx_in_container(const T& value,
                            const U& epsilon,
                            const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "value is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "value is not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(container))>::value, "container elements are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(container))>::value, "container elements are not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (!unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value not approx. in container";
@@ -388,10 +356,6 @@ assert_approx_not_in_container(const T& value,
                                const U& epsilon,
                                const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<T>::value, "value is not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<T>::value, "value is not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(container))>::value, "container elements are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(container))>::value, "container elements are not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value approx. in container";
@@ -413,8 +377,6 @@ assert_equal_containers(const Container1& expected,
                         const Container2& actual,
                         const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(expected))>::value, "container elements of expected are not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(actual))>::value, "container elements of actual are not equality comparable");
     if (!unittest::core::is_containers_equal(expected, actual)) {
         const std::string text = "containers are not equal";
         unittest::fail(__func__, text, message...);
@@ -435,8 +397,6 @@ assert_not_equal_containers(const Container1& first,
                             const Container2& second,
                             const Args&... message)
 {
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(first))>::value, "container elements of first are not equality comparable");
-	static_assert(unittest::core::is_equality_comparable<decltype(*std::begin(second))>::value, "container elements of second are not equality comparable");
     if (unittest::core::is_containers_equal(first, second)) {
         const std::string text = "containers are equal";
         unittest::fail(__func__, text, message...);
@@ -461,10 +421,6 @@ assert_approx_equal_containers(const Container1& expected,
                                const V& epsilon,
                                const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(expected))>::value, "container elements of expected are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(expected))>::value, "container elements of expected are not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(actual))>::value, "container elements of actual are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(actual))>::value, "container elements of actual are not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (!unittest::core::is_containers_approx_equal(expected, actual, epsilon)) {
         const std::string text = "containers are not approx. equal";
@@ -491,10 +447,6 @@ assert_approx_not_equal_containers(const Container1& first,
                                    const V& epsilon,
                                    const Args&... message)
 {
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(first))>::value, "container elements of first are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(first))>::value, "container elements of first are not greater comparable");
-	static_assert(unittest::core::is_lesser_comparable<decltype(*std::begin(second))>::value, "container elements of second are not lesser comparable");
-	static_assert(unittest::core::is_greater_comparable<decltype(*std::begin(second))>::value, "container elements of second are not greater comparable");
     unittest::core::check_epsilon(epsilon, __func__, message...);
     if (unittest::core::is_containers_approx_equal(first, second, epsilon)) {
         const std::string text = "containers are approx. equal";

@@ -94,7 +94,7 @@ is_approx_equal(const T& first,
                 const U& second,
                 const V& eps)
 {
-    V diff = 0;
+    V diff = static_cast<V>(first - first);
     if (first > second)
         diff = static_cast<V>(first - second);
     else if (first < second)
