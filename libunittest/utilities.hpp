@@ -426,19 +426,5 @@ const float feps = std::numeric_limits<float>::epsilon();
  * @brief Machine epsilon of double
  */
 const double deps = std::numeric_limits<double>::epsilon();
-/**
- * @brief A utility class to indicate 'no type' property
- */
-class notype {
-	notype() {}
-	virtual ~notype() noexcept(false) {}
-};
-/**
- * @brief A utility class to indicate 'some type' property
- */
-struct sometype {
-	sometype() {}
-	virtual ~sometype() noexcept(false) {}
-};
 
 } // unittest

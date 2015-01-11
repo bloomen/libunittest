@@ -19,6 +19,7 @@
 #include "testsuite.hpp"
 #include "testregistry.hpp"
 #include "testcollection.hpp"
+#include "typetraits.hpp"
 #include "userargs.hpp"
 #include "utilities.hpp"
 #include "version.hpp"
