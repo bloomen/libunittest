@@ -104,6 +104,44 @@ is_approx_equal(T&& first,
     return diff < eps;
 }
 /**
+ * @brief Checks if two values are relatively equal up to some epsilon
+ * using the first value as the reference/actual
+ * @param first A value
+ * @param second Another value
+ * @param eps The epsilon
+ * @returns Whether the values are equal up to some epsilon
+ */
+template<typename T,
+         typename U,
+         typename V>
+bool
+is_approx_relequal(const T& first,
+                const U& second,
+                const V& eps)
+{
+    T zero = first - first;
+    V diff = 0;
+    V rhs = 0;
+    if (first - second > zero)
+    	if (first > zero)
+    		diff = static_cast<V>(first - second);
+    		rhs = static_cast<V>(first*eps);
+    		return diff < rhs;
+    	if (first < zero)
+    		diff = static_cast<V>(first - second);
+			rhs = static_cast<V>(first*eps);
+			return diff > rhs;
+	if (first - second < zero)
+		if (first > zero)
+			diff = static_cast<V>(second - first);
+			rhs = static_cast<V>(first*eps);
+			return diff < rhs;
+		if (first < zero)
+			diff = static_cast<V>(second - first);
+			rhs = static_cast<V>(first*eps);
+			return diff > rhs;
+}
+/**
  * @brief Checks if a value is in a given range.
  *  The bounds are included
  * @param value A value

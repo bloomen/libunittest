@@ -147,6 +147,57 @@ assert_approx_not_equal(T&& first,
     }
 }
 /**
+ * @brief Asserts that two values are approximately equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon.
+ *  Operators needed: <, >, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param epsilon The epsilon
+ * @param message If given, is appended to the default fail message
+ */
+template<typename T,
+         typename U,
+         typename V,
+         typename... Args>
+void
+assert_approx_relequal(const T& expected,
+                    const U& actual,
+                    const V& epsilon,
+                    const Args&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_approx_relequal(expected, actual, epsilon)) {
+        const std::string text = unittest::core::str(expected) + " not approx. relatively equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(__func__, text, message...);
+    }
+}
+/**
+ * @brief Asserts that two values are not approximately relatively
+ * equal up to some epsilon. The assertion succeeds if |a - b| < epsilon
+ * is false.
+ *  Operators needed: <, >, <<
+ * @param first A value
+ * @param second Another value
+ * @param epsilon The epsilon
+ * @param message If given, is appended to the default fail message
+ */
+template<typename T,
+         typename U,
+         typename V,
+         typename... Args>
+void
+assert_approx_not_relequal(const T& first,
+                        const U& second,
+                        const V& epsilon,
+                        const Args&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_approx_relequal(first, second, epsilon)) {
+        const std::string text = unittest::core::str(first) + " approx. relatively equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(__func__, text, message...);
+    }
+}
+/**
  * @brief Asserts that the first value is greater than the second.
  *  Operators needed: >, <<
  * @param first A value

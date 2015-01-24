@@ -15,6 +15,7 @@ struct test_assertions : unittest::testcase<> {
     static void run()
     {
         UNITTEST_CLASS(test_assertions)
+        UNITTEST_RUN(test_assert_approx_relequal)
         UNITTEST_RUN(test_assert_true)
         UNITTEST_RUN(test_assert_false)
         UNITTEST_RUN(test_assert_equal)
@@ -43,6 +44,13 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_not_regex_match)
         UNITTEST_RUN(test_assert_throw)
         UNITTEST_RUN(test_assert_no_throw)
+    }
+
+    void test_assert_approx_relequal()
+    {
+        assert_approx_relequal(10.05, 10.0, 0.0051, SPOT);
+        auto functor = []() { assert_approx_relequal(10.05, 10.0, 0.005); };
+        assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_true()
