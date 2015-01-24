@@ -31,7 +31,7 @@ stream_to_string(const std::ostringstream& stream);
  */
 template<typename T>
 std::string
-str(const T& value)
+str(T&& value)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
@@ -46,7 +46,15 @@ str(const T& value)
  */
 template<>
 std::string
-str<bool>(const bool& value);
+str<bool&>(bool& value);
+/**
+ * @brief Converts a given value to string. Spec. for bool
+ * @param value The value
+ * @returns A string
+ */
+template<>
+std::string
+str<bool>(bool&& value);
 
 } // core
 } // unittest

@@ -24,13 +24,13 @@ namespace core {
 template<typename T,
          typename... Args>
 void
-check_epsilon(const T& epsilon,
+check_epsilon(T&& epsilon,
               const std::string& caller,
-              const Args&... message)
+              Args&&... message)
 {
-    if (!(epsilon > static_cast<T>(0))) {
+    if (!(epsilon > epsilon - epsilon)) {
         const std::string text = "epsilon not greater than zero";
-        unittest::fail(caller, text, message...);
+        unittest::fail(caller, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -44,14 +44,14 @@ template<typename T,
          typename U,
          typename... Args>
 void
-check_range_bounds(const T& lower,
-                   const U& upper,
+check_range_bounds(T&& lower,
+                   U&& upper,
                    const std::string& caller,
-                   const Args&... message)
+                   Args&&... message)
 {
     if (lower > upper) {
         const std::string text = "lower bound cannot be greater than upper bound";
-        unittest::fail(caller, text, message...);
+        unittest::fail(caller, text, std::forward<Args>(message)...);
     }
 }
 

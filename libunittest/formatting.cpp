@@ -16,7 +16,14 @@ stream_to_string(const std::ostringstream& stream)
 
 template<>
 std::string
-str<bool>(const bool& value)
+str<bool&>(bool& value)
+{
+	return value ? "true" : "false";
+}
+
+template<>
+std::string
+str<bool>(bool&& value)
 {
 	return value ? "true" : "false";
 }

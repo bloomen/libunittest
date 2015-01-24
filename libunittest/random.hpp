@@ -143,6 +143,7 @@ public:
         : unittest::random_object<T>(),
           distribution_()
     {
+    	static_assert(std::is_arithmetic<T>::value, "type is not arithmetic");
         typename dist_type::param_type params(0, 1);
         distribution_.param(params);
     }
@@ -151,10 +152,11 @@ public:
      * @param maximum The upper bound
      */
     explicit
-    random_value(const T& maximum)
+    random_value(T maximum)
         : unittest::random_object<T>(),
           distribution_()
     {
+    	static_assert(std::is_arithmetic<T>::value, "type is not arithmetic");
         if (!(maximum>0))
             throw std::invalid_argument("maximum must be greater than zero");
         typename dist_type::param_type params(0, maximum);
@@ -165,11 +167,12 @@ public:
      * @param minimum The lower bound
      * @param maximum The upper bound
      */
-    random_value(const T& minimum,
-                 const T& maximum)
+    random_value(T minimum,
+                 T maximum)
         : unittest::random_object<T>(),
           distribution_()
     {
+    	static_assert(std::is_arithmetic<T>::value, "type is not arithmetic");
         if (!(minimum<maximum))
             throw std::invalid_argument("minimum must be lesser than maximum");
         typename dist_type::param_type params(minimum, maximum);
@@ -210,7 +213,7 @@ make_random_value()
  */
 template<typename T>
 std::shared_ptr<unittest::random_object<T>>
-make_random_value(const T& maximum)
+make_random_value(T maximum)
 {
     return std::make_shared<unittest::random_value<T>>(maximum);
 }
@@ -222,8 +225,8 @@ make_random_value(const T& maximum)
  */
 template<typename T>
 std::shared_ptr<unittest::random_object<T>>
-make_random_value(const T& minimum,
-                  const T& maximum)
+make_random_value(T minimum,
+                  T maximum)
 {
     return std::make_shared<unittest::random_value<T>>(minimum, maximum);
 }
@@ -275,9 +278,9 @@ public:
      * @param container The container to choose from
      */
     explicit
-    random_choice(const Container& container)
+    random_choice(Container container)
         : unittest::random_object<element_type>(),
-          container_(container),
+          container_(std::move(container)),
           distribution_()
     {
         if (container_.size()==0)
@@ -304,7 +307,7 @@ private:
             return result;
         const size_t index = distribution_(this->gen());
         size_t count = 0;
-        for (auto& value : container_) {
+        for (const auto& value : container_) {
             if (count==index) {
                 result = value;
                 break;
@@ -314,7 +317,7 @@ private:
         return result;
     }
 
-    Container container_;
+    const Container container_;
     dist_type distribution_;
 
 };
@@ -325,9 +328,9 @@ private:
  */
 template<typename Container>
 std::shared_ptr<unittest::random_object<typename Container::value_type>>
-make_random_choice(const Container& container)
+make_random_choice(Container container)
 {
-    return std::make_shared<unittest::random_choice<Container>>(container);
+    return std::make_shared<unittest::random_choice<Container>>(std::move(container));
 }
 /**
  * @brief A random container
@@ -726,13 +729,13 @@ public:
      * @param container2 Another container
      * @param size The number of combinations
      */
-    random_combination(const Container1& container1,
-                       const Container2& container2,
+    random_combination(Container1 container1,
+                       Container2 container2,
                        size_t size)
         : unittest::random_object<combination_type>(),
-          container1_(container1),
-          container2_(container2),
-          granter_(container1.size() * container2.size(), false),
+          container1_(std::move(container1)),
+          container2_(std::move(container2)),
+          granter_(container1_.size() * container2_.size(), false),
           size_(size)
     {
         if (size<1 || size>granter_.size())
@@ -755,18 +758,18 @@ private:
         combination_type combination;
         combination.reserve(size_);
         shuffle(granter_.begin(), granter_.end(), this->gen());
-        for (auto& value1 : container1_) {
-            for (auto& value2 : container2_) {
+        for (const auto& value1 : container1_) {
+            for (const auto& value2 : container2_) {
                 if (granter_[index])
-                    combination.push_back(std::make_pair(value1, value2));
+                    combination.emplace_back(value1, value2);
                 ++index;
             }
         }
         return std::move(combination);
     }
 
-    Container1 container1_;
-    Container2 container2_;
+    const Container1 container1_;
+    const Container2 container2_;
     std::vector<bool> granter_;
     size_t size_;
 
@@ -781,11 +784,11 @@ private:
 template<typename Container1,
          typename Container2>
 std::shared_ptr<unittest::random_object<typename unittest::core::combination<Container1, Container2>::type>>
-make_random_combination(const Container1& container1,
-                        const Container2& container2,
+make_random_combination(Container1 container1,
+                        Container2 container2,
                         size_t size)
 {
-    return std::make_shared<unittest::random_combination<Container1, Container2>>(container1, container2, size);
+    return std::make_shared<unittest::random_combination<Container1, Container2>>(std::move(container1), std::move(container2), size);
 }
 
 } // unittest

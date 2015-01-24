@@ -55,12 +55,12 @@ template<typename T,
          typename... Args>
 void
 write_to_stream(std::ostream& stream,
-                const T& arg,
-                const Args&... args)
+                T&& arg,
+                Args&&... args)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     stream << arg;
-    unittest::core::write_to_stream(stream, args...);
+    unittest::core::write_to_stream(stream, std::forward<Args>(args)...);
 }
 /**
  * @brief Writes a horizontal bar to the given output stream
@@ -90,15 +90,16 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_approx_equal(const T& first,
-                const U& second,
-                const V& eps)
+is_approx_equal(T&& first,
+                U&& second,
+                V&& eps)
 {
-    V diff = static_cast<V>(first - first);
+	typedef typename std::remove_reference<V>::type diff_type;
+	diff_type diff(eps - eps);
     if (first > second)
-        diff = static_cast<V>(first - second);
+        diff = static_cast<diff_type>(first - second);
     else if (first < second)
-        diff = static_cast<V>(second - first);
+        diff = static_cast<diff_type>(second - first);
     return diff < eps;
 }
 /**
@@ -113,9 +114,9 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_in_range(const T& value,
-            const U& lower,
-            const V& upper)
+is_in_range(T&& value,
+            U&& lower,
+            V&& upper)
 {
     return !(value < lower) && !(value > upper);
 }
@@ -128,8 +129,8 @@ is_in_range(const T& value,
 template<typename T,
          typename Container>
 bool
-is_contained(const T& value,
-             const Container& container)
+is_contained(T&& value,
+             Container&& container)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
@@ -147,14 +148,14 @@ template<typename T,
          typename Container,
          typename U>
 bool
-is_approx_contained(const T& value,
-                    const Container& container,
-                    const U& eps)
+is_approx_contained(T&& value,
+                    Container&& container,
+                    U&& eps)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
-        if (unittest::core::is_approx_equal(*first, value, eps)) return true;
+        if (unittest::core::is_approx_equal(*first, std::forward<T>(value), std::forward<U>(eps))) return true;
         ++first;
     }
     return false;
@@ -168,8 +169,8 @@ is_approx_contained(const T& value,
 template<typename Container1,
          typename Container2>
 bool
-is_containers_equal(const Container1& first,
-                    const Container2& second)
+is_containers_equal(Container1&& first,
+                    Container2&& second)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
@@ -194,16 +195,16 @@ template<typename Container1,
          typename Container2,
          typename V>
 bool
-is_containers_approx_equal(const Container1& first,
-                           const Container2& second,
-                           const V& eps)
+is_containers_approx_equal(Container1&& first,
+                           Container2&& second,
+                           V&& eps)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (!unittest::core::is_approx_equal(*begin1, *begin2, eps)) return false;
+        if (!unittest::core::is_approx_equal(*begin1, *begin2, std::forward<V>(eps))) return false;
         ++begin1;
         ++begin2;
     }
@@ -409,22 +410,22 @@ make_unique(Args&&... args)
 template<typename T,
          typename... Args>
 std::string
-join(const T& arg,
-     const Args&... args)
+join(T&& arg,
+     Args&&... args)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
     stream << arg;
-    unittest::core::write_to_stream(stream, args...);
+    unittest::core::write_to_stream(stream, std::forward<Args>(args)...);
     return stream.str();
 }
 /**
  * @brief Machine epsilon of float
  */
-const float feps = std::numeric_limits<float>::epsilon();
+constexpr const float feps = std::numeric_limits<float>::epsilon();
 /**
  * @brief Machine epsilon of double
  */
-const double deps = std::numeric_limits<double>::epsilon();
+constexpr const double deps = std::numeric_limits<double>::epsilon();
 
 } // unittest
