@@ -147,9 +147,9 @@ assert_approx_not_equal(T&& first,
     }
 }
 /**
- * @brief Asserts that two values are approximately equal up to some
- *  epsilon. The assertion succeeds if |a - b| < epsilon.
- *  Operators needed: <, >, <<
+ * @brief Asserts that two values are approx. relatively equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon.
+ *  Operators needed: <, >, -, *, <<
  * @param expected The expected value
  * @param actual The actual value
  * @param epsilon The epsilon
@@ -160,24 +160,23 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approx_relequal(const T& expected,
-                    const U& actual,
-                    const V& epsilon,
-                    const Args&... message)
+assert_approx_relequal(T&& expected,
+					   U&& actual,
+					   V&& epsilon,
+					   Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_approx_relequal(expected, actual, epsilon)) {
-        const std::string text = unittest::core::str(expected) + " not approx. relatively equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
-        unittest::fail(__func__, text, message...);
+    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
+    if (!unittest::core::is_approx_relequal(std::forward<T>(expected), std::forward<U>(actual), std::forward<V>(epsilon))) {
+        const std::string text = unittest::core::str(std::forward<T>(expected)) + " not approx. relatively equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
 }
 /**
- * @brief Asserts that two values are not approximately relatively
- * equal up to some epsilon. The assertion succeeds if |a - b| < epsilon
- * is false.
- *  Operators needed: <, >, <<
- * @param first A value
- * @param second Another value
+ * @brief Asserts that two values are not approx. relatively equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
+ *  Operators needed: <, >, -, *, <<
+ * @param first The first value
+ * @param second The second value
  * @param epsilon The epsilon
  * @param message If given, is appended to the default fail message
  */
@@ -186,15 +185,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approx_not_relequal(const T& first,
-                        const U& second,
-                        const V& epsilon,
-                        const Args&... message)
+assert_approx_not_relequal(T&& first,
+						   U&& second,
+						   V&& epsilon,
+						   Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (unittest::core::is_approx_relequal(first, second, epsilon)) {
-        const std::string text = unittest::core::str(first) + " approx. relatively equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
-        unittest::fail(__func__, text, message...);
+    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
+    if (unittest::core::is_approx_relequal(std::forward<T>(first), std::forward<U>(second), std::forward<V>(epsilon))) {
+        const std::string text = unittest::core::str(std::forward<T>(first)) + " approx. relatively equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
 }
 /**

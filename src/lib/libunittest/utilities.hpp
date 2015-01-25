@@ -104,7 +104,7 @@ is_approx_equal(T&& first,
     return diff < eps;
 }
 /**
- * @brief Checks if two values are relatively equal up to some epsilon
+ * @brief Checks if two values are approx. relatively equal up to some epsilon
  * using the first value as the reference/actual
  * @param first A value
  * @param second Another value
@@ -115,30 +115,32 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_approx_relequal(const T& first,
-                const U& second,
-                const V& eps)
+is_approx_relequal(T&& first,
+                   U&& second,
+                   V&& eps)
 {
-    T zero = first - first;
-    V diff = 0;
-    V rhs = 0;
+	typedef typename std::remove_reference<T>::type first_type;
+	typedef typename std::remove_reference<V>::type eps_type;
+    first_type zero = first - first;
+    eps_type diff = eps - eps;
+    eps_type rhs = diff;
     if (first - second > zero)
     	if (first > zero)
-    		diff = static_cast<V>(first - second);
-    		rhs = static_cast<V>(first*eps);
+    		diff = static_cast<eps_type>(first - second);
+    		rhs = static_cast<eps_type>(first*eps);
     		return diff < rhs;
     	if (first < zero)
-    		diff = static_cast<V>(first - second);
-			rhs = static_cast<V>(first*eps);
+    		diff = static_cast<eps_type>(first - second);
+			rhs = static_cast<eps_type>(first*eps);
 			return diff > rhs;
 	if (first - second < zero)
 		if (first > zero)
-			diff = static_cast<V>(second - first);
-			rhs = static_cast<V>(first*eps);
+			diff = static_cast<eps_type>(second - first);
+			rhs = static_cast<eps_type>(first*eps);
 			return diff < rhs;
 		if (first < zero)
-			diff = static_cast<V>(second - first);
-			rhs = static_cast<V>(first*eps);
+			diff = static_cast<eps_type>(second - first);
+			rhs = static_cast<eps_type>(first*eps);
 			return diff > rhs;
 }
 /**
