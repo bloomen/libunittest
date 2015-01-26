@@ -105,7 +105,7 @@ is_approx_equal(T&& first,
 }
 /**
  * @brief Checks if two values are approx. relatively equal up to some epsilon
- * using the first value as the reference/actual
+ * 	using the first value as the reference/actual
  * @param first A value
  * @param second Another value
  * @param eps The epsilon
@@ -119,29 +119,10 @@ is_approx_relequal(T&& first,
                    U&& second,
                    V&& eps)
 {
-	typedef typename std::remove_reference<T>::type first_type;
 	typedef typename std::remove_reference<V>::type eps_type;
-    first_type zero = first - first;
-    eps_type diff = eps - eps;
-    eps_type rhs = diff;
-    if (first - second > zero)
-    	if (first > zero)
-    		diff = static_cast<eps_type>(first - second);
-    		rhs = static_cast<eps_type>(first*eps);
-    		return diff < rhs;
-    	if (first < zero)
-    		diff = static_cast<eps_type>(first - second);
-			rhs = static_cast<eps_type>(first*eps);
-			return diff > rhs;
-	if (first - second < zero)
-		if (first > zero)
-			diff = static_cast<eps_type>(second - first);
-			rhs = static_cast<eps_type>(first*eps);
-			return diff < rhs;
-		if (first < zero)
-			diff = static_cast<eps_type>(second - first);
-			rhs = static_cast<eps_type>(first*eps);
-			return diff > rhs;
+	const auto zero = first - first;
+	const auto abs_eps = static_cast<eps_type>(first < zero ? zero - first : first) * eps;
+	return is_approx_equal(std::forward<T>(first), std::forward<U>(second), std::move(abs_eps));
 }
 /**
  * @brief Checks if a value is in a given range.
