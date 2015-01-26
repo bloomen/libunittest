@@ -114,8 +114,8 @@ assert_approx_equal(T&& expected,
                     V&& epsilon,
                     Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
-    if (!unittest::core::is_approx_equal(std::forward<T>(expected), std::forward<U>(actual), std::forward<V>(epsilon))) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(expected)) + " not approx. equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -139,8 +139,8 @@ assert_approx_not_equal(T&& first,
                         V&& epsilon,
                         Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
-    if (unittest::core::is_approx_equal(std::forward<T>(first), std::forward<U>(second), std::forward<V>(epsilon))) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_approx_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " approx. equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -243,8 +243,8 @@ assert_in_range(T&& value,
                 V&& upper,
                 Args&&... message)
 {
-    unittest::core::check_range_bounds(std::forward<U>(lower), std::forward<V>(upper), __func__, std::forward<Args>(message)...);
-    if (!unittest::core::is_in_range(std::forward<T>(value), std::forward<U>(lower), std::forward<V>(upper))) {
+    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    if (!unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(std::forward<T>(value)) + " not in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -267,8 +267,8 @@ assert_not_in_range(T&& value,
                     V&& upper,
                     Args&&... message)
 {
-    unittest::core::check_range_bounds(std::forward<U>(lower), std::forward<V>(upper), __func__, std::forward<Args>(message)...);
-    if (unittest::core::is_in_range(std::forward<T>(value), std::forward<U>(lower), std::forward<V>(upper))) {
+    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    if (unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(std::forward<T>(value)) + " in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -332,7 +332,7 @@ assert_approx_in_container(T&& value,
                            U&& epsilon,
                            Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<U>(epsilon), __func__, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
     if (!unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value not approx. in container";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
@@ -357,7 +357,7 @@ assert_approx_not_in_container(T&& value,
                                U&& epsilon,
                                Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<U>(epsilon), __func__, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
     if (unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value approx. in container";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
@@ -422,7 +422,7 @@ assert_approx_equal_containers(Container1&& expected,
                                V&& epsilon,
                                Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
     if (!unittest::core::is_containers_approx_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
         const std::string text = "containers are not approx. equal";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
@@ -448,7 +448,7 @@ assert_approx_not_equal_containers(Container1&& first,
                                    V&& epsilon,
                                    Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, __func__, message...);
     if (unittest::core::is_containers_approx_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
         const std::string text = "containers are approx. equal";
         unittest::fail(__func__, text, std::forward<Args>(message)...);

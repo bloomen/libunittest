@@ -155,7 +155,7 @@ is_approx_contained(T&& value,
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
-        if (unittest::core::is_approx_equal(*first, std::forward<T>(value), std::forward<U>(eps))) return true;
+        if (unittest::core::is_approx_equal(*first, value, eps)) return true;
         ++first;
     }
     return false;
@@ -204,7 +204,7 @@ is_containers_approx_equal(Container1&& first,
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (!unittest::core::is_approx_equal(*begin1, *begin2, std::forward<V>(eps))) return false;
+        if (!unittest::core::is_approx_equal(*begin1, *begin2, eps)) return false;
         ++begin1;
         ++begin2;
     }
