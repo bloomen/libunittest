@@ -165,8 +165,8 @@ assert_approx_relequal(T&& expected,
 					   V&& epsilon,
 					   Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
-    if (!unittest::core::is_approx_relequal(std::forward<T>(expected), std::forward<U>(actual), std::forward<V>(epsilon))) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_approx_relequal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(expected)) + " not approx. relatively equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -190,8 +190,8 @@ assert_approx_not_relequal(T&& first,
 						   V&& epsilon,
 						   Args&&... message)
 {
-    unittest::core::check_epsilon(std::forward<V>(epsilon), __func__, std::forward<Args>(message)...);
-    if (unittest::core::is_approx_relequal(std::forward<T>(first), std::forward<U>(second), std::forward<V>(epsilon))) {
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_approx_relequal(first, second, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " approx. relatively equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
