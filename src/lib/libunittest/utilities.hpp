@@ -15,7 +15,6 @@
 #include <memory>
 #include <type_traits>
 #include <utility>
-#include <cstddef>
 /**
  * @brief Unit testing in C++
  */
@@ -95,12 +94,12 @@ is_approx_equal(T&& first,
                 U&& second,
                 V&& eps)
 {
-	typedef typename unittest::core::remove_cv_ref<V>::type diff_type;
-	diff_type diff(eps - eps);
+	typedef typename unittest::core::remove_cv_ref<V>::type eps_type;
+	eps_type diff(eps - eps);
     if (first > second)
-        diff = static_cast<diff_type>(first - second);
+        diff = static_cast<eps_type>(first - second);
     else if (first < second)
-        diff = static_cast<diff_type>(second - first);
+        diff = static_cast<eps_type>(second - first);
     return diff < eps;
 }
 /**
@@ -119,9 +118,10 @@ is_approx_relequal(T&& first,
                    U&& second,
                    V&& eps)
 {
-	typedef typename std::remove_reference<V>::type eps_type;
-	const auto zero = first - first;
-	const auto abs_eps = static_cast<eps_type>(first < zero ? zero - first : first) * eps;
+	typedef typename unittest::core::remove_cv_ref<T>::type first_type;
+	typedef typename unittest::core::remove_cv_ref<V>::type eps_type;
+	const first_type zero(first - first);
+	const eps_type abs_eps(static_cast<eps_type>(first < zero ? zero - first : first) * eps);
 	return is_approx_equal(std::forward<T>(first), std::forward<U>(second), std::move(abs_eps));
 }
 /**
