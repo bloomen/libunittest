@@ -437,6 +437,7 @@ assert_relapprox_in_container(T&& value,
     if (!unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value not approx. in container";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
+    }
 }
 /**
 * @brief Asserts that a value is not approx. in a container up to some
@@ -448,20 +449,20 @@ assert_relapprox_in_container(T&& value,
 * @param message If given, is appended to the default fail message
 */
 template<typename T,
-         typename Container,
-         typename U,
-         typename... Args>
+		 typename Container,
+		 typename U,
+		 typename... Args>
 void
 assert_relapprox_not_in_container(T&& value,
-                            Container&& container,
-                            U&& epsilon,
-                            Args&&... message)
+							Container&& container,
+							U&& epsilon,
+							Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
-        const std::string text = "value approx. in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
-    }
+	unittest::core::check_epsilon(epsilon, __func__, message...);
+	if (unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+		const std::string text = "value approx. in container";
+		unittest::fail(__func__, text, std::forward<Args>(message)...);
+	}
 }
 /**
  * @brief Asserts that two containers are equal.
