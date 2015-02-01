@@ -183,6 +183,30 @@ is_approx_contained(T&& value,
     return false;
 }
 /**
+ * @brief Checks if a value is approx. in a container
+ *  up to some epsilon
+ * @param value A value
+ * @param container A container
+ * @param eps The epsilon
+ * @returns Whether the value is approx. in the container
+ */
+template<typename T,
+         typename Container,
+         typename U>
+bool
+is_relapprox_contained(T&& value,
+                    Container&& container,
+                    U&& eps)
+{
+    auto first = std::begin(container);
+    auto last = std::end(container);
+    while (first!=last) {
+        if (unittest::core::is_approx_relequal(*first, value, eps)) return true;
+        ++first;
+    }
+    return false;
+}
+/**
  * @brief Checks if two containers are equal
  * @param first A container
  * @param second Another container
@@ -227,6 +251,33 @@ is_containers_approx_equal(Container1&& first,
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
         if (!unittest::core::is_approx_equal(*begin1, *begin2, eps)) return false;
+        ++begin1;
+        ++begin2;
+    }
+    return begin1==end1 && begin2==end2;
+}
+/**
+ * @brief Checks if two containers are approx. equal
+ *  up to some epsilon
+ * @param first A container
+ * @param second Another container
+ * @param eps The epsilon
+ * @returns Whether the two containers are approx. equal
+ */
+template<typename Container1,
+         typename Container2,
+         typename V>
+bool
+is_containers_approx_relequal(Container1&& first,
+                           Container2&& second,
+                           V&& eps)
+{
+    auto begin1 = std::begin(first);
+    auto end1 = std::end(first);
+    auto begin2 = std::begin(second);
+    auto end2 = std::end(second);
+    while (begin1!=end1 && begin2!=end2) {
+        if (!unittest::core::is_approx_relequal(*begin1, *begin2, eps)) return false;
         ++begin1;
         ++begin2;
     }

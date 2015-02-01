@@ -415,6 +415,55 @@ assert_approx_not_in_container(T&& value,
     }
 }
 /**
+ * @brief Asserts that a value is approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for at least one element.
+ *  Operators needed: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ * @param message If given, is appended to the default fail message
+ */
+template<typename T,
+         typename Container,
+         typename U,
+         typename... Args>
+void
+assert_relapprox_in_container(T&& value,
+                           Container&& container,
+                           U&& epsilon,
+                           Args&&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+        const std::string text = "value not approx. in container";
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
+}
+/**
+* @brief Asserts that a value is not approx. in a container up to some
+*  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements.
+*  Operators needed: <, >, -
+* @param value A value
+* @param container A container
+* @param epsilon The epsilon
+* @param message If given, is appended to the default fail message
+*/
+template<typename T,
+         typename Container,
+         typename U,
+         typename... Args>
+void
+assert_relapprox_not_in_container(T&& value,
+                            Container&& container,
+                            U&& epsilon,
+                            Args&&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+        const std::string text = "value approx. in container";
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
+    }
+}
+/**
  * @brief Asserts that two containers are equal.
  *  Operators needed: ==
  * @param expected The expected container
@@ -503,6 +552,57 @@ assert_approx_not_equal_containers(Container1&& first,
     if (unittest::core::is_containers_approx_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
         const std::string text = "containers are approx. equal";
         unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+    }
+}
+/**
+ * @brief Asserts that two containers are approx. equal up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for all pairs of elements.
+ *  Operators needed: <, >, -
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ * @param message If given, is appended to the default fail message
+ */
+template<typename Container1,
+         typename Container2,
+         typename V,
+         typename... Args>
+void
+assert_approx_relequal_containers(Container1&& expected,
+                               Container2&& actual,
+                               V&& epsilon,
+                               Args&&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (!unittest::core::is_containers_approx_relequal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
+        const std::string text = "containers are not approx. equal";
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
+    }
+}
+/**
+ * @brief Asserts that two containers are not approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+ *  least one pair of elements.
+ *  Operators needed: <, >, -
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ * @param message If given, is appended to the default fail message
+ */
+template<typename Container1,
+         typename Container2,
+         typename V,
+         typename... Args>
+void
+assert_approx_not_relequal_containers(Container1&& first,
+                                   Container2&& second,
+                                   V&& epsilon,
+                                   Args&&... message)
+{
+    unittest::core::check_epsilon(epsilon, __func__, message...);
+    if (unittest::core::is_containers_approx_relequal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
+        const std::string text = "containers are approx. equal";
+        unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
 }
 /**

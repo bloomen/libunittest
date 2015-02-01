@@ -45,6 +45,87 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_no_throw)
         UNITTEST_RUN(test_assert_approx_relequal_first_greater_than_second)
         UNITTEST_RUN(test_assert_approx_relequal_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approx_relequal_negative_first_smaller_than_second)
+		UNITTEST_RUN(test_assert_approx_relequal_negative_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approx_relequal_first_negative_second_positive)
+		UNITTEST_RUN(test_assert_approx_relequal_first_positive_second_negative)
+        UNITTEST_RUN(test_assert_approx_not_relequal_first_greater_than_second)
+        UNITTEST_RUN(test_assert_approx_not_relequal_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approx_not_relequal_negative_first_smaller_than_second)
+		UNITTEST_RUN(test_assert_approx_not_relequal_negative_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approx_not_relequal_first_negative_second_positive)
+		UNITTEST_RUN(test_assert_approx_not_relequal_first_positive_second_negative)
+    }
+
+
+    void test_assert_approx_not_relequal_first_positive_second_negative()
+    {
+        assert_approx_not_relequal(1.0, -1.0, 2.0, SPOT);
+        auto functor = []() { assert_approx_not_relequal(1.0, -1.0, 2.01); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_not_relequal_first_negative_second_positive()
+    {
+    	assert_approx_not_relequal(-1.0, 1.0, 2.0, SPOT);
+        auto functor = []() { assert_approx_not_relequal(-1.0, 1.0, 2.01); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_not_relequal_negative_second_greater_than_first()
+    {
+    	assert_approx_not_relequal(-2.0, -2.5, 0.25, SPOT);
+        auto functor = []() { assert_approx_not_relequal(-2.0, -2.5, 0.26); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_not_relequal_negative_first_smaller_than_second()
+    {
+    	assert_approx_not_relequal(-2.5, -2.0, 0.2, SPOT);
+        auto functor = []() { assert_approx_not_relequal(-2.5, -2.0, 0.21); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_not_relequal_first_greater_than_second()
+    {
+    	assert_approx_not_relequal(2.5, 2.0, 0.2, SPOT);
+        auto functor = []() { assert_approx_not_relequal(2.5, 2.0, 0.21); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_not_relequal_second_greater_than_first()
+    {
+    	assert_approx_not_relequal(2.0, 2.5, 0.25, SPOT);
+        auto functor = []() { assert_approx_not_relequal(2.0, 2.5, 0.26); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_relequal_first_positive_second_negative()
+    {
+        assert_approx_relequal(1.0, -1.0, 2.01, SPOT);
+        auto functor = []() { assert_approx_relequal(1.0, -1.0, 2.0); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_relequal_first_negative_second_positive()
+    {
+        assert_approx_relequal(-1.0, 1.0, 2.01, SPOT);
+        auto functor = []() { assert_approx_relequal(-1.0, 1.0, 2.0); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_relequal_negative_second_greater_than_first()
+    {
+        assert_approx_relequal(-2.0, -2.5, 0.26, SPOT);
+        auto functor = []() { assert_approx_relequal(-2.0, -2.5, 0.25); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
+
+    void test_assert_approx_relequal_negative_first_smaller_than_second()
+    {
+        assert_approx_relequal(-2.5, -2.0, 0.21, SPOT);
+        auto functor = []() { assert_approx_relequal(-2.5, -2.0, 0.2); };
+        assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_approx_relequal_first_greater_than_second()
