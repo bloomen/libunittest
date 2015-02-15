@@ -55,8 +55,16 @@ struct test_assertions : unittest::testcase<> {
 		UNITTEST_RUN(test_assert_approx_not_relequal_negative_second_greater_than_first)
 		UNITTEST_RUN(test_assert_approx_not_relequal_first_negative_second_positive)
 		UNITTEST_RUN(test_assert_approx_not_relequal_first_positive_second_negative)
+		UNITTEST_RUN(test_assert_approx_rel_in_container)
     }
 
+    void test_assert_approx_rel_in_container()
+    {
+        std::vector<float> vec = {1.0, 2.0, 3.0};
+        assert_approx_rel_in_container(2.5, vec, 0.26, SPOT);
+        auto functor = [this,&vec]() { assert_approx_rel_in_container(2.5, vec, 0.25); };
+        assert_throw<testfailure>(functor, SPOT);
+    }
 
     void test_assert_approx_not_relequal_first_positive_second_negative()
     {

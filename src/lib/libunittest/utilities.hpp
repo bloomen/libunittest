@@ -194,7 +194,7 @@ template<typename T,
          typename Container,
          typename U>
 bool
-is_relapprox_contained(T&& value,
+is_approx_rel_contained(T&& value,
                     Container&& container,
                     U&& eps)
 {

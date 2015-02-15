@@ -415,7 +415,7 @@ assert_approx_not_in_container(T&& value,
     }
 }
 /**
- * @brief Asserts that a value is approx. in a container up to some epsilon.
+ * @brief Asserts that a value is approx. relatively in a container up to some epsilon.
  *  The assertion succeeds if |a - b| < epsilon for at least one element.
  *  Operators needed: <, >, -
  * @param value A value
@@ -428,19 +428,19 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_relapprox_in_container(T&& value,
+assert_approx_rel_in_container(T&& value,
                            Container&& container,
                            U&& epsilon,
                            Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+    if (!unittest::core::is_approx_rel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value not approx. in container";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
 }
 /**
-* @brief Asserts that a value is not approx. in a container up to some
+* @brief Asserts that a value is not approx. relatively in a container up to some
 *  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements.
 *  Operators needed: <, >, -
 * @param value A value
@@ -453,13 +453,13 @@ template<typename T,
 		 typename U,
 		 typename... Args>
 void
-assert_relapprox_not_in_container(T&& value,
+assert_approx_rel_not_in_container(T&& value,
 							Container&& container,
 							U&& epsilon,
 							Args&&... message)
 {
 	unittest::core::check_epsilon(epsilon, __func__, message...);
-	if (unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+	if (unittest::core::is_approx_rel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
 		const std::string text = "value approx. in container";
 		unittest::fail(__func__, text, std::forward<Args>(message)...);
 	}
