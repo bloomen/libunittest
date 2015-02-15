@@ -60,7 +60,7 @@ struct test_assertions : unittest::testcase<> {
 
     void test_assert_approx_rel_in_container()
     {
-        std::vector<float> vec = {1.0, 2.0, 3.0};
+        std::vector<float> vec = {0.0, 2.0, 5.0};
         assert_approx_rel_in_container(2.5, vec, 0.26, SPOT);
         auto functor = [this,&vec]() { assert_approx_rel_in_container(2.5, vec, 0.25); };
         assert_throw<testfailure>(functor, SPOT);
