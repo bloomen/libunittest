@@ -260,7 +260,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message); \
+        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -279,7 +279,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
     } \
     void test(); \
 }; \
@@ -394,7 +394,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message); \
+        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -414,7 +414,7 @@ struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
         __testcollection_type__ collection; \
-        unittest::testrun<test_name>(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        unittest::testrun(&test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
     } \
     void test(); \
 }; \

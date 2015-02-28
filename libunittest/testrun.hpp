@@ -164,6 +164,18 @@ struct testfunctor {
     virtual
     ~testfunctor()
     {}
+
+    std::shared_ptr<std::atomic_bool>
+    has_timed_out() const
+	{
+    	return has_timed_out_;
+	}
+
+    double
+	timeout() const
+    {
+    	return timeout_;
+    }
     /**
      * @brief Executes the test
      */
@@ -177,7 +189,7 @@ struct testfunctor {
             if (dry_run_) {
                 monitor.log_success();
             } else {
-                std::unique_ptr<TestCase> test;
+                TestCase* test = nullptr;
                 this->run(test, monitor);
                 if (has_timed_out_->load())
                     monitor.has_timed_out(timeout_);
@@ -188,7 +200,7 @@ struct testfunctor {
 private:
 
     void
-    run(std::unique_ptr<TestCase>& test,
+    run(TestCase* test,
         unittest::core::testmonitor& monitor)
     {
         if (this->construct(test, monitor)) {
@@ -203,19 +215,19 @@ private:
     }
 
     bool
-    do_nothing(std::unique_ptr<TestCase>&,
+    do_nothing(TestCase*,
                unittest::core::testmonitor&)
     {
         return true;
     }
 
     bool
-    handle(std::unique_ptr<TestCase>& test,
+    handle(TestCase* test,
            unittest::core::testmonitor& monitor,
            bool (testfunctor::*function)
-                       (std::unique_ptr<TestCase>&, unittest::core::testmonitor&),
+                       (TestCase*, unittest::core::testmonitor&),
            bool (testfunctor::*error_callback)
-                       (std::unique_ptr<TestCase>&, unittest::core::testmonitor&))
+                       (TestCase*, unittest::core::testmonitor&))
     {
         if (handle_exceptions_) {
             try {
@@ -249,7 +261,7 @@ private:
     }
 
     bool
-    construct(std::unique_ptr<TestCase>& test,
+    construct(TestCase* test,
               unittest::core::testmonitor& monitor)
     {
         return handle(test, monitor,
@@ -258,17 +270,17 @@ private:
     }
 
     bool
-    _construct(std::unique_ptr<TestCase>& test,
+    _construct(TestCase* test,
                unittest::core::testmonitor&)
     {
-        test = unittest::core::make_unique<TestCase>();
+        test = new TestCase;
         test->set_test_context(context_);
         test->set_test_id(method_id_);
         return true;
     }
 
     bool
-    set_up(std::unique_ptr<TestCase>& test,
+    set_up(TestCase* test,
            unittest::core::testmonitor& monitor)
     {
         return this->handle(test, monitor,
@@ -277,7 +289,7 @@ private:
     }
 
     bool
-    _set_up(std::unique_ptr<TestCase>& test,
+    _set_up(TestCase* test,
             unittest::core::testmonitor&)
     {
         test->set_up();
@@ -285,7 +297,7 @@ private:
     }
 
     bool
-    execute(std::unique_ptr<TestCase>& test,
+    execute(TestCase* test,
             unittest::core::testmonitor& monitor)
     {
         return this->handle(test, monitor,
@@ -294,15 +306,15 @@ private:
     }
 
     bool
-    _execute(std::unique_ptr<TestCase>& test,
+    _execute(TestCase* test,
              unittest::core::testmonitor&)
     {
-    	(test.get()->*method_)();
+    	(test->*method_)();
         return true;
     }
 
     bool
-    tear_down(std::unique_ptr<TestCase>& test,
+    tear_down(TestCase* test,
               unittest::core::testmonitor& monitor)
     {
         return this->handle(test, monitor,
@@ -311,7 +323,7 @@ private:
     }
 
     bool
-    _tear_down(std::unique_ptr<TestCase>& test,
+    _tear_down(TestCase* test,
                unittest::core::testmonitor&)
     {
         test->tear_down();
@@ -319,7 +331,7 @@ private:
     }
 
     bool
-    destruct(std::unique_ptr<TestCase>& test,
+    destruct(TestCase* test,
              unittest::core::testmonitor& monitor)
     {
         return this->handle(test, monitor,
@@ -328,24 +340,24 @@ private:
     }
 
     bool
-    _destruct(std::unique_ptr<TestCase>& test,
+    _destruct(TestCase* test,
               unittest::core::testmonitor&)
     {
-    	delete test.release();
+    	delete test;
         return true;
     }
 
     std::shared_ptr<typename TestCase::context_type> context_;
     void (TestCase::*method_)();
-    std::string method_id_;
-    std::string class_name_;
-    std::string test_name_;
-    bool dry_run_;
-    bool handle_exceptions_;
+    const std::string method_id_;
+    const std::string class_name_;
+    const std::string test_name_;
+    const bool dry_run_;
+    const bool handle_exceptions_;
     std::shared_ptr<std::atomic_bool> has_timed_out_;
-    double timeout_;
-    bool skipped_;
-    std::string skip_message_;
+    const double timeout_;
+    const bool skipped_;
+    const std::string skip_message_;
 };
 /**
  * @brief Updates the class name according to some heuristics
@@ -415,7 +427,7 @@ observe_and_wait(std::thread&& thread,
  * @returns A tuple of prepared data
  */
 template<typename TestCase>
-std::tuple<unittest::core::testfunctor<TestCase>, std::shared_ptr<std::atomic_bool>, double>
+unittest::core::testfunctor<TestCase>
 prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
                 void (TestCase::*method)(),
                 std::string class_name,
@@ -436,7 +448,7 @@ prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
                                                   args.handle_exceptions,
                                                   has_timed_out, timeout,
                                                   skipped, skip_message);
-    return std::make_tuple(std::move(functor), has_timed_out, timeout);
+    return std::move(functor);
 }
 
 } // core
@@ -461,17 +473,18 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         std::string skip_message,
         double timeout)
 {
-    auto data = unittest::core::prepare_testrun(context, method,
-                                                     class_name, test_name,
-                                                     skipped, skip_message, timeout);
+    unittest::core::testfunctor<TestCase> functor = unittest::core::prepare_testrun(context, method,
+    																				class_name, test_name,
+																					skipped, skip_message, timeout);
     if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
-    	std::get<0>(data)();
+    	functor();
     } else {
         std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
         done->store(false);
-        auto function = [done](unittest::core::testfunctor<TestCase> functor) { functor(); done->store(true); };
-        std::thread thread(function, std::move(std::get<0>(data)));
-        unittest::core::observe_and_wait(std::move(thread), done, std::get<1>(data), std::get<2>(data));
+        std::thread thread([done](unittest::core::testfunctor<TestCase>&& functor) {
+        	functor(); done->store(true);
+        }, std::move(functor));
+        unittest::core::observe_and_wait(std::move(thread), done, functor.has_timed_out(), functor.timeout());
     }
 }
 /**
@@ -493,10 +506,10 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         std::string skip_message)
 {
     const double timeout = -1;
-    auto data = unittest::core::prepare_testrun(context, method,
-												class_name, test_name,
-												skipped, skip_message, timeout);
-    std::get<0>(data)();
+    unittest::core::testfunctor<TestCase> functor = unittest::core::prepare_testrun(context, method,
+    																				class_name, test_name,
+																					skipped, skip_message, timeout);
+    functor();
 }
 /**
  * @brief A test run without a test context and with timeout measurement
