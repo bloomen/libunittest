@@ -496,7 +496,10 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
     	functor();
     } else {
-        unittest::core::observe_and_wait(std::thread(functor), functor.done(), functor.has_timed_out(), functor.timeout());
+    	std::shared_ptr<std::atomic_bool> done = functor.done();
+    	std::shared_ptr<std::atomic_bool> has_timed_out = functor.has_timed_out();
+    	const double updated_timeout = functor.timeout();
+        unittest::core::observe_and_wait(std::thread(functor), done, has_timed_out, updated_timeout);
     }
 }
 /**
