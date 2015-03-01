@@ -106,15 +106,57 @@ private:
 };
 /**
  * @brief Returns a unique method id
+ * @param class_id The id of the test class
  * @param test_name The name of the test method
  * @returns A unique method id
  */
-template<typename TestCase>
 std::string
-make_method_id(const std::string& test_name)
-{
-    return unittest::core::get_type_id<TestCase>() + test_name;
-}
+make_method_id(const std::string& class_id, const std::string& test_name);
+/**
+ * @brief The test info
+ */
+struct testinfo {
+	/**
+	 * @brief The id of the test method
+	 */
+    const std::string method_id;
+	/**
+	 * @brief The name of the test class
+	 */
+    const std::string class_name;
+	/**
+	 * @brief The name of the current test method
+	 */
+    const std::string test_name;
+	/**
+	 * @brief Whether a dry run is performed
+	 */
+    const bool dry_run;
+	/**
+	 * @brief Whether to handle unexpected exceptions
+	 */
+    const bool handle_exceptions;
+	/**
+	 * @brief Whether the test is done
+	 */
+	std::shared_ptr<std::atomic_bool> done;
+	/**
+	 * @brief @brief Whether the test has timed out
+	 */
+    std::shared_ptr<std::atomic_bool> has_timed_out;
+	/**
+	 * The test timeout
+	 */
+    const double timeout;
+	/**
+	 * @brief Whether the current test is skipped
+	 */
+    const bool skipped;
+	/**
+	 * @brief A message explaining why the test is skipped
+	 */
+    const std::string skip_message;
+};
 /**
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
@@ -125,41 +167,14 @@ struct testfunctor {
      * @brief Constructor
      * @param context A pointer to the test context
      * @param method The test to be run
-     * @param method_id The id of the test method
-     * @param class_name The name of the test class
-     * @param test_name The name of the current test method
-     * @param dry_run Whether a dry run is performed
-     * @param handle_exceptions Whether to handle unexpected exceptions
-     * @param done Whether the test is done
-     * @param has_timed_out Whether the test has timed out
-     * @param timeout The test timeout
-     * @param skipped Whether the current test is skipped
-     * @param skip_message A message explaining why the test is skipped
+     * @param info The test info
      */
     testfunctor(std::shared_ptr<typename TestCase::context_type> context,
                 void (TestCase::*method)(),
-                const std::string& method_id,
-                const std::string& class_name,
-                const std::string& test_name,
-                bool dry_run,
-                bool handle_exceptions,
-				std::shared_ptr<std::atomic_bool> done,
-                std::shared_ptr<std::atomic_bool> has_timed_out,
-                double timeout,
-                bool skipped,
-                std::string skip_message)
+				unittest::core::testinfo info)
         : context_(context),
           method_(method),
-          method_id_(method_id),
-          class_name_(class_name),
-          test_name_(test_name),
-          dry_run_(dry_run),
-          handle_exceptions_(handle_exceptions),
-		  done_(done),
-          has_timed_out_(has_timed_out),
-          timeout_(timeout),
-          skipped_(skipped),
-          skip_message_(skip_message)
+          info_(std::move(info))
     {}
     /**
      * @brief Destructor
@@ -168,31 +183,13 @@ struct testfunctor {
     ~testfunctor()
     {}
     /**
-     * Returns whether the test is done
-     * @returns Whether the test is done
+     * @brief Returns the test info
+     * @returns The test info
      */
-    std::shared_ptr<std::atomic_bool>
-    done() const
-	{
-    	return done_;
-	}
-    /**
-     * Returns whether the test has timed out
-     * @returns Whether the test has timed out
-     */
-    std::shared_ptr<std::atomic_bool>
-    has_timed_out() const
-	{
-    	return has_timed_out_;
-	}
-    /**
-     * Returns the timeout in seconds
-     * @returns The timeout in seconds
-     */
-    double
-	timeout() const
+    const unittest::core::testinfo&
+	info() const
     {
-    	return timeout_;
+    	return info_;
     }
     /**
      * @brief Executes the test
@@ -200,20 +197,20 @@ struct testfunctor {
     void
     operator()()
     {
-        unittest::core::testmonitor monitor(class_name_, test_name_, method_id_);
-        if (skipped_)
-            monitor.log_skipped(skip_message_);
+        unittest::core::testmonitor monitor(info_.class_name, info_.test_name, info_.method_id);
+        if (info_.skipped)
+            monitor.log_skipped(info_.skip_message);
         else if (monitor.is_executed()) {
-            if (dry_run_) {
+            if (info_.dry_run) {
                 monitor.log_success();
             } else {
                 TestCase* test = nullptr;
                 this->run(test, monitor);
-                if (has_timed_out_->load())
-                    monitor.has_timed_out(timeout_);
+                if (info_.has_timed_out->load())
+                    monitor.has_timed_out(info_.timeout);
             }
         }
-        done_->store(true);
+        info_.done->store(true);
     }
 
 private:
@@ -248,7 +245,7 @@ private:
            bool (testfunctor::*error_callback)
                        (TestCase*&, unittest::core::testmonitor&))
     {
-        if (handle_exceptions_) {
+        if (info_.handle_exceptions) {
             try {
                 (this->*function)(test, monitor);
                 monitor.log_success();
@@ -294,7 +291,7 @@ private:
     {
         test = new TestCase;
         test->set_test_context(context_);
-        test->set_test_id(method_id_);
+        test->set_test_id(info_.method_id);
         return true;
     }
 
@@ -368,16 +365,7 @@ private:
 
     std::shared_ptr<typename TestCase::context_type> context_;
     void (TestCase::*method_)();
-    const std::string method_id_;
-    const std::string class_name_;
-    const std::string test_name_;
-    const bool dry_run_;
-    const bool handle_exceptions_;
-    std::shared_ptr<std::atomic_bool> done_;
-    std::shared_ptr<std::atomic_bool> has_timed_out_;
-    const double timeout_;
-    const bool skipped_;
-    const std::string skip_message_;
+    const unittest::core::testinfo info_;
 };
 /**
  * @brief Updates the class name according to some heuristics
@@ -436,43 +424,28 @@ observe_and_wait(std::thread&& thread,
                  double timeout,
                  std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
 /**
- * @brief Prepares a test run
- * @param context The test context
- * @param method A pointer to the method to be run
+ * @brief Creates the test info object
+ * @param class_id The id of the test class
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param skipped Whether this test run is skipped
  * @param skip_message A message explaining why the test is skipped
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- * @returns A tuple of prepared data
+ * @returns The test info object
  */
-template<typename TestCase>
-unittest::core::testfunctor<TestCase>
-prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
-                void (TestCase::*method)(),
-                std::string class_name,
-                std::string test_name,
-                bool skipped,
-                std::string skip_message,
-                double timeout)
-{
-    const std::string class_id = unittest::core::get_type_id<TestCase>();
-    const std::string method_id = unittest::core::make_method_id<TestCase>(test_name);
-    unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
-    const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
-    std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
-    done->store(false);
-    std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
-    has_timed_out->store(false);
-    return {context, method, method_id, class_name, test_name, args.dry_run,
-    		args.handle_exceptions, done, has_timed_out, timeout, skipped, skip_message};
-}
+unittest::core::testinfo
+make_testinfo(std::string class_id,
+			  std::string class_name,
+			  std::string test_name,
+			  bool skipped,
+			  std::string skip_message,
+			  double timeout);
 
 } // core
 
 /**
  * @brief A test run with a test context and with timeout measurement
- * @param context The test context
+ * @param context The test context, can be a nullptr
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
@@ -490,21 +463,21 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         std::string skip_message,
         double timeout)
 {
-    unittest::core::testfunctor<TestCase>&& functor(unittest::core::prepare_testrun(context, method,
-    																				class_name, test_name,
-																					skipped, skip_message, timeout));
+    unittest::core::testfunctor<TestCase> functor(context, method,
+    		unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
+										  class_name, test_name, skipped, skip_message, timeout));
     if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
     	functor();
     } else {
-    	std::shared_ptr<std::atomic_bool> done = functor.done();
-    	std::shared_ptr<std::atomic_bool> has_timed_out = functor.has_timed_out();
-    	const double updated_timeout = functor.timeout();
+    	std::shared_ptr<std::atomic_bool> done = functor.info().done;
+    	std::shared_ptr<std::atomic_bool> has_timed_out = functor.info().has_timed_out;
+    	const double updated_timeout = functor.info().timeout;
         unittest::core::observe_and_wait(std::thread(functor), done, has_timed_out, updated_timeout);
     }
 }
 /**
  * @brief A test run with a test context and without timeout measurement
- * @param context The test context
+ * @param context The test context, can be a nullptr
  * @param method A pointer to the method to be run
  * @param class_name The name of the test class
  * @param test_name The name of the current test method
@@ -520,51 +493,10 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         bool skipped,
         std::string skip_message)
 {
-    const double timeout = -1;
-    unittest::core::testfunctor<TestCase>&& functor(unittest::core::prepare_testrun(context, method,
-    																				class_name, test_name,
-																					skipped, skip_message, timeout));
+    unittest::core::testfunctor<TestCase> functor(context, method,
+    		unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
+										  class_name, test_name, skipped, skip_message, -1));
     functor();
-}
-/**
- * @brief A test run without a test context and with timeout measurement
- * @param method A pointer to the method to be run
- * @param class_name The name of the test class
- * @param test_name The name of the current test method
- * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- * @param skipped Whether this test run is skipped
- * @param skip_message A message explaining why the test is skipped
- */
-template<typename TestCase>
-void
-testrun(void (TestCase::*method)(),
-        std::string class_name,
-        std::string test_name,
-        bool skipped,
-        std::string skip_message,
-        double timeout)
-{
-	std::shared_ptr<typename TestCase::context_type> context(nullptr);
-    unittest::testrun(context, method, class_name, test_name, skipped, skip_message, timeout);
-}
-/**
- * @brief A test run without a test context and without timeout measurement
- * @param method A pointer to the method to be run
- * @param class_name The name of the test class
- * @param test_name The name of the current test method
- * @param skipped Whether this test run is skipped
- * @param skip_message A message explaining why the test is skipped
- */
-template<typename TestCase>
-void
-testrun(void (TestCase::*method)(),
-        std::string class_name,
-        std::string test_name,
-        bool skipped,
-        std::string skip_message)
-{
-	std::shared_ptr<typename TestCase::context_type> context(nullptr);
-    unittest::testrun(context, method, class_name, test_name, skipped, skip_message);
 }
 
 } // unittest

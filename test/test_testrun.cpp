@@ -17,7 +17,7 @@ struct test_testrun : unittest::testcase<> {
     void test_make_method_id()
     {
         const std::string id = typeid(double).name();
-        assert_equal(id + "_m", unittest::core::make_method_id<double>("_m"));
+        assert_equal(id + "_m", unittest::core::make_method_id(id, "_m"));
     }
 
     void test_update_local_timeout()

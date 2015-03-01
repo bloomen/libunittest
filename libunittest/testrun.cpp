@@ -188,5 +188,28 @@ update_testrun_info(const std::string& class_id,
     update_local_timeout(local_timeout, global_timeout);
 }
 
+std::string
+make_method_id(const std::string& class_id, const std::string& test_name)
+{
+    return class_id + test_name;
+}
+
+unittest::core::testinfo
+make_testinfo(std::string class_id,
+			  std::string class_name,
+			  std::string test_name,
+			  bool skipped,
+			  std::string skip_message,
+			  double timeout)
+{
+    unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
+    const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
+    return {make_method_id(class_id, test_name), class_name,
+    		test_name, args.dry_run, args.handle_exceptions,
+    		std::make_shared<std::atomic_bool>(false),
+			std::make_shared<std::atomic_bool>(false),
+			timeout, skipped, skip_message};
+}
+
 } // core
 } // unittest
