@@ -211,5 +211,23 @@ make_testinfo(std::string class_id,
 			timeout, skipped, skip_message};
 }
 
+void run_testfunction(const unittest::core::testinfo& info,
+					  unittest::core::testmonitor& monitor,
+					  std::function<void()> function)
+{
+	if (info.skipped) {
+		monitor.log_skipped(info.skip_message);
+	} else if (monitor.is_executed()) {
+		if (info.dry_run) {
+			monitor.log_success();
+		} else {
+			function();
+			if (info.has_timed_out->load())
+				monitor.has_timed_out(info.timeout);
+		}
+	}
+	info.done->store(true);
+}
+
 } // core
 } // unittest

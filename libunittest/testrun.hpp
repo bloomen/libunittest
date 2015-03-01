@@ -158,6 +158,15 @@ struct testinfo {
     const std::string skip_message;
 };
 /**
+ * @brief Runs the given test function and logs using the monitor
+ * @param info The test info
+ * @param monitor The test monitor
+ * @param function The test function
+ */
+void run_testfunction(const unittest::core::testinfo& info,
+					  unittest::core::testmonitor& monitor,
+					  std::function<void()> function);
+/**
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
  */
@@ -198,19 +207,10 @@ struct testfunctor {
     operator()()
     {
         unittest::core::testmonitor monitor(info_.class_name, info_.test_name, info_.method_id);
-        if (info_.skipped)
-            monitor.log_skipped(info_.skip_message);
-        else if (monitor.is_executed()) {
-            if (info_.dry_run) {
-                monitor.log_success();
-            } else {
-                TestCase* test = nullptr;
-                this->run(test, monitor);
-                if (info_.has_timed_out->load())
-                    monitor.has_timed_out(info_.timeout);
-            }
-        }
-        info_.done->store(true);
+        run_testfunction(info_, monitor, [this, &monitor](){
+            TestCase* test = nullptr;
+            this->run(test, monitor);
+        });
     }
 
 private:
