@@ -130,6 +130,7 @@ struct testfunctor {
      * @param test_name The name of the current test method
      * @param dry_run Whether a dry run is performed
      * @param handle_exceptions Whether to handle unexpected exceptions
+     * @param done Whether the test is done
      * @param has_timed_out Whether the test has timed out
      * @param timeout The test timeout
      * @param skipped Whether the current test is skipped
@@ -142,6 +143,7 @@ struct testfunctor {
                 const std::string& test_name,
                 bool dry_run,
                 bool handle_exceptions,
+				std::shared_ptr<std::atomic_bool> done,
                 std::shared_ptr<std::atomic_bool> has_timed_out,
                 double timeout,
                 bool skipped,
@@ -153,6 +155,7 @@ struct testfunctor {
           test_name_(test_name),
           dry_run_(dry_run),
           handle_exceptions_(handle_exceptions),
+		  done_(done),
           has_timed_out_(has_timed_out),
           timeout_(timeout),
           skipped_(skipped),
@@ -165,17 +168,14 @@ struct testfunctor {
     ~testfunctor()
     {}
     /**
-     * @brief Copy constructor. Deleted
-     * @param other An instance of testfunctor
+     * Returns whether the test is done
+     * @returns Whether the test is done
      */
-//    testfunctor(const testfunctor& other) = delete;
-    /**
-     * @brief Copy assignment operator. Deleted
-     * @param other An instance of testfunctor
-     * @returns An testfunctor instance
-     */
-//    testfunctor&
-//    operator=(const testfunctor& other) = delete;
+    std::shared_ptr<std::atomic_bool>
+    done() const
+	{
+    	return done_;
+	}
     /**
      * Returns whether the test has timed out
      * @returns Whether the test has timed out
@@ -213,6 +213,7 @@ struct testfunctor {
                     monitor.has_timed_out(timeout_);
             }
         }
+        done_->store(true);
     }
 
 private:
@@ -372,6 +373,7 @@ private:
     const std::string test_name_;
     const bool dry_run_;
     const bool handle_exceptions_;
+    std::shared_ptr<std::atomic_bool> done_;
     std::shared_ptr<std::atomic_bool> has_timed_out_;
     const double timeout_;
     const bool skipped_;
@@ -458,10 +460,12 @@ prepare_testrun(std::shared_ptr<typename TestCase::context_type> context,
     const std::string method_id = unittest::core::make_method_id<TestCase>(test_name);
     unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
     const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
+    std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
+    done->store(false);
     std::shared_ptr<std::atomic_bool> has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
     return {context, method, method_id, class_name, test_name, args.dry_run,
-    		args.handle_exceptions, has_timed_out, timeout, skipped, skip_message};
+    		args.handle_exceptions, done, has_timed_out, timeout, skipped, skip_message};
 }
 
 } // core
@@ -492,15 +496,7 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
     	functor();
     } else {
-        std::shared_ptr<std::atomic_bool> done = std::make_shared<std::atomic_bool>();
-        done->store(false);
-        std::shared_ptr<std::atomic_bool> has_timed_out = functor.has_timed_out();
-        const double updated_timeout = functor.timeout();
-        std::thread thread([done](unittest::core::testfunctor<TestCase> functor) {
-        	functor();
-        	done->store(true);
-        }, functor);
-        unittest::core::observe_and_wait(std::move(thread), done, has_timed_out, updated_timeout);
+        unittest::core::observe_and_wait(std::thread(functor), functor.done(), functor.has_timed_out(), functor.timeout());
     }
 }
 /**
