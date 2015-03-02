@@ -409,8 +409,8 @@ private:
     }
 
     std::shared_ptr<unittest::random_object<element_type>> rand_;
-    bool fixed_size_;
-    size_t size_;
+    const bool fixed_size_;
+    const size_t size_;
     dist_type distribution_;
 
 };
@@ -658,7 +658,7 @@ private:
     }
 
     std::vector<typename Container::value_type> vector_;
-    size_t size_;
+    const size_t size_;
 
 };
 /**
@@ -771,7 +771,7 @@ private:
     const Container1 container1_;
     const Container2 container2_;
     std::vector<bool> granter_;
-    size_t size_;
+    const size_t size_;
 
 };
 /**

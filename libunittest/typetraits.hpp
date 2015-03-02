@@ -67,117 +67,12 @@ struct convert_any {
     convert_any(T const&);
 };
 /**
- * @brief Fallback operator for types that do not support ==
- * @return Some type
- */
-unittest::sometype
-operator==(unittest::core::convert_any const&,
-		   unittest::core::convert_any const&);
-/**
- * @brief Fallback operator for types that do not support <
- * @return Some type
- */
-unittest::sometype
-operator<(unittest::core::convert_any const&,
-		  unittest::core::convert_any const&);
-/**
- * @brief Fallback operator for types that do not support >
- * @return Some type
- */
-unittest::sometype
-operator>(unittest::core::convert_any const&,
-		  unittest::core::convert_any const&);
-/**
  * @brief Fallback operator for types that do not support <<
  * @return Some type
  */
 unittest::sometype
 operator<<(std::ostream&,
 		   unittest::core::convert_any const&);
-/**
- * @brief Evaluates whether type T is equality comparable, i.e. implements
- * 	operator ==
- */
-template<typename T>
-class is_equality_comparable {
-    typedef typename unittest::core::remove_cv_ref<T>::type value_type;
-    static value_type const& a;
-    static value_type & b;
-public:
-	/**
-	 * @brief The result value
-	 */
-    static const bool value = sizeof(unittest::core::static_check(a == a)) == sizeof(unittest::core::yes) ||
-    						  sizeof(unittest::core::static_check(b == b)) == sizeof(unittest::core::yes);
-};
-/**
- * @brief Evaluates whether type T is equality comparable, i.e. implements
- * 	operator ==. Spec. for void
- */
-template<>
-class is_equality_comparable<void> {
-public:
-	/**
-	 * @brief The result value
-	 */
-	static const bool value = false;
-};
-/**
- * @brief Evaluates whether type T is lesser comparable, i.e. implements
- * 	operator <
- */
-template<typename T>
-class is_lesser_comparable {
-    typedef typename unittest::core::remove_cv_ref<T>::type value_type;
-    static value_type const& a;
-    static value_type & b;
-public:
-	/**
-	 * @brief The result value
-	 */
-    static const bool value = sizeof(unittest::core::static_check(a < a)) == sizeof(unittest::core::yes) ||
-    						  sizeof(unittest::core::static_check(b < b)) == sizeof(unittest::core::yes);
-};
-/**
- * @brief Evaluates whether type T is lesser comparable, i.e. implements
- * 	operator <. Spec. for void
- */
-template<>
-class is_lesser_comparable<void> {
-public:
-	/**
-	 * @brief The result value
-	 */
-	static const bool value = false;
-};
-/**
- * @brief Evaluates whether type T is greater comparable, i.e. implements
- * 	operator >
- */
-template<typename T>
-class is_greater_comparable {
-    typedef typename unittest::core::remove_cv_ref<T>::type value_type;
-    static value_type const& a;
-    static value_type & b;
-public:
-	/**
-	 * @brief The result value
-	 */
-    static const bool value = sizeof(unittest::core::static_check(a > a)) == sizeof(unittest::core::yes) ||
-    						  sizeof(unittest::core::static_check(b > b)) == sizeof(unittest::core::yes);
-};
-/**
- * @brief Evaluates whether type T is greater comparable, i.e. implements
- * 	operator >. Spec. for void
- */
-template<>
-class is_greater_comparable<void> {
-public:
-	/**
-	 * @brief The result value
-	 */
-	static const bool value = false;
-};
 /**
  * @brief Evaluates whether type T is output streamable, i.e. implements
  * 	operator <<

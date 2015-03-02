@@ -105,10 +105,7 @@ keep_running(const testlog& log,
 {
     const bool failed = log.status==teststatus::failure ||
                         log.status==teststatus::error;
-    if (failed && failure_stop)
-        return false;
-    else
-        return true;
+    return !(failed && failure_stop);
 }
 
 } // core

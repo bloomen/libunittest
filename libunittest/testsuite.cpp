@@ -76,13 +76,13 @@ testsuite::set_arguments(const userargs& arguments)
     impl_->arguments_ = arguments;
 }
 
-userargs&
+const userargs&
 testsuite::get_arguments() const
 {
     return impl_->arguments_;
 }
 
-std::vector<std::function<void()>>&
+const std::vector<std::function<void()>>&
 testsuite::get_class_runs() const
 {
     return impl_->class_runs_;
@@ -171,7 +171,7 @@ testsuite::add_class_map(const std::string& typeid_name,
     impl_->class_maps_[typeid_name] = class_name;
 }
 
-std::map<std::string, std::string>&
+const std::map<std::string, std::string>&
 testsuite::get_class_maps() const
 {
     return impl_->class_maps_;

@@ -56,8 +56,8 @@ public:
     linenumber() const;
 
 private:
-    std::string assertion_;
-    std::pair<std::string, int> spot_;
+    const std::string assertion_;
+    const std::pair<std::string, int> spot_;
 };
 /**
  * @brief Builds a fail message from the parameters passed and throws

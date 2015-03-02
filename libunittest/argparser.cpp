@@ -79,8 +79,8 @@ argparser::register_trigger(char arg,
 							std::string description,
 							bool default_value)
 {
-	argrow row = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false, false, false};
-	add_to_registry(arg, row);
+	const argrow row = {registry_.size(), true, value_name, value_name, description, join(default_value), make_repr(default_value), false, false, false};
+	add_to_registry(arg, std::move(row));
 }
 
 std::string

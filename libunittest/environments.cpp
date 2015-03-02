@@ -25,7 +25,7 @@ process(int argc, char **argv)
     auto suite = core::testsuite::instance();
     suite->set_arguments(arguments);
 
-    const auto class_runs = suite->get_class_runs();
+    const auto& class_runs = suite->get_class_runs();
     const int n_threads = arguments.concurrent_threads;
     core::call_functions(class_runs, n_threads);
 

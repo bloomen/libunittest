@@ -63,86 +63,8 @@ struct test_typetraits : unittest::testcase<> {
 	static void run()
 	{
 		UNITTEST_CLASS(test_typetraits)
-		UNITTEST_RUN(test_is_equality_comparable_positives)
-		UNITTEST_RUN(test_is_equality_comparable_negatives)
-		UNITTEST_RUN(test_is_lesser_comparable_positives)
-		UNITTEST_RUN(test_is_lesser_comparable_negatives)
-		UNITTEST_RUN(test_is_greater_comparable_positives)
-		UNITTEST_RUN(test_is_greater_comparable_negatives)
 		UNITTEST_RUN(test_is_output_streamable_positives)
 		UNITTEST_RUN(test_is_output_streamable_negatives)
-	}
-
-	void test_is_equality_comparable_positives()
-	{
-		static_assert(unittest::core::is_equality_comparable<bool>::value, "");
-		static_assert(unittest::core::is_equality_comparable<int>::value, "");
-		static_assert(unittest::core::is_equality_comparable<float*>::value, "");
-		static_assert(unittest::core::is_equality_comparable<has_all>::value, "");
-		static_assert(unittest::core::is_equality_comparable<has_all_nc>::value, "");
-		static_assert(unittest::core::is_equality_comparable<has_eqop>::value, "");
-		static_assert(unittest::core::is_equality_comparable<has_eqop_nc>::value, "");
-	}
-
-	void test_is_equality_comparable_negatives()
-	{
-		static_assert(!unittest::core::is_equality_comparable<void>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<unittest::sometype>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<unittest::notype>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_leop>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_leop_nc>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_grop>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_grop_nc>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_stop>::value, "");
-		static_assert(!unittest::core::is_equality_comparable<has_stop_nc>::value, "");
-	}
-
-	void test_is_lesser_comparable_positives()
-	{
-		static_assert(unittest::core::is_lesser_comparable<bool>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<int>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<float*>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<has_all>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<has_all_nc>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<has_leop>::value, "");
-		static_assert(unittest::core::is_lesser_comparable<has_leop_nc>::value, "");
-	}
-
-	void test_is_lesser_comparable_negatives()
-	{
-		static_assert(!unittest::core::is_lesser_comparable<void>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<unittest::sometype>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<unittest::notype>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_eqop>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_eqop_nc>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_grop>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_grop_nc>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_stop>::value, "");
-		static_assert(!unittest::core::is_lesser_comparable<has_stop_nc>::value, "");
-	}
-
-	void test_is_greater_comparable_positives()
-	{
-		static_assert(unittest::core::is_greater_comparable<bool>::value, "");
-		static_assert(unittest::core::is_greater_comparable<int>::value, "");
-		static_assert(unittest::core::is_greater_comparable<float*>::value, "");
-		static_assert(unittest::core::is_greater_comparable<has_all>::value, "");
-		static_assert(unittest::core::is_greater_comparable<has_all_nc>::value, "");
-		static_assert(unittest::core::is_greater_comparable<has_grop>::value, "");
-		static_assert(unittest::core::is_greater_comparable<has_grop_nc>::value, "");
-	}
-
-	void test_is_greater_comparable_negatives()
-	{
-		static_assert(!unittest::core::is_greater_comparable<void>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<unittest::sometype>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<unittest::notype>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_eqop>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_eqop_nc>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_leop>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_leop_nc>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_stop>::value, "");
-		static_assert(!unittest::core::is_greater_comparable<has_stop_nc>::value, "");
 	}
 
 	void test_is_output_streamable_positives()

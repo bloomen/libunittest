@@ -68,20 +68,20 @@ public:
      * @brief Returns a reference to the user arguments
      * @returns A reference to the user arguments
      */
-    unittest::core::userargs&
+    const unittest::core::userargs&
     get_arguments() const;
     /**
      * @brief Returns a reference to the vector of registered class runs
      * @returns A reference to the vector of registered class runs
      */
-    std::vector<std::function<void()>>&
+    const std::vector<std::function<void()>>&
     get_class_runs() const;
     /**
      * @brief Returns a reference to the mappings from test class IDs to
      *  test class names
      * @returns A reference to mappings from test class IDs to test class names
      */
-    std::map<std::string, std::string>&
+    const std::map<std::string, std::string>&
     get_class_maps() const;
     /**
      * @brief Returns a reference to the vector of lonely threads

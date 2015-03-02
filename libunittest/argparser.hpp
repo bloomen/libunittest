@@ -127,8 +127,8 @@ protected:
 					  bool display_default,
 					  bool required=false)
 	{
-		argparser::argrow row = {registry_.size(), false, value_name, value_name, description, unittest::join(default_value), this->make_repr(default_value), display_default, required, false};
-		this->add_to_registry(arg, row);
+		const argparser::argrow row = {registry_.size(), false, value_name, value_name, description, unittest::join(default_value), this->make_repr(default_value), display_default, required, false};
+		this->add_to_registry(arg, std::move(row));
 	}
 	/**
 	 * @brief Registers a trigger. Calls this in the derivee's constructor

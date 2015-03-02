@@ -80,7 +80,7 @@ struct userargs : argparser {
 
 private:
 
-	std::string description();
+    std::string description();
 
     void assign_values();
 
