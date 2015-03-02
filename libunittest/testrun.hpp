@@ -240,10 +240,8 @@ private:
     bool
     handle(TestCase*& test,
            unittest::core::testmonitor& monitor,
-           bool (testfunctor::*function)
-                       (TestCase*&, unittest::core::testmonitor&),
-           bool (testfunctor::*error_callback)
-                       (TestCase*&, unittest::core::testmonitor&))
+           bool (testfunctor::*function)(TestCase*&, unittest::core::testmonitor&),
+           bool (testfunctor::*error_callback)(TestCase*&, unittest::core::testmonitor&))
     {
         if (info_.handle_exceptions) {
             try {
