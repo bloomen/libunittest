@@ -10,7 +10,6 @@
  * @brief Unit testing in C++
  */
 namespace unittest {
-
 /**
  * @brief Internal functionality, not relevant for most users
  */
