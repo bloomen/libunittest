@@ -121,12 +121,14 @@ make_full_test_name(const std::string& class_name,
  * @param full_test_name The full test name
  * @param exact_name An exact name to be checked for, ignored if empty
  * @param filter_name A filter for the beginning of the test name, ignored if empty
+ * @param regex_filter A regex filter, ignored if empty
  * @returns Whether a given test is executed
  */
 bool
 is_test_executed(const std::string& full_test_name,
                  const std::string& exact_name,
-                 const std::string& filter_name);
+                 const std::string& filter_name,
+				 const std::string& regex_filter);
 /**
  * @brief Evaluates whether to keep running tests
  * @param log A test log

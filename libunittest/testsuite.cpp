@@ -150,7 +150,7 @@ testsuite::is_test_run(const std::string& class_name,
     	return false;
     } else {
     	const std::string full_name = make_full_test_name(class_name, test_name);
-    	return is_test_executed(full_name, get_arguments().test_name, get_arguments().name_filter);
+    	return is_test_executed(full_name, get_arguments().test_name, get_arguments().name_filter, get_arguments().regex_filter);
     }
 }
 

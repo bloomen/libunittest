@@ -329,11 +329,17 @@ struct test_misc : unittest::testcase<> {
     void test_is_test_executed()
     {
         using unittest::core::is_test_executed;
-        assert_true(is_test_executed("stuff.test_me", "", ""), SPOT);
-        assert_true(is_test_executed("stuff.test_me", "", "stuff"), SPOT);
-        assert_false(is_test_executed("stuff.test_me", "", "weird"), SPOT);
-        assert_true(is_test_executed("stuff.test_me", "stuff.test_me", "weird"), SPOT);
-        assert_false(is_test_executed("stuff.test_me", "stuff.test_me_xxx", ""), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "", ""), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "stuff", ""), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "", "weird", ""), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "stuff.test_me", "weird", "egal"), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "stuff.test_me_xxx", "", ""), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "", ".*"), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "", "stuff.*"), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "", "", "tuff.*"), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "", "stuff", ".*me"), SPOT);
+        assert_false(is_test_executed("stuff.test_me", "komisch", "stuff", ".*me"), SPOT);
+        assert_true(is_test_executed("stuff.test_me", "stuff.test_me", "stuff", ".*me"), SPOT);
     }
 
     void test_make_full_test_name()

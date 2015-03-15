@@ -46,11 +46,17 @@ struct userargs : argparser {
      */
     int concurrent_threads;
     /**
+     * @brief Sets a regex filter on the full test name (default: "")
+     */
+    std::string regex_filter;
+    /**
      * @brief Sets a name filter on the full test name (default: "")
+     * 	This supersedes the regex filter
      */
     std::string name_filter;
     /**
-     * @brief Sets a certain test to be run. This supersedes the name filter (default: "")
+     * @brief Sets a certain test to be run (default: "")
+     * 	This supersedes the regex and the name filter
      */
     std::string test_name;
     /**

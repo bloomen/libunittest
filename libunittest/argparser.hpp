@@ -110,7 +110,7 @@ protected:
      */
 	argparser();
 	/**
-	 * @brief Registers an argument. Calls this in the derivee's constructor
+	 * @brief Registers an argument. Call this in the derivee's constructor
 	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description
@@ -131,7 +131,7 @@ protected:
 		this->add_to_registry(arg, std::move(row));
 	}
 	/**
-	 * @brief Registers a trigger. Calls this in the derivee's constructor
+	 * @brief Registers a trigger. Call this in the derivee's constructor
 	 * @param arg The argument flag
 	 * @param value_name The name of the argument
 	 * @param description A description

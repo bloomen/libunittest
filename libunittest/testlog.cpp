@@ -78,16 +78,21 @@ make_full_test_name(const std::string& class_name,
 bool
 is_test_executed(const std::string& full_test_name,
                  const std::string& exact_name,
-                 const std::string& filter_name)
+                 const std::string& filter_name,
+				 const std::string& regex_filter)
 {
     if (exact_name.size()) {
         return exact_name==full_test_name;
     }
-
-    if (filter_name.size()) {
+    if (filter_name.size() && !regex_filter.size()) {
         return full_test_name.substr(0, filter_name.size())==filter_name;
     }
-
+    if (regex_filter.size() && !filter_name.size()) {
+    	return unittest::core::is_regex_matched(full_test_name, regex_filter);
+    }
+    if (filter_name.size() && regex_filter.size()) {
+        return full_test_name.substr(0, filter_name.size())==filter_name && unittest::core::is_regex_matched(full_test_name, regex_filter);
+    }
     return true;
 }
 

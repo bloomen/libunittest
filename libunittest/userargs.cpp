@@ -8,7 +8,7 @@ namespace core {
 
 userargs::userargs()
 	: verbose(false), failure_stop(false), generate_xml(false),
-	  handle_exceptions(true), dry_run(false), concurrent_threads(0),
+	  handle_exceptions(true), dry_run(false), concurrent_threads(0), regex_filter(""),
 	  name_filter(""), test_name(""), timeout(-1), xml_filename("libunittest.xml"),
 	  disable_timeout(false), max_value_precision(10), max_string_length(500),
 	  suite_name("libunittest")
@@ -20,8 +20,9 @@ userargs::userargs()
 	register_trigger('e', "handle_exc", "Turns off handling of unexpected exceptions", handle_exceptions);
 	register_trigger('i', "no_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
 	register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads, false);
-	register_argument('f', "filter", "A run filter applied to the beginning of the test names", name_filter, false);
-	register_argument('n', "name", "A certain test to be run superseding the name filter", test_name, false);
+	register_argument('n', "name", "A certain test to be run superseding any other run filter", test_name, false);
+	register_argument('f', "string", "A run filter applied to the beginning of the test names", name_filter, false);
+	register_argument('g', "regex", "A run filter based on regex applied to the test names", regex_filter, false);
 	register_argument('t', "timeout", "A timeout in seconds for tests without local timeouts", timeout, false);
 	register_argument('o', "xmlfile", "The XML output file name", xml_filename, true);
 	register_argument('l', "length", "The maximum displayed string length", max_string_length, true);
@@ -45,8 +46,9 @@ userargs::assign_values()
 	assign_value(handle_exceptions, 'e');
 	assign_value(disable_timeout, 'i');
 	assign_value(concurrent_threads, 'p');
-	assign_value(name_filter, 'f');
 	assign_value(test_name, 'n');
+	assign_value(name_filter, 'f');
+	assign_value(regex_filter, 'g');
 	assign_value(timeout, 't');
 	assign_value(xml_filename, 'o');
 	assign_value(max_string_length, 'l');
