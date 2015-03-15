@@ -16,9 +16,16 @@ namespace unittest {
  * @brief Internal functionality, not relevant for most users
  */
 namespace core {
-
+/**
+ * @brief Converts an int to string
+ */
 template<typename T>
-struct converter_int {
+struct tostr_converter_int {
+	/**
+	 * @brief Converts an int to string
+	 * @param value The value to convert
+	 * @returns A string
+	 */
 	std::string
 	operator()(T&& value)
 	{
@@ -27,9 +34,16 @@ struct converter_int {
 	    return stream.str();
 	}
 };
-
+/**
+ * @brief Converts a float to string
+ */
 template<typename T>
-struct converter_float {
+struct tostr_converter_float {
+	/**
+	 * @brief Converts a float to string
+	 * @param value The value to convert
+	 * @returns A string
+	 */
 	std::string
 	operator()(T&& value)
 	{
@@ -39,9 +53,16 @@ struct converter_float {
 	    return stream.str();
 	}
 };
-
+/**
+ * @brief Converts a value to string
+ */
 template<typename T>
-struct converter_other {
+struct tostr_converter_other {
+	/**
+	 * @brief Converts a value to string
+	 * @param value The value to convert
+	 * @returns A string
+	 */
 	std::string
 	operator()(T&& value)
 	{
@@ -50,25 +71,42 @@ struct converter_other {
 		return "'" + limit_string_length(stream.str(), unittest::core::testsuite::instance()->get_arguments().max_string_length) + "'";
 	}
 };
-
+/**
+ * @brief Converts a value to string
+ */
 template<typename T,
 		 bool is_integral,
 		 bool is_float>
-struct converter;
-
+struct tostr_converter;
+/**
+ * @brief Converts a value to string. Spec. for int
+ */
 template<typename T>
-struct converter<T, true, false> {
-	typedef converter_int<T> type;
+struct tostr_converter<T, true, false> {
+	/**
+	 * @brief The actual converter type
+	 */
+	typedef tostr_converter_int<T> type;
 };
-
+/**
+ * @brief Converts a value to string. Spec. for float
+ */
 template<typename T>
-struct converter<T, false, true> {
-	typedef converter_float<T> type;
+struct tostr_converter<T, false, true> {
+	/**
+	 * @brief The actual converter type
+	 */
+	typedef tostr_converter_float<T> type;
 };
-
+/**
+ * @brief Converts a value to string. Spec. for other than int or float
+ */
 template<typename T>
-struct converter<T, false, false> {
-	typedef converter_other<T> type;
+struct tostr_converter<T, false, false> {
+	/**
+	 * @brief The actual converter type
+	 */
+	typedef tostr_converter_other<T> type;
 };
 /**
  * @brief Converts a given value to string by taking into account
@@ -81,7 +119,7 @@ std::string
 str(T&& value)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
-	typename unittest::core::converter<T, std::is_integral<T>::value, std::is_floating_point<T>::value>::type converter;
+	typename unittest::core::tostr_converter<T, std::is_integral<T>::value, std::is_floating_point<T>::value>::type converter;
 	return converter(std::forward<T>(value));
 }
 /**
