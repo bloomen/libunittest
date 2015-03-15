@@ -154,7 +154,7 @@ update_class_name(std::string& class_name,
                   const std::string& class_id,
                   const std::map<std::string, std::string>& class_maps)
 {
-    if (class_name=="") {
+    if (!class_name.size()) {
         class_name = get_from_map(class_maps, class_id);
     } else if (class_name==testcollection::inactive_name()) {
         class_name = "";
@@ -167,7 +167,7 @@ update_test_name(std::string& test_name,
                  const std::string& class_id,
                  const std::map<std::string, std::string>& class_maps)
 {
-    if (test_name=="") {
+    if (!test_name.size()) {
         test_name = get_from_map(class_maps, class_id);
         test_name += "::test";
     }

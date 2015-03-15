@@ -64,12 +64,12 @@ struct construct_range< end, end, i... > {
 /**
  * @brief Wrapper struct index_range for construct_range struct.
  */
-template< size_t b, size_t e >
+template<size_t b, size_t e>
 struct index_range {
     /**
     * @brief Type level index list
     */
-    typedef typename construct_range< e, b >::type type;
+    typedef typename construct_range<e, b>::type type;
 };
 /**
  * @brief Partial specialization of tuple_for_each_index for empty index lists.

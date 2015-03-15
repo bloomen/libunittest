@@ -146,7 +146,7 @@ make_threads_happy(std::ostream& stream,
         if (!thread.second->load())
             ++n_unfinished;
     if (n_unfinished && verbose)
-    	stream << "\nWAITING for " << n_unfinished << " tests to finish ... " << std::endl;
+    	stream << "\nWaiting for " << n_unfinished << " tests to finish ... " << std::endl;
     for (auto& thread : threads)
         thread.first.join();
 }

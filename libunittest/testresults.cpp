@@ -32,7 +32,7 @@ write_xml(std::ostream& stream,
     stream << "\" skipped=\"" << results.n_skipped;
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
-    for (auto& log : results.testlogs) {
+    for (const auto& log : results.testlogs) {
         std::string system_out;
         if (log.text.size()) {
             system_out += "\t\t<system-out>\n";
@@ -141,7 +141,7 @@ write_error_info(std::ostream& stream,
     std::lock_guard<std::mutex> lock(write_error_info_mutex_);
     if (!successful) {
         stream << "\n";
-        for (auto& log : testlogs) {
+        for (const auto& log : testlogs) {
             const auto status = log.status;
             if (status==teststatus::failure || status==teststatus::error) {
                 write_horizontal_bar(stream, '=');

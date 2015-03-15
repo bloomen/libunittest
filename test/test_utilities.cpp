@@ -199,7 +199,7 @@ struct test_utilities : unittest::testcase<> {
         assert_equal("", stream1.str(), SPOT);
         std::ostringstream stream2;
         run_make_threads_happy_filled(stream2, true, n_threads);
-        assert_equal(unittest::join("\nWAITING for ", n_threads, " tests to finish ... \n"), stream2.str(), SPOT);
+        assert_equal(unittest::join("\nWaiting for ", n_threads, " tests to finish ... \n"), stream2.str(), SPOT);
     }
 
     void test_get_from_map()

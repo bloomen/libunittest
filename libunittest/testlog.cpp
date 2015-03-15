@@ -64,9 +64,7 @@ write_test_timeout_message(std::ostream& stream,
 {
     static std::mutex write_test_timeout_message_mutex_;
     std::lock_guard<std::mutex> lock(write_test_timeout_message_mutex_);
-    std::string message("T");
-    if (verbose)
-        message = "TIMEOUT\n";
+    const std::string message = verbose ? "TIMEOUT\n" : "T";
     stream << message << std::flush;
 }
 
@@ -82,18 +80,12 @@ is_test_executed(const std::string& full_test_name,
                  const std::string& exact_name,
                  const std::string& filter_name)
 {
-    if (exact_name!="") {
-        if (exact_name==full_test_name)
-            return true;
-        else
-            return false;
+    if (exact_name.size()) {
+        return exact_name==full_test_name;
     }
 
-    if (filter_name!="") {
-        if (full_test_name.substr(0, filter_name.size())==filter_name)
-            return true;
-        else
-            return false;
+    if (filter_name.size()) {
+        return full_test_name.substr(0, filter_name.size())==filter_name;
     }
 
     return true;
