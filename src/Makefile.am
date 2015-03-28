@@ -1,14 +1,13 @@
-# additional include pathes necessary to compile the C++ library
-AM_CXXFLAGS = -I$(top_srcdir)/libunittest @AM_CXXFLAGS@
+# the library names to build
+lib_LTLIBRARIES = libunittest.la
 
-# the library names to build (note we are building static libs only)
-lib_LIBRARIES = libunittest.a
+libunittest_la_LDFLAGS = -version-info 8:0:0
 
 # where to install the headers on the system
-libmylib_adir = $(includedir)/libunittest
+libunittest_ladir = $(includedir)/libunittest
 
 # the list of header files that belong to the library (to be installed later)
-libmylib_a_HEADERS = \
+libunittest_la_HEADERS = \
 argparser.hpp \
 assertions.hpp \
 checkers.hpp \
@@ -36,8 +35,7 @@ utilities.hpp \
 version.hpp
 
 # the sources to add to the library and to add to the source distribution
-libmylib_a_SOURCES = \
-$(libmylib_a_HEADERS) \
+libunittest_la_SOURCES = \
 argparser.cpp \
 environments.cpp \
 formatting.cpp \
