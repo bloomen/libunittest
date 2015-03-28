@@ -43,13 +43,6 @@ m4_define([_AX_CXX_COMPILE_STDCXX_11_testbody], [[
       static_assert(sizeof(int) <= sizeof(T), "not big enough");
     };
 
-    struct Base {
-    virtual void f() {}
-    };
-    struct Child : public Base {
-    virtual void f() override {}
-    };
-
     typedef check<check<bool>> right_angle_brackets;
 
     int a;
@@ -64,26 +57,6 @@ m4_define([_AX_CXX_COMPILE_STDCXX_11_testbody], [[
     // Prevent Clang error: unused variable 'l' [-Werror,-Wunused-variable]
     struct use_l { use_l() { l(); } };
 
-    // http://stackoverflow.com/questions/13728184/template-aliases-and-sfinae
-    // Clang 3.1 fails with headers of libstd++ 4.8.3 when using std::function because of this
-    namespace test_template_alias_sfinae {
-        struct foo {};
-
-        template<typename T>
-        using member = typename T::member_type;
-
-        template<typename T>
-        void func(...) {}
-
-        template<typename T>
-        void func(member<T>*) {}
-
-        void test();
-
-        void test() {
-            func<foo>(0);
-        }
-    }
 ]])
 
 AC_DEFUN([AX_CXX_COMPILE_STDCXX_11], [dnl
