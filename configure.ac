@@ -6,7 +6,6 @@ AC_CONFIG_SRCDIR([libunittest/main.cpp])
 
 # check for C++ preprocessor and compiler
 AC_PROG_CXXCPP
-AC_PROG_CXX
 AC_PROG_RANLIB
 
 # automake initialization (mandatory) including a check for automake API version >= 1.9
@@ -27,6 +26,7 @@ AC_TYPE_SIZE_T
 # --> set and change these variables instead of CXXFLAGS or LDFLAGS (for user only)
 AC_SUBST([AM_CXXFLAGS])
 AC_SUBST([AM_LDFLAGS])
+AC_SUBST([LIBS])
 
 # files to generate via autotools (prepare .am or .in source files)
 AC_CONFIG_FILES([Makefile])
