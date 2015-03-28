@@ -17,3 +17,16 @@ configure
 depcomp
 install-sh
 missing
+Makefile
+compile
+config.guess
+config.log
+config.status
+config.sub
+libtool
+ltmain.sh
+src/.*
+src/config.hpp*
+src/*.lo
+src/*.la
+src/stamp-h1
