@@ -1,22 +1,10 @@
-# initial information about the project
 AC_INIT([libunittest],[8.0.0],[chr.blume@gmail.com],[libunittest],[http://libunittest.net])
-
-# check if the source folder is available
 AC_CONFIG_SRCDIR([src/lib/main.cpp])
-
 AC_CONFIG_HEADERS([src/lib/config.hpp])
-
 AC_CONFIG_MACRO_DIR([m4])
-
-# automake initialization (mandatory) including a check for automake API version >= 1.9
 AM_INIT_AUTOMAKE([1.9])
-
 LT_INIT
-
-# check for C++ preprocessor and compiler
 AC_PROG_CXX
-
-# use the C++ compiler for the following checks
 AC_LANG([C++])
 
 # Checks for header files.
@@ -32,10 +20,7 @@ LIBS="$PTHREAD_LIBS $LIBS"
 CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
 CC="$PTHREAD_CC"
 
-##########################################################################
 # debug compilation support
-##########################################################################
-
 AC_MSG_CHECKING([whether to build with debug information])
 AC_ARG_ENABLE([debug],
     [AS_HELP_STRING([--enable-debug],
@@ -43,7 +28,6 @@ AC_ARG_ENABLE([debug],
     [debugit="$enableval"],
     [debugit=no])
 AC_MSG_RESULT([$debugit])
-
 if test x"$debugit" = x"yes"; then
     AC_DEFINE([DEBUG],[],[Debug Mode])
     AM_CXXFLAGS="$AM_CXXFLAGS -g -O0 -Wall -Wextra -Weffc++ -Wno-maybe-uninitialized -pedantic"
@@ -52,15 +36,12 @@ else
     AM_CXXFLAGS="$AM_CXXFLAGS -O3"
 fi
 
-##########################################################################
-
 # distribute additional compiler and linker flags among Makefiles
 # --> set and change these variables instead of CXXFLAGS or LDFLAGS (for user only)
 AC_SUBST([AM_CXXFLAGS])
 AC_SUBST([AM_LDFLAGS])
 AC_SUBST([LIBS])
 
-# files to generate via autotools (prepare .am or .in source files)
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/lib/Makefile])
 AC_CONFIG_FILES([test/Makefile])
@@ -73,5 +54,4 @@ AC_CONFIG_FILES([examples/templates/Makefile])
 
 AC_PROG_INSTALL
 
-# finally this generates the Makefiles etc. for the build
 AC_OUTPUT
