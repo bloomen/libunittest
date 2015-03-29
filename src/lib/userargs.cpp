@@ -1,6 +1,6 @@
-#include "userargs.hpp"
-#include "utilities.hpp"
-#include "config.hpp"
+#include "libunittest/userargs.hpp"
+#include "libunittest/utilities.hpp"
+#include "libunittest/version.hpp"
 
 namespace unittest {
 namespace core {
@@ -33,7 +33,7 @@ userargs::userargs()
 std::string
 userargs::description()
 {
-    return "This is your testing application using " + std::string(PACKAGE_STRING);
+    return "This is your testing application using libunittest " + version();
 }
 
 void

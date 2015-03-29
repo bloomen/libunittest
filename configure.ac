@@ -2,9 +2,9 @@
 AC_INIT([libunittest],[8.0.0],[chr.blume@gmail.com])
 
 # check if the source folder is available
-AC_CONFIG_SRCDIR([src/main.cpp])
+AC_CONFIG_SRCDIR([src/lib/main.cpp])
 
-AC_CONFIG_HEADERS([src/config.hpp])
+AC_CONFIG_HEADERS([src/lib/config.hpp])
 
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -27,6 +27,10 @@ AC_CHECK_HEADERS([iostream])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
+ACX_PTHREAD
+LIBS="$PTHREAD_LIBS $LIBS"
+CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+CC="$PTHREAD_CC"
 
 ##########################################################################
 # debug compilation support
@@ -58,7 +62,14 @@ AC_SUBST([LIBS])
 
 # files to generate via autotools (prepare .am or .in source files)
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([src/lib/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([examples/Makefile])
+AC_CONFIG_FILES([examples/collection/Makefile])
+AC_CONFIG_FILES([examples/flexible/Makefile])
+AC_CONFIG_FILES([examples/minimal/Makefile])
+AC_CONFIG_FILES([examples/random/Makefile])
+AC_CONFIG_FILES([examples/templates/Makefile])
 
 AC_PROG_INSTALL
 

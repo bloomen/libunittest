@@ -80,7 +80,7 @@ struct test_misc : unittest::testcase<> {
     void test_version()
     {
         const unsigned size = 5;
-        assert_greater_equal(unittest::version.size(), size);
+        assert_greater_equal(unittest::version().size(), size);
     }
 
     void test_write_xml_empty()
