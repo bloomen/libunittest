@@ -15,7 +15,7 @@ sftp bloomen,libunittest@web.sourceforge.net << EOF
 cd htdocs
 put doc/web/*
 cd /home/frs/project/libunittest
-put dist/libunittest-${version}.tar.gz
+put libunittest-${version}.tar.gz
 EOF
 exit $?
 

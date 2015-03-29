@@ -1,5 +1,9 @@
 ACLOCAL_AMFLAGS = -I m4
 
+EXTRA_DIST = doc
+dist-hook:
+	rm -rf $(top_distdir)/doc/doxygen/html
+
 SUBDIRS = \
 src/lib \
 test \

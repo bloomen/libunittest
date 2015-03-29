@@ -1,5 +1,5 @@
 # initial information about the project
-AC_INIT([libunittest],[8.0.0],[chr.blume@gmail.com])
+AC_INIT([libunittest],[8.0.0],[chr.blume@gmail.com],[libunittest],[http://libunittest.net])
 
 # check if the source folder is available
 AC_CONFIG_SRCDIR([src/lib/main.cpp])
