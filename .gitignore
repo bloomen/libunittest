@@ -1,7 +1,5 @@
 .project
 .settings
-dist
-lib
 *.o
 *.obj
 *.exe
@@ -12,7 +10,7 @@ html
 errors.log
 Makefile.in
 aclocal.m4
-autom4te.cache/
+autom4te.cache
 configure
 depcomp
 install-sh
