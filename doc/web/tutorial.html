@@ -13,13 +13,13 @@
 					<a href="index.html">Home</a>
 				</li>
 				<li>
-					<a href="installation.html">Installation</a>
+					<a href="install.html">Install</a>
 				</li>
 				<li class="active">
 					<a href="tutorial.html">Tutorial</a>
 				</li>
 				<li>
-					<a href="downloads.html">Downloads</a>
+					<a href="download.html">Download</a>
 				</li>
 				<li>
 					<a href="feedback.html">Feedback</a>
@@ -46,6 +46,9 @@
 					<a href="#assertions">Assertions</a>
 				</li>
 				<li>
+					<a href="#headers">Important libunittest headers</a>
+				</li>
+				<li>
 					<a href="#random">Random values and containers</a>
 				</li>
 				<li>
@@ -61,10 +64,10 @@
                 <p>
                 There are different ways
                 of writing tests with libunittest depending on your needs
-                and requirements. The simplest way to do it would be to define 
+                and requirements. The easiest way to do it would be to define 
                 a source file like this:
                 <code>
-                    // simple.cpp<br>
+                    // easy.cpp<br>
                     #include &lt;libunittest/all.hpp&gt;<br>
                     using namespace unittest::assertions;<br><br>
 
@@ -95,11 +98,12 @@
 				the current file and line number. 
                 </p>
                 <p>
-                Note that the above example is only one way of writing tests
-                with libunittest. Another way would be to define explicit
-                test classes which leads to more flexibility and faster compile
-                times. It is usually recommended for larger test projects. An example of using explicit test
-                classes can be found <a href="http://sourceforge.net/p/libunittest/code/ci/master/tree/examples/flexible/" target="_blank">here</a>. 
+                Note that the above example uses the <i>easy</i> style by
+                using the macros <incode>TEST</incode> and <incode>TEST_FIXTURE</incode>.
+                However, for greater flexibility and faster compile times the alternative way 
+                of writing tests is called the <i>explicit</i> style because one has
+                to write explicit test classes. This testing style is usually recommended for larger test projects. An example on how to do that can be found
+                <a href="http://sourceforge.net/p/libunittest/code/ci/master/tree/examples/flexible/" target="_blank">here</a>. 
                 </p>
                 <p>
                 In order to compile the above example it is assumed 
@@ -107,7 +111,7 @@
                 In order to compile on Linux-like systems 
                 using <incode>g++(&ge;4.6)</incode>, you can do:
                 <code>
-                g++ -std=c++0x -pthread -lunittest simple.cpp -o unittest.exe
+                g++ -std=c++0x -pthread -lunittest easy.cpp -o unittest.exe
                 </code>
                 Doing <incode>./unittest.exe -v</incode> &nbsp; gives the following output:
                 <code>
@@ -119,10 +123,10 @@
                 
                 OK
                 </code>
-                To get a quick help to your testing application just do
+                To get a quick help to your test application just do
                 <incode>./unittest.exe -h</incode>:
                 <code>
-                This is your testing application using libunittest-7.0.1<br><br>
+                This is your test application using libunittest 8.0.0<br><br>
                 
                 Usage: ./unittest.exe [Arguments]<br><br>
                 
@@ -135,8 +139,9 @@
                 -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Turns off handling of unexpected exceptions<br>
                 -i &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Disables the measurement of any test timeouts<br>
                 -p number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs tests in parallel with a given number of threads<br>
-                -f filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A run filter applied to the beginning of the test names<br>
-                -n name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A certain test to be run superseding the name filter<br>
+                -n name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A certain test to be run superseding any other run filter<br>
+                -f string &nbsp;&nbsp;&nbsp;&nbsp; A run filter applied to the beginning of the test names<br>
+                -g regex &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A run filter based on regex applied to the test names<br>
                 -t timeout &nbsp;&nbsp;&nbsp; A timeout in seconds for tests without local timeouts<br>
                 -o xmlfile &nbsp;&nbsp;&nbsp; The XML output file name (default: libunittest.xml)<br>
                 -l length  &nbsp;&nbsp;&nbsp;&nbsp; The maximum displayed string length (default: 500)<br>
@@ -173,9 +178,44 @@
 				Please note that <incode>message...</incode> denotes 
 				a variable number of template parameters (variadic 
 				template) and can also be omitted. If given 
-				it is appended to the default fail message.
+				it is appended to the default fail message. Note that if the macro <incode>SPOT</incode>
+				is passed (which is recommended) then the file and line information is parsed
+				out and used for debugging purposes in case the assertion fails. For instance:
+                <code>
+                assert_equal(42, 41, SPOT, "This clearly ", "fails: ", 42);
+                </code>
+				would lead to the following fail message:
+				<code>
+				====================================================================<br>
+				FAIL: test_something_that_fails::test [0.00012s]<br>
+				--------------------------------------------------------------------<br>
+				testfailure: 42 not equal to 41 - This clearly fails: 42<br>
+				assertion: assert_equal in test_something.cpp at line 7<br>
+				</code>				
+				
                 </p>
 
+				<a name="headers"></a>
+                <h2>Important libunittest headers</h2>
+                <p>
+				The header that encompasses all libunittest functionality
+				is <incode>&lt;libunittest/all.hpp&gt;</incode> which gives you access
+				to the <incode>unittest</incode> namespace, an automatic main function, and
+				all macro shortcuts.
+				</p>
+				<p>
+				In case you'd want everything but the macro shortcuts then simply include <incode>&lt;libunittest/main.hpp&gt;</incode>. 
+				The library you're trying to test might define macros that conflict with the shortcuts defined by libunittest.
+				</p>
+				<p>
+				If all you'd want is the <incode>unittest</incode> namespace without automatic main function or macro shortcuts then simply include
+				<incode>&lt;libunittest/unittest.hpp&gt;</incode>.
+				</p>
+				<p>
+				And finally if you'd want everything but an automatic main function then include <incode>&lt;libunittest/unittest.hpp&gt;</incode> and
+				<incode>&lt;libunittest/shortcuts.hpp&gt;</incode>.
+				</p>
+				
 				<a name="random"></a>
                 <h2>Random values and containers</h2>
                 <p>
@@ -357,46 +397,17 @@
 					If you'd like to contribute to libunittest then 
 					this section will be interesting for you. First 
 					you'd want to <a href="http://sourceforge.net/p/libunittest/code/ci/master/tree" target="_blank">check out</a> the code.
+					It is assumed that you develop on a Unix-like OS such as Linux or MacOSX.
                 </p>
                 <p>
-					In order to build and install please have a look at the <a href="installation.html">installation instructions</a>.
-                </p>
-                <p>
-					There are a few more targets the master <incode>Makefile</incode> provides:
-					<li>
-
-						<incode>make check</incode> - Performs a 
-						complete library check. Builds the library, 
-						builds and executes tests and examples and 
-						compiles the doxygen documentation.
-
-					</li>
-					
-					<li>
-
-						<incode>make distcheck</incode> - Just like the 
-						<incode>check</incode> target but builds a source distribution first.
-
-					</li>
-
-					<li>
-
-						<incode>make version</incode> - Generates a new version file in case the version was incremented.
-
-					</li>
-
-					<li>
-
-						<incode>make dist</incode> - Builds a source distribution.
-
-					</li>
-                
-					<li>
-
-						<incode>make clean</incode> - Major clean-up.
-
-					</li>
-                
+					libunittest uses the GNU build system (autotools) which means you will need to have
+					<incode>automake</incode>, <incode>autoconf</incode>, and <incode>libtool</incode> installed.
+					In order to generate the necessary makefiles in debug mode just do:
+					<code>
+					./autogen.sh<br>
+					./configure --enable-debug
+					</code>
+					Now you can run things like <incode>make</incode> and <incode>make check</incode>.
                 </p>
                 
                 <p>
@@ -406,7 +417,12 @@
 					easily add your tests to the existing test 
 					suite. Also consider providing an example on how 
 					to use your new feature. And finally, your
-					code is only complete if it is properly documented.
+					code is only complete if it is properly documented. 
+					In order to check if your code documentation is complete you can do:
+					<code>
+					make -C doc/doxygen
+					</code>
+					Happy coding!
                 </p>
 	</div>
 </body>
