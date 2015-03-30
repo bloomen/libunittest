@@ -114,7 +114,7 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_approx_relequal(T&& first,
+is_relapprox_equal(T&& first,
                    U&& second,
                    V&& eps)
 {
@@ -194,14 +194,14 @@ template<typename T,
          typename Container,
          typename U>
 bool
-is_approx_rel_contained(T&& value,
+is_relapprox_contained(T&& value,
                     Container&& container,
                     U&& eps)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
-        if (unittest::core::is_approx_relequal(*first, value, eps)) return true;
+        if (unittest::core::is_relapprox_equal(*first, value, eps)) return true;
         ++first;
     }
     return false;
@@ -268,7 +268,7 @@ template<typename Container1,
          typename Container2,
          typename V>
 bool
-is_containers_approx_relequal(Container1&& first,
+is_containers_relapprox_equal(Container1&& first,
                            Container2&& second,
                            V&& eps)
 {
@@ -277,7 +277,7 @@ is_containers_approx_relequal(Container1&& first,
     auto begin2 = std::begin(second);
     auto end2 = std::end(second);
     while (begin1!=end1 && begin2!=end2) {
-        if (!unittest::core::is_approx_relequal(*begin1, *begin2, eps)) return false;
+        if (!unittest::core::is_relapprox_equal(*begin1, *begin2, eps)) return false;
         ++begin1;
         ++begin2;
     }
