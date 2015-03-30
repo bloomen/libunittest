@@ -12,7 +12,7 @@ examples
 TESTS = \
 test/unittest \
 examples/collection/collection \
-examples/flexible/flexible \
+examples/explicit/explicit \
 examples/minimal/minimal \
 examples/random/random \
 examples/templates/templates

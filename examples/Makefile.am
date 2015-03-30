@@ -1,6 +1,6 @@
 SUBDIRS = \
 collection \
-flexible \
+explicit \
 minimal \
 random \
 templates

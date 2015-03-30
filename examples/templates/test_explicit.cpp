@@ -2,11 +2,11 @@
 using namespace unittest::assertions;
 
 template<typename T, typename U>
-struct templates_flexible : unittest::testcase<> {
+struct templates_explicit : unittest::testcase<> {
 
     static void run()
     {
-        UNITTEST_CLASS(templates_flexible)
+        UNITTEST_CLASS(templates_explicit)
         UNITTEST_RUN(test_me<long>)
         UNITTEST_RUN(test_me<long long>)
     }
@@ -22,6 +22,6 @@ struct templates_flexible : unittest::testcase<> {
 
 };
 
-REGISTER(templates_flexible<int, short>)
-REGISTER(templates_flexible<int, int>)
-REGISTER(templates_flexible<int, long>)
+REGISTER(templates_explicit<int, short>)
+REGISTER(templates_explicit<int, int>)
+REGISTER(templates_explicit<int, long>)
