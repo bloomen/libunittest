@@ -33,7 +33,7 @@ userargs::userargs()
 std::string
 userargs::description()
 {
-    return "This is your testing application using libunittest " + version();
+    return "This is your test application using libunittest " + version();
 }
 
 void
