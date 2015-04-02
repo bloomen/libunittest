@@ -422,10 +422,10 @@ join(T&& arg,
 /**
  * @brief Machine epsilon of float
  */
-constexpr const float feps = std::numeric_limits<float>::epsilon();
+const float feps = std::numeric_limits<float>::epsilon();
 /**
  * @brief Machine epsilon of double
  */
-constexpr const double deps = std::numeric_limits<double>::epsilon();
+const double deps = std::numeric_limits<double>::epsilon();
 
 } // unittest
