@@ -470,7 +470,8 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     	std::shared_ptr<std::atomic_bool> done = functor.info().done;
     	std::shared_ptr<std::atomic_bool> has_timed_out = functor.info().has_timed_out;
     	const double updated_timeout = functor.info().timeout;
-        unittest::core::observe_and_wait(std::thread(functor), done, has_timed_out, updated_timeout);
+    	std::thread thread(functor);
+        unittest::core::observe_and_wait(std::move(thread), done, has_timed_out, updated_timeout);
     }
 }
 /**
