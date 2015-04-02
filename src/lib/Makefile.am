@@ -8,6 +8,7 @@ libunittest_ladir = $(includedir)/libunittest
 
 # the list of header files that belong to the library (to be installed later)
 libunittest_la_HEADERS = \
+libunittest/all.hpp \
 libunittest/argparser.hpp \
 libunittest/assertions.hpp \
 libunittest/checkers.hpp \
