@@ -20,6 +20,22 @@ LIBS="$PTHREAD_LIBS $LIBS"
 CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
 CC="$PTHREAD_CC"
 
+# Check for std::this_thread::sleep_for
+AC_CACHE_CHECK(
+	[for std::this_thread::sleep_for],
+	[lu_cv_func_this_thread_sleep_for],
+	[AC_COMPILE_IFELSE(
+		[AC_LANG_SOURCE[
+		#include <thread>
+		#include <chrono>
+		void func() { std::this_thread::sleep_for(std::chrono::seconds(1)); }]],
+		[lu_cv_func_this_thread_sleep_for=yes],
+	[lu_cv_func_this_thread_sleep_for=no])])
+
+if test "$lu_cv_func_this_thread_sleep_for" = no; then
+	CXXFLAGS="$CXXFLAGS -D_GLIBCXX_USE_NANOSLEEP"
+fi
+
 # debug compilation support
 AC_MSG_CHECKING([whether to build with debug information])
 AC_ARG_ENABLE([debug],
@@ -30,7 +46,7 @@ AC_ARG_ENABLE([debug],
 AC_MSG_RESULT([$debugit])
 if test x"$debugit" = x"yes"; then
     AC_DEFINE([DEBUG],[],[Debug Mode])
-    AM_CXXFLAGS="$AM_CXXFLAGS -g -O0 -Wall -Wextra -Weffc++ -Wno-maybe-uninitialized -pedantic"
+    AM_CXXFLAGS="$AM_CXXFLAGS -g -O0 -Wall -Wextra -Weffc++ -pedantic"
 else
     AC_DEFINE([NDEBUG],[],[No-debug Mode])
     AM_CXXFLAGS="$AM_CXXFLAGS -O3"
