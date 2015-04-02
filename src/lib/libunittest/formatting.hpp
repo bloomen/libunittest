@@ -86,7 +86,7 @@ struct tostr_converter<T, true, false> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef tostr_converter_int<T> type;
+	typedef unittest::core::tostr_converter_int<T> type;
 };
 /**
  * @brief Converts a value to string. Spec. for float
@@ -96,7 +96,7 @@ struct tostr_converter<T, false, true> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef tostr_converter_float<T> type;
+	typedef unittest::core::tostr_converter_float<T> type;
 };
 /**
  * @brief Converts a value to string. Spec. for other than int or float
@@ -106,7 +106,7 @@ struct tostr_converter<T, false, false> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef tostr_converter_other<T> type;
+	typedef unittest::core::tostr_converter_other<T> type;
 };
 /**
  * @brief Converts a given value to string by taking into account
@@ -118,8 +118,9 @@ template<typename T>
 std::string
 str(T&& value)
 {
-	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
-	typename unittest::core::tostr_converter<T, std::is_integral<T>::value, std::is_floating_point<T>::value>::type converter;
+	typedef typename std::remove_reference<T>::type type;
+	static_assert(unittest::core::is_output_streamable<type>::value, "argument is not output streamable");
+	typename unittest::core::tostr_converter<T, std::is_integral<type>::value, std::is_floating_point<type>::value>::type converter;
 	return converter(std::forward<T>(value));
 }
 /**
