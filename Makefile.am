@@ -2,7 +2,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = doc
 dist-hook:
-	rm -rf $(top_distdir)/doc/doxygen/html
+	make clean -C $(top_distdir)/doc/doxygen
 
 SUBDIRS = \
 src/lib \
