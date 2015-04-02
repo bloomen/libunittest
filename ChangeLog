@@ -1,6 +1,15 @@
-libunittest (7.1.0) stable; urgency=low
+libunittest (8.0.0) stable; urgency=low
 
-  * working on it ...
+  * Converted to GNU build system (autotools)
+  * Added various new assertions for relative approximity
+  * Added run filter using regular expressions (switch -g)
+  * Using now universal references for all assertions 
+  * Added static assertion for stream operator overload
+  * Improved conversions to string for integers and floats
+  * Removed unused tag testsuites from XSD
+  * Refactoring for decreased compile times
+  * Updated documentation
+  * libunittest can now be reached at http://libunittest.net
 
  -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2015 XX:XX:00 -0700
 
