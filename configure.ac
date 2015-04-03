@@ -7,6 +7,9 @@ LT_INIT
 AC_PROG_CXX
 AC_LANG([C++])
 
+# Starting off with no flags
+CXXFLAGS=
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([string])
@@ -17,7 +20,7 @@ AC_TYPE_SIZE_T
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 ACX_PTHREAD
 LIBS="$PTHREAD_LIBS $LIBS"
-CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+AM_CXXFLAGS="$AM_CXXFLAGS $PTHREAD_CFLAGS"
 CC="$PTHREAD_CC"
 
 # Check for std::this_thread::sleep_for
@@ -33,7 +36,7 @@ AC_CACHE_CHECK(
 	[lu_cv_func_this_thread_sleep_for=no])])
 
 if test "$lu_cv_func_this_thread_sleep_for" = no; then
-	CXXFLAGS="$CXXFLAGS -D_GLIBCXX_USE_NANOSLEEP"
+	AM_CXXFLAGS="$AM_CXXFLAGS -D_GLIBCXX_USE_NANOSLEEP"
 fi
 
 # debug compilation support
@@ -47,6 +50,9 @@ AC_MSG_RESULT([$debugit])
 if test x"$debugit" = x"yes"; then
     AC_DEFINE([DEBUG],[],[Debug Mode])
     AM_CXXFLAGS="$AM_CXXFLAGS -g -O0 -Wall -Wextra -Weffc++ -pedantic"
+else
+    AC_DEFINE([NDEBUG],[],[No-debug Mode])
+    AM_CXXFLAGS="$AM_CXXFLAGS -O2"
 fi
 
 # distribute additional compiler and linker flags among Makefiles
