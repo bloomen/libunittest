@@ -19,13 +19,13 @@ namespace core {
 /**
  * @brief Converts an int to string
  */
-template<typename T>
 struct tostr_converter_int {
 	/**
 	 * @brief Converts an int to string
 	 * @param value The value to convert
 	 * @returns A string
 	 */
+	template<typename T>
 	std::string
 	operator()(T&& value)
 	{
@@ -37,13 +37,13 @@ struct tostr_converter_int {
 /**
  * @brief Converts a float to string
  */
-template<typename T>
 struct tostr_converter_float {
 	/**
 	 * @brief Converts a float to string
 	 * @param value The value to convert
 	 * @returns A string
 	 */
+	template<typename T>
 	std::string
 	operator()(T&& value)
 	{
@@ -56,13 +56,13 @@ struct tostr_converter_float {
 /**
  * @brief Converts a value to string
  */
-template<typename T>
 struct tostr_converter_other {
 	/**
 	 * @brief Converts a value to string
 	 * @param value The value to convert
 	 * @returns A string
 	 */
+	template<typename T>
 	std::string
 	operator()(T&& value)
 	{
@@ -74,39 +74,38 @@ struct tostr_converter_other {
 /**
  * @brief Converts a value to string
  */
-template<typename T,
-		 bool is_integral,
+template<bool is_integral,
 		 bool is_float>
 struct tostr_converter;
 /**
  * @brief Converts a value to string. Spec. for int
  */
-template<typename T>
-struct tostr_converter<T, true, false> {
+template<>
+struct tostr_converter<true, false> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef unittest::core::tostr_converter_int<T> type;
+	typedef unittest::core::tostr_converter_int type;
 };
 /**
  * @brief Converts a value to string. Spec. for float
  */
-template<typename T>
-struct tostr_converter<T, false, true> {
+template<>
+struct tostr_converter<false, true> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef unittest::core::tostr_converter_float<T> type;
+	typedef unittest::core::tostr_converter_float type;
 };
 /**
  * @brief Converts a value to string. Spec. for other than int or float
  */
-template<typename T>
-struct tostr_converter<T, false, false> {
+template<>
+struct tostr_converter<false, false> {
 	/**
 	 * @brief The actual converter type
 	 */
-	typedef unittest::core::tostr_converter_other<T> type;
+	typedef unittest::core::tostr_converter_other type;
 };
 /**
  * @brief Converts a given value to string by taking into account
@@ -120,7 +119,7 @@ str(T&& value)
 {
 	typedef typename std::remove_reference<T>::type type;
 	static_assert(unittest::core::is_output_streamable<type>::value, "argument is not output streamable");
-	typename unittest::core::tostr_converter<T, std::is_integral<type>::value, std::is_floating_point<type>::value>::type converter;
+	typename unittest::core::tostr_converter<std::is_integral<type>::value, std::is_floating_point<type>::value>::type converter;
 	return converter(std::forward<T>(value));
 }
 /**
