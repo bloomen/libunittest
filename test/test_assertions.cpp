@@ -63,10 +63,10 @@ struct test_assertions : unittest::testcase<> {
 
     void test_assert_relapprox_equal_containers()
     {
-        std::vector<int> vec0 = {};
+        std::vector<float> vec0 = {};
         assert_relapprox_equal_containers(vec0, vec0, .26, SPOT);
-        std::vector<int> vec = {-10.0, 2.0, 10.0};
-        std::vector<int> vec2 = {-10.0, 2.5, 10.0};
+        std::vector<float> vec = {-10.0, 2.0, 20.0};
+        std::vector<float> vec2 = {-10.0, 2.5, 20.0};
         assert_relapprox_equal_containers(vec, vec2, .26, SPOT);
         auto functor = [this,&vec,&vec2]() { assert_relapprox_equal_containers(vec, vec2, .25); };
         assert_throw<testfailure>(functor, SPOT);
@@ -79,16 +79,15 @@ struct test_assertions : unittest::testcase<> {
 
     void test_assert_relapprox_not_equal_containers()
     {
-        std::vector<int> vec =  {0.0, 2.0, 5.0};
-        std::vector<int> vec2 =  {0.0, 2.5, 5.0};
+        std::vector<float> vec =  {-10.0, 2.0, 10.0};
+        std::vector<float> vec2 =  {-10.0, 2.5, 10.0};
         assert_relapprox_not_equal_containers(vec, vec2, .25, SPOT);
-        std::vector<int> vec3 =  {0.0, 2.0, 5.0, 6.0};
+        std::vector<float> vec3 =  {0.0, 2.0, 5.0, 6.0};
         assert_relapprox_not_equal_containers(vec, vec3, .25, SPOT);
-        std::vector<int> vec4 = {};
-        assert_relapprox_not_equal_containers(vec, vec4, .25, SPOT);
+        assert_relapprox_not_equal_containers(vec, vec2, .25, SPOT);
         auto functor = [this,&vec,&vec2]() { assert_relapprox_not_equal_containers(vec, vec2, .26); };
         assert_throw<testfailure>(functor, SPOT);
-        std::vector<int> vec0 = {};
+        std::vector<float> vec0 = {};
         auto functor2 = [this,&vec0]() { assert_relapprox_not_equal_containers(vec0, vec0, .26); };
         assert_throw<testfailure>(functor2, SPOT);
     }
