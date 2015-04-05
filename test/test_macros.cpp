@@ -4,7 +4,7 @@ using namespace unittest::assertions;
 struct fixture {
     int value;
     fixture() : value(42) {}
-    virtual ~fixture() noexcept(false) {}
+    virtual ~fixture() UNITTEST_NOEXCEPT_FALSE {}
 };
 
 struct context {
