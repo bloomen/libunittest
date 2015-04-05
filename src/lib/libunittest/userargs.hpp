@@ -50,8 +50,7 @@ struct userargs : argparser {
      */
     std::string regex_filter;
     /**
-     * @brief Sets a name filter on the full test name (default: "")
-     * 	This supersedes the regex filter
+     * @brief Sets a filter on the beginning of the full test name (default: "")
      */
     std::string name_filter;
     /**
