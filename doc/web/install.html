@@ -66,10 +66,20 @@
                 <p>
                     <a href="downloads.html">Download</a> a 
                     source distribution, unpack the tar-ball, and create a new 
-                    Visual Studio project for building a library. 
-                    Now import all libunittest sources into 
-                    the VS project, then build it, and finally link it to
-                    your test application.
+                    Visual Studio project for building a static library, say you name it <incode>libunittest</incode>.
+                    Now add libunittest's <incode>src\lib</incode> path to the list of VC++ include directories in the project properties.
+                    Then simply drag all libunittest sources (those right under <incode>src\lib</incode>) into 
+                    the "Source Files" folder of your Visual Studio project. You can now build the library.
+				</p>
+				<p>					
+					In order to actually build your test application you should create another 
+					Visual Studio project for building a console application. Again add 
+                    <incode>src\lib</incode> to the list of VC++ include directories. 
+                    In order to make the libunittest library you previously built available you need to add
+					its directory to the list of VC++ library directories, so add something like 
+					<incode>Projects\libunittest\Debug</incode>. The last thing you need is tell the linker
+					the name of the library which means adding <incode>libunittest.lib</incode> under "Input" and
+					"Additional Dependencies". You're now ready to build your test application.
                 </p>
 				<h2>
 					Install from package
