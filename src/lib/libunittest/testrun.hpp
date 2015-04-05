@@ -420,7 +420,7 @@ observe_and_wait(std::thread&& thread,
                  std::shared_ptr<std::atomic_bool> done,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
                  double timeout,
-                 std::chrono::milliseconds resolution=std::chrono::milliseconds(10));
+                 std::chrono::milliseconds resolution=std::chrono::milliseconds(1));
 /**
  * @brief Creates the test info object
  * @param class_id The id of the test class
