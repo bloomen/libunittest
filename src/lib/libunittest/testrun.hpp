@@ -464,14 +464,14 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
     unittest::core::testfunctor<TestCase> functor(context, method,
     		unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
 										  class_name, test_name, skipped, skip_message, timeout));
-    if (unittest::core::testsuite::instance()->get_arguments().disable_timeout || timeout<=0) {
-    	functor();
-    } else {
+	const double updated_timeout = functor.info().timeout;
+    if (updated_timeout > 0) {
     	std::shared_ptr<std::atomic_bool> done = functor.info().done;
     	std::shared_ptr<std::atomic_bool> has_timed_out = functor.info().has_timed_out;
-    	const double updated_timeout = functor.info().timeout;
     	std::thread thread(functor);
         unittest::core::observe_and_wait(std::move(thread), done, has_timed_out, updated_timeout);
+    } else {
+    	functor();
     }
 }
 /**
@@ -492,10 +492,7 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         bool skipped,
         std::string skip_message)
 {
-    unittest::core::testfunctor<TestCase> functor(context, method,
-    		unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
-										  class_name, test_name, skipped, skip_message, -1));
-    functor();
+    unittest::testrun(context, method, class_name, test_name, skipped, skip_message, -1.);
 }
 
 } // unittest

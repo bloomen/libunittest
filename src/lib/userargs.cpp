@@ -23,7 +23,7 @@ userargs::userargs()
 	register_argument('n', "name", "A certain test to be run superseding any other run filter", test_name, false);
 	register_argument('f', "string", "A run filter applied to the beginning of the test names", name_filter, false);
 	register_argument('g', "regex", "A run filter based on regex applied to the test names", regex_filter, false);
-	register_argument('t', "timeout", "A timeout in seconds for tests without local timeouts", timeout, false);
+	register_argument('t', "timeout", "A timeout in seconds for tests without static timeouts", timeout, false);
 	register_argument('o', "xmlfile", "The XML output file name", xml_filename, true);
 	register_argument('l', "length", "The maximum displayed string length", max_string_length, true);
 	register_argument('r', "precision", "The maximum displayed value precision", max_value_precision, true);

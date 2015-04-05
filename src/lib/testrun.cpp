@@ -184,8 +184,12 @@ update_testrun_info(const std::string& class_id,
     const auto& class_maps = suite->get_class_maps();
     update_class_name(class_name, class_id, class_maps);
     update_test_name(test_name, class_id, class_maps);
-    const double global_timeout = suite->get_arguments().timeout;
-    update_local_timeout(local_timeout, global_timeout);
+    if (suite->get_arguments().disable_timeout) {
+    	local_timeout = -1;
+    } else {
+		const double global_timeout = suite->get_arguments().timeout;
+		update_local_timeout(local_timeout, global_timeout);
+    }
 }
 
 std::string
