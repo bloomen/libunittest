@@ -3,7 +3,7 @@ AC_CONFIG_SRCDIR([src/lib/main.cpp])
 AC_CONFIG_HEADERS([src/lib/config.hpp])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.9])
-LT_INIT
+LT_INIT([win32-dll])
 AC_PROG_CXX
 AC_LANG([C++])
 

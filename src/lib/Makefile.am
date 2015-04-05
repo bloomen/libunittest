@@ -1,7 +1,7 @@
 # the library names to build
 lib_LTLIBRARIES = libunittest.la
 
-libunittest_la_LDFLAGS = -version-info 8:0:0
+libunittest_la_LDFLAGS = -version-info 8:0:0 -no-undefined
 
 # where to install the headers on the system
 libunittest_ladir = $(includedir)/libunittest
