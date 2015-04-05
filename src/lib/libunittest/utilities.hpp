@@ -15,6 +15,7 @@
 #include <memory>
 #include <type_traits>
 #include <utility>
+#include <cstddef>
 /**
  * @brief Unit testing in C++
  */
