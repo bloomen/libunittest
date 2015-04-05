@@ -14,12 +14,23 @@ void
 observe_and_wait(std::thread&& thread,
                  std::shared_ptr<std::atomic_bool> done,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
-                 double timeout,
-                 std::chrono::milliseconds resolution)
+                 double timeout)
 {
     if (timeout > 0) {
-        const double wait_sec = duration_in_seconds(resolution);
-        double duration = 0;
+    	double overhead = 0.123;
+        double duration = -1.;
+
+		// compute approx. overhead of instructions
+		const auto start_instr = std::chrono::high_resolution_clock::now();
+		if (!done->load()) {
+			if (duration > timeout) {
+				duration += timeout; // to not be optimized out
+			}
+			duration += overhead;
+		}
+		overhead = duration_in_seconds(std::chrono::high_resolution_clock::now() - start_instr);
+		duration = overhead;
+
         while (!done->load()) {
             if (duration > timeout) {
                 has_timed_out->store(true);
@@ -28,8 +39,7 @@ observe_and_wait(std::thread&& thread,
                 suite->add_lonely_thread(std::move(thread), done);
                 break;
             }
-            std::this_thread::sleep_for(resolution);
-            duration += wait_sec;
+            duration += overhead;
         }
     }
     if (!has_timed_out->load())

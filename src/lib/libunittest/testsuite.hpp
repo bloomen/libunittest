@@ -118,8 +118,7 @@ private:
     observe_and_wait(std::thread&& thread,
                      std::shared_ptr<std::atomic_bool> done,
                      std::shared_ptr<std::atomic_bool> has_timed_out,
-                     double timeout,
-                     std::chrono::milliseconds resolution);
+                     double timeout);
 
     void
     make_keep_running(const unittest::core::testlog& log);

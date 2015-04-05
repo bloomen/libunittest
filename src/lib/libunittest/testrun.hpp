@@ -413,14 +413,12 @@ update_testrun_info(const std::string& class_id,
  * @param done Whether the operation is finished
  * @param has_timed_out Whether the test has timed out
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
- * @param resolution The temporal resolution
  */
 void
 observe_and_wait(std::thread&& thread,
                  std::shared_ptr<std::atomic_bool> done,
                  std::shared_ptr<std::atomic_bool> has_timed_out,
-                 double timeout,
-                 std::chrono::milliseconds resolution=std::chrono::milliseconds(1));
+                 double timeout);
 /**
  * @brief Creates the test info object
  * @param class_id The id of the test class
