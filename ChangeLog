@@ -8,8 +8,7 @@ libunittest (8.0.0) stable; urgency=low
   * Improved conversions to string for integers and floats
   * Removed unused tag testsuites from XSD
   * Refactoring for decreased compile times
-  * The timeout measurement resolution is now only
-  	limited by the speed of the processor
+  * Changed the minimum timeout measurement resolution down to 1ms 
   * A few adjustements to get libunittest to work with the
   	default Visual Studio 2013 C++ compiler without
   	having to install an extended C++11 support
