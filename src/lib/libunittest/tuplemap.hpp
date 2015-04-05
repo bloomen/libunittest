@@ -116,7 +116,7 @@ void tuple_for_each_index(indices<i,j...>, const F& f, const T& t, const Args&..
 template<typename F, typename T, typename ...Args>
 void tuple_for_each(const F& f, T& t, const Args&... args)
 {
-    constexpr size_t n = std::tuple_size<T>::value;
+    static const size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
     unittest::core::tuple_for_each_index(index_list(), f, t, args...);
 }
@@ -129,7 +129,7 @@ void tuple_for_each(const F& f, T& t, const Args&... args)
 template<typename F, typename T, typename ...Args>
 void tuple_for_each(const F& f, const T& t, const Args&... args)
 {
-    constexpr size_t n = std::tuple_size<T>::value;
+    static const size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
     unittest::core::tuple_for_each_index(index_list(), f, t, args...);
 }
@@ -162,7 +162,7 @@ void tuple_transform_index(indices<i,j...>, const F& f, const T& t, R& r, const 
 template<typename F, typename T, typename R, typename ...Args>
 void tuple_transform(const F& f, const T& t, R& r, const Args&... args)
 {
-    constexpr size_t n = std::tuple_size<T>::value;
+    static const size_t n = std::tuple_size<T>::value;
     typedef typename index_range<0,n>::type index_list;
     unittest::core::tuple_transform_index(index_list(), f, t, r, args...);
 }
