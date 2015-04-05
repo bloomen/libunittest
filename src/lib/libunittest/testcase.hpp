@@ -3,10 +3,10 @@
  * @file testcase.hpp
  */
 #pragma once
-#include <string>
-#include <memory>
 #include "assertions.hpp"
 #include "noexcept.hpp"
+#include <string>
+#include <memory>
 /**
  * @brief Unit testing in C++
  */

@@ -3,9 +3,9 @@
  * @file formatting.hpp
  */
 #pragma once
+#include "noexcept.hpp"
 #include <type_traits>
 #include <iostream>
-#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */

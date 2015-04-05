@@ -3,12 +3,12 @@
  * @file argparser.hpp
  */
 #pragma once
+#include "utilities.hpp"
+#include "noexcept.hpp"
 #include <string>
 #include <sstream>
 #include <vector>
 #include <set>
-#include "utilities.hpp"
-#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */

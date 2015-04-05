@@ -3,6 +3,7 @@
  * @file random.hpp
  */
 #pragma once
+#include "tuplemap.hpp"
 #include <vector>
 #include <random>
 #include <stdexcept>
@@ -10,7 +11,6 @@
 #include <memory>
 #include <tuple>
 #include <algorithm>
-#include "tuplemap.hpp"
 /**
  * @brief Unit testing in C++
  */

@@ -3,8 +3,8 @@
  * @file userargs.hpp
  */
 #pragma once
-#include <string>
 #include "argparser.hpp"
+#include <string>
 /**
  * @brief Unit testing in C++
  */

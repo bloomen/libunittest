@@ -3,10 +3,10 @@
  * @file testfailure.hpp
  */
 #pragma once
-#include <string>
-#include <stdexcept>
 #include "utilities.hpp"
 #include "noexcept.hpp"
+#include <string>
+#include <stdexcept>
 /**
  * @brief Unit testing in C++
  */
