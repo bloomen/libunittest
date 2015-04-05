@@ -268,7 +268,7 @@ struct test_misc : unittest::testcase<> {
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+            throw unittest::testfailure(UNITTEST_FUNC, "fail() did not throw 'testfailure'");
     }
 
     void test_testcase_fail_only_spot()
@@ -287,7 +287,7 @@ struct test_misc : unittest::testcase<> {
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+            throw unittest::testfailure(UNITTEST_FUNC, "fail() did not throw 'testfailure'");
     }
 
     void test_testcase_fail_no_user_message()
@@ -305,7 +305,7 @@ struct test_misc : unittest::testcase<> {
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+            throw unittest::testfailure(UNITTEST_FUNC, "fail() did not throw 'testfailure'");
     }
 
     void test_testcase_fail_user_message_without_spot()
@@ -323,7 +323,7 @@ struct test_misc : unittest::testcase<> {
             caught = true;
         }
         if (!caught)
-            throw unittest::testfailure(__func__, "fail() did not throw 'testfailure'");
+            throw unittest::testfailure(UNITTEST_FUNC, "fail() did not throw 'testfailure'");
     }
 
     void test_is_test_executed()

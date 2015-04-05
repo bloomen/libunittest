@@ -9,6 +9,7 @@
 #include "testfailure.hpp"
 #include "checkers.hpp"
 #include "typetraits.hpp"
+#include "func.hpp"
 #include <string>
 #include <regex>
 #include <typeinfo>
@@ -35,7 +36,7 @@ assert_true(T&& value,
 {
     if (!value) {
         const std::string text = "false is not true";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -52,7 +53,7 @@ assert_false(T&& value,
 {
     if (value) {
         const std::string text = "true is not false";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -72,7 +73,7 @@ assert_equal(T&& expected,
 {
     if (!(expected == actual)) {
         const std::string text = unittest::core::str(std::forward<T>(expected)) + " not equal to " + unittest::core::str(std::forward<U>(actual));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -92,7 +93,7 @@ assert_not_equal(T&& first,
 {
     if (first == second) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -114,10 +115,10 @@ assert_approx_equal(T&& expected,
                     V&& epsilon,
                     Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(expected)) + " not approx. equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -139,10 +140,10 @@ assert_approx_not_equal(T&& first,
                         V&& epsilon,
                         Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " approx. equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -162,7 +163,7 @@ assert_greater(T&& first,
 {
     if (!(first > second)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " not greater than " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -182,7 +183,7 @@ assert_greater_equal(T&& first,
 {
     if (first < second) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " not greater than or equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -202,7 +203,7 @@ assert_lesser(T&& first,
 {
     if (!(first < second)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " not lesser than " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -222,7 +223,7 @@ assert_lesser_equal(T&& first,
 {
     if (first > second) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + " not lesser than or equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -243,10 +244,10 @@ assert_in_range(T&& value,
                 V&& upper,
                 Args&&... message)
 {
-    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (!unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(std::forward<T>(value)) + " not in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -267,10 +268,10 @@ assert_not_in_range(T&& value,
                     V&& upper,
                     Args&&... message)
 {
-    unittest::core::check_range_bounds(lower, upper, __func__, message...);
+    unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(std::forward<T>(value)) + " in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -290,7 +291,7 @@ assert_in_container(T&& value,
 {
     if (!unittest::core::is_contained(std::forward<T>(value), std::forward<Container>(container))) {
         const std::string text = "value not in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -310,7 +311,7 @@ assert_not_in_container(T&& value,
 {
     if (unittest::core::is_contained(std::forward<T>(value), std::forward<Container>(container))) {
         const std::string text = "value in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -332,10 +333,10 @@ assert_approx_in_container(T&& value,
                            U&& epsilon,
                            Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value not approx. in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -357,10 +358,10 @@ assert_approx_not_in_container(T&& value,
                                U&& epsilon,
                                Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value approx. in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -380,7 +381,7 @@ assert_equal_containers(Container1&& expected,
 {
     if (!unittest::core::is_containers_equal(std::forward<Container1>(expected), std::forward<Container2>(actual))) {
         const std::string text = "containers are not equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -400,7 +401,7 @@ assert_not_equal_containers(Container1&& first,
 {
     if (unittest::core::is_containers_equal(std::forward<Container1>(first), std::forward<Container2>(second))) {
         const std::string text = "containers are equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -422,10 +423,10 @@ assert_approx_equal_containers(Container1&& expected,
                                V&& epsilon,
                                Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_approx_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
         const std::string text = "containers are not approx. equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -448,10 +449,10 @@ assert_approx_not_equal_containers(Container1&& first,
                                    V&& epsilon,
                                    Args&&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_approx_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
         const std::string text = "containers are approx. equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -472,7 +473,7 @@ assert_all_of(Container&& container,
 {
     if (!std::all_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
         const std::string text = "Not all elements match the condition";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -493,7 +494,7 @@ assert_not_all_of(Container&& container,
 {
     if (std::all_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
         const std::string text = "All elements match the condition";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -514,7 +515,7 @@ assert_any_of(Container&& container,
 {
     if (!std::any_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
         const std::string text = "No element matches the condition";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -535,7 +536,7 @@ assert_none_of(Container&& container,
 {
     if (!std::none_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
         const std::string text = "At least one element matches the condition";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -553,7 +554,7 @@ assert_regex_match(const std::string& string,
 {
     if (!unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " does not match the pattern " + unittest::core::str(regex);
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -571,7 +572,7 @@ assert_regex_match(const std::string& string,
 {
     if (!unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " does not match the given pattern";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -589,7 +590,7 @@ assert_not_regex_match(const std::string& string,
 {
     if (unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " matches the pattern " + unittest::core::str(regex);
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -607,7 +608,7 @@ assert_not_regex_match(const std::string& string,
 {
     if (unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " matches the given pattern";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -631,10 +632,10 @@ assert_throw(Functor&& functor,
             caught = true;
         } catch (const std::exception& e) {
             const std::string text = unittest::join("An unexpected exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-            unittest::fail(__func__, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
         } catch (...) {
             const std::string text = "An unexpected, unknown exception was thrown";
-            unittest::fail(__func__, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
         }
     } else {
         try {
@@ -645,7 +646,7 @@ assert_throw(Functor&& functor,
     }
     if (!caught) {
         const std::string text = unittest::join("The exception was not thrown: ", typeid(Exception).name());
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
     }
 }
 /**
@@ -665,10 +666,10 @@ assert_no_throw(Functor&& functor,
             functor();
         } catch (const std::exception& e) {
             const std::string text = unittest::join("An exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-            unittest::fail(__func__, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
         } catch (...) {
             const std::string text = "An unknown exception was thrown";
-            unittest::fail(__func__, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
         }
     } else {
         functor();

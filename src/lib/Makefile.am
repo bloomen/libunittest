@@ -34,7 +34,8 @@ libunittest/unittest.hpp \
 libunittest/userargs.hpp \
 libunittest/utilities.hpp \
 libunittest/version.hpp \
-libunittest/noexcept.hpp 
+libunittest/noexcept.hpp \
+libunittest/func.hpp
 
 # the sources to add to the library and to add to the source distribution
 libunittest_la_SOURCES = \

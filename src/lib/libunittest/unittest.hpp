@@ -30,4 +30,5 @@
 #include "strings.hpp"
 #include "macros.hpp"
 #include "noexcept.hpp"
+#include "func.hpp"
 #include <iostream>
