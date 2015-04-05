@@ -21,7 +21,7 @@ testfailure::testfailure(const std::string& assertion,
       spot_(core::extract_file_and_line(user_msg))
 {}
 
-testfailure::~testfailure() noexcept
+testfailure::~testfailure() UNITTEST_NOEXCEPT
 {}
 
 std::string

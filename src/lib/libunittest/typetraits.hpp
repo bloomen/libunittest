@@ -5,6 +5,7 @@
 #pragma once
 #include <type_traits>
 #include <iostream>
+#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */
@@ -14,14 +15,14 @@ namespace unittest {
  */
 class notype {
 	notype() {}
-	virtual ~notype() noexcept(false) {}
+	virtual ~notype() UNITTEST_NOEXCEPT_FALSE {}
 };
 /**
  * @brief A utility class to indicate 'some type' property
  */
 struct sometype {
 	sometype() {}
-	virtual ~sometype() noexcept(false) {}
+	virtual ~sometype() UNITTEST_NOEXCEPT_FALSE {}
 };
 /**
  * @brief Internal functionality, not relevant for most users

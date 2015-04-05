@@ -29,4 +29,5 @@
 #include "random.hpp"
 #include "strings.hpp"
 #include "macros.hpp"
+#include "noexcept.hpp"
 #include <iostream>

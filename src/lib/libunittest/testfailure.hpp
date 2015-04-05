@@ -6,6 +6,7 @@
 #include <string>
 #include <stdexcept>
 #include "utilities.hpp"
+#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */
@@ -35,7 +36,7 @@ public:
      * @brief Destructor
      */
     virtual
-    ~testfailure() noexcept;
+    ~testfailure() UNITTEST_NOEXCEPT;
     /**
      * @brief Returns the name of the assertion
      * @returns The name of the assertion

@@ -3,9 +3,10 @@
  * @file testcase.hpp
  */
 #pragma once
-#include "assertions.hpp"
 #include <string>
 #include <memory>
+#include "assertions.hpp"
+#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */
@@ -44,7 +45,7 @@ public:
      * @brief Destructor. Called after each test run.
      */
     virtual
-    ~testcase() noexcept(false)
+    ~testcase() UNITTEST_NOEXCEPT_FALSE
     {}
     /**
      * @brief Copy constructor. Deleted

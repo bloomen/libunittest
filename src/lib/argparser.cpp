@@ -282,7 +282,7 @@ argparser::exit_success::exit_success(const std::string& message)
     : std::runtime_error(message)
 {}
 
-argparser::exit_success::~exit_success() noexcept
+argparser::exit_success::~exit_success() UNITTEST_NOEXCEPT
 {}
 
 
@@ -290,7 +290,7 @@ argparser::exit_error::exit_error(const std::string& message)
     : std::runtime_error(message)
 {}
 
-argparser::exit_error::~exit_error() noexcept
+argparser::exit_error::~exit_error() UNITTEST_NOEXCEPT
 {}
 
 

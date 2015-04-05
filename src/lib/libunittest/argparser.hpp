@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include "utilities.hpp"
+#include "noexcept.hpp"
 /**
  * @brief Unit testing in C++
  */
@@ -54,7 +55,7 @@ public:
 	    /**
 	     * @brief Destructor
 	     */
-	    ~exit_success() noexcept;
+	    ~exit_success() UNITTEST_NOEXCEPT;
 	};
 	/**
 	 * @brief The exception class to indicate parsing errors
@@ -70,7 +71,7 @@ public:
 	    /**
 	     * @brief Destructor
 	     */
-	    ~exit_error() noexcept;
+	    ~exit_error() UNITTEST_NOEXCEPT;
 	};
 	/**
 	 * @brief Destructor
