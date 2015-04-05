@@ -204,11 +204,13 @@ make_testinfo(std::string class_id,
 {
     unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
     const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
+    auto done = std::make_shared<std::atomic_bool>();
+    done->store(false);
+    auto has_timed_out = std::make_shared<std::atomic_bool>();
+    has_timed_out->store(false);
     return {make_method_id(class_id, test_name), class_name,
     		test_name, args.dry_run, args.handle_exceptions,
-    		std::make_shared<std::atomic_bool>(false),
-			std::make_shared<std::atomic_bool>(false),
-			timeout, skipped, skip_message};
+    		done, has_timed_out, timeout, skipped, skip_message};
 }
 
 void run_testfunction(const unittest::core::testinfo& info,
