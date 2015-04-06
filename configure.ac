@@ -8,7 +8,7 @@ AC_PROG_CXX
 AC_LANG([C++])
 
 # Starting off with no flags
-CXXFLAGS=
+AM_CXXFLAGS=
 
 # Checks for header files.
 AC_HEADER_STDC
