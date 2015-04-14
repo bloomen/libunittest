@@ -35,6 +35,7 @@ public:
      * @brief Constructor
      * @param class_name The name of the test class
      */
+	explicit
     testregistry(const std::string& class_name)
     {
         unittest::core::register_class<TestCase>(class_name);
