@@ -160,13 +160,13 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_relapprox_equal(T&& expected,
+assert_approxrel_equal(T&& expected,
 					   U&& actual,
 					   V&& epsilon,
 					   Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_relapprox_equal(expected, actual, epsilon)) {
+    if (!unittest::core::is_approxrel_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(expected)) + " not relatively approx. equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -185,13 +185,13 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_relapprox_not_equal(T&& first,
+assert_approxrel_not_equal(T&& first,
 						   U&& second,
 						   V&& epsilon,
 						   Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (unittest::core::is_relapprox_equal(first, second, epsilon)) {
+    if (unittest::core::is_approxrel_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(std::forward<T>(first)) + "relatively approx. equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -428,13 +428,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_relapprox_in_container(T&& value,
+assert_approxrel_in_container(T&& value,
                            Container&& container,
                            U&& epsilon,
                            Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+    if (!unittest::core::is_approxrel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
         const std::string text = "value not relatively approx. in container";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -453,13 +453,13 @@ template<typename T,
 		 typename U,
 		 typename... Args>
 void
-assert_relapprox_not_in_container(T&& value,
+assert_approxrel_not_in_container(T&& value,
 							Container&& container,
 							U&& epsilon,
 							Args&&... message)
 {
 	unittest::core::check_epsilon(epsilon, __func__, message...);
-	if (unittest::core::is_relapprox_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+	if (unittest::core::is_approxrel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
 		const std::string text = "value relatively approx. in container";
 		unittest::fail(__func__, text, std::forward<Args>(message)...);
 	}
@@ -569,13 +569,13 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_relapprox_equal_containers(Container1&& expected,
+assert_approxrel_equal_containers(Container1&& expected,
                                Container2&& actual,
                                V&& epsilon,
                                Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_containers_relapprox_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
+    if (!unittest::core::is_containers_approxrel_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
         const std::string text = "containers are relatively approx. equal";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }
@@ -595,13 +595,13 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_relapprox_not_equal_containers(Container1&& first,
+assert_approxrel_not_equal_containers(Container1&& first,
                                    Container2&& second,
                                    V&& epsilon,
                                    Args&&... message)
 {
     unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (unittest::core::is_containers_relapprox_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
+    if (unittest::core::is_containers_approxrel_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
         const std::string text = "containers are approx. equal";
         unittest::fail(__func__, text, std::forward<Args>(message)...);
     }

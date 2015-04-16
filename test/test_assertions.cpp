@@ -43,152 +43,152 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_not_regex_match)
         UNITTEST_RUN(test_assert_throw)
         UNITTEST_RUN(test_assert_no_throw)
-        UNITTEST_RUN(test_assert_relapprox_equal_first_greater_than_second)
-        UNITTEST_RUN(test_assert_relapprox_equal_second_greater_than_first)
-		UNITTEST_RUN(test_assert_relapprox_equal_negative_first_smaller_than_second)
-		UNITTEST_RUN(test_assert_relapprox_equal_negative_second_greater_than_first)
-		UNITTEST_RUN(test_assert_relapprox_equal_first_negative_second_positive)
-		UNITTEST_RUN(test_assert_relapprox_equal_first_positive_second_negative)
-        UNITTEST_RUN(test_assert_relapprox_not_equal_first_greater_than_second)
-        UNITTEST_RUN(test_assert_relapprox_not_equal_second_greater_than_first)
-		UNITTEST_RUN(test_assert_relapprox_not_equal_negative_first_smaller_than_second)
-		UNITTEST_RUN(test_assert_relapprox_not_equal_negative_second_greater_than_first)
-		UNITTEST_RUN(test_assert_relapprox_not_equal_first_negative_second_positive)
-		UNITTEST_RUN(test_assert_relapprox_not_equal_first_positive_second_negative)
-		UNITTEST_RUN(test_assert_relapprox_in_container)
-		UNITTEST_RUN(test_assert_relapprox_not_in_container)
-		UNITTEST_RUN(test_assert_relapprox_equal_containers)
-		UNITTEST_RUN(test_assert_relapprox_not_equal_containers)
+        UNITTEST_RUN(test_assert_approxrel_equal_first_greater_than_second)
+        UNITTEST_RUN(test_assert_approxrel_equal_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approxrel_equal_negative_first_smaller_than_second)
+		UNITTEST_RUN(test_assert_approxrel_equal_negative_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approxrel_equal_first_negative_second_positive)
+		UNITTEST_RUN(test_assert_approxrel_equal_first_positive_second_negative)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_first_greater_than_second)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approxrel_not_equal_negative_first_smaller_than_second)
+		UNITTEST_RUN(test_assert_approxrel_not_equal_negative_second_greater_than_first)
+		UNITTEST_RUN(test_assert_approxrel_not_equal_first_negative_second_positive)
+		UNITTEST_RUN(test_assert_approxrel_not_equal_first_positive_second_negative)
+		UNITTEST_RUN(test_assert_approxrel_in_container)
+		UNITTEST_RUN(test_assert_approxrel_not_in_container)
+		UNITTEST_RUN(test_assert_approxrel_equal_containers)
+		UNITTEST_RUN(test_assert_approxrel_not_equal_containers)
     }
 
-    void test_assert_relapprox_equal_containers()
+    void test_assert_approxrel_equal_containers()
     {
         std::vector<float> vec0 = {};
-        assert_relapprox_equal_containers(vec0, vec0, .26, SPOT);
+        assert_approxrel_equal_containers(vec0, vec0, .26, SPOT);
         std::vector<float> vec = {-10.0, 2.0, 20.0};
         std::vector<float> vec2 = {-10.0, 2.5, 20.0};
-        assert_relapprox_equal_containers(vec, vec2, .26, SPOT);
-        auto functor = [this,&vec,&vec2]() { assert_relapprox_equal_containers(vec, vec2, .25); };
+        assert_approxrel_equal_containers(vec, vec2, .26, SPOT);
+        auto functor = [this,&vec,&vec2]() { assert_approxrel_equal_containers(vec, vec2, .25); };
         assert_throw<testfailure>(functor, SPOT);
         std::vector<int> vec3 = {};
-        auto functor2 = [this,&vec,&vec3]() { assert_relapprox_equal_containers(vec, vec3, .25); };
+        auto functor2 = [this,&vec,&vec3]() { assert_approxrel_equal_containers(vec, vec3, .25); };
         assert_throw<testfailure>(functor2, SPOT);
-        auto functor3 = [this,&vec,&vec3]() { assert_relapprox_equal_containers(vec3, vec, .25); };
+        auto functor3 = [this,&vec,&vec3]() { assert_approxrel_equal_containers(vec3, vec, .25); };
         assert_throw<testfailure>(functor3, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_containers()
+    void test_assert_approxrel_not_equal_containers()
     {
         std::vector<float> vec =  {-10.0, 2.0, 10.0};
         std::vector<float> vec2 =  {-10.0, 2.5, 10.0};
-        assert_relapprox_not_equal_containers(vec, vec2, .25, SPOT);
+        assert_approxrel_not_equal_containers(vec, vec2, .25, SPOT);
         std::vector<float> vec3 =  {0.0, 2.0, 5.0, 6.0};
-        assert_relapprox_not_equal_containers(vec, vec3, .25, SPOT);
-        assert_relapprox_not_equal_containers(vec, vec2, .25, SPOT);
-        auto functor = [this,&vec,&vec2]() { assert_relapprox_not_equal_containers(vec, vec2, .26); };
+        assert_approxrel_not_equal_containers(vec, vec3, .25, SPOT);
+        assert_approxrel_not_equal_containers(vec, vec2, .25, SPOT);
+        auto functor = [this,&vec,&vec2]() { assert_approxrel_not_equal_containers(vec, vec2, .26); };
         assert_throw<testfailure>(functor, SPOT);
         std::vector<float> vec0 = {};
-        auto functor2 = [this,&vec0]() { assert_relapprox_not_equal_containers(vec0, vec0, .26); };
+        auto functor2 = [this,&vec0]() { assert_approxrel_not_equal_containers(vec0, vec0, .26); };
         assert_throw<testfailure>(functor2, SPOT);
     }
 
-    void test_assert_relapprox_not_in_container()
+    void test_assert_approxrel_not_in_container()
     {
         std::vector<float> vec = {0.0, 2.0, 5.0};
-        assert_relapprox_not_in_container(2.5, vec, 0.25, SPOT);
-        auto functor = [this,&vec]() { assert_relapprox_not_in_container(2.5, vec, 0.26); };
+        assert_approxrel_not_in_container(2.5, vec, 0.25, SPOT);
+        auto functor = [this,&vec]() { assert_approxrel_not_in_container(2.5, vec, 0.26); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_in_container()
+    void test_assert_approxrel_in_container()
     {
         std::vector<float> vec = {0.0, 2.0, 5.0};
-        assert_relapprox_in_container(2.5, vec, 0.26, SPOT);
-        auto functor = [this,&vec]() { assert_relapprox_in_container(2.5, vec, 0.25); };
+        assert_approxrel_in_container(2.5, vec, 0.26, SPOT);
+        auto functor = [this,&vec]() { assert_approxrel_in_container(2.5, vec, 0.25); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_first_positive_second_negative()
+    void test_assert_approxrel_not_equal_first_positive_second_negative()
     {
-        assert_relapprox_not_equal(1.0, -1.0, 2.0, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(1.0, -1.0, 2.01); };
+        assert_approxrel_not_equal(1.0, -1.0, 2.0, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(1.0, -1.0, 2.01); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_first_negative_second_positive()
+    void test_assert_approxrel_not_equal_first_negative_second_positive()
     {
-    	assert_relapprox_not_equal(-1.0, 1.0, 2.0, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(-1.0, 1.0, 2.01); };
+    	assert_approxrel_not_equal(-1.0, 1.0, 2.0, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(-1.0, 1.0, 2.01); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_negative_second_greater_than_first()
+    void test_assert_approxrel_not_equal_negative_second_greater_than_first()
     {
-    	assert_relapprox_not_equal(-2.0, -2.5, 0.25, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(-2.0, -2.5, 0.26); };
+    	assert_approxrel_not_equal(-2.0, -2.5, 0.25, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(-2.0, -2.5, 0.26); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_negative_first_smaller_than_second()
+    void test_assert_approxrel_not_equal_negative_first_smaller_than_second()
     {
-    	assert_relapprox_not_equal(-2.5, -2.0, 0.2, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(-2.5, -2.0, 0.21); };
+    	assert_approxrel_not_equal(-2.5, -2.0, 0.2, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(-2.5, -2.0, 0.21); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_first_greater_than_second()
+    void test_assert_approxrel_not_equal_first_greater_than_second()
     {
-    	assert_relapprox_not_equal(2.5, 2.0, 0.2, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(2.5, 2.0, 0.21); };
+    	assert_approxrel_not_equal(2.5, 2.0, 0.2, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(2.5, 2.0, 0.21); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_not_equal_second_greater_than_first()
+    void test_assert_approxrel_not_equal_second_greater_than_first()
     {
-    	assert_relapprox_not_equal(2.0, 2.5, 0.25, SPOT);
-        auto functor = []() { assert_relapprox_not_equal(2.0, 2.5, 0.26); };
+    	assert_approxrel_not_equal(2.0, 2.5, 0.25, SPOT);
+        auto functor = []() { assert_approxrel_not_equal(2.0, 2.5, 0.26); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_first_positive_second_negative()
+    void test_assert_approxrel_equal_first_positive_second_negative()
     {
-        assert_relapprox_equal(1.0, -1.0, 2.01, SPOT);
-        auto functor = []() { assert_relapprox_equal(1.0, -1.0, 2.0); };
+        assert_approxrel_equal(1.0, -1.0, 2.01, SPOT);
+        auto functor = []() { assert_approxrel_equal(1.0, -1.0, 2.0); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_first_negative_second_positive()
+    void test_assert_approxrel_equal_first_negative_second_positive()
     {
-        assert_relapprox_equal(-1.0, 1.0, 2.01, SPOT);
-        auto functor = []() { assert_relapprox_equal(-1.0, 1.0, 2.0); };
+        assert_approxrel_equal(-1.0, 1.0, 2.01, SPOT);
+        auto functor = []() { assert_approxrel_equal(-1.0, 1.0, 2.0); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_negative_second_greater_than_first()
+    void test_assert_approxrel_equal_negative_second_greater_than_first()
     {
-        assert_relapprox_equal(-2.0, -2.5, 0.26, SPOT);
-        auto functor = []() { assert_relapprox_equal(-2.0, -2.5, 0.25); };
+        assert_approxrel_equal(-2.0, -2.5, 0.26, SPOT);
+        auto functor = []() { assert_approxrel_equal(-2.0, -2.5, 0.25); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_negative_first_smaller_than_second()
+    void test_assert_approxrel_equal_negative_first_smaller_than_second()
     {
-        assert_relapprox_equal(-2.5, -2.0, 0.21, SPOT);
-        auto functor = []() { assert_relapprox_equal(-2.5, -2.0, 0.2); };
+        assert_approxrel_equal(-2.5, -2.0, 0.21, SPOT);
+        auto functor = []() { assert_approxrel_equal(-2.5, -2.0, 0.2); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_first_greater_than_second()
+    void test_assert_approxrel_equal_first_greater_than_second()
     {
-        assert_relapprox_equal(2.5, 2.0, 0.21, SPOT);
-        auto functor = []() { assert_relapprox_equal(2.5, 2.0, 0.2); };
+        assert_approxrel_equal(2.5, 2.0, 0.21, SPOT);
+        auto functor = []() { assert_approxrel_equal(2.5, 2.0, 0.2); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
-    void test_assert_relapprox_equal_second_greater_than_first()
+    void test_assert_approxrel_equal_second_greater_than_first()
     {
-        assert_relapprox_equal(2.0, 2.5, 0.26, SPOT);
-        auto functor = []() { assert_relapprox_equal(2.0, 2.5, 0.25); };
+        assert_approxrel_equal(2.0, 2.5, 0.26, SPOT);
+        auto functor = []() { assert_approxrel_equal(2.0, 2.5, 0.25); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
