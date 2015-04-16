@@ -46,10 +46,8 @@ AC_ARG_ENABLE([debug],
     [debugit=no])
 AC_MSG_RESULT([$debugit])
 if test x"$debugit" = x"yes"; then
-    AC_DEFINE([DEBUG],[],[Debug Mode])
     AM_CXXFLAGS="$AM_CXXFLAGS -g -O0 -Wall -Wextra -Weffc++ -pedantic"
 else
-    AC_DEFINE([NDEBUG],[],[No-debug Mode])
     AM_CXXFLAGS="$AM_CXXFLAGS -O2"
 fi
 
