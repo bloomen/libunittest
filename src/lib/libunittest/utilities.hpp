@@ -95,7 +95,7 @@ is_approx_equal(T&& first,
                 U&& second,
                 V&& eps)
 {
-	typedef typename std::remove_reference<V>::type diff_type;
+	typedef typename unittest::core::remove_cv_ref<V>::type diff_type;
 	diff_type diff(eps - eps);
     if (first > second)
         diff = static_cast<diff_type>(first - second);
