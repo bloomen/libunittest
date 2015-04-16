@@ -32,8 +32,7 @@ AC_CACHE_CHECK(
 		void func() { std::this_thread::sleep_for(std::chrono::seconds(1)); }]],
 		[lu_cv_func_this_thread_sleep_for=yes],
 	[lu_cv_func_this_thread_sleep_for=no])])
-
-if test "$lu_cv_func_this_thread_sleep_for" = no; then
+if test x"$lu_cv_func_this_thread_sleep_for" = x"no"; then
 	AM_CXXFLAGS="$AM_CXXFLAGS -D_GLIBCXX_USE_NANOSLEEP"
 fi
 
