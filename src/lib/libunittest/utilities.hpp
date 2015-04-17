@@ -55,12 +55,12 @@ template<typename T,
          typename... Args>
 void
 write_to_stream(std::ostream& stream,
-                T&& arg,
-                Args&&... args)
+                const T& arg,
+                const Args&... args)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     stream << arg;
-    unittest::core::write_to_stream(stream, std::forward<Args>(args)...);
+    unittest::core::write_to_stream(stream, args...);
 }
 /**
  * @brief Writes a horizontal bar to the given output stream
@@ -90,16 +90,15 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_approx_equal(T&& first,
-                U&& second,
-                V&& eps)
+is_approx_equal(const T& first,
+                const U& second,
+                const V& eps)
 {
-	typedef typename unittest::core::remove_cv_ref<V>::type eps_type;
-	eps_type diff(eps - eps);
+	V diff(eps - eps);
     if (first > second)
-        diff = static_cast<eps_type>(first - second);
+        diff = static_cast<V>(first - second);
     else if (first < second)
-        diff = static_cast<eps_type>(second - first);
+        diff = static_cast<V>(second - first);
     return diff < eps;
 }
 /**
@@ -114,15 +113,13 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_approxrel_equal(T&& first,
-                   U&& second,
-                   V&& eps)
+is_approxrel_equal(const T& first,
+                   const U& second,
+                   const V& eps)
 {
-	typedef typename unittest::core::remove_cv_ref<T>::type first_type;
-	typedef typename unittest::core::remove_cv_ref<V>::type eps_type;
-	const first_type zero(first - first);
-	const eps_type abs_eps(static_cast<eps_type>(first < zero ? zero - first : first) * eps);
-	return is_approx_equal(std::forward<T>(first), std::forward<U>(second), std::move(abs_eps));
+	const T zero(first - first);
+	const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
+	return is_approx_equal(first, second, abs_eps);
 }
 /**
  * @brief Checks if a value is in a given range.
@@ -136,9 +133,9 @@ template<typename T,
          typename U,
          typename V>
 bool
-is_in_range(T&& value,
-            U&& lower,
-            V&& upper)
+is_in_range(const T& value,
+            const U& lower,
+            const V& upper)
 {
     return !(value < lower) && !(value > upper);
 }
@@ -151,8 +148,8 @@ is_in_range(T&& value,
 template<typename T,
          typename Container>
 bool
-is_contained(T&& value,
-             Container&& container)
+is_contained(const T& value,
+             const Container& container)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
@@ -170,9 +167,9 @@ template<typename T,
          typename Container,
          typename U>
 bool
-is_approx_contained(T&& value,
-                    Container&& container,
-                    U&& eps)
+is_approx_contained(const T& value,
+                    const Container& container,
+                    const U& eps)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
@@ -194,9 +191,9 @@ template<typename T,
          typename Container,
          typename U>
 bool
-is_approxrel_contained(T&& value,
-                    Container&& container,
-                    U&& eps)
+is_approxrel_contained(const T& value,
+                       const Container& container,
+					   const U& eps)
 {
     auto first = std::begin(container);
     auto last = std::end(container);
@@ -215,8 +212,8 @@ is_approxrel_contained(T&& value,
 template<typename Container1,
          typename Container2>
 bool
-is_containers_equal(Container1&& first,
-                    Container2&& second)
+is_containers_equal(const Container1& first,
+                    const Container2& second)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
@@ -241,9 +238,9 @@ template<typename Container1,
          typename Container2,
          typename V>
 bool
-is_containers_approx_equal(Container1&& first,
-                           Container2&& second,
-                           V&& eps)
+is_containers_approx_equal(const Container1& first,
+                           const Container2& second,
+                           const V& eps)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
@@ -268,9 +265,9 @@ template<typename Container1,
          typename Container2,
          typename V>
 bool
-is_containers_approxrel_equal(Container1&& first,
-                           Container2&& second,
-                           V&& eps)
+is_containers_approxrel_equal(const Container1& first,
+                              const Container2& second,
+							  const V&	eps)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
@@ -483,13 +480,13 @@ make_unique(Args&&... args)
 template<typename T,
          typename... Args>
 std::string
-join(T&& arg,
-     Args&&... args)
+join(const T& arg,
+     const Args&... args)
 {
 	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
     stream << arg;
-    unittest::core::write_to_stream(stream, std::forward<Args>(args)...);
+    unittest::core::write_to_stream(stream, args...);
     return stream.str();
 }
 /**

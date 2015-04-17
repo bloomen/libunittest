@@ -4,7 +4,6 @@
  */
 #pragma once
 #include "testfailure.hpp"
-#include "typetraits.hpp"
 #include <string>
 /**
  * @brief Unit testing in C++
@@ -23,13 +22,13 @@ namespace core {
 template<typename T,
          typename... Args>
 void
-check_epsilon(T&& epsilon,
+check_epsilon(const T& epsilon,
               const std::string& caller,
-              Args&&... message)
+              const Args&... message)
 {
     if (!(epsilon > epsilon - epsilon)) {
         const std::string text = "epsilon not greater than zero";
-        unittest::fail(caller, text, std::forward<Args>(message)...);
+        unittest::fail(caller, text, message...);
     }
 }
 /**
@@ -43,14 +42,14 @@ template<typename T,
          typename U,
          typename... Args>
 void
-check_range_bounds(T&& lower,
-                   U&& upper,
+check_range_bounds(const T& lower,
+                   const U& upper,
                    const std::string& caller,
-                   Args&&... message)
+                   const Args&... message)
 {
     if (lower > upper) {
         const std::string text = "lower bound cannot be greater than upper bound";
-        unittest::fail(caller, text, std::forward<Args>(message)...);
+        unittest::fail(caller, text, message...);
     }
 }
 

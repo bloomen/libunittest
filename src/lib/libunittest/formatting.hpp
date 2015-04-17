@@ -27,7 +27,7 @@ struct tostr_converter_int {
 	 */
 	template<typename T>
 	std::string
-	operator()(T&& value)
+	operator()(const T& value)
 	{
 	    std::ostringstream stream;
 	    stream << value;
@@ -45,7 +45,7 @@ struct tostr_converter_float {
 	 */
 	template<typename T>
 	std::string
-	operator()(T&& value)
+	operator()(const T& value)
 	{
 	    std::ostringstream stream;
 	    stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision);
@@ -64,7 +64,7 @@ struct tostr_converter_other {
 	 */
 	template<typename T>
 	std::string
-	operator()(T&& value)
+	operator()(const T& value)
 	{
 	    std::ostringstream stream;
 	    stream << value;
@@ -115,12 +115,11 @@ struct tostr_converter<false, false> {
  */
 template<typename T>
 std::string
-str(T&& value)
+str(const T& value)
 {
-	typedef typename std::remove_reference<T>::type type;
-	static_assert(unittest::core::is_output_streamable<type>::value, "argument is not output streamable");
-	typename unittest::core::tostr_converter<std::is_integral<type>::value, std::is_floating_point<type>::value>::type converter;
-	return converter(std::forward<T>(value));
+	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
+	typename unittest::core::tostr_converter<std::is_integral<T>::value, std::is_floating_point<T>::value>::type converter;
+	return converter(value);
 }
 /**
  * @brief Converts a given value to string. Spec. for bool
@@ -129,15 +128,7 @@ str(T&& value)
  */
 template<>
 std::string
-str<bool&>(bool& value);
-/**
- * @brief Converts a given value to string. Spec. for bool
- * @param value The value
- * @returns A string
- */
-template<>
-std::string
-str<bool>(bool&& value);
+str<bool>(const bool& value);
 
 } // core
 } // unittest

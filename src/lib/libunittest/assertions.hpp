@@ -8,7 +8,6 @@
 #include "testsuite.hpp"
 #include "testfailure.hpp"
 #include "checkers.hpp"
-#include "typetraits.hpp"
 #include "func.hpp"
 #include <string>
 #include <regex>
@@ -31,12 +30,12 @@ namespace assertions {
 template<typename T,
          typename... Args>
 void
-assert_true(T&& value,
-            Args&&... message)
+assert_true(const T& value,
+            const Args&... message)
 {
     if (!value) {
         const std::string text = "false is not true";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -48,12 +47,12 @@ assert_true(T&& value,
 template<typename T,
          typename... Args>
 void
-assert_false(T&& value,
-             Args&&... message)
+assert_false(const T& value,
+             const Args&... message)
 {
     if (value) {
         const std::string text = "true is not false";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -67,13 +66,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_equal(T&& expected,
-             U&& actual,
-             Args&&... message)
+assert_equal(const T& expected,
+             const U& actual,
+             const Args&... message)
 {
     if (!(expected == actual)) {
-        const std::string text = unittest::core::str(std::forward<T>(expected)) + " not equal to " + unittest::core::str(std::forward<U>(actual));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(expected) + " not equal to " + unittest::core::str(actual);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -87,13 +86,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_not_equal(T&& first,
-                 U&& second,
-                 Args&&... message)
+assert_not_equal(const T& first,
+                 const U& second,
+                 const Args&... message)
 {
     if (first == second) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " equal to " + unittest::core::str(second);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -110,15 +109,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approx_equal(T&& expected,
-                    U&& actual,
-                    V&& epsilon,
-                    Args&&... message)
+assert_approx_equal(const T& expected,
+                    const U& actual,
+                    const V& epsilon,
+                    const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
-        const std::string text = unittest::core::str(std::forward<T>(expected)) + " not approx. equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(expected) + " not approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -135,15 +134,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approx_not_equal(T&& first,
-                        U&& second,
-                        V&& epsilon,
-                        Args&&... message)
+assert_approx_not_equal(const T& first,
+                        const U& second,
+                        const V& epsilon,
+                        const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_equal(first, second, epsilon)) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " approx. equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -160,15 +159,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approxrel_equal(T&& expected,
-					   U&& actual,
-					   V&& epsilon,
-					   Args&&... message)
+assert_approxrel_equal(const T& expected,
+					   const U& actual,
+					   const V& epsilon,
+					   const Args&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_equal(expected, actual, epsilon)) {
-        const std::string text = unittest::core::str(std::forward<T>(expected)) + " not relatively approx. equal to " + unittest::core::str(std::forward<U>(actual)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(expected) + " not relatively approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -185,15 +184,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_approxrel_not_equal(T&& first,
-						   U&& second,
-						   V&& epsilon,
-						   Args&&... message)
+assert_approxrel_not_equal(const T& first,
+						   const U& second,
+						   const V& epsilon,
+						   const Args&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approxrel_equal(first, second, epsilon)) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + "relatively approx. equal to " + unittest::core::str(std::forward<U>(second)) + " with epsilon = " + unittest::core::str(std::forward<V>(epsilon));
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " relatively approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -207,13 +206,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_greater(T&& first,
-               U&& second,
-               Args&&... message)
+assert_greater(const T& first,
+               const U& second,
+               const Args&... message)
 {
     if (!(first > second)) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " not greater than " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " not greater than " + unittest::core::str(second);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -227,13 +226,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_greater_equal(T&& first,
-                     U&& second,
-                     Args&&... message)
+assert_greater_equal(const T& first,
+                     const U& second,
+                     const Args&... message)
 {
     if (first < second) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " not greater than or equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " not greater than or equal to " + unittest::core::str(second);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -247,13 +246,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_lesser(T&& first,
-              U&& second,
-              Args&&... message)
+assert_lesser(const T& first,
+              const U& second,
+              const Args&... message)
 {
     if (!(first < second)) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " not lesser than " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " not lesser than " + unittest::core::str(second);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -267,13 +266,13 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_lesser_equal(T&& first,
-                    U&& second,
-                    Args&&... message)
+assert_lesser_equal(const T& first,
+                    const U& second,
+                    const Args&... message)
 {
     if (first > second) {
-        const std::string text = unittest::core::str(std::forward<T>(first)) + " not lesser than or equal to " + unittest::core::str(std::forward<U>(second));
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(first) + " not lesser than or equal to " + unittest::core::str(second);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -289,15 +288,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_in_range(T&& value,
-                U&& lower,
-                V&& upper,
-                Args&&... message)
+assert_in_range(const T& value,
+                const U& lower,
+                const V& upper,
+                const Args&... message)
 {
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (!unittest::core::is_in_range(value, lower, upper)) {
-        const std::string text = unittest::core::str(std::forward<T>(value)) + " not in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(value) + " not in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -313,15 +312,15 @@ template<typename T,
          typename V,
          typename... Args>
 void
-assert_not_in_range(T&& value,
-                    U&& lower,
-                    V&& upper,
-                    Args&&... message)
+assert_not_in_range(const T& value,
+                    const U& lower,
+                    const V& upper,
+                    const Args&... message)
 {
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (unittest::core::is_in_range(value, lower, upper)) {
-        const std::string text = unittest::core::str(std::forward<T>(value)) + " in range [" + unittest::core::str(std::forward<U>(lower)) + ", " + unittest::core::str(std::forward<V>(upper)) + "]";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        const std::string text = unittest::core::str(value) + " in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -335,13 +334,13 @@ template<typename T,
          typename Container,
          typename... Args>
 void
-assert_in_container(T&& value,
-                    Container&& container,
-                    Args&&... message)
+assert_in_container(const T& value,
+                    const Container& container,
+                    const Args&... message)
 {
-    if (!unittest::core::is_contained(std::forward<T>(value), std::forward<Container>(container))) {
+    if (!unittest::core::is_contained(value, container)) {
         const std::string text = "value not in container";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -355,13 +354,13 @@ template<typename T,
          typename Container,
          typename... Args>
 void
-assert_not_in_container(T&& value,
-                        Container&& container,
-                        Args&&... message)
+assert_not_in_container(const T& value,
+                        const Container& container,
+                        const Args&... message)
 {
-    if (unittest::core::is_contained(std::forward<T>(value), std::forward<Container>(container))) {
+    if (unittest::core::is_contained(value, container)) {
         const std::string text = "value in container";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -378,20 +377,20 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_approx_in_container(T&& value,
-                           Container&& container,
-                           U&& epsilon,
-                           Args&&... message)
+assert_approx_in_container(const T& value,
+                           const Container& container,
+                           const U& epsilon,
+                           const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
-    if (!unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+    if (!unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value not approx. in container";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
- * @brief Asserts that a value is not approx. in a container up to some
- *  epsilon. The assertion succeeds if |a - b| < epsilon is false for all elements.
+ * @brief Asserts that a value is not approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon is false for all elements.
  *  Operators needed: <, >, -
  * @param value A value
  * @param container A container
@@ -403,21 +402,21 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_approx_not_in_container(T&& value,
-                               Container&& container,
-                               U&& epsilon,
-                               Args&&... message)
+assert_approx_not_in_container(const T& value,
+                               const Container& container,
+                               const U& epsilon,
+                               const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
-    if (unittest::core::is_approx_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+    if (unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value approx. in container";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
- * @brief Asserts that a value is relatively approx. in a container up to some epsilon.
- *  The assertion succeeds if |a - b| < |a| * epsilon for at least one element.
- *  Operators needed: <, >, -
+ * @brief Asserts that a value is relatively approx. in a container up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for at least one
+ *  element. Operators needed: <, >, -
  * @param value A value
  * @param container A container
  * @param epsilon The epsilon
@@ -428,21 +427,21 @@ template<typename T,
          typename U,
          typename... Args>
 void
-assert_approxrel_in_container(T&& value,
-                           Container&& container,
-                           U&& epsilon,
-                           Args&&... message)
+assert_approxrel_in_container(const T& value,
+                           	  const Container& container,
+							  const U& epsilon,
+							  const Args&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_approxrel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
+    if (!unittest::core::is_approxrel_contained(value, container, epsilon)) {
         const std::string text = "value not relatively approx. in container";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
-* @brief Asserts that a value is not approx. relatively in a container up to some
-*  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for all elements.
-*  Operators needed: <, >, -
+* @brief Asserts that a value is not relatively approx. in a container up to
+*  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+*  all elements. Operators needed: <, >, -
 * @param value A value
 * @param container A container
 * @param epsilon The epsilon
@@ -453,15 +452,15 @@ template<typename T,
 		 typename U,
 		 typename... Args>
 void
-assert_approxrel_not_in_container(T&& value,
-							Container&& container,
-							U&& epsilon,
-							Args&&... message)
+assert_approxrel_not_in_container(const T& value,
+								  const Container& container,
+								  const U& epsilon,
+								  const Args&... message)
 {
-	unittest::core::check_epsilon(epsilon, __func__, message...);
-	if (unittest::core::is_approxrel_contained(std::forward<T>(value), std::forward<Container>(container), std::forward<U>(epsilon))) {
+	unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
+	if (unittest::core::is_approxrel_contained(value, container, epsilon)) {
 		const std::string text = "value relatively approx. in container";
-		unittest::fail(__func__, text, std::forward<Args>(message)...);
+		unittest::fail(UNITTEST_FUNC, text, message...);
 	}
 }
 /**
@@ -475,13 +474,13 @@ template<typename Container1,
          typename Container2,
          typename... Args>
 void
-assert_equal_containers(Container1&& expected,
-                        Container2&& actual,
-                        Args&&... message)
+assert_equal_containers(const Container1& expected,
+                        const Container2& actual,
+                        const Args&... message)
 {
-    if (!unittest::core::is_containers_equal(std::forward<Container1>(expected), std::forward<Container2>(actual))) {
+    if (!unittest::core::is_containers_equal(expected, actual)) {
         const std::string text = "containers are not equal";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -495,13 +494,13 @@ template<typename Container1,
          typename Container2,
          typename... Args>
 void
-assert_not_equal_containers(Container1&& first,
-                            Container2&& second,
-                            Args&&... message)
+assert_not_equal_containers(const Container1& first,
+                            const Container2& second,
+                            const Args&... message)
 {
-    if (unittest::core::is_containers_equal(std::forward<Container1>(first), std::forward<Container2>(second))) {
+    if (unittest::core::is_containers_equal(first, second)) {
         const std::string text = "containers are equal";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -518,15 +517,15 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_approx_equal_containers(Container1&& expected,
-                               Container2&& actual,
-                               V&& epsilon,
-                               Args&&... message)
+assert_approx_equal_containers(const Container1& expected,
+                               const Container2& actual,
+                               const V& epsilon,
+                               const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
-    if (!unittest::core::is_containers_approx_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
+    if (!unittest::core::is_containers_approx_equal(expected, actual, epsilon)) {
         const std::string text = "containers are not approx. equal";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -544,21 +543,21 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_approx_not_equal_containers(Container1&& first,
-                                   Container2&& second,
-                                   V&& epsilon,
-                                   Args&&... message)
+assert_approx_not_equal_containers(const Container1& first,
+                                   const Container2& second,
+                                   const V& epsilon,
+                                   const Args&... message)
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
-    if (unittest::core::is_containers_approx_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
+    if (unittest::core::is_containers_approx_equal(first, second, epsilon)) {
         const std::string text = "containers are approx. equal";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
- * @brief Asserts that two containers are relatively approx. equal up to some epsilon.
- *  The assertion succeeds if |a - b| < |a| * epsilon for all pairs of elements.
- *  Operators needed: <, >, -
+ * @brief Asserts that two containers are relatively approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
+ *  elements. Operators needed: <, >, -
  * @param expected The expected container
  * @param actual The actual container
  * @param epsilon The epsilon
@@ -569,22 +568,21 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_approxrel_equal_containers(Container1&& expected,
-                               Container2&& actual,
-                               V&& epsilon,
-                               Args&&... message)
+assert_approxrel_equal_containers(const Container1& expected,
+                               	  const Container2& actual,
+								  const V& epsilon,
+								  const Args&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (!unittest::core::is_containers_approxrel_equal(std::forward<Container1>(expected), std::forward<Container2>(actual), std::forward<V>(epsilon))) {
-        const std::string text = "containers are relatively approx. equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
+    if (!unittest::core::is_containers_approxrel_equal(expected, actual, epsilon)) {
+        const std::string text = "containers are not relatively approx. equal";
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
- * @brief Asserts that two containers are not relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for at
- *  least one pair of elements.
- *  Operators needed: <, >, -
+ * @brief Asserts that two containers are not relatively approx. equal up to
+ *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+ *  at least one pair of elements. Operators needed: <, >, -
  * @param first A container
  * @param second Another container
  * @param epsilon The epsilon
@@ -595,15 +593,15 @@ template<typename Container1,
          typename V,
          typename... Args>
 void
-assert_approxrel_not_equal_containers(Container1&& first,
-                                   Container2&& second,
-                                   V&& epsilon,
-                                   Args&&... message)
+assert_approxrel_not_equal_containers(const Container1& first,
+									  const Container2& second,
+									  const V& epsilon,
+									  const Args&... message)
 {
-    unittest::core::check_epsilon(epsilon, __func__, message...);
-    if (unittest::core::is_containers_approxrel_equal(std::forward<Container1>(first), std::forward<Container2>(second), std::forward<V>(epsilon))) {
-        const std::string text = "containers are approx. equal";
-        unittest::fail(__func__, text, std::forward<Args>(message)...);
+    unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
+    if (unittest::core::is_containers_approxrel_equal(first, second, epsilon)) {
+        const std::string text = "containers are relatively approx. equal";
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -618,13 +616,13 @@ template<typename Container,
          typename Functor,
          typename... Args>
 void
-assert_all_of(Container&& container,
-              Functor&& condition,
-              Args&&... message)
+assert_all_of(const Container& container,
+              Functor condition,
+              const Args&... message)
 {
-    if (!std::all_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
+    if (!std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "Not all elements match the condition";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -639,13 +637,13 @@ template<typename Container,
          typename Functor,
          typename... Args>
 void
-assert_not_all_of(Container&& container,
-                  Functor&& condition,
-                  Args&&... message)
+assert_not_all_of(const Container& container,
+                  Functor condition,
+                  const Args&... message)
 {
-    if (std::all_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
+    if (std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "All elements match the condition";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -660,13 +658,13 @@ template<typename Container,
          typename Functor,
          typename... Args>
 void
-assert_any_of(Container&& container,
-              Functor&& condition,
-              Args&&... message)
+assert_any_of(const Container& container,
+              Functor condition,
+              const Args&... message)
 {
-    if (!std::any_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
+    if (!std::any_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "No element matches the condition";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -681,13 +679,13 @@ template<typename Container,
          typename Functor,
          typename... Args>
 void
-assert_none_of(Container&& container,
-               Functor&& condition,
-               Args&&... message)
+assert_none_of(const Container& container,
+               Functor condition,
+               const Args&... message)
 {
-    if (!std::none_of(std::begin(container), std::end(container), std::forward<Functor>(condition))) {
+    if (!std::none_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "At least one element matches the condition";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -701,11 +699,11 @@ template<typename... Args>
 void
 assert_regex_match(const std::string& string,
                    const std::string& regex,
-                   Args&&... message)
+                   const Args&... message)
 {
     if (!unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " does not match the pattern " + unittest::core::str(regex);
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -719,11 +717,11 @@ template<typename... Args>
 void
 assert_regex_match(const std::string& string,
                    const std::regex& regex,
-                   Args&&... message)
+                   const Args&... message)
 {
     if (!unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " does not match the given pattern";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -737,11 +735,11 @@ template<typename... Args>
 void
 assert_not_regex_match(const std::string& string,
                        const std::string& regex,
-                       Args&&... message)
+                       const Args&... message)
 {
     if (unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " matches the pattern " + unittest::core::str(regex);
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -755,11 +753,11 @@ template<typename... Args>
 void
 assert_not_regex_match(const std::string& string,
                        const std::regex& regex,
-                       Args&&... message)
+                       const Args&... message)
 {
     if (unittest::core::is_regex_matched(string, regex)) {
         const std::string text = unittest::core::str(string) + " matches the given pattern";
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -772,8 +770,8 @@ template<typename Exception,
          typename Functor,
          typename... Args>
 void
-assert_throw(Functor&& functor,
-             Args&&... message)
+assert_throw(Functor functor,
+             const Args&... message)
 {
     bool caught = false;
     if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions) {
@@ -783,10 +781,10 @@ assert_throw(Functor&& functor,
             caught = true;
         } catch (const std::exception& e) {
             const std::string text = unittest::join("An unexpected exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, message...);
         } catch (...) {
             const std::string text = "An unexpected, unknown exception was thrown";
-            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, message...);
         }
     } else {
         try {
@@ -797,7 +795,7 @@ assert_throw(Functor&& functor,
     }
     if (!caught) {
         const std::string text = unittest::join("The exception was not thrown: ", typeid(Exception).name());
-        unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+        unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
 /**
@@ -809,18 +807,18 @@ assert_throw(Functor&& functor,
 template<typename Functor,
          typename... Args>
 void
-assert_no_throw(Functor&& functor,
-                Args&&... message)
+assert_no_throw(Functor functor,
+                const Args&... message)
 {
     if (unittest::core::testsuite::instance()->get_arguments().handle_exceptions) {
         try {
             functor();
         } catch (const std::exception& e) {
             const std::string text = unittest::join("An exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
-            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, message...);
         } catch (...) {
             const std::string text = "An unknown exception was thrown";
-            unittest::fail(UNITTEST_FUNC, text, std::forward<Args>(message)...);
+            unittest::fail(UNITTEST_FUNC, text, message...);
         }
     } else {
         functor();

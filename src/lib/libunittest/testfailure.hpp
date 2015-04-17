@@ -73,9 +73,9 @@ template<typename... Args>
 void
 fail(const std::string& assertion,
      const std::string& message,
-     Args&&... args)
+     const Args&... args)
 {
-    throw unittest::testfailure(assertion, message, unittest::join("", std::forward<Args>(args)...));
+    throw unittest::testfailure(assertion, message, unittest::join("", args...));
 }
 
 } // unittest

@@ -3,7 +3,6 @@ libunittest (8.0.0) stable; urgency=low
   * Converted to GNU build system (autotools)
   * Added various new assertions for relative approximity
   * Added run filter using regular expressions (switch -g)
-  * Using now universal references for all assertions 
   * Added static assertion for stream operator overload
   * Improved conversions to string for integers and floats
   * Removed unused tag testsuites from XSD
