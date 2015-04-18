@@ -17,7 +17,7 @@ observe_and_wait(std::thread&& thread,
                  double timeout)
 {
     if (!done->load() && timeout > 0) {
-        const std::chrono::milliseconds min_resolution(1);
+        const std::chrono::milliseconds min_resolution(2);
         double overhead = 0.123;
         double duration = -1.;
 
