@@ -1,5 +1,5 @@
 /**
- * @brief Compiler specific definitions of noexcept
+ * @brief Compiler specific definitions of noexcept and noexcept(false)
  * @file noexcept.hpp
  */
 #pragma once
