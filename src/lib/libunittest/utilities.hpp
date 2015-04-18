@@ -3,7 +3,7 @@
  * @file utilities.hpp
  */
 #pragma once
-#include "typetraits.hpp"
+#include "noexcept.hpp"
 #include <ostream>
 #include <string>
 #include <chrono>
@@ -58,7 +58,6 @@ write_to_stream(std::ostream& stream,
                 const T& arg,
                 const Args&... args)
 {
-	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     stream << arg;
     unittest::core::write_to_stream(stream, args...);
 }
@@ -483,12 +482,25 @@ std::string
 join(const T& arg,
      const Args&... args)
 {
-	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
     std::ostringstream stream;
     stream << arg;
     unittest::core::write_to_stream(stream, args...);
     return stream.str();
 }
+/**
+ * @brief A utility class to indicate 'no type' property
+ */
+class notype {
+	notype() {}
+	virtual ~notype() UNITTEST_NOEXCEPT_FALSE {}
+};
+/**
+ * @brief A utility class to indicate 'some type' property
+ */
+struct sometype {
+	sometype() {}
+	virtual ~sometype() UNITTEST_NOEXCEPT_FALSE {}
+};
 /**
  * @brief Machine epsilon of float
  */

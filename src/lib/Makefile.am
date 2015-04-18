@@ -29,7 +29,6 @@ libunittest/testrun.hpp \
 libunittest/teststatus.hpp \
 libunittest/testsuite.hpp \
 libunittest/tuplemap.hpp \
-libunittest/typetraits.hpp \
 libunittest/unittest.hpp \
 libunittest/userargs.hpp \
 libunittest/utilities.hpp \

@@ -4,7 +4,6 @@
  */
 #pragma once
 #include "testsuite.hpp"
-#include "typetraits.hpp"
 #include <string>
 #include <sstream>
 #include <type_traits>
@@ -117,7 +116,6 @@ template<typename T>
 std::string
 str(const T& value)
 {
-	static_assert(unittest::core::is_output_streamable<T>::value, "argument is not output streamable");
 	typename unittest::core::tostr_converter<std::is_integral<T>::value, std::is_floating_point<T>::value>::type converter;
 	return converter(value);
 }

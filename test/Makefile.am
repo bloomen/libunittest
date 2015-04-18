@@ -12,7 +12,6 @@ test_macros.cpp \
 test_misc.cpp \
 test_random.cpp \
 test_testrun.cpp \
-test_typetraits.cpp \
 test_userargs.cpp \
 test_utilities.cpp
 
