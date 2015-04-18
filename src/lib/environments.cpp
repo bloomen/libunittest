@@ -17,10 +17,10 @@ process(int argc, char **argv)
     } catch (const core::argparser::exit_success& e) {
         std::cout << e.what();
         std::exit(EXIT_SUCCESS);
-	} catch (const core::argparser::exit_error& e) {
-		std::cout << "Error: " << e.what();
-		std::exit(EXIT_FAILURE);
-	}
+    } catch (const core::argparser::exit_error& e) {
+        std::cout << "Error: " << e.what();
+        std::exit(EXIT_FAILURE);
+    }
 
     auto suite = core::testsuite::instance();
     suite->set_arguments(arguments);

@@ -8,7 +8,7 @@ template<>
 std::string
 str<bool>(const bool& value)
 {
-	return value ? "true" : "false";
+    return value ? "true" : "false";
 }
 
 } // core

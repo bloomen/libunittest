@@ -63,7 +63,7 @@ write_horizontal_bar(std::ostream& stream,
                      char character,
                      int length)
 {
-	const std::string bar(length, character);
+    const std::string bar(length, character);
     stream << bar << std::flush;
 }
 

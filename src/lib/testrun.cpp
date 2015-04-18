@@ -17,20 +17,20 @@ observe_and_wait(std::thread&& thread,
                  double timeout)
 {
     if (!done->load() && timeout > 0) {
-    	const std::chrono::milliseconds min_resolution(1);
-    	double overhead = 0.123;
+        const std::chrono::milliseconds min_resolution(1);
+        double overhead = 0.123;
         double duration = -1.;
 
-		// compute approx. overhead of instructions
-		const auto start_instr = std::chrono::high_resolution_clock::now();
-		if (!done->load()) {
-			if (duration < timeout) {
-				std::this_thread::sleep_for(min_resolution);
-				duration += timeout;
-			}
-		}
-		overhead = duration_in_seconds(std::chrono::high_resolution_clock::now() - start_instr);
-		duration = overhead;
+        // compute approx. overhead of instructions
+        const auto start_instr = std::chrono::high_resolution_clock::now();
+        if (!done->load()) {
+            if (duration < timeout) {
+                std::this_thread::sleep_for(min_resolution);
+                duration += timeout;
+            }
+        }
+        overhead = duration_in_seconds(std::chrono::high_resolution_clock::now() - start_instr);
+        duration = overhead;
 
         while (!done->load()) {
             if (duration > timeout) {
@@ -40,7 +40,7 @@ observe_and_wait(std::thread&& thread,
                 suite->add_lonely_thread(std::move(thread), done);
                 break;
             }
-			std::this_thread::sleep_for(min_resolution);
+            std::this_thread::sleep_for(min_resolution);
             duration += overhead;
         }
     }
@@ -55,9 +55,9 @@ struct testmonitor::impl {
     bool is_executed_;
 
     impl()
-    	: log_(),
-    	  start_(std::chrono::high_resolution_clock::time_point::min()),
-    	  is_executed_(true)
+        : log_(),
+          start_(std::chrono::high_resolution_clock::time_point::min()),
+          is_executed_(true)
     {}
 
 };
@@ -83,12 +83,12 @@ testmonitor::~testmonitor()
 {
     auto suite = testsuite::instance();
     if (impl_->is_executed_) {
-    	if (!suite->get_arguments().dry_run) {
-    		suite->stop_timing();
-    		if (impl_->log_.status!=teststatus::skipped) {
-    			const auto end = std::chrono::high_resolution_clock::now();
-    			impl_->log_.duration = duration_in_seconds(end - impl_->start_);
-    		}
+        if (!suite->get_arguments().dry_run) {
+            suite->stop_timing();
+            if (impl_->log_.status!=teststatus::skipped) {
+                const auto end = std::chrono::high_resolution_clock::now();
+                impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+            }
         }
         suite->make_keep_running(impl_->log_);
         impl_->log_.successful = impl_->log_.status==teststatus::success ||
@@ -197,10 +197,10 @@ update_testrun_info(const std::string& class_id,
     update_class_name(class_name, class_id, class_maps);
     update_test_name(test_name, class_id, class_maps);
     if (suite->get_arguments().disable_timeout) {
-    	local_timeout = -1;
+        local_timeout = -1;
     } else {
-		const double global_timeout = suite->get_arguments().timeout;
-		update_local_timeout(local_timeout, global_timeout);
+        const double global_timeout = suite->get_arguments().timeout;
+        update_local_timeout(local_timeout, global_timeout);
     }
 }
 
@@ -212,11 +212,11 @@ make_method_id(const std::string& class_id, const std::string& test_name)
 
 unittest::core::testinfo
 make_testinfo(std::string class_id,
-			  std::string class_name,
-			  std::string test_name,
-			  bool skipped,
-			  std::string skip_message,
-			  double timeout)
+              std::string class_name,
+              std::string test_name,
+              bool skipped,
+              std::string skip_message,
+              double timeout)
 {
     unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
     const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
@@ -225,26 +225,26 @@ make_testinfo(std::string class_id,
     auto has_timed_out = std::make_shared<std::atomic_bool>();
     has_timed_out->store(false);
     return {make_method_id(class_id, test_name), class_name,
-    		test_name, args.dry_run, args.handle_exceptions,
-    		done, has_timed_out, timeout, skipped, skip_message};
+            test_name, args.dry_run, args.handle_exceptions,
+            done, has_timed_out, timeout, skipped, skip_message};
 }
 
 void run_testfunction(const unittest::core::testinfo& info,
-					  unittest::core::testmonitor& monitor,
-					  std::function<void()> function)
+                      unittest::core::testmonitor& monitor,
+                      std::function<void()> function)
 {
-	if (info.skipped) {
-		monitor.log_skipped(info.skip_message);
-	} else if (monitor.is_executed()) {
-		if (info.dry_run) {
-			monitor.log_success();
-		} else {
-			function();
-			if (info.has_timed_out->load())
-				monitor.has_timed_out(info.timeout);
-		}
-	}
-	info.done->store(true);
+    if (info.skipped) {
+        monitor.log_skipped(info.skip_message);
+    } else if (monitor.is_executed()) {
+        if (info.dry_run) {
+            monitor.log_success();
+        } else {
+            function();
+            if (info.has_timed_out->load())
+                monitor.has_timed_out(info.timeout);
+        }
+    }
+    info.done->store(true);
 }
 
 } // core

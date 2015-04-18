@@ -23,15 +23,15 @@ struct testsuite::impl {
     std::map<std::string, std::string> logged_texts_;
 
     impl()
-    	: keep_running_(true),
-    	  start_(std::chrono::high_resolution_clock::time_point::min()),
-    	  end_(std::chrono::high_resolution_clock::time_point::min()),
-    	  arguments_(),
-    	  results_(),
-    	  class_runs_(),
-    	  class_maps_(),
-    	  lonely_threads_(),
-    	  logged_texts_()
+        : keep_running_(true),
+          start_(std::chrono::high_resolution_clock::time_point::min()),
+          end_(std::chrono::high_resolution_clock::time_point::min()),
+          arguments_(),
+          results_(),
+          class_runs_(),
+          class_maps_(),
+          lonely_threads_(),
+          logged_texts_()
     {}
 
     void
@@ -147,10 +147,10 @@ testsuite::is_test_run(const std::string& class_name,
                        const std::string& test_name) const
 {
     if (!impl_->keep_running_) {
-    	return false;
+        return false;
     } else {
-    	const std::string full_name = make_full_test_name(class_name, test_name);
-    	return is_test_executed(full_name, get_arguments().test_name, get_arguments().name_filter, get_arguments().regex_filter);
+        const std::string full_name = make_full_test_name(class_name, test_name);
+        return is_test_executed(full_name, get_arguments().test_name, get_arguments().name_filter, get_arguments().regex_filter);
     }
 }
 

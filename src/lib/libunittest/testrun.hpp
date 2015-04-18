@@ -116,45 +116,45 @@ make_method_id(const std::string& class_id, const std::string& test_name);
  * @brief The test info
  */
 struct testinfo {
-	/**
-	 * @brief The id of the test method
-	 */
+    /**
+     * @brief The id of the test method
+     */
     const std::string method_id;
-	/**
-	 * @brief The name of the test class
-	 */
+    /**
+     * @brief The name of the test class
+     */
     const std::string class_name;
-	/**
-	 * @brief The name of the current test method
-	 */
+    /**
+     * @brief The name of the current test method
+     */
     const std::string test_name;
-	/**
-	 * @brief Whether a dry run is performed
-	 */
+    /**
+     * @brief Whether a dry run is performed
+     */
     const bool dry_run;
-	/**
-	 * @brief Whether to handle unexpected exceptions
-	 */
+    /**
+     * @brief Whether to handle unexpected exceptions
+     */
     const bool handle_exceptions;
-	/**
-	 * @brief Whether the test is done
-	 */
-	std::shared_ptr<std::atomic_bool> done;
-	/**
-	 * @brief @brief Whether the test has timed out
-	 */
+    /**
+     * @brief Whether the test is done
+     */
+    std::shared_ptr<std::atomic_bool> done;
+    /**
+     * @brief @brief Whether the test has timed out
+     */
     std::shared_ptr<std::atomic_bool> has_timed_out;
-	/**
-	 * The test timeout
-	 */
+    /**
+     * The test timeout
+     */
     const double timeout;
-	/**
-	 * @brief Whether the current test is skipped
-	 */
+    /**
+     * @brief Whether the current test is skipped
+     */
     const bool skipped;
-	/**
-	 * @brief A message explaining why the test is skipped
-	 */
+    /**
+     * @brief A message explaining why the test is skipped
+     */
     const std::string skip_message;
 };
 /**
@@ -164,8 +164,8 @@ struct testinfo {
  * @param function The test function
  */
 void run_testfunction(const unittest::core::testinfo& info,
-					  unittest::core::testmonitor& monitor,
-					  std::function<void()> function);
+                      unittest::core::testmonitor& monitor,
+                      std::function<void()> function);
 /**
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
@@ -180,7 +180,7 @@ struct testfunctor {
      */
     testfunctor(std::shared_ptr<typename TestCase::context_type> context,
                 void (TestCase::*method)(),
-				unittest::core::testinfo info)
+                unittest::core::testinfo info)
         : context_(context),
           method_(method),
           info_(std::move(info))
@@ -431,11 +431,11 @@ observe_and_wait(std::thread&& thread,
  */
 unittest::core::testinfo
 make_testinfo(std::string class_id,
-			  std::string class_name,
-			  std::string test_name,
-			  bool skipped,
-			  std::string skip_message,
-			  double timeout);
+              std::string class_name,
+              std::string test_name,
+              bool skipped,
+              std::string skip_message,
+              double timeout);
 
 } // core
 
@@ -460,16 +460,16 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
         double timeout)
 {
     unittest::core::testfunctor<TestCase> functor(context, method,
-    		unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
-										  class_name, test_name, skipped, skip_message, timeout));
-	const double updated_timeout = functor.info().timeout;
+        unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
+                                      class_name, test_name, skipped, skip_message, timeout));
+    const double updated_timeout = functor.info().timeout;
     if (updated_timeout > 0) {
-    	std::shared_ptr<std::atomic_bool> done = functor.info().done;
-    	std::shared_ptr<std::atomic_bool> has_timed_out = functor.info().has_timed_out;
-    	std::thread thread(functor);
+        std::shared_ptr<std::atomic_bool> done = functor.info().done;
+        std::shared_ptr<std::atomic_bool> has_timed_out = functor.info().has_timed_out;
+        std::thread thread(functor);
         unittest::core::observe_and_wait(std::move(thread), done, has_timed_out, updated_timeout);
     } else {
-    	functor();
+        functor();
     }
 }
 /**

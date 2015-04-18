@@ -29,34 +29,34 @@ template<size_t ...> struct construct_range;
 template< size_t end, size_t idx, size_t ...i >
 struct construct_range<end, idx, i... >
      : construct_range<end, idx+1, i..., idx> {
-	/**
-	 * @brief Constructor
-	 */
-	construct_range()
-	{}
-	/**
-	 * @brief Destructor
-	 */
-	virtual
-	~construct_range()
-	{}
+    /**
+     * @brief Constructor
+     */
+    construct_range()
+    {}
+    /**
+     * @brief Destructor
+     */
+    virtual
+    ~construct_range()
+    {}
 };
 /**
  * @brief Partial specialization of construct_range struct for finished ranges.
  */
 template< size_t end, size_t ...i >
 struct construct_range< end, end, i... > {
-	/**
-	 * @brief Constructor
-	 */
-	construct_range()
-	{}
-	/**
-	 * @brief Destructor
-	 */
-	virtual
-	~construct_range()
-	{}
+    /**
+     * @brief Constructor
+     */
+    construct_range()
+    {}
+    /**
+     * @brief Destructor
+     */
+    virtual
+    ~construct_range()
+    {}
     /**
      * @brief Type level index list
      */

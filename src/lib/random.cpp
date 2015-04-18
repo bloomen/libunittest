@@ -9,7 +9,7 @@ random_value<bool>::random_value()
 std::shared_ptr<random_object<bool>>
 random_value<bool>::do_clone()
 {
-	return std::make_shared<random_value<bool>>(*this);
+    return std::make_shared<random_value<bool>>(*this);
 }
 
 bool

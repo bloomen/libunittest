@@ -106,20 +106,20 @@ struct distribution;
  */
 template<typename T>
 struct distribution<T, true> {
-	/**
-	 * @brief The distribution type for integral types
-	 */
-	typedef typename std::uniform_int_distribution<T> type;
+    /**
+     * @brief The distribution type for integral types
+     */
+    typedef typename std::uniform_int_distribution<T> type;
 };
 /**
  * @brief The distribution type container for non-integral types
  */
 template<typename T>
 struct distribution<T, false> {
-	/**
-	* @brief The distribution type for non-integral types
-	*/
-	typedef typename std::uniform_real_distribution<T> type;
+    /**
+    * @brief The distribution type for non-integral types
+    */
+    typedef typename std::uniform_real_distribution<T> type;
 };
 
 } // core

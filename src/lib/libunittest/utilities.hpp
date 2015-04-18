@@ -93,7 +93,7 @@ is_approx_equal(const T& first,
                 const U& second,
                 const V& eps)
 {
-	V diff(eps - eps);
+    V diff(eps - eps);
     if (first > second)
         diff = static_cast<V>(first - second);
     else if (first < second)
@@ -116,9 +116,9 @@ is_approxrel_equal(const T& first,
                    const U& second,
                    const V& eps)
 {
-	const T zero(first - first);
-	const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
-	return is_approx_equal(first, second, abs_eps);
+    const T zero(first - first);
+    const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
+    return is_approx_equal(first, second, abs_eps);
 }
 /**
  * @brief Checks if a value is in a given range.
@@ -266,7 +266,7 @@ template<typename Container1,
 bool
 is_containers_approxrel_equal(const Container1& first,
                               const Container2& second,
-							  const V&	eps)
+                              const V& eps)
 {
     auto begin1 = std::begin(first);
     auto end1 = std::end(first);
@@ -491,15 +491,15 @@ join(const T& arg,
  * @brief A utility class to indicate 'no type' property
  */
 class notype {
-	notype() {}
-	virtual ~notype() UNITTEST_NOEXCEPT_FALSE {}
+    notype() {}
+    virtual ~notype() UNITTEST_NOEXCEPT_FALSE {}
 };
 /**
  * @brief A utility class to indicate 'some type' property
  */
 struct sometype {
-	sometype() {}
-	virtual ~sometype() UNITTEST_NOEXCEPT_FALSE {}
+    sometype() {}
+    virtual ~sometype() UNITTEST_NOEXCEPT_FALSE {}
 };
 /**
  * @brief Machine epsilon of float
