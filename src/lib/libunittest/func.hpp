@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#ifdef _MSC_VER
+#if defined(_MSC_FULL_VER) && _MSC_FULL_VER < 180021114
 /**
  * @brief Compiler specifics to get the current function name
  */
