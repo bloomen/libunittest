@@ -23,7 +23,6 @@ namespace unittest {
 namespace assertions {
 /**
  * @brief Asserts that a value is true.
- *  Operators needed: None
  * @param value A value
  * @param message If given, is appended to the default fail message
  */
@@ -40,7 +39,6 @@ assert_true(const T& value,
 }
 /**
  * @brief Asserts that a value is false.
- *  Operators needed: None
  * @param value A value
  * @param message If given, is appended to the default fail message
  */
@@ -57,7 +55,7 @@ assert_false(const T& value,
 }
 /**
  * @brief Asserts that two values are equal.
- *  Operators needed: ==, <<
+ *  Required operators: ==, <<
  * @param expected The expected value
  * @param actual The actual value
  * @param message If given, is appended to the default fail message
@@ -77,7 +75,7 @@ assert_equal(const T& expected,
 }
 /**
  * @brief Asserts that two values are not equal.
- *  Operators needed: ==, <<
+ *  Required operators: ==, <<
  * @param first A value
  * @param second Another value
  * @param message If given, is appended to the default fail message
@@ -98,7 +96,7 @@ assert_not_equal(const T& first,
 /**
  * @brief Asserts that two values are approximately equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon.
- *  Operators needed: <, >, -, <<
+ *  Required operators: <, >, -, <<
  * @param expected The expected value
  * @param actual The actual value
  * @param epsilon The epsilon
@@ -123,7 +121,7 @@ assert_approx_equal(const T& expected,
 /**
  * @brief Asserts that two values are not approximately equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon is false.
- *  Operators needed: <, >, -, <<
+ *  Required operators: <, >, -, <<
  * @param first A value
  * @param second Another value
  * @param epsilon The epsilon
@@ -148,7 +146,7 @@ assert_approx_not_equal(const T& first,
 /**
  * @brief Asserts that two values are relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon.
- *  Operators needed: <, >, -, *, <<
+ *  Required operators: <, >, -, *, <<
  * @param expected The expected value
  * @param actual The actual value
  * @param epsilon The epsilon
@@ -173,7 +171,7 @@ assert_approxrel_equal(const T& expected,
 /**
  * @brief Asserts that two values are not relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
- *  Operators needed: <, >, -, *, <<
+ *  Required operators: <, >, -, *, <<
  * @param first The first value
  * @param second The second value
  * @param epsilon The epsilon
@@ -197,7 +195,7 @@ assert_approxrel_not_equal(const T& first,
 }
 /**
  * @brief Asserts that the first value is greater than the second.
- *  Operators needed: >, <<
+ *  Required operators: >, <<
  * @param first A value
  * @param second Another value
  * @param message If given, is appended to the default fail message
@@ -217,7 +215,7 @@ assert_greater(const T& first,
 }
 /**
  * @brief Asserts that the first value is greater than or equal to the second.
- *  Operators needed: <, <<
+ *  Required operators: <, <<
  * @param first A value
  * @param second Another value
  * @param message If given, is appended to the default fail message
@@ -237,7 +235,7 @@ assert_greater_equal(const T& first,
 }
 /**
  * @brief Asserts that the first value is lesser than the second.
- *  Operators needed: <, <<
+ *  Required operators: <, <<
  * @param first A value
  * @param second Another value
  * @param message If given, is appended to the default fail message
@@ -257,7 +255,7 @@ assert_lesser(const T& first,
 }
 /**
  * @brief Asserts that the first value is lesser than or equal to the second.
- *  Operators needed: >, <<
+ *  Required operators: >, <<
  * @param first A value
  * @param second Another value
  * @param message If given, is appended to the default fail message
@@ -277,7 +275,7 @@ assert_lesser_equal(const T& first,
 }
 /**
  * @brief Asserts that a value is in a given range with included bounds.
- *  Operators needed: <, >, <<
+ *  Required operators: <, >, <<
  * @param value A value
  * @param lower The lower bound
  * @param upper The upper bound
@@ -301,7 +299,7 @@ assert_in_range(const T& value,
 }
 /**
  * @brief Asserts that a value is not in a given range with included bounds.
- *  Operators needed: <, >, <<
+ *  Required operators: <, >, <<
  * @param value A value
  * @param lower The lower bound
  * @param upper The upper bound
@@ -325,7 +323,7 @@ assert_not_in_range(const T& value,
 }
 /**
  * @brief Asserts that a value is in a container.
- *  Operators needed: ==
+ *  Required operators: ==
  * @param value A value
  * @param container A container
  * @param message If given, is appended to the default fail message
@@ -345,7 +343,7 @@ assert_in_container(const T& value,
 }
 /**
  * @brief Asserts that a value is not in a container.
- *  Operators needed: ==
+ *  Required operators: ==
  * @param value A value
  * @param container A container
  * @param message If given, is appended to the default fail message
@@ -366,7 +364,7 @@ assert_not_in_container(const T& value,
 /**
  * @brief Asserts that a value is approx. in a container up to some epsilon.
  *  The assertion succeeds if |a - b| < epsilon for at least one element.
- *  Operators needed: <, >, -
+ *  Required operators: <, >, -
  * @param value A value
  * @param container A container
  * @param epsilon The epsilon
@@ -391,7 +389,7 @@ assert_approx_in_container(const T& value,
 /**
  * @brief Asserts that a value is not approx. in a container up to some epsilon.
  *  The assertion succeeds if |a - b| < epsilon is false for all elements.
- *  Operators needed: <, >, -
+ *  Required operators: <, >, -
  * @param value A value
  * @param container A container
  * @param epsilon The epsilon
@@ -416,7 +414,7 @@ assert_approx_not_in_container(const T& value,
 /**
  * @brief Asserts that a value is relatively approx. in a container up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for at least one
- *  element. Operators needed: <, >, -
+ *  element. Required operators: <, >, -, *
  * @param value A value
  * @param container A container
  * @param epsilon The epsilon
@@ -441,7 +439,7 @@ assert_approxrel_in_container(const T& value,
 /**
 * @brief Asserts that a value is not relatively approx. in a container up to
 *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
-*  all elements. Operators needed: <, >, -
+*  all elements. Required operators: <, >, -, *
 * @param value A value
 * @param container A container
 * @param epsilon The epsilon
@@ -465,7 +463,7 @@ assert_approxrel_not_in_container(const T& value,
 }
 /**
  * @brief Asserts that two containers are equal.
- *  Operators needed: ==
+ *  Required operators: ==
  * @param expected The expected container
  * @param actual The actual container
  * @param message If given, is appended to the default fail message
@@ -485,7 +483,7 @@ assert_equal_containers(const Container1& expected,
 }
 /**
  * @brief Asserts that two containers are not equal.
- *  Operators needed: ==
+ *  Required operators: ==
  * @param first A container
  * @param second Another container
  * @param message If given, is appended to the default fail message
@@ -506,7 +504,7 @@ assert_not_equal_containers(const Container1& first,
 /**
  * @brief Asserts that two containers are approx. equal up to some epsilon.
  *  The assertion succeeds if |a - b| < epsilon for all pairs of elements.
- *  Operators needed: <, >, -
+ *  Required operators: <, >, -
  * @param expected The expected container
  * @param actual The actual container
  * @param epsilon The epsilon
@@ -532,7 +530,7 @@ assert_approx_equal_containers(const Container1& expected,
  * @brief Asserts that two containers are not approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
  *  least one pair of elements.
- *  Operators needed: <, >, -
+ *  Required operators: <, >, -
  * @param first A container
  * @param second Another container
  * @param epsilon The epsilon
@@ -557,7 +555,7 @@ assert_approx_not_equal_containers(const Container1& first,
 /**
  * @brief Asserts that two containers are relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
- *  elements. Operators needed: <, >, -
+ *  elements. Required operators: <, >, -, *
  * @param expected The expected container
  * @param actual The actual container
  * @param epsilon The epsilon
@@ -582,7 +580,7 @@ assert_approxrel_equal_containers(const Container1& expected,
 /**
  * @brief Asserts that two containers are not relatively approx. equal up to
  *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
- *  at least one pair of elements. Operators needed: <, >, -
+ *  at least one pair of elements. Required operators: <, >, -, *
  * @param first A container
  * @param second Another container
  * @param epsilon The epsilon
@@ -606,7 +604,6 @@ assert_approxrel_not_equal_containers(const Container1& first,
 }
 /**
  * @brief Asserts that all container elements match a given condition.
- *  Operators needed: None
  * @param container A container
  * @param condition A condition returning a boolean that can be applied to
  *  each container element
@@ -627,7 +624,6 @@ assert_all_of(const Container& container,
 }
 /**
  * @brief Asserts that not all container elements match a given condition.
- *  Operators needed: None
  * @param container A container
  * @param condition A condition returning a boolean that can be applied to
  *  each container element
@@ -648,7 +644,6 @@ assert_not_all_of(const Container& container,
 }
 /**
  * @brief Asserts that any container element matches a given condition.
- *  Operators needed: None
  * @param container A container
  * @param condition A condition returning a boolean that can be applied to
  *  each container element
@@ -669,7 +664,6 @@ assert_any_of(const Container& container,
 }
 /**
  * @brief Asserts that none of the container elements match a given condition.
- *  Operators needed: None
  * @param container A container
  * @param condition A condition returning a boolean that can be applied to
  *  each container element
@@ -690,7 +684,6 @@ assert_none_of(const Container& container,
 }
 /**
  * @brief Asserts that a string matches a regular expression.
- *  Operators needed: <<
  * @param string A string
  * @param regex The regular expression
  * @param message If given, is appended to the default fail message
@@ -708,7 +701,6 @@ assert_regex_match(const std::string& string,
 }
 /**
  * @brief Asserts that a string matches a regular expression.
- *  Operators needed: <<
  * @param string A string
  * @param regex The regular expression
  * @param message If given, is appended to the default fail message
@@ -726,7 +718,6 @@ assert_regex_match(const std::string& string,
 }
 /**
  * @brief Asserts that a string does not match a regular expression.
- *  Operators needed: <<
  * @param string A string
  * @param regex The regular expression
  * @param message If given, is appended to the default fail message
@@ -744,7 +735,6 @@ assert_not_regex_match(const std::string& string,
 }
 /**
  * @brief Asserts that a string does not match a regular expression.
- *  Operators needed: <<
  * @param string A string
  * @param regex The regular expression
  * @param message If given, is appended to the default fail message
@@ -762,7 +752,7 @@ assert_not_regex_match(const std::string& string,
 }
 /**
  * @brief Asserts that a functor throws Exception.
- *  Operators needed: None
+ *  Required operators: ()
  * @param functor The functor
  * @param message If given, is appended to the default fail message
  */
@@ -800,7 +790,7 @@ assert_throw(Functor functor,
 }
 /**
  * @brief Asserts that a functor does not throw any exception.
- *  Operators needed: None
+ *  Required operators: ()
  * @param functor The functor
  * @param message If given, is appended to the default fail message
  */
