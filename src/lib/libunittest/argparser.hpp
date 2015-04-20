@@ -79,7 +79,7 @@ public:
     virtual
     ~argparser();
 
-    private:
+private:
     /**
      * @brief Override this to provide the name of the application
      * @returns The application name
@@ -105,7 +105,7 @@ public:
     virtual void
     post_parse() {}
 
-    protected:
+protected:
     /**
      * @brief Constructor
      */
@@ -191,7 +191,7 @@ public:
     void
     error(const std::string& message);
 
-    private:
+private:
 
     struct argrow {
         argrow();
