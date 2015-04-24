@@ -384,20 +384,20 @@ struct test_misc : unittest::testcase<> {
 
     void test_assertion_in_separate_thread()
     {
-    	std::exception_ptr ptr;
-    	std::thread thread([&ptr]() {
-    		try {
-    			assert_true(false, SPOT);
-    		} catch (...) {
-    			ptr = std::current_exception();
-    		}
-    	});
-    	thread.join();
-    	auto functor = [&ptr]() {
-			if (ptr)
-				std::rethrow_exception(ptr);
-    	};
-    	assert_throw<unittest::testfailure>(functor, SPOT);
+        std::exception_ptr ptr;
+        std::thread thread([&ptr]() {
+            try {
+                assert_true(false, SPOT);
+            } catch (...) {
+                ptr = std::current_exception();
+            }
+        });
+        thread.join();
+        auto functor = [&ptr]() {
+            if (ptr)
+                std::rethrow_exception(ptr);
+        };
+        assert_throw<unittest::testfailure>(functor, SPOT);
     }
 
 };

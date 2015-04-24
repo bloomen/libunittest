@@ -45,20 +45,20 @@ struct test_assertions : unittest::testcase<> {
         UNITTEST_RUN(test_assert_no_throw)
         UNITTEST_RUN(test_assert_approxrel_equal_first_greater_than_second)
         UNITTEST_RUN(test_assert_approxrel_equal_second_greater_than_first)
-		UNITTEST_RUN(test_assert_approxrel_equal_negative_first_smaller_than_second)
-		UNITTEST_RUN(test_assert_approxrel_equal_negative_second_greater_than_first)
-		UNITTEST_RUN(test_assert_approxrel_equal_first_negative_second_positive)
-		UNITTEST_RUN(test_assert_approxrel_equal_first_positive_second_negative)
+        UNITTEST_RUN(test_assert_approxrel_equal_negative_first_smaller_than_second)
+        UNITTEST_RUN(test_assert_approxrel_equal_negative_second_greater_than_first)
+        UNITTEST_RUN(test_assert_approxrel_equal_first_negative_second_positive)
+        UNITTEST_RUN(test_assert_approxrel_equal_first_positive_second_negative)
         UNITTEST_RUN(test_assert_approxrel_not_equal_first_greater_than_second)
         UNITTEST_RUN(test_assert_approxrel_not_equal_second_greater_than_first)
-		UNITTEST_RUN(test_assert_approxrel_not_equal_negative_first_smaller_than_second)
-		UNITTEST_RUN(test_assert_approxrel_not_equal_negative_second_greater_than_first)
-		UNITTEST_RUN(test_assert_approxrel_not_equal_first_negative_second_positive)
-		UNITTEST_RUN(test_assert_approxrel_not_equal_first_positive_second_negative)
-		UNITTEST_RUN(test_assert_approxrel_in_container)
-		UNITTEST_RUN(test_assert_approxrel_not_in_container)
-		UNITTEST_RUN(test_assert_approxrel_equal_containers)
-		UNITTEST_RUN(test_assert_approxrel_not_equal_containers)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_negative_first_smaller_than_second)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_negative_second_greater_than_first)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_first_negative_second_positive)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_first_positive_second_negative)
+        UNITTEST_RUN(test_assert_approxrel_in_container)
+        UNITTEST_RUN(test_assert_approxrel_not_in_container)
+        UNITTEST_RUN(test_assert_approxrel_equal_containers)
+        UNITTEST_RUN(test_assert_approxrel_not_equal_containers)
     }
 
     void test_assert_approxrel_equal_containers()
@@ -117,35 +117,35 @@ struct test_assertions : unittest::testcase<> {
 
     void test_assert_approxrel_not_equal_first_negative_second_positive()
     {
-    	assert_approxrel_not_equal(-1.0, 1.0, 2.0, SPOT);
+        assert_approxrel_not_equal(-1.0, 1.0, 2.0, SPOT);
         auto functor = []() { assert_approxrel_not_equal(-1.0, 1.0, 2.01); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_approxrel_not_equal_negative_second_greater_than_first()
     {
-    	assert_approxrel_not_equal(-2.0, -2.5, 0.25, SPOT);
+        assert_approxrel_not_equal(-2.0, -2.5, 0.25, SPOT);
         auto functor = []() { assert_approxrel_not_equal(-2.0, -2.5, 0.26); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_approxrel_not_equal_negative_first_smaller_than_second()
     {
-    	assert_approxrel_not_equal(-2.5, -2.0, 0.2, SPOT);
+        assert_approxrel_not_equal(-2.5, -2.0, 0.2, SPOT);
         auto functor = []() { assert_approxrel_not_equal(-2.5, -2.0, 0.21); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_approxrel_not_equal_first_greater_than_second()
     {
-    	assert_approxrel_not_equal(2.5, 2.0, 0.2, SPOT);
+        assert_approxrel_not_equal(2.5, 2.0, 0.2, SPOT);
         auto functor = []() { assert_approxrel_not_equal(2.5, 2.0, 0.21); };
         assert_throw<testfailure>(functor, SPOT);
     }
 
     void test_assert_approxrel_not_equal_second_greater_than_first()
     {
-    	assert_approxrel_not_equal(2.0, 2.5, 0.25, SPOT);
+        assert_approxrel_not_equal(2.0, 2.5, 0.25, SPOT);
         auto functor = []() { assert_approxrel_not_equal(2.0, 2.5, 0.26); };
         assert_throw<testfailure>(functor, SPOT);
     }

@@ -5,8 +5,8 @@ using unittest::core::argparser;
 
 struct test_userargs : unittest::testcase<> {
 
-	test_userargs(const test_userargs&) = delete;
-	test_userargs& operator=(const test_userargs&) = delete;
+    test_userargs(const test_userargs&) = delete;
+    test_userargs& operator=(const test_userargs&) = delete;
 
     static void run()
     {
@@ -38,7 +38,7 @@ struct test_userargs : unittest::testcase<> {
     char **arguments_;
 
     test_userargs()
-        : max_argc_(22), arguments_(nullptr)
+    : max_argc_(22), arguments_(nullptr)
     {
         arguments_ = new char*[max_argc_];
         arguments_[0] = (char*)"unittest_app";
