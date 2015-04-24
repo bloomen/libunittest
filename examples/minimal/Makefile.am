@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/lib @AM_CXXFLAGS@
+AM_CXXFLAGS = -I$(top_srcdir)/src/lib @AM_CXXFLAGS@
 check_PROGRAMS = minimal
 
 minimal_SOURCES = \
