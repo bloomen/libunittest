@@ -13,7 +13,7 @@ libunittest (8.0.0) stable; urgency=low
   * Updated documentation
   * libunittest can now be reached at http://libunittest.net
 
- -- Christian Blume <chr.blume@gmail.com>  XXX, XX XXX 2015 XX:XX:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 25 Apr 2015 12:00:00 -0700
 
 libunittest (7.0.2) stable; urgency=low
 
