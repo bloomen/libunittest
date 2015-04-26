@@ -93,7 +93,7 @@ is_approx_equal(const T& first,
                 const U& second,
                 const V& eps)
 {
-    V diff(eps - eps);
+    volatile V diff(eps - eps);
     if (first > second)
         diff = static_cast<V>(first - second);
     else if (first < second)
@@ -116,8 +116,8 @@ is_approxrel_equal(const T& first,
                    const U& second,
                    const V& eps)
 {
-    const T zero(first - first);
-    const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
+    volatile const T zero(first - first);
+    volatile const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
     return is_approx_equal(first, second, abs_eps);
 }
 /**
