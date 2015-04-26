@@ -8,7 +8,9 @@ test_assertions.cpp \
 test_checkers.cpp \
 test_context.cpp \
 test_formatting.cpp \
-test_macros.cpp \
+test_macros_explicit.cpp \
+test_macros_easy.cpp \
+test_macros_easy_tpl.cpp \
 test_misc.cpp \
 test_random.cpp \
 test_testrun.cpp \
