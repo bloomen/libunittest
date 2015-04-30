@@ -36,6 +36,23 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_remove_file_and_line_found_two)
         UNITTEST_RUN(test_remove_file_and_line_not_found)
         UNITTEST_RUN(test_make_unique)
+        UNITTEST_RUN(test_duration)
+        UNITTEST_RUN(test_time_point)
+    }
+
+    void test_time_point()
+    {
+        auto t1 = unittest::core::time_point{1, 2};
+        assert_equal(1l, t1.seconds, SPOT);
+        assert_equal(2l, t1.microsecs, SPOT);
+    }
+
+    void test_duration()
+    {
+        auto function = unittest::core::duration_seconds;
+        auto t1 = unittest::core::time_point{1, 2};
+        auto t2 = unittest::core::time_point{3, 5};
+        assert_equal(2.000003, function(t1, t2), SPOT);
     }
 
     void test_limit_string_length()

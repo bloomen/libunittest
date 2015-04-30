@@ -3,12 +3,62 @@
 #include <iostream>
 #include <mutex>
 #ifdef _MSC_VER
+#include <windows.h>
 #include <iomanip>
 #endif
 
 
 namespace unittest {
 namespace core {
+
+double
+duration_seconds(const time_point& first,
+                 const time_point& second)
+{
+    return static_cast<double>(second.seconds - first.seconds) + static_cast<double>(second.microsecs - first.microsecs)/1000000.;
+}
+
+#if defined(_MSC_VER) && _MSC_VER < 1900
+namespace {
+
+struct windows_high_res_clock {
+    typedef long long                               rep;
+    typedef std::nano                               period;
+    typedef std::chrono::duration<rep, period>      duration;
+    typedef std::chrono::time_point<HighResClock>   time_point;
+    static const bool is_steady = true;
+    static time_point now();
+};
+
+const long long frequency = []() -> long long
+{
+    LARGE_INTEGER frequency;
+    QueryPerformanceFrequency(&frequency);
+    return frequency.QuadPart;
+}();
+
+windows_high_res_clock::time_point windows_high_res_clock::now()
+{
+    LARGE_INTEGER count;
+    QueryPerformanceCounter(&count);
+    return time_point(duration(count.QuadPart * static_cast<rep>(period::den) / frequency));
+}
+
+}
+#endif
+
+unittest::core::time_point
+now()
+{
+#if defined(_MSC_VER) && _MSC_VER < 1900
+    const auto now = windows_high_res_clock::now();
+#else
+    const auto now = std::chrono::high_resolution_clock::now();
+#endif
+    const auto ms = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    const auto million = 1000000u;
+    return {ms/million, ms%million};
+}
 
 std::string
 xml_escape(const std::string& data)
