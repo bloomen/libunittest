@@ -18,8 +18,8 @@ observe_and_wait(std::thread&& thread,
 {
     if (!done->load() && timeout > 0) {
         const std::chrono::milliseconds min_resolution(2);
-        double overhead = 0.123;
-        double duration = -1.;
+        volatile double overhead = 0.123;
+        volatile double duration = -1.;
 
         // compute approx. overhead of instructions
         const auto start_instr = std::chrono::high_resolution_clock::now();
