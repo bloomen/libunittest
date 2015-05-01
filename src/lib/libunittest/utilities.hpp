@@ -31,6 +31,15 @@ struct time_point {
     long long microsecs;
 };
 /**
+ * @brief Computes the duration between two time points in seconds
+ * @param first First time point
+ * @param second Second time point
+ * @return Duration in seconds
+ */
+double
+duration_in_seconds(const unittest::core::time_point& first,
+				    const unittest::core::time_point& second);
+/**
  * @brief Computes "now"
  * @return The current time
  */
@@ -91,15 +100,6 @@ write_horizontal_bar(std::ostream& stream,
  */
 double
 duration_in_seconds(const std::chrono::duration<double>& duration);
-/**
- * @brief Computes the duration between two time points in seconds
- * @param first First time point
- * @param second Second time point
- * @return Duration in seconds
- */
-double
-duration_in_seconds(const unittest::core::time_point& first,
-				    const unittest::core::time_point& second);
 /**
  * @brief Checks if two values are equal up to some epsilon
  * @param first A value
