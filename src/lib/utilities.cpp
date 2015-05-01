@@ -12,8 +12,8 @@ namespace unittest {
 namespace core {
 
 double
-duration_seconds(const time_point& first,
-                 const time_point& second)
+duration_in_seconds(const time_point& first,
+					const time_point& second)
 {
     return static_cast<double>(second.seconds - first.seconds) + static_cast<double>(second.microsecs - first.microsecs)/1000000.;
 }

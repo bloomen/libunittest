@@ -17,19 +17,19 @@ observe_and_wait(std::thread&& thread,
                  double timeout)
 {
     if (!done->load() && timeout > 0) {
-        const std::chrono::milliseconds min_resolution(2);
+        const std::chrono::milliseconds min_resolution(1);
         volatile double overhead = 0.123;
         volatile double duration = -1.;
 
         // compute approx. overhead of instructions
-        const auto start_instr = std::chrono::high_resolution_clock::now();
+        const auto start_instr = unittest::core::now();
         if (!done->load()) {
             if (duration < timeout) {
                 std::this_thread::sleep_for(min_resolution);
                 duration += timeout;
             }
         }
-        overhead = duration_in_seconds(std::chrono::high_resolution_clock::now() - start_instr);
+        overhead = duration_in_seconds(start_instr, unittest::core::now());
         duration = overhead;
 
         while (!done->load()) {
@@ -51,12 +51,12 @@ observe_and_wait(std::thread&& thread,
 struct testmonitor::impl {
 
     testlog log_;
-    std::chrono::high_resolution_clock::time_point start_;
+    unittest::core::time_point start_;
     bool is_executed_;
 
     impl()
         : log_(),
-          start_(std::chrono::high_resolution_clock::time_point::min()),
+          start_{0, 0},
           is_executed_(true)
     {}
 
@@ -74,7 +74,7 @@ testmonitor::testmonitor(const std::string& class_name,
     impl_->log_.method_id = method_id;
     if (impl_->is_executed_) {
         suite->start_timing();
-        impl_->start_ = std::chrono::high_resolution_clock::now();
+        impl_->start_ = unittest::core::now();
         write_test_start_message(std::cout, impl_->log_, suite->get_arguments().verbose);
     }
 }
@@ -86,8 +86,8 @@ testmonitor::~testmonitor()
         if (!suite->get_arguments().dry_run) {
             suite->stop_timing();
             if (impl_->log_.status!=teststatus::skipped) {
-                const auto end = std::chrono::high_resolution_clock::now();
-                impl_->log_.duration = duration_in_seconds(end - impl_->start_);
+                const auto end = unittest::core::now();
+                impl_->log_.duration = duration_in_seconds(impl_->start_, end);
             }
         }
         suite->make_keep_running(impl_->log_);

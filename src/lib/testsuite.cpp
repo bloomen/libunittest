@@ -13,8 +13,8 @@ namespace core {
 struct testsuite::impl {
 
     bool keep_running_;
-    std::chrono::high_resolution_clock::time_point start_;
-    std::chrono::high_resolution_clock::time_point end_;
+    unittest::core::time_point start_;
+    unittest::core::time_point end_;
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
@@ -24,8 +24,8 @@ struct testsuite::impl {
 
     impl()
         : keep_running_(true),
-          start_(std::chrono::high_resolution_clock::time_point::min()),
-          end_(std::chrono::high_resolution_clock::time_point::min()),
+          start_{0, 0},
+          end_{0, 0},
           arguments_(),
           results_(),
           class_runs_(),
@@ -94,7 +94,7 @@ testsuite::get_results() const
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
     if (!get_arguments().dry_run)
-        results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
+        results.duration = duration_in_seconds(impl_->start_, impl_->end_);
     impl_->assign_logged_texts(results.testlogs);
     return results;
 }
@@ -112,8 +112,8 @@ testsuite::start_timing()
 {
     static std::mutex start_timing_mutex_;
     std::lock_guard<std::mutex> lock(start_timing_mutex_);
-    if (impl_->start_==std::chrono::high_resolution_clock::time_point::min())
-        impl_->start_ = std::chrono::high_resolution_clock::now();
+    if (!impl_->start_.seconds)
+        impl_->start_ = unittest::core::now();
 }
 
 void
@@ -121,7 +121,7 @@ testsuite::stop_timing()
 {
     static std::mutex stop_timing_mutex_;
     std::lock_guard<std::mutex> lock(stop_timing_mutex_);
-    impl_->end_ = std::chrono::high_resolution_clock::now();
+    impl_->end_ = unittest::core::now();
 }
 
 void
