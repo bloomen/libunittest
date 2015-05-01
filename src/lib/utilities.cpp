@@ -46,7 +46,7 @@ now()
 #else
     const auto now = std::chrono::high_resolution_clock::now();
 #endif
-	return duration_in_seconds(now.time_since_epoch());
+    return duration_in_seconds(now.time_since_epoch());
 }
 
 std::string

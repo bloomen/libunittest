@@ -93,8 +93,8 @@ testsuite::get_results() const
 {
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
-	if (!get_arguments().dry_run)
-		results.duration = impl_->end_ - impl_->start_;
+    if (!get_arguments().dry_run)
+        results.duration = impl_->end_ - impl_->start_;
     impl_->assign_logged_texts(results.testlogs);
     return results;
 }
@@ -168,8 +168,8 @@ testsuite::add_class_map(const std::string& typeid_name,
 {
     static std::mutex add_class_map_mutex_;
     std::lock_guard<std::mutex> lock(add_class_map_mutex_);
-	if (impl_->class_maps_.find(typeid_name) != impl_->class_maps_.end())
-		throw std::runtime_error("Already registered: " + class_name);
+    if (impl_->class_maps_.find(typeid_name) != impl_->class_maps_.end())
+        throw std::runtime_error("Already registered: " + class_name);
     impl_->class_maps_[typeid_name] = class_name;
 }
 

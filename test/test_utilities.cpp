@@ -41,11 +41,11 @@ struct test_utilities : unittest::testcase<> {
 
     void test_now()
     {
-    	const auto now1 = unittest::core::now();
-    	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    	const auto now2 = unittest::core::now();
-    	const auto duration = now2 - now1;
-    	assert_in_range(duration, 0.001, 0.003, SPOT);
+        const auto now1 = unittest::core::now();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        const auto now2 = unittest::core::now();
+        const auto duration = now2 - now1;
+        assert_in_range(duration, 0.001, 0.003, SPOT);
     }
 
     void test_limit_string_length()
