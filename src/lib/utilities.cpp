@@ -11,13 +11,6 @@
 namespace unittest {
 namespace core {
 
-double
-duration_in_seconds(const time_point& first,
-					const time_point& second)
-{
-    return static_cast<double>(second.seconds - first.seconds) + static_cast<double>(second.microsecs - first.microsecs)/1000000.;
-}
-
 #if defined(_MSC_VER) && _MSC_VER < 1900
 namespace {
 
@@ -38,14 +31,14 @@ struct windows_high_res_clock {
     {
         LARGE_INTEGER count;
         QueryPerformanceCounter(&count);
-        return duration(count.QuadPart * static_cast<rep>(period::den) / g_frequency);
+        return tp(duration(count.QuadPart * static_cast<rep>(period::den) / g_frequency));
     }
 };
 
 }
 #endif
 
-unittest::core::time_point
+double
 now()
 {
 #if defined(_MSC_VER) && _MSC_VER < 1900
@@ -53,9 +46,7 @@ now()
 #else
     const auto now = std::chrono::high_resolution_clock::now();
 #endif
-    const auto ms = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
-    const auto million = 1000000u;
-    return {ms/million, ms%million};
+	return duration_in_seconds(now.time_since_epoch());
 }
 
 std::string

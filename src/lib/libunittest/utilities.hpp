@@ -24,26 +24,10 @@ namespace unittest {
  */
 namespace core {
 /**
- * @brief A point in time
- */
-struct time_point {
-    long long seconds;
-    long long microsecs;
-};
-/**
- * @brief Computes the duration between two time points in seconds
- * @param first First time point
- * @param second Second time point
- * @return Duration in seconds
+ * @brief Computes "now"
+ * @return Seconds since epoch
  */
 double
-duration_in_seconds(const unittest::core::time_point& first,
-				    const unittest::core::time_point& second);
-/**
- * @brief Computes "now"
- * @return The current time
- */
-unittest::core::time_point
 now();
 /**
  * @brief Escapes a string for use in an XML document

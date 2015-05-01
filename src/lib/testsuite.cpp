@@ -13,8 +13,8 @@ namespace core {
 struct testsuite::impl {
 
     bool keep_running_;
-    unittest::core::time_point start_;
-    unittest::core::time_point end_;
+    double start_;
+    double end_;
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
@@ -24,8 +24,8 @@ struct testsuite::impl {
 
     impl()
         : keep_running_(true),
-          start_{0, 0},
-          end_{0, 0},
+          start_(0),
+          end_(0),
           arguments_(),
           results_(),
           class_runs_(),
@@ -93,8 +93,8 @@ testsuite::get_results() const
 {
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
-    if (!get_arguments().dry_run)
-        results.duration = duration_in_seconds(impl_->start_, impl_->end_);
+	if (!get_arguments().dry_run)
+		results.duration = impl_->end_ - impl_->start_;
     impl_->assign_logged_texts(results.testlogs);
     return results;
 }
@@ -112,7 +112,7 @@ testsuite::start_timing()
 {
     static std::mutex start_timing_mutex_;
     std::lock_guard<std::mutex> lock(start_timing_mutex_);
-    if (!impl_->start_.seconds)
+    if (impl_->start_==0)
         impl_->start_ = unittest::core::now();
 }
 
@@ -168,6 +168,8 @@ testsuite::add_class_map(const std::string& typeid_name,
 {
     static std::mutex add_class_map_mutex_;
     std::lock_guard<std::mutex> lock(add_class_map_mutex_);
+	if (impl_->class_maps_.find(typeid_name) != impl_->class_maps_.end())
+		throw std::runtime_error("Already registered: " + class_name);
     impl_->class_maps_[typeid_name] = class_name;
 }
 

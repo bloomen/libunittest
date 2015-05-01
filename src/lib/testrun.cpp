@@ -17,7 +17,7 @@ observe_and_wait(std::thread&& thread,
                  double timeout)
 {
     if (!done->load() && timeout > 0) {
-        const std::chrono::milliseconds min_resolution(1);
+        const std::chrono::milliseconds min_resolution(2);
         volatile double overhead = 0.123;
         volatile double duration = -1.;
 
@@ -29,7 +29,7 @@ observe_and_wait(std::thread&& thread,
                 duration += timeout;
             }
         }
-        overhead = duration_in_seconds(start_instr, unittest::core::now());
+		overhead = unittest::core::now() - start_instr;
         duration = overhead;
 
         while (!done->load()) {
@@ -51,12 +51,12 @@ observe_and_wait(std::thread&& thread,
 struct testmonitor::impl {
 
     testlog log_;
-    unittest::core::time_point start_;
+    double start_;
     bool is_executed_;
 
     impl()
         : log_(),
-          start_{0, 0},
+          start_(0),
           is_executed_(true)
     {}
 
@@ -86,8 +86,7 @@ testmonitor::~testmonitor()
         if (!suite->get_arguments().dry_run) {
             suite->stop_timing();
             if (impl_->log_.status!=teststatus::skipped) {
-                const auto end = unittest::core::now();
-                impl_->log_.duration = duration_in_seconds(impl_->start_, end);
+				impl_->log_.duration = unittest::core::now() - impl_->start_;
             }
         }
         suite->make_keep_running(impl_->log_);
