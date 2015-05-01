@@ -38,6 +38,16 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_make_unique)
         UNITTEST_RUN(test_duration)
         UNITTEST_RUN(test_time_point)
+        UNITTEST_RUN(test_now)
+    }
+
+    void test_now()
+    {
+    	const auto now1 = unittest::core::now();
+    	std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    	const auto now2 = unittest::core::now();
+    	const auto duration = unittest::core::duration_seconds(now1, now2);
+    	assert_in_range(duration, 0.001, 0.0013, SPOT);
     }
 
     void test_time_point()

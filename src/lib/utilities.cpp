@@ -21,28 +21,26 @@ duration_seconds(const time_point& first,
 #if defined(_MSC_VER) && _MSC_VER < 1900
 namespace {
 
-struct windows_high_res_clock {
-    typedef long long                               rep;
-    typedef std::nano                               period;
-    typedef std::chrono::duration<rep, period>      duration;
-    typedef std::chrono::time_point<HighResClock>   time_point;
-    static const bool is_steady = true;
-    static time_point now();
-};
-
-const long long frequency = []() -> long long
+const long long g_frequency = []() -> long long
 {
     LARGE_INTEGER frequency;
     QueryPerformanceFrequency(&frequency);
     return frequency.QuadPart;
 }();
 
-windows_high_res_clock::time_point windows_high_res_clock::now()
-{
-    LARGE_INTEGER count;
-    QueryPerformanceCounter(&count);
-    return time_point(duration(count.QuadPart * static_cast<rep>(period::den) / frequency));
-}
+struct windows_high_res_clock {
+    typedef long long rep;
+    typedef std::nano period;
+    typedef std::chrono::duration<rep, period> duration;
+    typedef std::chrono::time_point<windows_high_res_clock> tp;
+    static const bool is_steady = true;
+    static tp now()
+    {
+        LARGE_INTEGER count;
+        QueryPerformanceCounter(&count);
+        return duration(count.QuadPart * static_cast<rep>(period::den) / g_frequency);
+    }
+};
 
 }
 #endif
