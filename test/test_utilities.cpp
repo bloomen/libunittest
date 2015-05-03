@@ -44,7 +44,7 @@ struct test_utilities : unittest::testcase<> {
         const auto now1 = unittest::core::now();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         const auto now2 = unittest::core::now();
-        const auto duration = now2 - now1;
+        const auto duration = unittest::core::duration_in_seconds(now2 - now1);
         assert_in_range(duration, 0.001, 0.003, SPOT);
     }
 

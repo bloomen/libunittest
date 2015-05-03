@@ -25,9 +25,9 @@ namespace unittest {
 namespace core {
 /**
  * @brief Computes "now"
- * @return Seconds since epoch
+ * @return Microseconds since epoch
  */
-double
+std::chrono::microseconds
 now();
 /**
  * @brief Escapes a string for use in an XML document

@@ -13,8 +13,8 @@ namespace core {
 struct testsuite::impl {
 
     bool keep_running_;
-    double start_;
-    double end_;
+    std::chrono::microseconds start_;
+    std::chrono::microseconds end_;
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
@@ -24,8 +24,8 @@ struct testsuite::impl {
 
     impl()
         : keep_running_(true),
-          start_(0),
-          end_(0),
+          start_(std::chrono::microseconds::min()),
+          end_(std::chrono::microseconds::min()),
           arguments_(),
           results_(),
           class_runs_(),
@@ -94,7 +94,7 @@ testsuite::get_results() const
     testresults results(impl_->results_);
     results.successful = results.n_tests==results.n_successes;
     if (!get_arguments().dry_run)
-        results.duration = impl_->end_ - impl_->start_;
+        results.duration = duration_in_seconds(impl_->end_ - impl_->start_);
     impl_->assign_logged_texts(results.testlogs);
     return results;
 }
@@ -112,7 +112,7 @@ testsuite::start_timing()
 {
     static std::mutex start_timing_mutex_;
     std::lock_guard<std::mutex> lock(start_timing_mutex_);
-    if (impl_->start_==0)
+    if (impl_->start_==std::chrono::microseconds::min())
         impl_->start_ = unittest::core::now();
 }
 

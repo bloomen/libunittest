@@ -38,7 +38,7 @@ struct windows_high_res_clock {
 }
 #endif
 
-double
+std::chrono::microseconds
 now()
 {
 #if defined(_MSC_VER) && _MSC_VER < 1900
@@ -46,7 +46,7 @@ now()
 #else
     const auto now = std::chrono::high_resolution_clock::now();
 #endif
-    return duration_in_seconds(now.time_since_epoch());
+    return std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch());
 }
 
 std::string

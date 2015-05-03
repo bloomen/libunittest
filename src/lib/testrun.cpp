@@ -29,7 +29,7 @@ observe_and_wait(std::thread&& thread,
                 duration += timeout;
             }
         }
-        overhead = unittest::core::now() - start_instr;
+        overhead = duration_in_seconds(unittest::core::now() - start_instr);
         duration = overhead;
 
         while (!done->load()) {
@@ -51,12 +51,12 @@ observe_and_wait(std::thread&& thread,
 struct testmonitor::impl {
 
     testlog log_;
-    double start_;
+    std::chrono::microseconds start_;
     bool is_executed_;
 
     impl()
         : log_(),
-          start_(0),
+          start_(std::chrono::microseconds::min()),
           is_executed_(true)
     {}
 
@@ -86,7 +86,7 @@ testmonitor::~testmonitor()
         if (!suite->get_arguments().dry_run) {
             suite->stop_timing();
             if (impl_->log_.status!=teststatus::skipped) {
-                impl_->log_.duration = unittest::core::now() - impl_->start_;
+                impl_->log_.duration = duration_in_seconds(unittest::core::now() - impl_->start_);
             }
         }
         suite->make_keep_running(impl_->log_);
