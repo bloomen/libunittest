@@ -1,4 +1,5 @@
 .project
+.cproject
 .settings
 *.o
 *.obj
@@ -41,3 +42,4 @@ m4/libtool.m4
 m4/lt*m4
 test-driver
 *.tar.gz
+INSTALL
