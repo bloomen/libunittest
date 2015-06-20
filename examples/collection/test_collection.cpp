@@ -16,7 +16,8 @@ TEST_SKIP(test_value_is_three, "to show how tests are skipped")
 TEST_MAYBE(test_value_not_three, false, "this is also skipped")
 {
     int value = 4;
-    assert_equal(3, value, SPOT);
+    // passing macro NDAS makes the assertion non-deadly
+    assert_equal(3, value, SPOT, NDAS);
 }
 
 TEST_TIME(test_value_is_true, 2.5) // timeout of 2.5s

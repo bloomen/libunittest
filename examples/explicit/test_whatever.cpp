@@ -31,7 +31,8 @@ struct test_whatever : unittest::testcase<> {
     void test_in_container()
     {
         const std::vector<int> container = {1, 2, 3};
-        assert_in_container(2, container, SPOT);
+        // passing macro NDAS makes the assertion non-deadly
+        assert_in_container(2, container, SPOT, NDAS);
     }
 
     void test_in_range()
