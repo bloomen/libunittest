@@ -115,10 +115,12 @@ struct test_misc : unittest::testcase<> {
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
-        expected << "\t\t<failure type=\"failure\" message=\"message2\"/>\n";
+        expected << "\t\t<failure type=\"failure\" message=\"message2\">\n";
+        expected << "\t\t</failure>\n";
         expected << "\t</testcase>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
-        expected << "\t\t<error type=\"error\" message=\"message3\"/>\n";
+        expected << "\t\t<error type=\"error\" message=\"message3\">\n";
+        expected << "\t\t</error>\n";
         expected << "\t</testcase>\n";
         expected << "</testsuite>\n";
         assert_equal(expected.str(), stream.str(), SPOT);

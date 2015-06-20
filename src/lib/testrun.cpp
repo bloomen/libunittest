@@ -88,8 +88,11 @@ testmonitor::~testmonitor()
             if (impl_->log_.status!=teststatus::skipped) {
                 const auto failures = suite->get_failures(impl_->log_.method_id);
                 if (failures.size()) {
-                    impl_->log_.status = teststatus::failure;
+                    impl_->log_.assertion = failures[0].assertion();
+                    impl_->log_.filename = failures[0].filename();
+                    impl_->log_.linenumber = failures[0].linenumber();
                     impl_->log_.nd_failures = failures;
+                    impl_->log_.status = teststatus::failure;
                 }
                 impl_->log_.duration = duration_in_seconds(unittest::core::now() - impl_->start_);
             }
