@@ -1,6 +1,8 @@
 #include <libunittest/all.hpp>
 using namespace unittest::assertions;
 
+using unittest::core::extract_tagged_text;
+
 struct test_utilities : unittest::testcase<> {
 
     static void run()
@@ -8,6 +10,7 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_CLASS(test_utilities)
         UNITTEST_RUN(test_limit_string_length)
         UNITTEST_RUN(test_string_of_file_and_line)
+        UNITTEST_RUN(test_string_of_tagged_text)
         UNITTEST_RUN(test_join)
         UNITTEST_RUN(test_write_to_stream)
         UNITTEST_RUN(test_write_to_stream_overload)
@@ -31,10 +34,11 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_extract_file_and_line_spot_found_two)
         UNITTEST_RUN(test_extract_file_and_line_spot_not_found)
         UNITTEST_RUN(test_extract_file_and_line_spot_weird)
-        UNITTEST_RUN(test_remove_file_and_line_found)
-        UNITTEST_RUN(test_remove_file_and_line_found_at_end)
-        UNITTEST_RUN(test_remove_file_and_line_found_two)
-        UNITTEST_RUN(test_remove_file_and_line_not_found)
+        UNITTEST_RUN(test_extract_tagged_text_found)
+        UNITTEST_RUN(test_remove_tagged_text_found)
+        UNITTEST_RUN(test_remove_tagged_text_found_at_end)
+        UNITTEST_RUN(test_remove_tagged_text_found_two)
+        UNITTEST_RUN(test_remove_tagged_text_not_found)
         UNITTEST_RUN(test_make_unique)
         UNITTEST_RUN(test_now)
     }
@@ -58,6 +62,12 @@ struct test_utilities : unittest::testcase<> {
         assert_equal("", function("albert", 0), SPOT);
         assert_equal("albert", function("albert", -1), SPOT);
         assert_equal("albert", function("albert", -3), SPOT);
+    }
+
+    void test_string_of_tagged_text()
+    {
+        auto function = unittest::core::string_of_tagged_text;
+        assert_equal("@NDAS@albert@NDAS@", function("albert", "NDAS"), SPOT);
     }
 
     void test_string_of_file_and_line()
@@ -278,6 +288,12 @@ struct test_utilities : unittest::testcase<> {
         assert_equal("albert", function("  alber t "), SPOT);
     }
 
+    void test_extract_tagged_text_found()
+    {
+        const std::string expected = "test_id";
+        assert_equal(expected, extract_tagged_text("some text @NDAS@" + expected + "@NDAS@ more text", "NDAS"), SPOT);
+    }
+
     void test_extract_file_and_line_spot_found()
     {
         auto function = unittest::core::extract_file_and_line;
@@ -313,31 +329,31 @@ struct test_utilities : unittest::testcase<> {
         assert_equal(-1, result2.second, SPOT);
     }
 
-    void test_remove_file_and_line_found()
+    void test_remove_tagged_text_found()
     {
-        auto function = unittest::core::remove_file_and_line;
-        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text");
+        auto function = unittest::core::remove_tagged_text;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@ more text", "SPOT");
         assert_equal("some text  more text", result, SPOT);
     }
 
-    void test_remove_file_and_line_found_at_end()
+    void test_remove_tagged_text_found_at_end()
     {
-        auto function = unittest::core::remove_file_and_line;
-        const auto result = function("some text@SPOT@nada.cpp:13@SPOT@");
+        auto function = unittest::core::remove_tagged_text;
+        const auto result = function("some text@SPOT@nada.cpp:13@SPOT@", "SPOT");
         assert_equal("some text", result, SPOT);
     }
 
-    void test_remove_file_and_line_found_two()
+    void test_remove_tagged_text_found_two()
     {
-        auto function = unittest::core::remove_file_and_line;
-        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@cool@SPOT@kunde.cpp:42@SPOT@");
+        auto function = unittest::core::remove_tagged_text;
+        const auto result = function("some text @SPOT@nada.cpp:13@SPOT@cool@SPOT@kunde.cpp:42@SPOT@", "SPOT");
         assert_equal("some text cool", result, SPOT);
     }
 
-    void test_remove_file_and_line_not_found()
+    void test_remove_tagged_text_not_found()
     {
-        auto function = unittest::core::remove_file_and_line;
-        const auto result = function("some text");
+        auto function = unittest::core::remove_tagged_text;
+        const auto result = function("some text", "SPOT");
         assert_equal("some text", result, SPOT);
     }
 

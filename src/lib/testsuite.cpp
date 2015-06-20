@@ -1,6 +1,7 @@
 #include "libunittest/testsuite.hpp"
 #include "libunittest/teststatus.hpp"
 #include "libunittest/utilities.hpp"
+#include "libunittest/testfailure.hpp"
 #include <mutex>
 #include <memory>
 #include <chrono>
@@ -21,6 +22,7 @@ struct testsuite::impl {
     std::map<std::string, std::string> class_maps_;
     std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>> lonely_threads_;
     std::map<std::string, std::string> logged_texts_;
+    std::map<std::string, std::vector<testfailure>> logged_failures_;
 
     impl()
         : keep_running_(true),
@@ -31,7 +33,8 @@ struct testsuite::impl {
           class_runs_(),
           class_maps_(),
           lonely_threads_(),
-          logged_texts_()
+          logged_texts_(),
+          logged_failures_()
     {}
 
     void
@@ -201,6 +204,26 @@ testsuite::log_text(const std::string& method_id,
     static std::mutex log_text_mutex_;
     std::lock_guard<std::mutex> lock(log_text_mutex_);
     impl_->logged_texts_[method_id] = text;
+}
+
+void
+testsuite::log_failure(const std::string& method_id,
+                       const unittest::testfailure& failure)
+{
+    static std::mutex log_failure_mutex_;
+    std::lock_guard<std::mutex> lock(log_failure_mutex_);
+    impl_->logged_failures_[method_id].push_back(failure);
+}
+
+std::vector<unittest::testfailure>
+testsuite::get_failures(const std::string& method_id)
+{
+    static std::mutex get_failure_mutex_;
+    std::lock_guard<std::mutex> lock(get_failure_mutex_);
+    if (impl_->logged_failures_.find(method_id) != impl_->logged_failures_.end())
+        return impl_->logged_failures_[method_id];
+    else
+        return {};
 }
 
 } // core

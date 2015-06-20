@@ -15,6 +15,10 @@
  */
 namespace unittest {
 /**
+ * @brief The exception class to indicate test failures
+ */
+class testfailure;
+/**
  * @brief Internal functionality, not relevant for most users
  */
 namespace core {
@@ -103,6 +107,14 @@ public:
     void
     log_text(const std::string& method_id,
              const std::string& text);
+    /**
+     * @brief Logs a failure for a given method
+     * @param method_id The method ID
+     * @param failure The failure
+     */
+    void
+    log_failure(const std::string& method_id,
+                const unittest::testfailure& failure);
 
 private:
 
@@ -146,6 +158,9 @@ private:
     void
     add_lonely_thread(std::thread&& thread,
                       std::shared_ptr<std::atomic_bool> done);
+
+    std::vector<unittest::testfailure>
+    get_failures(const std::string& method_id);
 
     struct impl;
     std::unique_ptr<impl> impl_;

@@ -3,6 +3,7 @@
 #include "libunittest/testsuite.hpp"
 #include "libunittest/testresults.hpp"
 #include "libunittest/utilities.hpp"
+#include "libunittest/testfailure.hpp"
 #include <iostream>
 #include <fstream>
 

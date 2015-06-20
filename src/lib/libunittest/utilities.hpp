@@ -331,6 +331,14 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber);
 /**
+ * @brief Defines a tagged string surround by @tag_name@
+ * @param text The text to tag
+ * @param tag The tag name
+ * @return A tagged string
+ */
+std::string
+string_of_tagged_text(const std::string& text, const std::string& tag);
+/**
  * @brief Ensures that all threads passed will be finished and joined.
  *  This makes the threads happy.
  * @param stream An output stream
@@ -418,19 +426,28 @@ template<>
 bool
 to_number<bool>(const std::string& value);
 /**
+ * @brief Extract text surrounded by tags of the form @tag_name@
+ * @param message The message to parse
+ * @param tag The tag name
+ * @returns The extracted text
+ */
+std::string
+extract_tagged_text(const std::string& message, const std::string& tag);
+/**
+ * @brief Removes tagged text from the given message
+ * @param message The message to be cleaned
+ * @param tag The tag name
+ * @returns The cleaned message
+ */
+std::string
+remove_tagged_text(std::string message, const std::string& tag);
+/**
  * @brief Extracts file and line information from the given message
- * @param message The message
+ * @param message The message to parse
  * @returns A pair of file name and line number
  */
 std::pair<std::string, int>
 extract_file_and_line(const std::string& message);
-/**
- * @brief Removes file and line information from the given message
- * @param message The message
- * @returns The new message
- */
-std::string
-remove_file_and_line(std::string message);
 /**
  * @brief Creates a unique pointer to an object of type T
  * @param args The parameters to construct type T

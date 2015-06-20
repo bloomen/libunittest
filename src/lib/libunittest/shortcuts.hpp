@@ -10,6 +10,11 @@
 #define SPOT \
 UNITTEST_SPOT
 /**
+ * @brief Defines a string indicating the use of non-deadly assertions
+ */
+#define NDAS \
+UNITTEST_NDAS
+/**
  * @brief Logs info for the current test
  */
 #define TESTINFO(...) \

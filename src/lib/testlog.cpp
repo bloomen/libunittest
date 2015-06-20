@@ -1,6 +1,7 @@
 #include "libunittest/testlog.hpp"
 #include "libunittest/teststatus.hpp"
 #include "libunittest/utilities.hpp"
+#include "libunittest/testfailure.hpp"
 #include <algorithm>
 #include <mutex>
 
@@ -11,7 +12,7 @@ testlog::testlog()
     : class_name(""), test_name(""), successful(true),
       status(teststatus::skipped), error_type(""), message(""),
       duration(0), has_timed_out(false), timeout(-1), assertion(""),
-      method_id(""), text(""), filename(""), linenumber(-1)
+      method_id(""), text(""), filename(""), linenumber(-1), nd_failures()
 {}
 
 void

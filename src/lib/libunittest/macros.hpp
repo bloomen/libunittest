@@ -113,6 +113,11 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
 #define UNITTEST_SPOT \
 unittest::core::string_of_file_and_line(__FILE__, __LINE__)
 /**
+ * @brief Defines a string indicating the use of non-deadly assertions
+ */
+#define UNITTEST_NDAS \
+unittest::core::string_of_tagged_text(this->get_test_id(), "NDAS")
+/**
  * @brief Logs info for the current test
  */
 #define UNITTEST_TESTINFO(...) \

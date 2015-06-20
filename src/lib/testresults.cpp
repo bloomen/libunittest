@@ -1,6 +1,7 @@
 #include "libunittest/testresults.hpp"
 #include "libunittest/teststatus.hpp"
 #include "libunittest/utilities.hpp"
+#include "libunittest/testfailure.hpp"
 #include <mutex>
 
 namespace unittest {
@@ -153,17 +154,34 @@ write_error_info(std::ostream& stream,
                 stream << " [" << log.duration << "s]";
                 if (log.has_timed_out)
                     stream << " (TIMEOUT)";
-                stream << "\n";
-                write_horizontal_bar(stream, '-');
-                stream << "\n";
-                stream << log.error_type << ": " << trim(log.message);
-                if (log.assertion.size()) {
+                for (const auto& failure : log.nd_failures) {
                     stream << "\n";
-                    stream << "assertion: " << log.assertion;
-                    if (log.filename.size()) {
-                        stream << " in " << trim(log.filename);
-                        if (log.linenumber>-1)
-                            stream << " at line " << log.linenumber;
+                    write_horizontal_bar(stream, '-');
+                    stream << "\n";
+                    stream << "testfailure (non-deadly)" << ": " << trim(failure.what());
+                    if (failure.assertion().size()) {
+                        stream << "\n";
+                        stream << "assertion: " << failure.assertion();
+                        if (failure.filename().size()) {
+                            stream << " in " << trim(failure.filename());
+                            if (failure.linenumber()>-1)
+                                stream << " at line " << failure.linenumber();
+                        }
+                    }
+                }
+                if (!log.error_type.empty()) {
+                    stream << "\n";
+                    write_horizontal_bar(stream, '-');
+                    stream << "\n";
+                    stream << log.error_type << ": " << trim(log.message);
+                    if (log.assertion.size()) {
+                        stream << "\n";
+                        stream << "assertion: " << log.assertion;
+                        if (log.filename.size()) {
+                            stream << " in " << trim(log.filename);
+                            if (log.linenumber>-1)
+                                stream << " at line " << log.linenumber;
+                        }
                     }
                 }
                 if (log.text.size()) {

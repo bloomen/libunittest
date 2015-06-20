@@ -170,10 +170,15 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber)
 {
-    const std::string id = "@SPOT@";
-    return join(id, filename, ":", linenumber, id);
+    return string_of_tagged_text(join(filename, ":", linenumber), "SPOT");
 }
 
+std::string
+string_of_tagged_text(const std::string& text, const std::string& tag)
+{
+    const std::string id = "@" + tag + "@";
+    return id + text + id;
+}
 
 void
 make_threads_happy(std::ostream& stream,
@@ -238,40 +243,51 @@ remove_white_spaces(std::string value)
     return value;
 }
 
-std::pair<std::string, int>
-extract_file_and_line(const std::string& message)
+std::string
+extract_tagged_text(const std::string& message, const std::string& tag)
 {
-    std::string filename = "";
-    int linenumber = -1;
-    const std::string id = "@SPOT@";
+    std::string text = "";
+    const std::string id = "@" + tag + "@";
     auto index_start = message.find(id);
     if (index_start!=std::string::npos) {
         index_start += id.length();
         const auto substr = message.substr(index_start);
         const auto index_end = substr.find(id);
         if (index_end!=std::string::npos) {
-            const auto spot = substr.substr(0, index_end);
-            const auto separator = spot.find_last_of(":");
-            if (separator!=std::string::npos) {
-                filename = spot.substr(0, separator);
-                linenumber = to_number<int>(spot.substr(separator+1));
-            }
+            text = substr.substr(0, index_end);
         }
     }
-    return std::make_pair(filename, linenumber);
+    return text;
 }
 
 std::string
-remove_file_and_line(std::string message)
+remove_tagged_text(std::string message, const std::string& tag)
 {
-    auto spot = extract_file_and_line(message);
-    while (spot.first.size() && spot.second>-1) {
-        const auto token = string_of_file_and_line(spot.first, spot.second);
+    auto text = extract_tagged_text(message, tag);
+    while (!text.empty()) {
+        const auto token = string_of_tagged_text(text, tag);
         const auto index = message.find(token);
         message = message.substr(0, index) + message.substr(index+token.length());
-        spot = extract_file_and_line(message);
+        text = extract_tagged_text(message, tag);
     }
     return std::move(message);
+}
+
+
+std::pair<std::string, int>
+extract_file_and_line(const std::string& message)
+{
+    std::string filename = "";
+    int linenumber = -1;
+    const std::string spot = extract_tagged_text(message, "SPOT");
+    if (!spot.empty()) {
+        const auto separator = spot.find_last_of(":");
+        if (separator!=std::string::npos) {
+            filename = spot.substr(0, separator);
+            linenumber = to_number<int>(spot.substr(separator+1));
+        }
+    }
+    return std::make_pair(filename, linenumber);
 }
 
 } // core

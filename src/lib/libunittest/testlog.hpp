@@ -6,10 +6,15 @@
 #include "teststatus.hpp"
 #include <string>
 #include <ostream>
+#include <vector>
 /**
  * @brief Unit testing in C++
  */
 namespace unittest {
+/**
+ * @brief The exception class to indicate test failures
+ */
+class testfailure;
 /**
  * @brief Internal functionality, not relevant for most users
  */
@@ -78,6 +83,10 @@ struct testlog {
      * @brief The line number
      */
     int linenumber;
+    /**
+     * @brief The non-deadly failures
+     */
+    std::vector<unittest::testfailure> nd_failures;
 };
 /**
  * @brief Writes a test start message to the given output stream

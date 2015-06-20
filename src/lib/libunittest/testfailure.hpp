@@ -5,6 +5,7 @@
 #pragma once
 #include "utilities.hpp"
 #include "noexcept.hpp"
+#include "testsuite.hpp"
 #include <string>
 #include <stdexcept>
 /**
@@ -33,6 +34,18 @@ public:
                 const std::string& message,
                 const std::string& user_msg);
     /**
+     * @brief Copy constructor
+     * @param other An instance of testfailure
+     */
+    testfailure(const testfailure& other);
+    /**
+     * @brief Copy assignment operator
+     * @param other An instance of testfailure
+     * @returns An testfailure instance
+     */
+    testfailure&
+    operator=(const testfailure& other);
+    /**
      * @brief Destructor
      */
     virtual
@@ -57,12 +70,16 @@ public:
     linenumber() const;
 
 private:
-    const std::string assertion_;
-    const std::pair<std::string, int> spot_;
+    std::string error_msg_;
+    std::string assertion_;
+    std::pair<std::string, int> spot_;
+
+    std::string make_error_msg(const std::string& message,
+                               const std::string& user_msg);
 };
 /**
  * @brief Builds a fail message from the parameters passed and throws
- *  exception testfailure
+ *  exception testfailure if assertion is deadly (the default)
  * @param assertion The name of the assertion
  * @param message The assertion message
  * @param args An arbitrary number of arguments that are concatenated
@@ -75,7 +92,15 @@ fail(const std::string& assertion,
      const std::string& message,
      const Args&... args)
 {
-    throw unittest::testfailure(assertion, message, unittest::join("", args...));
+    auto usermsg = unittest::join("", args...);
+    const auto ndas_test_id = unittest::core::extract_tagged_text(usermsg, "NDAS");
+    usermsg = unittest::core::remove_tagged_text(usermsg, "NDAS");
+    const unittest::testfailure failure(assertion, message, usermsg);
+    if (ndas_test_id.empty()) {
+        throw failure;
+    } else {
+        unittest::core::testsuite::instance()->log_failure(ndas_test_id, failure);
+    }
 }
 
 } // unittest

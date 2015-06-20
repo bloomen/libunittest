@@ -86,6 +86,11 @@ testmonitor::~testmonitor()
         if (!suite->get_arguments().dry_run) {
             suite->stop_timing();
             if (impl_->log_.status!=teststatus::skipped) {
+                const auto failures = suite->get_failures(impl_->log_.method_id);
+                if (failures.size()) {
+                    impl_->log_.status = teststatus::failure;
+                    impl_->log_.nd_failures = failures;
+                }
                 impl_->log_.duration = duration_in_seconds(unittest::core::now() - impl_->start_);
             }
         }
