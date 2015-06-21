@@ -15,14 +15,14 @@ typedef test_class __test_class__;
  * @param test_method The test method
  */
 #define UNITTEST_RUN(test_method) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, false, "");
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, false, "");
 /**
  * @brief A skipped test run
  * @param test_method The test method
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_SKIP(test_method, skip_message) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, true, skip_message);
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, true, skip_message);
 /**
  * @brief A maybe test run
  * @param test_method The test method
@@ -30,14 +30,14 @@ unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_MAYBE(test_method, is_run, skip_message) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, !is_run, skip_message);
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, !is_run, skip_message);
 /**
  * @brief A test run with timeout
  * @param test_method The test method
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUN_TIME(test_method, timeout) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, false, "", timeout);
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, false, "", timeout);
 /**
  * @brief A skipped test run with timeout
  * @param test_method The test method
@@ -45,7 +45,7 @@ unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_TIME_SKIP(test_method, timeout, skip_message) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, true, skip_message, timeout);
 /**
  * @brief A maybe test run with timeout
  * @param test_method The test method
@@ -54,14 +54,14 @@ unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUN_TIME_MAYBE(test_method, timeout, is_run, skip_message) \
-unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
+unittest::testrun(std::shared_ptr<typename __test_class__::context_type>(nullptr), &__test_class__::test_method, #test_method, !is_run, skip_message, timeout);
 /**
  * @brief A test run with a test context
  * @param test_context The test context
  * @param test_method The test method
  */
 #define UNITTEST_RUNCTX(test_context, test_method) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, false, "");
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, false, "");
 /**
  * @brief A skipped test run with a test context
  * @param test_context The test context
@@ -69,7 +69,7 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_SKIP(test_context, test_method, skip_message) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, true, skip_message);
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, true, skip_message);
 /**
  * @brief A maybe test run with a test context
  * @param test_context The test context
@@ -78,7 +78,7 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_MAYBE(test_context, test_method, is_run, skip_message) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message);
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, !is_run, skip_message);
 /**
  * @brief A test run with a test context and timeout
  * @param test_context The test context
@@ -86,7 +86,7 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  * @param timeout The maximum allowed run time in seconds (ignored if <= 0)
  */
 #define UNITTEST_RUNCTX_TIME(test_context, test_method, timeout) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, false, "", timeout);
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, false, "", timeout);
 /**
  * @brief A skipped test run with a test context and timeout
  * @param test_context The test context
@@ -95,7 +95,7 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_TIME_SKIP(test_context, test_method, timeout, skip_message) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, true, skip_message, timeout);
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, true, skip_message, timeout);
 /**
  * @brief A maybe test run with a test context and timeout
  * @param test_context The test context
@@ -105,7 +105,7 @@ unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, 
  * @param skip_message A message explaining why the test is skipped
  */
 #define UNITTEST_RUNCTX_TIME_MAYBE(test_context, test_method, timeout, is_run, skip_message) \
-unittest::testrun(test_context, &__test_class__::test_method, "", #test_method, !is_run, skip_message, timeout);
+unittest::testrun(test_context, &__test_class__::test_method, #test_method, !is_run, skip_message, timeout);
 /**
  * @brief Defines a string with info about the current file name
  *  and the current line number
@@ -140,7 +140,7 @@ symbol1##symbol2
  * @brief Registers a test class at the global registry
  */
 #define UNITTEST_REGISTER(...) \
-static unittest::core::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__)(#__VA_ARGS__);
+static unittest::core::testregistry<__VA_ARGS__> __UNITTEST_JOIN(__registered_at_, __LINE__)(__testcollection_type__(), #__VA_ARGS__);
 /**
  * @brief A test collection
  * @param name The name of the test collection
@@ -264,8 +264,8 @@ __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, !is_run, skip_message)
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        __testcollection_type__ collection; \
-        unittest::testrun(std::shared_ptr<typename test_name::context_type>(nullptr), &test_name::test, collection.get_name(), "", skipped, skip_message); \
+        UNITTEST_CLASS(test_name); \
+        UNITTEST_RUN_MAYBE(test, !skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -283,8 +283,8 @@ void test_name::test()
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        __testcollection_type__ collection; \
-        unittest::testrun(std::shared_ptr<typename test_name::context_type>(nullptr), &test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        UNITTEST_CLASS(test_name); \
+        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -398,8 +398,8 @@ template<typename Type1, typename Type2=unittest::notype, typename Type3=unittes
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        __testcollection_type__ collection; \
-        unittest::testrun(std::shared_ptr<typename test_name::context_type>(nullptr), &test_name::test, collection.get_name(), "", skipped, skip_message); \
+        UNITTEST_CLASS(test_name); \
+        UNITTEST_RUN_MAYBE(test, !skipped, skip_message); \
     } \
     void test(); \
 }; \
@@ -418,8 +418,8 @@ template<typename Type1, typename Type2=unittest::notype, typename Type3=unittes
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        __testcollection_type__ collection; \
-        unittest::testrun(std::shared_ptr<typename test_name::context_type>(nullptr), &test_name::test, collection.get_name(), "", skipped, skip_message, timeout); \
+        UNITTEST_CLASS(test_name); \
+        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message); \
     } \
     void test(); \
 }; \

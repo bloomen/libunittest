@@ -5,6 +5,7 @@
 #pragma once
 #include "testsuite.hpp"
 #include "utilities.hpp"
+#include "testcollection.hpp"
 /**
  * @brief Unit testing in C++
  */
@@ -33,11 +34,13 @@ class testregistry {
 public:
     /**
      * @brief Constructor
+     * @param collection The test collection
      * @param class_name The name of the test class
      */
-	explicit
-    testregistry(const std::string& class_name)
+    testregistry(const unittest::core::testcollection& collection, std::string class_name)
     {
+        if (collection.get_name() != testcollection::inactive_name())
+            class_name = collection.get_name() + "::" + class_name;
         unittest::core::register_class<TestCase>(class_name);
     }
 };

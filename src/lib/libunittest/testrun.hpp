@@ -366,26 +366,6 @@ private:
     const unittest::core::testinfo info_;
 };
 /**
- * @brief Updates the class name according to some heuristics
- * @param class_name The current class name
- * @param class_id The class' type ID
- * @param class_maps Mappings from test class IDs to test class names
- */
-void
-update_class_name(std::string& class_name,
-                  const std::string& class_id,
-                  const std::map<std::string, std::string>& class_maps);
-/**
- * @brief Updates the test name according to some heuristics
- * @param test_name The current test name
- * @param class_id The class' type ID
- * @param class_maps Mappings from test class IDs to test class names
- */
-void
-update_test_name(std::string& test_name,
-                 const std::string& class_id,
-                 const std::map<std::string, std::string>& class_maps);
-/**
  * @brief Updates the local timeout by assigning the global timeout
  *  from the test suite if the local one is not greater than zero
  * @param local_timeout The local timeout in seconds
@@ -422,7 +402,6 @@ observe_and_wait(std::thread&& thread,
 /**
  * @brief Creates the test info object
  * @param class_id The id of the test class
- * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param skipped Whether this test run is skipped
  * @param skip_message A message explaining why the test is skipped
@@ -431,7 +410,6 @@ observe_and_wait(std::thread&& thread,
  */
 unittest::core::testinfo
 make_testinfo(std::string class_id,
-              std::string class_name,
               std::string test_name,
               bool skipped,
               std::string skip_message,
@@ -443,7 +421,6 @@ make_testinfo(std::string class_id,
  * @brief A test run with a test context and with timeout measurement
  * @param context The test context, can be a nullptr
  * @param method A pointer to the method to be run
- * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param skipped Whether this test run is skipped
  * @param skip_message A message explaining why the test is skipped
@@ -453,7 +430,6 @@ template<typename TestCase>
 void
 testrun(std::shared_ptr<typename TestCase::context_type> context,
         void (TestCase::*method)(),
-        std::string class_name,
         std::string test_name,
         bool skipped,
         std::string skip_message,
@@ -461,7 +437,7 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
 {
     unittest::core::testfunctor<TestCase> functor(context, method,
         unittest::core::make_testinfo(unittest::core::get_type_id<TestCase>(),
-                                      class_name, test_name, skipped, skip_message, timeout));
+                                      test_name, skipped, skip_message, timeout));
     const double updated_timeout = functor.info().timeout;
     if (updated_timeout > 0) {
         std::shared_ptr<std::atomic_bool> done = functor.info().done;
@@ -476,7 +452,6 @@ testrun(std::shared_ptr<typename TestCase::context_type> context,
  * @brief A test run with a test context and without timeout measurement
  * @param context The test context, can be a nullptr
  * @param method A pointer to the method to be run
- * @param class_name The name of the test class
  * @param test_name The name of the current test method
  * @param skipped Whether this test run is skipped
  * @param skip_message A message explaining why the test is skipped
@@ -485,12 +460,11 @@ template<typename TestCase>
 void
 testrun(std::shared_ptr<typename TestCase::context_type> context,
         void (TestCase::*method)(),
-        std::string class_name,
         std::string test_name,
         bool skipped,
         std::string skip_message)
 {
-    unittest::testrun(context, method, class_name, test_name, skipped, skip_message, -1.);
+    unittest::testrun(context, method, test_name, skipped, skip_message, -1.);
 }
 
 } // unittest

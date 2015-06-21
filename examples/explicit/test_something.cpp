@@ -1,6 +1,8 @@
 #include <libunittest/all.hpp>
 using namespace unittest::assertions;
 
+COLLECTION(nice_stuff) {
+
 // a test context
 struct test_context {
     std::string message;
@@ -58,3 +60,5 @@ struct test_something : unittest::testcase<test_context> {
 };
 
 REGISTER(test_something) // this registers the test class
+
+}

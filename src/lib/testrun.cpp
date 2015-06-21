@@ -169,31 +169,6 @@ update_local_timeout(double& local_timeout,
 }
 
 void
-update_class_name(std::string& class_name,
-                  const std::string& class_id,
-                  const std::map<std::string, std::string>& class_maps)
-{
-    if (!class_name.size()) {
-        class_name = get_from_map(class_maps, class_id);
-    } else if (class_name==testcollection::inactive_name()) {
-        class_name = "";
-    }
-    class_name = remove_white_spaces(class_name);
-}
-
-void
-update_test_name(std::string& test_name,
-                 const std::string& class_id,
-                 const std::map<std::string, std::string>& class_maps)
-{
-    if (!test_name.size()) {
-        test_name = get_from_map(class_maps, class_id);
-        test_name += "::test";
-    }
-    test_name = remove_white_spaces(test_name);
-}
-
-void
 update_testrun_info(const std::string& class_id,
                     std::string& class_name,
                     std::string& test_name,
@@ -201,8 +176,9 @@ update_testrun_info(const std::string& class_id,
 {
     auto suite = core::testsuite::instance();
     const auto& class_maps = suite->get_class_maps();
-    update_class_name(class_name, class_id, class_maps);
-    update_test_name(test_name, class_id, class_maps);
+    class_name = get_from_map(class_maps, class_id);
+    class_name = remove_white_spaces(class_name);
+    test_name = remove_white_spaces(test_name);
     if (suite->get_arguments().disable_timeout) {
         local_timeout = -1;
     } else {
@@ -219,12 +195,12 @@ make_method_id(const std::string& class_id, const std::string& test_name)
 
 unittest::core::testinfo
 make_testinfo(std::string class_id,
-              std::string class_name,
               std::string test_name,
               bool skipped,
               std::string skip_message,
               double timeout)
 {
+    std::string class_name;
     unittest::core::update_testrun_info(class_id, class_name, test_name, timeout);
     const unittest::core::userargs& args = unittest::core::testsuite::instance()->get_arguments();
     auto done = std::make_shared<std::atomic_bool>();

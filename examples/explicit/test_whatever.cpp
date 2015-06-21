@@ -1,6 +1,8 @@
 #include <libunittest/all.hpp>
 using namespace unittest::assertions;
 
+COLLECTION(sweet_stuff) {
+
 // a test class without a test context
 struct test_whatever : unittest::testcase<> {
 
@@ -54,3 +56,5 @@ struct test_whatever : unittest::testcase<> {
 };
 
 REGISTER(test_whatever) // this registers the test class
+
+}
