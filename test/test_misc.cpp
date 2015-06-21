@@ -18,7 +18,7 @@ unittest::core::testresults make_sample_results()
     log2.test_name = "test2";
     log2.successful = false;
     log2.status = unittest::core::teststatus::failure;
-    log2.error_type = "failure";
+    log2.error_type = "testfailure";
     log2.message = "message2";
     log2.duration = 2;
     log2.has_timed_out = true;
@@ -115,7 +115,7 @@ struct test_misc : unittest::testcase<> {
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
-        expected << "\t\t<failure type=\"failure\" message=\"message2\">\n";
+        expected << "\t\t<failure type=\"testfailure\" message=\"message2\">\n";
         expected << "\t\t</failure>\n";
         expected << "\t</testcase>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
@@ -168,7 +168,7 @@ struct test_misc : unittest::testcase<> {
         unittest::core::write_horizontal_bar(expected, '=');
         expected << "\nFAIL: test_class::test2 [2s] (TIMEOUT)\n";
         unittest::core::write_horizontal_bar(expected, '-');
-        expected << "\nfailure: message2\n\n";
+        expected << "\ntestfailure: message2\n\n";
         unittest::core::write_horizontal_bar(expected, '=');
         expected << "\nERROR: test_class::test3 [3s]\n";
         unittest::core::write_horizontal_bar(expected, '-');

@@ -118,6 +118,11 @@ unittest::core::string_of_file_and_line(__FILE__, __LINE__)
 #define UNITTEST_NDAS \
 unittest::core::string_of_tagged_text(this->get_test_id(), "NDAS")
 /**
+ * @brief Defines a string of the call site
+ */
+#define UNITTEST_CALL(...) \
+unittest::core::string_of_tagged_text(#__VA_ARGS__, "CALL")
+/**
  * @brief Logs info for the current test
  */
 #define UNITTEST_TESTINFO(...) \

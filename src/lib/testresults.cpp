@@ -16,15 +16,21 @@ void
 write_failure_info(std::ostream& stream,
                    const std::string& assertion,
                    const std::string& filename,
-                   int linenumber)
+                   int linenumber,
+                   const std::string& callsite,
+                   std::string intend="")
 {
     if (!assertion.empty()) {
-        stream << "assertion: " << assertion;
+        stream << intend << "assertion: " << assertion;
         if (filename.size()) {
             stream << " in " << trim(filename);
             if (linenumber>-1)
                 stream << " at line " << linenumber;
         }
+    }
+    if (!callsite.empty()) {
+        stream << '\n';
+        stream << intend << "callsite: " << callsite;
     }
 }
 
@@ -95,22 +101,22 @@ write_xml(std::ostream& stream,
                 stream << "type=\"" << xml_escape("testfailure (non-deadly)");
                 stream << "\" message=\"" << xml_escape(trim(failure.what())) << "\">";
                 if (failure.assertion().size()) {
-                    stream << "\n\t\t\t";
-                    write_failure_info(stream, failure.assertion(), failure.filename(), failure.linenumber());
+                    stream << "\n";
+                    write_failure_info(stream, xml_escape(trim(failure.assertion())), xml_escape(trim(failure.filename())), failure.linenumber(), xml_escape(trim(failure.callsite())), "\t\t\t");
                 }
                 stream << "\n\t\t</" << "failure" << ">";
             }
             if (!log.error_type.empty()) {
                 stream << "\n";
                 std::string name("error");
-                if (log.status==teststatus::failure)
+                if (log.error_type=="testfailure")
                     name = "failure";
                 stream << "\t\t<" << name << " ";
                 stream << "type=\"" << xml_escape(log.error_type);
                 stream << "\" message=\"" << xml_escape(trim(log.message)) << "\">";
                 if (log.error_type=="testfailure" && !log.assertion.empty()) {
-                    stream << "\n\t\t\t";
-                    write_failure_info(stream, log.assertion, log.filename, log.linenumber);
+                    stream << "\n";
+                    write_failure_info(stream, xml_escape(trim(log.assertion)), xml_escape(trim(log.filename)), log.linenumber, xml_escape(trim(log.callsite)), "\t\t\t");
                 }
                 stream << "\n";
                 stream << "\t\t</" << name << ">";
@@ -196,7 +202,7 @@ write_error_info(std::ostream& stream,
                     stream << "testfailure (non-deadly)" << ": " << trim(failure.what());
                     if (failure.assertion().size()) {
                         stream << "\n";
-                        write_failure_info(stream, failure.assertion(), failure.filename(), failure.linenumber());
+                        write_failure_info(stream, trim(failure.assertion()), trim(failure.filename()), failure.linenumber(), trim(failure.callsite()));
                     }
                 }
                 if (!log.error_type.empty()) {
@@ -206,7 +212,7 @@ write_error_info(std::ostream& stream,
                     stream << log.error_type << ": " << trim(log.message);
                     if (log.error_type=="testfailure" && log.assertion.size()) {
                         stream << "\n";
-                        write_failure_info(stream, log.assertion, log.filename, log.linenumber);
+                        write_failure_info(stream, trim(log.assertion), trim(log.filename), log.linenumber, trim(log.callsite));
                     }
                 }
                 if (log.text.size()) {

@@ -88,9 +88,13 @@ testmonitor::~testmonitor()
             if (impl_->log_.status!=teststatus::skipped) {
                 const auto failures = suite->get_failures(impl_->log_.method_id);
                 if (failures.size()) {
-                    impl_->log_.assertion = failures[0].assertion();
-                    impl_->log_.filename = failures[0].filename();
-                    impl_->log_.linenumber = failures[0].linenumber();
+                    if (impl_->log_.assertion.empty()) {
+                        impl_->log_.assertion = failures[failures.size()-1].assertion();
+                        if (impl_->log_.filename.empty()) {
+                            impl_->log_.filename = failures[failures.size()-1].filename();
+                            impl_->log_.linenumber = failures[failures.size()-1].linenumber();
+                        }
+                    }
                     impl_->log_.nd_failures = failures;
                     impl_->log_.status = teststatus::failure;
                 }
@@ -136,6 +140,7 @@ testmonitor::log_failure(const testfailure& e)
     impl_->log_.assertion = e.assertion();
     impl_->log_.filename = e.filename();
     impl_->log_.linenumber = e.linenumber();
+    impl_->log_.callsite = e.callsite();
 }
 
 void

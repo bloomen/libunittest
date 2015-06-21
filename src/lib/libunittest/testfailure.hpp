@@ -68,11 +68,18 @@ public:
      */
     int
     linenumber() const;
+    /**
+     * @brief Returns a string of the call site if applicable
+     * @returns The call site of the failure
+     */
+    std::string
+    callsite() const;
 
 private:
     std::string error_msg_;
     std::string assertion_;
     std::pair<std::string, int> spot_;
+    std::string callsite_;
 
     std::string make_error_msg(const std::string& message,
                                const std::string& user_msg);

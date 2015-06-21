@@ -84,6 +84,10 @@ struct testlog {
      */
     int linenumber;
     /**
+     * @brief A string of the call site
+     */
+    std::string callsite;
+    /**
      * @brief The non-deadly failures
      */
     std::vector<unittest::testfailure> nd_failures;
