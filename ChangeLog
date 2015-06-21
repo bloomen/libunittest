@@ -3,6 +3,7 @@ libunittest (9.0.0) stable; urgency=low
   * Add support for non-deadly assertions by using the NDAS macro
   * Add support for nested COLLECTION macros
   * COLLECTION macro can now also be used with explicit test classes
+  * Updated documentation and examples
 
  -- Christian Blume <chr.blume@gmail.com>  Sat, 2 May 2015 18:00:00 -0700
 
@@ -25,7 +26,6 @@ libunittest (8.0.0) stable; urgency=low
   	default Visual Studio 2013 C++ compiler without
   	having to install an extended C++11 support
   * Updated documentation
-  * libunittest can now be reached at http://libunittest.net
 
  -- Christian Blume <chr.blume@gmail.com>  Sun, 25 Apr 2015 12:00:00 -0700
 
