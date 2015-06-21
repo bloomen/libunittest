@@ -151,7 +151,11 @@ namespace name { \
         std::string \
         get_name() const \
         { \
-            return #name; \
+            __testcollection_type__ prev_coll; \
+            if (prev_coll.get_name() != testcollection::inactive_name()) \
+                return prev_coll.get_name() + "::" + #name; \
+            else \
+                return #name; \
         } \
     }; \
     typedef __testcollection_child__ __testcollection_type__; \

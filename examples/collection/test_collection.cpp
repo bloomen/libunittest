@@ -34,7 +34,10 @@ struct fixture {
     {}
 };
 
+
 COLLECTION(test_stuff)
+{
+COLLECTION(test_more_stuff) // collection macros can be nested
 {
 
     TEST_FIXTURE(fixture, test_fixture_is_correct)
@@ -54,4 +57,5 @@ COLLECTION(test_stuff)
         helper(SPOT);
     }
 
+}
 }
