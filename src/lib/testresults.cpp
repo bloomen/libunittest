@@ -18,10 +18,10 @@ write_failure_info(std::ostream& stream,
                    const std::string& filename,
                    int linenumber,
                    const std::string& callsite,
-                   std::string intend="")
+                   std::string indent="")
 {
     if (!assertion.empty()) {
-        stream << intend << "assertion: " << assertion;
+        stream << indent << "assertion: " << assertion;
         if (filename.size()) {
             stream << " in " << trim(filename);
             if (linenumber>-1)
@@ -30,7 +30,7 @@ write_failure_info(std::ostream& stream,
     }
     if (!callsite.empty()) {
         stream << '\n';
-        stream << intend << "callsite: " << callsite;
+        stream << indent << "calledwith: " << callsite;
     }
 }
 
