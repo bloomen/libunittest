@@ -6,7 +6,7 @@ namespace unittest {
 
 testfailure::testfailure(const std::string& assertion,
                          const std::string& message)
-    : std::runtime_error(error_msg_),
+    : std::runtime_error(message),
       error_msg_(message),
       assertion_(assertion),
       spot_(std::make_pair("", -1))
