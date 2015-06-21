@@ -331,7 +331,7 @@ std::string
 string_of_file_and_line(const std::string& filename,
                         int linenumber);
 /**
- * @brief Defines a tagged string surround by @tag_name@
+ * @brief Defines a tagged string surround by "@tag_name@"
  * @param text The text to tag
  * @param tag The tag name
  * @return A tagged string
@@ -426,7 +426,7 @@ template<>
 bool
 to_number<bool>(const std::string& value);
 /**
- * @brief Extract text surrounded by tags of the form @tag_name@
+ * @brief Extract text surrounded by tags of the form "@tag_name@"
  * @param message The message to parse
  * @param tag The tag name
  * @returns The extracted text
