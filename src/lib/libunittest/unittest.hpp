@@ -1,10 +1,5 @@
 /**
  * @brief A portable C++ library for unit testing, http://libunittest.net
- * 		  Include this header for the full libunittest functionality.
- *        For more convenience, include <libunittest/main.hpp> to get an
- *        automatic main function or <libunittest/shortcuts.hpp> for all
- *        macro shortcuts. The header <libunittest/all.hpp> provides
- *        this header plus all convenience headers.
  * @file unittest.hpp
  */
 #pragma once
@@ -30,4 +25,5 @@
 #include "macros.hpp"
 #include "noexcept.hpp"
 #include "func.hpp"
+#include "assertmacros.hpp"
 #include <iostream>
