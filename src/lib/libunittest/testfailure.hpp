@@ -77,6 +77,24 @@ private:
     std::string make_error_msg(const std::string& message,
                                const std::string& user_msg);
 };
+
+namespace core {
+
+/**
+ * @brief Builds a fail message from the parameters passed and throws
+ *  exception testfailure if assertion is deadly (the default)
+ * @param assertion The name of the assertion
+ * @param message The assertion message
+ * @param usermsg The user message
+ * @throws testfailure
+ */
+void
+fail_impl(const std::string& assertion,
+          const std::string& message,
+          std::string usermsg);
+
+} // core
+
 /**
  * @brief Builds a fail message from the parameters passed and throws
  *  exception testfailure if assertion is deadly (the default)
@@ -92,15 +110,7 @@ fail(const std::string& assertion,
      const std::string& message,
      const Args&... args)
 {
-    auto usermsg = unittest::join("", args...);
-    const auto ndas_test_id = unittest::core::extract_tagged_text(usermsg, "NDAS");
-    usermsg = unittest::core::remove_tagged_text(usermsg, "NDAS");
-    const unittest::testfailure failure(assertion, message, usermsg);
-    if (ndas_test_id.empty()) {
-        throw failure;
-    } else {
-        unittest::core::testsuite::instance()->log_failure(ndas_test_id, failure);
-    }
+    unittest::core::fail_impl(assertion, message, unittest::join("", args...));
 }
 
 } // unittest

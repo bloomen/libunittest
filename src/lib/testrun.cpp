@@ -230,5 +230,18 @@ void run_testfunction(const unittest::core::testinfo& info,
     info.done->store(true);
 }
 
+template<>
+void run_testfunctor<def_context_type>(std::shared_ptr<def_context_type> context,
+                                       std::function<unittest::testcase<def_context_type>*()> constructor,
+                                       std::function<void(unittest::testcase<def_context_type>*)> caller,
+                                       const std::string& class_id,
+                                       const std::string& test_name,
+                                       bool skipped,
+                                       const std::string& skip_message,
+                                       double timeout)
+{
+    run_testfunctor_impl<def_context_type>(context, constructor, caller, class_id, test_name, skipped, skip_message, timeout);
+}
+
 } // core
 } // unittest

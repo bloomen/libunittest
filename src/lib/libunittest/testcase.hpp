@@ -19,7 +19,7 @@ namespace core {
  * @brief Stores the test to be run and an optional test context.
  *  By using the ()-operator the test is executed.
  */
-template<typename TestCase>
+template<typename T>
 struct testfunctor;
 
 } // core
@@ -104,7 +104,7 @@ public:
 
 private:
 
-    template<typename TestCase>
+    template<typename T>
     friend struct unittest::core::testfunctor;
 
     void

@@ -224,10 +224,10 @@ struct test_misc : unittest::testcase<> {
     void test_teststatus_integrals()
     {
         using unittest::core::teststatus;
-        assert_equal<unsigned>(0, teststatus::success, SPOT);
-        assert_equal<unsigned>(1, teststatus::failure, SPOT);
-        assert_equal<unsigned>(2, teststatus::error, SPOT);
-        assert_equal<unsigned>(3, teststatus::skipped, SPOT);
+        assert_equal<unsigned>(0, static_cast<unsigned>(teststatus::success), SPOT);
+        assert_equal<unsigned>(1, static_cast<unsigned>(teststatus::failure), SPOT);
+        assert_equal<unsigned>(2, static_cast<unsigned>(teststatus::error), SPOT);
+        assert_equal<unsigned>(3, static_cast<unsigned>(teststatus::skipped), SPOT);
     }
 
     void test_testlog_defaults()
@@ -236,7 +236,7 @@ struct test_misc : unittest::testcase<> {
         assert_equal("", log.class_name, SPOT);
         assert_equal("", log.test_name, SPOT);
         assert_equal(true, log.successful, SPOT);
-        assert_equal(unittest::core::teststatus::skipped, log.status, SPOT);
+        assert_true(unittest::core::teststatus::skipped==log.status, SPOT);
         assert_equal("", log.message, SPOT);
         assert_equal(0, log.duration, SPOT);
     }

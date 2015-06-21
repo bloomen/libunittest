@@ -3,6 +3,7 @@ libunittest (9.0.0) stable; urgency=low
   * Add support for non-deadly assertions by using the NDAS macro
   * Add support for nested COLLECTION macros
   * COLLECTION macro can now also be used with explicit test classes
+  * Significantly reduced compile times for client testing
   * Updated documentation and examples
 
  -- Christian Blume <chr.blume@gmail.com>  Sat, 2 May 2015 18:00:00 -0700

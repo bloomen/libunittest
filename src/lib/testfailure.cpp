@@ -67,4 +67,22 @@ testfailure::linenumber() const
     return spot_.second;
 }
 
+namespace core {
+
+void
+fail_impl(const std::string& assertion,
+          const std::string& message,
+          std::string usermsg)
+{
+    const auto ndas_test_id = unittest::core::extract_tagged_text(usermsg, "NDAS");
+    usermsg = unittest::core::remove_tagged_text(usermsg, "NDAS");
+    const unittest::testfailure failure(assertion, message, usermsg);
+    if (ndas_test_id.empty()) {
+        throw failure;
+    } else {
+        unittest::core::testsuite::instance()->log_failure(ndas_test_id, failure);
+    }
+}
+
+} // core
 } // unittest
