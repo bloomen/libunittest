@@ -217,7 +217,7 @@ argparser::parse(int argc, char **argv)
     assign_values();
     check_assign_args();
     if (args_.size()) {
-        error(join("No such argument: '", args_[0], "'"));
+        error(join("Ambiguous or invalid argument: '", args_[0], "'"));
     }
     post_parse();
 }
