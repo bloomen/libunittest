@@ -55,3 +55,71 @@ unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value), U
  */
 #define UNITTEST_NDASSERT_FALSE_MSG(value, message) \
 unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value, message), UNITTEST_NDAS, message)
+/**
+ * @brief Asserts that two values are equal.
+ *  Required operators: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
+#define UNITTEST_ASSERT_EQUAL(expected, actual) \
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual))
+/**
+ * @brief Asserts that two values are equal.
+ *  Required operators: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_EQUAL_MSG(expected, actual, message) \
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, message), message)
+/**
+ * @brief Asserts that two values are equal (non-deadly assertion).
+ *  Required operators: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ */
+#define UNITTEST_NDASSERT_EQUAL(expected, actual) \
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), UNITTEST_NDAS)
+/**
+ * @brief Asserts that two values are equal (non-deadly assertion).
+ *  Required operators: ==, <<
+ * @param expected The expected value
+ * @param actual The actual value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_EQUAL_MSG(expected, actual, message) \
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, message), UNITTEST_NDAS, message)
+/**
+ * @brief Asserts that two values are not equal.
+ *  Required operators: ==, <<
+ * @param first The first value
+ * @param second The second value
+ */
+#define UNITTEST_ASSERT_NOT_EQUAL(first, second) \
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second))
+/**
+ * @brief Asserts that two values are not equal.
+ *  Required operators: ==, <<
+ * @param first The first value
+ * @param second The second value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second, message), message)
+/**
+ * @brief Asserts that two values are not equal (non-deadly assertion).
+ *  Required operators: ==, <<
+ * @param first The first value
+ * @param second The second value
+ */
+#define UNITTEST_NDASSERT_NOT_EQUAL(first, second) \
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS)
+/**
+ * @brief Asserts that two values are not equal (non-deadly assertion).
+ *  Required operators: ==, <<
+ * @param first The first value
+ * @param second The second value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second, message), UNITTEST_NDAS, message)
