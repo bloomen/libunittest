@@ -170,7 +170,7 @@ assert_approxrel_equal(const T& expected,
 }
 /**
  * @brief Asserts that two values are not relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false.
  *  Required operators: <, >, -, *, <<
  * @param first The first value
  * @param second The second value
