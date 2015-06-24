@@ -15,7 +15,7 @@ unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value));
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_TRUE_MSG(value, message) \
-unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value, message), message);
+unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value), message);
 /**
  * @brief Asserts that a value is true (non-deadly assertion).
  * @param value A value
@@ -28,7 +28,7 @@ unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value), UN
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_TRUE_MSG(value, message) \
-unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_true(value, UNITTEST_SPOT, UNITTEST_CALL(value), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that a value is false.
  * @param value A value
@@ -41,7 +41,7 @@ unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value));
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_FALSE_MSG(value, message) \
-unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value, message), message);
+unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value), message);
 /**
  * @brief Asserts that a value is false (non-deadly assertion).
  * @param value A value
@@ -54,7 +54,7 @@ unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value), U
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_FALSE_MSG(value, message) \
-unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_false(value, UNITTEST_SPOT, UNITTEST_CALL(value), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are equal.
  *  Required operators: ==, <<
@@ -71,7 +71,7 @@ unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CAL
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_EQUAL_MSG(expected, actual, message) \
-unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, message), message);
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), message);
 /**
  * @brief Asserts that two values are equal (non-deadly assertion).
  *  Required operators: ==, <<
@@ -88,7 +88,7 @@ unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CAL
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_EQUAL_MSG(expected, actual, message) \
-unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_equal(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are not equal.
  *  Required operators: ==, <<
@@ -105,7 +105,7 @@ unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(f
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_NOT_EQUAL_MSG(first, second, message) \
-unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second, message), message);
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
 /**
  * @brief Asserts that two values are not equal (non-deadly assertion).
  *  Required operators: ==, <<
@@ -122,7 +122,7 @@ unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(f
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_NOT_EQUAL_MSG(first, second, message) \
-unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are approximately equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon.
@@ -143,7 +143,7 @@ unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SP
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROX_EQUAL_MSG(expected, actual, epsilon, message) \
-unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon, message), message);
+unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), message);
 /**
  * @brief Asserts that two values are approximately equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon (non-deadly assertions).
@@ -164,7 +164,7 @@ unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SP
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROX_EQUAL_MSG(expected, actual, epsilon, message) \
-unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_approx_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are not approximately equal up to some
  *  epsilon. The assertion succeeds if |a - b| < epsilon is false.
@@ -185,10 +185,11 @@ unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT,
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROX_NOT_EQUAL_MSG(first, second, epsilon, message) \
-unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon, message), message);
+unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), message);
 /**
  * @brief Asserts that two values are not approximately equal up to some
- *  epsilon. The assertion succeeds if |a - b| < epsilon is false (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, <<
  * @param first The first value
  * @param second The second value
@@ -198,7 +199,8 @@ unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT,
 unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS);
 /**
  * @brief Asserts that two values are not approximately equal up to some
- *  epsilon. The assertion succeeds if |a - b| < epsilon is false (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, <<
  * @param first The first value
  * @param second The second value
@@ -206,7 +208,7 @@ unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT,
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROX_NOT_EQUAL_MSG(first, second, epsilon, message) \
-unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_approx_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon.
@@ -227,10 +229,11 @@ unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROXREL_EQUAL_MSG(expected, actual, epsilon, message) \
-unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon, message), message);
+unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), message);
 /**
  * @brief Asserts that two values are relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, *, <<
  * @param expected The expected value
  * @param actual The actual value
@@ -240,7 +243,8 @@ unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST
 unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS);
 /**
  * @brief Asserts that two values are relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, *, <<
  * @param expected The expected value
  * @param actual The actual value
@@ -248,7 +252,7 @@ unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROXREL_EQUAL_MSG(expected, actual, epsilon, message) \
-unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_approxrel_equal(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS, message);
 /**
  * @brief Asserts that two values are not relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
@@ -269,10 +273,11 @@ unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SP
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROXREL_NOT_EQUAL_MSG(first, second, epsilon, message) \
-unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon, message), message);
+unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), message);
 /**
  * @brief Asserts that two values are not relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, *, <<
  * @param first The first value
  * @param second The second value
@@ -282,7 +287,8 @@ unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SP
 unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS);
 /**
  * @brief Asserts that two values are not relatively approx. equal up to some
- *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false (non-deadly assertion).
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false
+ *  (non-deadly assertion).
  *  Required operators: <, >, -, *, <<
  * @param first The first value
  * @param second The second value
@@ -290,4 +296,228 @@ unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SP
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_EQUAL_MSG(first, second, epsilon, message) \
-unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon, message), UNITTEST_NDAS, message);
+unittest::assertions::assert_approxrel_equal(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that the first value is greater than the second.
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_ASSERT_GREATER(first, second) \
+unittest::assertions::assert_greater(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second));
+/**
+ * @brief Asserts that the first value is greater than the second.
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_GREATER_MSG(first, second, message) \
+unittest::assertions::assert_greater(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
+/**
+ * @brief Asserts that the first value is greater than the second
+ *  (non-deadly assertion).
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_NDASSERT_GREATER(first, second) \
+unittest::assertions::assert_greater(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS);
+/**
+ * @brief Asserts that the first value is greater than the second
+ *  (non-deadly assertion).
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_GREATER_MSG(first, second, message) \
+unittest::assertions::assert_greater(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that the first value is greater than or equal to the second.
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_ASSERT_GREATER_EQUAL(first, second) \
+unittest::assertions::assert_greater_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second));
+/**
+ * @brief Asserts that the first value is greater than or equal to the second.
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_GREATER_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_greater_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
+/**
+ * @brief Asserts that the first value is greater than or equal
+ *  to the second (non-deadly assertion).
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_NDASSERT_GREATER_EQUAL(first, second) \
+unittest::assertions::assert_greater_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS);
+/**
+ * @brief Asserts that the first value is greater than or equal
+ *  to the second (non-deadly assertion).
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_GREATER_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_greater_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that the first value is greater than the second.
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_ASSERT_LESSER(first, second) \
+unittest::assertions::assert_lesser(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second));
+/**
+ * @brief Asserts that the first value is lesser than the second.
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_LESSER_MSG(first, second, message) \
+unittest::assertions::assert_lesser(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
+/**
+ * @brief Asserts that the first value is lesser than the second
+ *  (non-deadly assertion).
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_NDASSERT_LESSER(first, second) \
+unittest::assertions::assert_lesser(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS);
+/**
+ * @brief Asserts that the first value is lesser than the second
+ *  (non-deadly assertion).
+ *  Required operators: <, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_LESSER_MSG(first, second, message) \
+unittest::assertions::assert_lesser(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that the first value is lesser than or equal to the second.
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_ASSERT_LESSER_EQUAL(first, second) \
+unittest::assertions::assert_lesser_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second));
+/**
+ * @brief Asserts that the first value is lesser than or equal to the second.
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_LESSER_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_lesser_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
+/**
+ * @brief Asserts that the first value is lesser than or equal
+ *  to the second (non-deadly assertion).
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ */
+#define UNITTEST_NDASSERT_LESSER_EQUAL(first, second) \
+unittest::assertions::assert_lesser_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS);
+/**
+ * @brief Asserts that the first value is lesser than or equal
+ *  to the second (non-deadly assertion).
+ *  Required operators: >, <<
+ * @param first A value
+ * @param second Another value
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_LESSER_EQUAL_MSG(first, second, message) \
+unittest::assertions::assert_lesser_equal(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is in a given range with included bounds.
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ */
+#define UNITTEST_ASSERT_IN_RANGE(value, lower, upper) \
+unittest::assertions::assert_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper));
+/**
+ * @brief Asserts that a value is in a given range with included bounds.
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_IN_RANGE_MSG(value, lower, upper, message) \
+unittest::assertions::assert_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), message);
+/**
+ * @brief Asserts that a value is in a given range with included bounds
+ *  (non-deadly assertion).
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ */
+#define UNITTEST_NDASSERT_IN_RANGE(value, lower, upper) \
+unittest::assertions::assert_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is in a given range with included bounds
+ *  (non-deadly assertion).
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_IN_RANGE_MSG(value, lower, upper, message) \
+unittest::assertions::assert_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is not in a given range with included bounds.
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ */
+#define UNITTEST_ASSERT_NOT_IN_RANGE(value, lower, upper) \
+unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper));
+/**
+ * @brief Asserts that a value is not in a given range with included bounds.
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_IN_RANGE_MSG(value, lower, upper, message) \
+unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), message);
+/**
+ * @brief Asserts that a value is not in a given range with included bounds
+ *  (non-deadly assertion).
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ */
+#define UNITTEST_NDASSERT_NOT_IN_RANGE(value, lower, upper) \
+unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is not in a given range with included bounds
+ *  (non-deadly assertion).
+ *  Required operators: <, >, <<
+ * @param value A value
+ * @param lower The lower bound
+ * @param upper The upper bound
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_IN_RANGE_MSG(value, lower, upper, message) \
+unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), UNITTEST_NDAS, message);
