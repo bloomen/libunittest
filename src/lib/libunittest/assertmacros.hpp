@@ -521,3 +521,71 @@ unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UN
  */
 #define UNITTEST_NDASSERT_NOT_IN_RANGE_MSG(value, lower, upper, message) \
 unittest::assertions::assert_not_in_range(value, lower, upper, UNITTEST_SPOT, UNITTEST_CALL(value, lower, upper), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is in a container.
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ */
+#define UNITTEST_ASSERT_IN_CONTAINER(value, container) \
+unittest::assertions::assert_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container));
+/**
+ * @brief Asserts that a value is in a container.
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_IN_CONTAINER_MSG(value, container, message) \
+unittest::assertions::assert_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), message);
+/**
+ * @brief Asserts that a value is in a container (non-deadly assertion).
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ */
+#define UNITTEST_NDASSERT_IN_CONTAINER(value, container) \
+unittest::assertions::assert_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is in a container (non-deadly assertion).
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_IN_CONTAINER_MSG(value, container, message) \
+unittest::assertions::assert_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is not in a container.
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ */
+#define UNITTEST_ASSERT_NOT_IN_CONTAINER(value, container) \
+unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container));
+/**
+ * @brief Asserts that a value is not in a container.
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_IN_CONTAINER_MSG(value, container, message) \
+unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), message);
+/**
+ * @brief Asserts that a value is not in a container (non-deadly assertion).
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ */
+#define UNITTEST_NDASSERT_NOT_IN_CONTAINER(value, container) \
+unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is not in a container (non-deadly assertion).
+ *  Required operators: ==
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_IN_CONTAINER_MSG(value, container, message) \
+unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), UNITTEST_NDAS, message);
