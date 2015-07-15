@@ -589,3 +589,84 @@ unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, U
  */
 #define UNITTEST_NDASSERT_NOT_IN_CONTAINER_MSG(value, container, message) \
 unittest::assertions::assert_not_in_container(value, container, UNITTEST_SPOT, UNITTEST_CALL(value, container), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for at least one element.
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROX_IN_CONTAINER(value, container, epsilon) \
+unittest::assertions::assert_approx_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon));
+/**
+ * @brief Asserts that a value is approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for at least one element.
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROX_IN_CONTAINER_MSG(value, container, epsilon, message) \
+unittest::assertions::assert_approx_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), message);
+/**
+ * @brief Asserts that a value is approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for at least one element (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_NDASSERT_APPROX_IN_CONTAINER(value, container, epsilon) \
+unittest::assertions::assert_approx_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for at least one element (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROX_IN_CONTAINER_MSG(value, container, epsilon, message) \
+unittest::assertions::assert_approx_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a value is not approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon is false for all elements.
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon) \
+unittest::assertions::assert_approx_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon));
+/**
+ * @brief Asserts that a value is not approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon is false for all elements.
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
+unittest::assertions::assert_approx_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), message);
+/**
+ * @brief Asserts that a value is not approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon is false for all elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ */
+#define UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon) \
+unittest::assertions::assert_approx_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a value is not approx. in a container up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon is false for all elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param value A value
+ * @param container A container
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
+unittest::assertions::assert_approx_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS, message);
