@@ -751,8 +751,6 @@ unittest::assertions::assert_approxrel_not_in_container(value, container, epsilo
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
 unittest::assertions::assert_approxrel_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS, message);
-
-
 /**
  * @brief Asserts that two containers are equal.
  *  Required operators: ==
@@ -821,3 +819,183 @@ unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, 
  */
 #define UNITTEST_NDASSERT_NOT_EQUAL_CONTAINERS_MSG(first, second, message) \
 unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that two containers are approx. equal up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for all pairs of elements.
+ *  Required operators: <, >, -
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROX_EQUAL_CONTAINERS(expected, actual, epsilon) \
+unittest::assertions::assert_approx_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon));
+/**
+ * @brief Asserts that two containers are approx. equal up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for all pairs of elements.
+ *  Required operators: <, >, -
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROX_EQUAL_CONTAINERS_MSG(expected, actual, epsilon, message) \
+unittest::assertions::assert_approx_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), message);
+/**
+ * @brief Asserts that two containers are approx. equal up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for all pairs of elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_NDASSERT_APPROX_EQUAL_CONTAINERS(expected, actual, epsilon) \
+unittest::assertions::assert_approx_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are approx. equal up to some epsilon.
+ *  The assertion succeeds if |a - b| < epsilon for all pairs of elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROX_EQUAL_CONTAINERS_MSG(expected, actual, epsilon, message) \
+unittest::assertions::assert_approx_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that two containers are not approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+ *  least one pair of elements.
+ *  Required operators: <, >, -
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROX_NOT_EQUAL_CONTAINERS(first, second, epsilon) \
+unittest::assertions::assert_approx_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon));
+/**
+ * @brief Asserts that two containers are not approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+ *  least one pair of elements.
+ *  Required operators: <, >, -
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROX_NOT_EQUAL_CONTAINERS_MSG(first, second, epsilon, message) \
+unittest::assertions::assert_approx_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), message);
+/**
+ * @brief Asserts that two containers are not approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+ *  least one pair of elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_NDASSERT_APPROX_NOT_EQUAL_CONTAINERS(first, second, epsilon) \
+unittest::assertions::assert_approx_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are not approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < epsilon is false for at
+ *  least one pair of elements (non-deadly assertion).
+ *  Required operators: <, >, -
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROX_NOT_EQUAL_CONTAINERS_MSG(first, second, epsilon, message) \
+unittest::assertions::assert_approx_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that two containers are relatively approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
+ *  elements.
+ *  Required operators: <, >, -, *
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROXREL_EQUAL_CONTAINERS(expected, actual, epsilon) \
+unittest::assertions::assert_approxrel_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon));
+/**
+ * @brief Asserts that two containers are relatively approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
+ *  elements.
+ *  Required operators: <, >, -, *
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROXREL_EQUAL_CONTAINERS_MSG(expected, actual, epsilon, message) \
+unittest::assertions::assert_approxrel_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), message);
+/**
+ * @brief Asserts that two containers are relatively approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
+ *  elements (non-deadly assertion).
+ *  Required operators: <, >, -, *
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_NDASSERT_APPROXREL_EQUAL_CONTAINERS(expected, actual, epsilon) \
+unittest::assertions::assert_approxrel_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are relatively approx. equal up to some
+ *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
+ *  elements (non-deadly assertion).
+ *  Required operators: <, >, -, *
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROXREL_EQUAL_CONTAINERS_MSG(expected, actual, epsilon, message) \
+unittest::assertions::assert_approxrel_equal_containers(expected, actual, epsilon, UNITTEST_SPOT, UNITTEST_CALL(expected, actual, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that two containers are not relatively approx. equal up to
+ *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+ *  at least one pair of elements.
+ *  Required operators: <, >, -, *
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_ASSERT_APPROXREL_NOT_EQUAL_CONTAINERS(first, second, epsilon) \
+unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon));
+/**
+ * @brief Asserts that two containers are not relatively approx. equal up to
+ *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+ *  at least one pair of elements.
+ *  Required operators: <, >, -, *
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_APPROXREL_NOT_EQUAL_CONTAINERS_MSG(first, second, epsilon, message) \
+unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), message);
+/**
+ * @brief Asserts that two containers are not relatively approx. equal up to
+ *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+ *  at least one pair of elements (non-deadly assertion).
+ *  Required operators: <, >, -, *
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ */
+#define UNITTEST_NDASSERT_APPROXREL_NOT_EQUAL_CONTAINERS(first, second, epsilon) \
+unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are not relatively approx. equal up to
+ *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
+ *  at least one pair of elements (non-deadly assertion).
+ *  Required operators: <, >, -, *
+ * @param first A container
+ * @param second Another container
+ * @param epsilon The epsilon
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_APPROXREL_NOT_EQUAL_CONTAINERS_MSG(first, second, epsilon, message) \
+unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS, message);

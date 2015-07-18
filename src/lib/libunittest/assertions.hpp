@@ -555,7 +555,8 @@ assert_approx_not_equal_containers(const Container1& first,
 /**
  * @brief Asserts that two containers are relatively approx. equal up to some
  *  epsilon. The assertion succeeds if |a - b| < |a| * epsilon for all pairs of
- *  elements. Required operators: <, >, -, *
+ *  elements.
+ *  Required operators: <, >, -, *
  * @param expected The expected container
  * @param actual The actual container
  * @param epsilon The epsilon
@@ -580,7 +581,8 @@ assert_approxrel_equal_containers(const Container1& expected,
 /**
  * @brief Asserts that two containers are not relatively approx. equal up to
  *  some epsilon. The assertion succeeds if |a - b| < |a| * epsilon is false for
- *  at least one pair of elements. Required operators: <, >, -, *
+ *  at least one pair of elements.
+ *  Required operators: <, >, -, *
  * @param first A container
  * @param second Another container
  * @param epsilon The epsilon
