@@ -751,3 +751,73 @@ unittest::assertions::assert_approxrel_not_in_container(value, container, epsilo
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
 unittest::assertions::assert_approxrel_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS, message);
+
+
+/**
+ * @brief Asserts that two containers are equal.
+ *  Required operators: ==
+ * @param expected The expected container
+ * @param actual The actual container
+ */
+#define UNITTEST_ASSERT_EQUAL_CONTAINERS(expected, actual) \
+unittest::assertions::assert_equal_containers(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual));
+/**
+ * @brief Asserts that two containers are equal.
+ *  Required operators: ==
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_EQUAL_CONTAINERS_MSG(expected, actual, message) \
+unittest::assertions::assert_equal_containers(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), message);
+/**
+ * @brief Asserts that two containers are equal (non-deadly assertion).
+ *  Required operators: ==
+ * @param expected The expected container
+ * @param actual The actual container
+ */
+#define UNITTEST_NDASSERT_EQUAL_CONTAINERS(expected, actual) \
+unittest::assertions::assert_equal_containers(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are equal (non-deadly assertion).
+ *  Required operators: ==
+ * @param expected The expected container
+ * @param actual The actual container
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_EQUAL_CONTAINERS_MSG(expected, actual, message) \
+unittest::assertions::assert_equal_containers(expected, actual, UNITTEST_SPOT, UNITTEST_CALL(expected, actual), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that two containers are not equal.
+ *  Required operators: ==
+ * @param first A container
+ * @param second Another container
+ */
+#define UNITTEST_ASSERT_NOT_EQUAL_CONTAINERS(first, second) \
+unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second));
+/**
+ * @brief Asserts that two containers are not equal.
+ *  Required operators: ==
+ * @param first A container
+ * @param second Another container
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_EQUAL_CONTAINERS_MSG(first, second, message) \
+unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), message);
+/**
+ * @brief Asserts that two containers are not equal (non-deadly assertion).
+ *  Required operators: ==
+ * @param first A container
+ * @param second Another container
+ */
+#define UNITTEST_NDASSERT_NOT_EQUAL_CONTAINERS(first, second) \
+unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS);
+/**
+ * @brief Asserts that two containers are not equal (non-deadly assertion).
+ *  Required operators: ==
+ * @param first A container
+ * @param second Another container
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_EQUAL_CONTAINERS_MSG(first, second, message) \
+unittest::assertions::assert_not_equal_containers(first, second, UNITTEST_SPOT, UNITTEST_CALL(first, second), UNITTEST_NDAS, message);
