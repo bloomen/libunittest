@@ -1195,8 +1195,6 @@ unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITT
  */
 #define UNITTEST_NDASSERT_NOT_REGEX_MATCH_MSG(string, regex, message) \
 unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), UNITTEST_NDAS, message);
-
-
 /**
  * @brief Asserts that a functor throws exception.
  *  Required operators: ()
