@@ -999,3 +999,265 @@ unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsil
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_EQUAL_CONTAINERS_MSG(first, second, epsilon, message) \
 unittest::assertions::assert_approxrel_not_equal_containers(first, second, epsilon, UNITTEST_SPOT, UNITTEST_CALL(first, second, epsilon), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that all container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_ASSERT_ALL_OF(container, condition) \
+unittest::assertions::assert_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition));
+/**
+ * @brief Asserts that all container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_ALL_OF_MSG(container, condition, message) \
+unittest::assertions::assert_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), message);
+/**
+ * @brief Asserts that all container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_NDASSERT_ALL_OF(container, condition) \
+unittest::assertions::assert_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS);
+/**
+ * @brief Asserts that all container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_ALL_OF_MSG(container, condition, message) \
+unittest::assertions::assert_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that not all container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_ASSERT_NOT_ALL_OF(container, condition) \
+unittest::assertions::assert_not_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition));
+/**
+ * @brief Asserts that not all container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_ALL_OF_MSG(container, condition, message) \
+unittest::assertions::assert_not_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), message);
+/**
+ * @brief Asserts that not all container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_NDASSERT_NOT_ALL_OF(container, condition) \
+unittest::assertions::assert_not_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS);
+/**
+ * @brief Asserts that not all container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_ALL_OF_MSG(container, condition, message) \
+unittest::assertions::assert_not_all_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that any container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_ASSERT_ANY_OF(container, condition) \
+unittest::assertions::assert_any_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition));
+/**
+ * @brief Asserts that any container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_ANY_OF_MSG(container, condition, message) \
+unittest::assertions::assert_any_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), message);
+/**
+ * @brief Asserts that any container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_NDASSERT_ANY_OF(container, condition) \
+unittest::assertions::assert_any_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS);
+/**
+ * @brief Asserts that any container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_ANY_OF_MSG(container, condition, message) \
+unittest::assertions::assert_any_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that none of the container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_ASSERT_NONE_OF(container, condition) \
+unittest::assertions::assert_none_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition));
+/**
+ * @brief Asserts that none of the container elements match a given condition.
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NONE_OF_MSG(container, condition, message) \
+unittest::assertions::assert_none_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), message);
+/**
+ * @brief Asserts that none of the container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ */
+#define UNITTEST_NDASSERT_NONE_OF(container, condition) \
+unittest::assertions::assert_none_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS);
+/**
+ * @brief Asserts that none of the container elements match a given condition (non-deadly assertion).
+ * @param container A container
+ * @param condition A condition returning a boolean that can be applied to
+ *  each container element
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NONE_OF_MSG(container, condition, message) \
+unittest::assertions::assert_none_of(container, condition, UNITTEST_SPOT, UNITTEST_CALL(container, condition), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a string matches a regular expression.
+ * @param string A string
+ * @param regex The regular expression
+ */
+#define UNITTEST_ASSERT_REGEX_MATCH(string, regex) \
+unittest::assertions::assert_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex));
+/**
+ * @brief Asserts that a string matches a regular expression.
+ * @param string A string
+ * @param regex The regular expression
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_REGEX_MATCH_MSG(string, regex, message) \
+unittest::assertions::assert_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), message);
+/**
+ * @brief Asserts that a string matches a regular expression (non-deadly assertion).
+ * @param string A string
+ * @param regex The regular expression
+ */
+#define UNITTEST_NDASSERT_REGEX_MATCH(string, regex) \
+unittest::assertions::assert_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a string matches a regular expression (non-deadly assertion).
+ * @param string A string
+ * @param regex The regular expression
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_REGEX_MATCH_MSG(string, regex, message) \
+unittest::assertions::assert_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a string does not match a regular expression.
+ * @param string A string
+ * @param regex The regular expression
+ */
+#define UNITTEST_ASSERT_NOT_REGEX_MATCH(string, regex) \
+unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex));
+/**
+ * @brief Asserts that a string does not match a regular expression.
+ * @param string A string
+ * @param regex The regular expression
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NOT_REGEX_MATCH_MSG(string, regex, message) \
+unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), message);
+/**
+ * @brief Asserts that a string does not match a regular expression (non-deadly assertion).
+ * @param string A string
+ * @param regex The regular expression
+ */
+#define UNITTEST_NDASSERT_NOT_REGEX_MATCH(string, regex) \
+unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a string does not match a regular expression (non-deadly assertion).
+ * @param string A string
+ * @param regex The regular expression
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NOT_REGEX_MATCH_MSG(string, regex, message) \
+unittest::assertions::assert_not_regex_match(string, regex, UNITTEST_SPOT, UNITTEST_CALL(string, regex), UNITTEST_NDAS, message);
+
+
+/**
+ * @brief Asserts that a functor throws exception.
+ *  Required operators: ()
+ * @param exception The exception type
+ * @param functor The functor
+ */
+#define UNITTEST_ASSERT_THROW(exception, functor) \
+unittest::assertions::assert_throw<exception>(functor, UNITTEST_SPOT, UNITTEST_CALL(exception, functor));
+/**
+ * @brief Asserts that a functor throws exception.
+ *  Required operators: ()
+ * @param exception The exception type
+ * @param functor The functor
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_THROW_MSG(exception, functor, message) \
+unittest::assertions::assert_throw<exception>(functor, UNITTEST_SPOT, UNITTEST_CALL(exception, functor), message);
+/**
+ * @brief Asserts that a functor throws exception (non-deadly assertion).
+ *  Required operators: ()
+ * @param exception The exception type
+ * @param functor The functor
+ */
+#define UNITTEST_NDASSERT_THROW(exception, functor) \
+unittest::assertions::assert_throw<exception>(functor, UNITTEST_SPOT, UNITTEST_CALL(exception, functor), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a functor throws exception (non-deadly assertion).
+ *  Required operators: ()
+ * @param exception The exception type
+ * @param functor The functor
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_THROW_MSG(exception, functor, message) \
+unittest::assertions::assert_throw<exception>(functor, UNITTEST_SPOT, UNITTEST_CALL(exception, functor), UNITTEST_NDAS, message);
+/**
+ * @brief Asserts that a functor does not throw any exception.
+ *  Required operators: ()
+ * @param functor The functor
+ */
+#define UNITTEST_ASSERT_NO_THROW(functor) \
+unittest::assertions::assert_no_throw(functor, UNITTEST_SPOT, UNITTEST_CALL(functor));
+/**
+ * @brief Asserts that a functor does not throw any exception.
+ *  Required operators: ()
+ * @param functor The functor
+ * @param message A user defined message
+ */
+#define UNITTEST_ASSERT_NO_THROW_MSG(functor, message) \
+unittest::assertions::assert_no_throw(functor, UNITTEST_SPOT, UNITTEST_CALL(functor), message);
+/**
+ * @brief Asserts that a functor does not throw any exception (non-deadly assertion).
+ *  Required operators: ()
+ * @param functor The functor
+ */
+#define UNITTEST_NDASSERT_NO_THROW(functor) \
+unittest::assertions::assert_no_throw(functor, UNITTEST_SPOT, UNITTEST_CALL(functor), UNITTEST_NDAS);
+/**
+ * @brief Asserts that a functor does not throw any exception (non-deadly assertion).
+ *  Required operators: ()
+ * @param functor The functor
+ * @param message A user defined message
+ */
+#define UNITTEST_NDASSERT_NO_THROW_MSG(functor, message) \
+unittest::assertions::assert_no_throw(functor, UNITTEST_SPOT, UNITTEST_CALL(functor), UNITTEST_NDAS, message);
