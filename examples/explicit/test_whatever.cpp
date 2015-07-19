@@ -1,5 +1,4 @@
 #include <libunittest/all.hpp>
-using namespace unittest::assertions;
 
 COLLECTION(sweet_stuff) {
 
@@ -27,30 +26,29 @@ struct test_whatever : unittest::testcase<> {
     {
         TESTINFO("some cool info about your test")
         auto functor = [](){ throw std::bad_cast(); };
-        assert_throw<std::bad_cast>(functor, SPOT);
+        ASSERT_THROW(std::bad_cast, functor)
     }
 
     void test_in_container()
     {
         const std::vector<int> container = {1, 2, 3};
-        // passing macro NDAS makes the assertion non-deadly
-        assert_in_container(2, container, SPOT, NDAS);
+        NDASSERT_IN_CONTAINER(2, container) // a non-deadly assertion
     }
 
     void test_in_range()
     {
         TESTINFO("helpful information: ", 42)
-        assert_in_range(1, 0.9, 1.1, SPOT);
+        ASSERT_IN_RANGE(1, 0.9, 1.1)
     }
 
     void test_that_is_skipped()
     {
-        assert_true(false, SPOT);
+        ASSERT_TRUE(false)
     }
 
     void test_that_is_run()
     {
-        assert_true(true, SPOT);
+        ASSERT_TRUE(true)
     }
 
 };

@@ -1,5 +1,4 @@
 #include <libunittest/all.hpp>
-using namespace unittest::assertions;
 
 template<typename T, typename U> // use as many types as desired
 struct templates_explicit : unittest::testcase<> {
@@ -17,7 +16,7 @@ struct templates_explicit : unittest::testcase<> {
         T a = 1;
         U b = 2;
         V c = a + b;
-        assert_equal(3, c, SPOT);
+        ASSERT_EQUAL(3, c)
     }
 
 };

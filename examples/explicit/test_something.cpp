@@ -1,5 +1,4 @@
 #include <libunittest/all.hpp>
-using namespace unittest::assertions;
 
 COLLECTION(nice_stuff) {
 
@@ -36,25 +35,25 @@ struct test_something : unittest::testcase<test_context> {
         // in case the test is run with a context, you can always
         // access the pointer to the context through get_test_context().
         auto context = get_test_context();
-        assert_true(context, SPOT);
+        ASSERT_TRUE(context)
     }
 
     void test_correct_message()
     {
         TESTINFO("some cool info about your test")
         auto context = get_test_context();
-        assert_equal("here I am", context->message, SPOT);
+        ASSERT_EQUAL("here I am", context->message)
     }
 
     void test_no_context()
     {
         auto context = get_test_context();
-        assert_false(context, SPOT);
+        ASSERT_FALSE(context)
     }
 
     void test_it_but_skipped()
     {
-        assert_true(false, SPOT);
+        ASSERT_TRUE(false)
     }
 
 };

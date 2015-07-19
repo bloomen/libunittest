@@ -1,9 +1,9 @@
 #include <libunittest/all.hpp>
-using namespace unittest::assertions;
 
 TEST(test_value_is_true)
 {
-    assert_true(true);
+    const auto value = true;
+    ASSERT_TRUE(value)
 }
 
 /* Screen output with './unittest.exe -v':
