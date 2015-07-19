@@ -370,7 +370,7 @@ UNITTEST_NDASSERT_GREATER_EQUAL(first, second)
 #define NDASSERT_GREATER_EQUAL_MSG(first, second, message) \
 UNITTEST_NDASSERT_GREATER_EQUAL_MSG(first, second, message)
 /**
- * @brief Asserts that the first value is greater than the second.
+ * @brief Asserts that the first value is lesser than the second.
  *  Required operators: <, <<
  * @param first A value
  * @param second Another value
