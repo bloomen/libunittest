@@ -1,6 +1,6 @@
 libunittest (9.0.0) stable; urgency=low
 
-  * Add assert macros which capture the call signature
+  * Add assert macros which capture the call signature and assert location 
   * Add support for non-deadly assertions by using the NDAS macro
   * Add support for nested COLLECTION macros
   * COLLECTION macro can now also be used with explicit test classes
