@@ -647,6 +647,7 @@ unittest::assertions::assert_approx_not_in_container(value, container, epsilon, 
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -657,6 +658,7 @@ unittest::assertions::assert_approx_not_in_container(value, container, epsilon, 
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  */
 #define UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon) \
 unittest::assertions::assert_approx_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS);
@@ -666,6 +668,7 @@ unittest::assertions::assert_approx_not_in_container(value, container, epsilon, 
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -728,6 +731,7 @@ unittest::assertions::assert_approxrel_not_in_container(value, container, epsilo
  *  all elements. Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define UNITTEST_ASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -738,6 +742,7 @@ unittest::assertions::assert_approxrel_not_in_container(value, container, epsilo
  *  all elements (non-deadly assertion). Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER(value, container, epsilon) \
 unittest::assertions::assert_approxrel_not_in_container(value, container, epsilon, UNITTEST_SPOT, UNITTEST_CALL(value, container, epsilon), UNITTEST_NDAS);
@@ -747,6 +752,7 @@ unittest::assertions::assert_approxrel_not_in_container(value, container, epsilo
  *  all elements (non-deadly assertion). Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \

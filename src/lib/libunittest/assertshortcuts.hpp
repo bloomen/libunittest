@@ -647,6 +647,7 @@ UNITTEST_ASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon)
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define ASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -657,6 +658,7 @@ UNITTEST_ASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message)
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  */
 #define NDASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon) \
 UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon)
@@ -666,6 +668,7 @@ UNITTEST_NDASSERT_APPROX_NOT_IN_CONTAINER(value, container, epsilon)
  *  Required operators: <, >, -
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define NDASSERT_APPROX_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -728,6 +731,7 @@ UNITTEST_ASSERT_APPROXREL_NOT_IN_CONTAINER(value, container, epsilon)
  *  all elements. Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define ASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
@@ -738,6 +742,7 @@ UNITTEST_ASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, messag
  *  all elements (non-deadly assertion). Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  */
 #define NDASSERT_APPROXREL_NOT_IN_CONTAINER(value, container, epsilon) \
 UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER(value, container, epsilon)
@@ -747,6 +752,7 @@ UNITTEST_NDASSERT_APPROXREL_NOT_IN_CONTAINER(value, container, epsilon)
  *  all elements (non-deadly assertion). Required operators: <, >, -, *
  * @param value A value
  * @param container A container
+ * @param epsilon The epsilon
  * @param message A user defined message
  */
 #define NDASSERT_APPROXREL_NOT_IN_CONTAINER_MSG(value, container, epsilon, message) \
