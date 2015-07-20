@@ -43,12 +43,6 @@
 					<a href="#assembling">Assembling a test project</a>
 				</li>
 				<li>
-					<a href="#assertions">Assertions</a>
-				</li>
-				<li>
-					<a href="#headers">Important libunittest headers</a>
-				</li>
-				<li>
 					<a href="#random">Random values and containers</a>
 				</li>
 				<li>
@@ -68,12 +62,11 @@
                 a source file like this:
                 <code>
                     // easy.cpp<br>
-                    #include &lt;libunittest/all.hpp&gt;<br>
-                    using namespace unittest::assertions;<br><br>
+                    #include &lt;libunittest/all.hpp&gt;<br><br>
 
                     TEST(test_value_is_true)<br>
                     {<br>
-                        <t>assert_true(true, SPOT);</t><br>
+                        <t>ASSERT_TRUE(true);</t><br>
                     }<br><br>
                                         
                     struct fixture {<br>
@@ -83,19 +76,21 @@
     
                     TEST_FIXTURE(fixture, test_with_fixture)<br>
                     {<br>
-                        <t>assert_equal(42, value, SPOT);</t><br>
+                        <t>ASSERT_EQUAL(42, value);</t><br>
                     }<br><br>
-                                        
                 </code>
                 By including <incode>libunittest/all.hpp</incode> you get an 
-                automatic main function and access to all macros.
-				All macros are defined in 
-				capital letters starting with <incode>UNITTEST_</incode> and can be found in <incode>libunittest/macros.hpp</incode>. 
-				Shorter aliases (such as <incode>TEST</incode>)
-				are defined in <incode>libunittest/shortcuts.hpp</incode>.
-				The macro <incode>SPOT</incode> (or <incode>UNITTEST_SPOT</incode>)
-				defines a simple string containing information about 
-				the current file and line number. 
+                automatic main function and access to all macros. There are 
+                three preprocessor switches that let you control the details:
+                <li>
+                <incode>UNITTEST_MAIN_FUNC</incode> - Set to 0 to not include an automatic main function
+                </li>
+                <li>
+                <incode>UNITTEST_ASSERT_SHORT</incode> - Set to 0 to disable assert shortcuts
+                </li>
+                <li>
+                <incode>UNITTEST_MACRO_SHORT</incode> - Set to 0 to disable miscellaneous macro shortcuts
+                </li>
                 </p>
                 <p>
                 Note that the above example uses the <i>easy</i> style by
@@ -126,7 +121,7 @@
                 To get a quick help to your test application just do
                 <incode>./unittest.exe -h</incode>:
                 <code>
-                This is your test application using libunittest 8.1.0<br><br>
+                This is your test application using libunittest 9.0.0<br><br>
                 
                 Usage: ./unittest.exe [Arguments]<br><br>
                 
@@ -148,75 +143,7 @@
                 -r precision &nbsp; The maximum displayed value precision (default: 10)<br>
                 -u suite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The name of the test suite (default: libunittest)
                 </code>
-                
-                <a name="assertions"></a>
-                <h2>Assertions</h2>
-                <p>
-                libunittest comes with a rich set of assertions that your
-                test has access to through the namespace <incode>unittest::assertions</incode>. 
-                All assertions are
-                implemented and documented in <incode>libunittest/assertions.hpp</incode>.
-                </p>
-                <p>
-                The top-five, probably most used assertions are (in pseudo-code):
-                <code>
-                assert_true(value, message...);
-                </code>
-                <code>
-                assert_equal(expected, actual, message...);
-                </code>
-                <code>
-                assert_approx_equal(expected, actual, epsilon, message...);
-                </code>
-                <code>
-                assert_in_container(element, container, message...);
-                </code>
-                <code>
-                assert_throw&lt;exception_type&gt;(functor, message...);
-                </code>
-                
-				Please note that <incode>message...</incode> denotes 
-				a variable number of template parameters (variadic 
-				template) and can also be omitted. If given 
-				it is appended to the default fail message. Note that if the macro <incode>SPOT</incode>
-				is passed (which is recommended) then the file and line information is parsed
-				out and used for debugging purposes in case the assertion fails. For instance:
-                <code>
-                assert_equal(42, 41, SPOT, "This clearly ", "fails: ", 42);
-                </code>
-				would lead to the following fail message:
-				<code>
-				====================================================================<br>
-				FAIL: test_something_that_fails::test [0.00012s]<br>
-				--------------------------------------------------------------------<br>
-				testfailure: 42 not equal to 41 - This clearly fails: 42<br>
-				assertion: assert_equal in test_something.cpp at line 7<br>
-				</code>				
-				
-                </p>
 
-				<a name="headers"></a>
-                <h2>Important libunittest headers</h2>
-                <p>
-				The header that encompasses all libunittest functionality
-				is <incode>&lt;libunittest/all.hpp&gt;</incode> which gives you access
-				to the <incode>unittest</incode> namespace, an automatic main function, and
-				all macro shortcuts.
-				</p>
-				<p>
-				In case you'd want everything but the macro shortcuts then simply include <incode>&lt;libunittest/main.hpp&gt;</incode>. 
-				The library you're trying to test might define macros that conflict with the shortcuts defined by libunittest.
-				</p>
-				<p>
-				If all you'd want is the <incode>unittest</incode> namespace without automatic main function or macro shortcuts then simply include
-				<incode>&lt;libunittest/unittest.hpp&gt;</incode>.
-				</p>
-				<p>
-				And finally if you'd want everything but an automatic main function then include <incode>&lt;libunittest/unittest.hpp&gt;</incode> and
-				<incode>&lt;libunittest/shortcuts.hpp&gt;</incode>. However, your own main function will usually not be in conflict with the default main
-				function of libunittest. Therefore, including <incode>&lt;libunittest/all.hpp&gt;</incode> should be just fine.
-				</p>
-				
 				<a name="random"></a>
                 <h2>Random values and containers</h2>
                 <p>
