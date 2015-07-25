@@ -7,7 +7,7 @@ libunittest (9.0.0) stable; urgency=low
   * Significantly reduced compile times for client testing
   * Updated documentation and examples
 
- -- Christian Blume <chr.blume@gmail.com>  Sat, 2 May 2015 18:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Fri, 24 Jul 2015 21:00:00 -0700
 
 libunittest (8.1.0) stable; urgency=low
 
