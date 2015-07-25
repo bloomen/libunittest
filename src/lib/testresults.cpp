@@ -38,6 +38,7 @@ void
 write_xml(std::ostream& stream,
           const testresults& results,
           const std::string& suite_name,
+          long long shuffle_seed,
           const std::chrono::system_clock::time_point& time_point,
           bool local_time)
 {
@@ -53,6 +54,8 @@ write_xml(std::ostream& stream,
     stream << "\" failures=\"" << results.n_failures;
     stream << "\" timeouts=\"" << results.n_timeouts;
     stream << "\" skipped=\"" << results.n_skipped;
+    if (shuffle_seed >= 0)
+        stream << "\" shuffseed=\"" << shuffle_seed;
     stream << "\" time=\"" << results.duration << "\">";
     stream << "\n";
     for (const auto& log : results.testlogs) {
@@ -135,7 +138,8 @@ write_xml(std::ostream& stream,
 
 void
 write_summary(std::ostream& stream,
-              const testresults& results)
+              const testresults& results,
+              long long shuffle_seed)
 {
     static std::mutex write_summary_mutex_;
     std::lock_guard<std::mutex> lock(write_summary_mutex_);
@@ -143,7 +147,10 @@ write_summary(std::ostream& stream,
     write_horizontal_bar(stream, '-');
     stream << "\n";
     stream << "Ran " << results.n_tests << " tests in ";
-    stream << results.duration << "s\n\n";
+    stream << results.duration << "s";
+    if (shuffle_seed >= 0)
+        stream << " (shuffseed: " << shuffle_seed << ")";
+    stream << "\n\n";
     if (results.n_tests==results.n_successes) {
         stream << "OK";
         if (results.n_skipped>0 && results.n_timeouts>0) {

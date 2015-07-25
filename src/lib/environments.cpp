@@ -28,8 +28,8 @@ process(int argc, char **argv)
     suite->set_arguments(arguments);
 
     auto class_runs = suite->get_class_runs();
-    if (arguments.shuffle) {
-        std::mt19937 gen(arguments.shuffle_seed);
+    if (arguments.shuffle_seed >= 0) {
+        std::mt19937 gen(static_cast<unsigned int>(arguments.shuffle_seed));
         std::shuffle(class_runs.begin(), class_runs.end(), gen);
     }
     core::call_functions(class_runs, arguments.concurrent_threads);
@@ -49,10 +49,10 @@ process(int argc, char **argv)
     }
     write_error_info(std::cout, delta_testlogs, successful);
 
-    write_summary(std::cout, full_results);
+    write_summary(std::cout, full_results, arguments.shuffle_seed);
     if (arguments.generate_xml) {
         std::ofstream file(arguments.xml_filename);
-        write_xml(file, full_results, arguments.suite_name);
+        write_xml(file, full_results, arguments.suite_name, arguments.shuffle_seed);
     }
 
     return full_results.successful ? EXIT_SUCCESS : EXIT_FAILURE;

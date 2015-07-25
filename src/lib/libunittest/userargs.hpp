@@ -83,13 +83,9 @@ struct userargs : argparser {
      */
     std::string suite_name;
     /**
-     * @brief Whether to shuffle up the test cases (default: false)
+     * @brief The random seed of the optional shuffling (default: -1)
      */
-    bool shuffle;
-    /**
-     * @brief The random seed for the optional shuffling (default: 1)
-     */
-    int shuffle_seed;
+    long long shuffle_seed;
 
 private:
 

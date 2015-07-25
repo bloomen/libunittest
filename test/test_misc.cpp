@@ -89,7 +89,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::core::write_xml(stream, results, "libunittest", time_point, false);
+        unittest::core::write_xml(stream, results, "libunittest", -1, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"libunittest\" ";
@@ -106,7 +106,7 @@ struct test_misc : unittest::testcase<> {
         std::ostringstream stream;
         const time_t value = 1234567890;
         const auto time_point = std::chrono::system_clock::from_time_t(value);
-        unittest::core::write_xml(stream, results, "peter", time_point, false);
+        unittest::core::write_xml(stream, results, "peter", -1, time_point, false);
         std::ostringstream expected;
         expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         expected << "<testsuite name=\"peter\" ";
@@ -130,7 +130,7 @@ struct test_misc : unittest::testcase<> {
     {
         const unittest::core::testresults results;
         std::ostringstream stream;
-        unittest::core::write_summary(stream, results);
+        unittest::core::write_summary(stream, results, -1);
         std::ostringstream expected;
         expected << "\n";
         unittest::core::write_horizontal_bar(expected, '-');
@@ -142,11 +142,11 @@ struct test_misc : unittest::testcase<> {
     {
         const auto results = make_sample_results();
         std::ostringstream stream;
-        unittest::core::write_summary(stream, results);
+        unittest::core::write_summary(stream, results, 42);
         std::ostringstream expected;
         expected << "\n";
         unittest::core::write_horizontal_bar(expected, '-');
-        expected << "\nRan 3 tests in 6s\n\nFAILED (failures=1, errors=1, timeouts=1)\n";
+        expected << "\nRan 3 tests in 6s (shuffseed: 42)\n\nFAILED (failures=1, errors=1, timeouts=1)\n";
         assert_equal(expected.str(), stream.str(), SPOT);
     }
 

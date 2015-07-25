@@ -65,6 +65,7 @@ struct testresults {
  * @param stream The output stream
  * @param results The test results
  * @param suite_name the name of the test suite
+ * @param shuffle_seed The shuffle seed
  * @param time_point The time point used in the root tag (defaults to now)
  * @param local_time Whether timestamps are displayed in local time
  */
@@ -72,16 +73,19 @@ void
 write_xml(std::ostream& stream,
           const unittest::core::testresults& results,
           const std::string& suite_name,
+          long long shuffle_seed,
           const std::chrono::system_clock::time_point& time_point=std::chrono::system_clock::now(),
           bool local_time=true);
 /**
  * @brief Writes the test summary to the given output stream
  * @param stream The output stream
  * @param results The test results
+ * @param shuffle_seed The shuffle seed
  */
 void
 write_summary(std::ostream& stream,
-              const unittest::core::testresults& results);
+              const unittest::core::testresults& results,
+              long long shuffle_seed);
 /**
  * @brief Writes the error info to the given output stream
  * @param stream The output stream

@@ -86,6 +86,7 @@
             <xs:attribute name="package" type="xs:string" use="optional"/>
             <xs:attribute name="assertions" type="xs:string" use="optional"/>
             <xs:attribute name="file" type="xs:string" use="optional"/>
+            <xs:attribute name="shuffseed" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>
 
