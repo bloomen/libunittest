@@ -1,13 +1,17 @@
 libunittest (9.0.0) stable; urgency=low
 
-  * Add assert macros which capture the call signature and assert location 
-  * Add support for non-deadly assertions by using the NDAS macro
-  * Add support for nested COLLECTION macros
+  * Added assert macros which capture the call signature and assert location 
+  * Added support for non-deadly assertions by using the NDAS macro
+  * Added support for nested COLLECTION macros
   * COLLECTION macro can now also be used with explicit test classes
+  * Added a new switch (-z) that let's you shuffle up the test cases
+  * Added a new switch (-k) that let's you run tests regardless of whether
+    they are skipped statically
   * Significantly reduced compile times for client testing
+  * Use of proper types in the XML schema
   * Updated documentation and examples
 
- -- Christian Blume <chr.blume@gmail.com>  Fri, 24 Jul 2015 21:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 25 Jul 2015 17:00:00 -0700
 
 libunittest (8.1.0) stable; urgency=low
 
