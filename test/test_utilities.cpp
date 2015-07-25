@@ -46,10 +46,10 @@ struct test_utilities : unittest::testcase<> {
     void test_now()
     {
         const auto now1 = unittest::core::now();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         const auto now2 = unittest::core::now();
         const auto duration = unittest::core::duration_in_seconds(now2 - now1);
-        assert_in_range(duration, 0.001, 0.003, SPOT);
+        assert_in_range(duration, 0.1, 0.3, SPOT);
     }
 
     void test_limit_string_length()
