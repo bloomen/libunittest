@@ -86,6 +86,10 @@ struct userargs : argparser {
      * @brief The random seed of the optional shuffling (default: -1)
      */
     long long shuffle_seed;
+    /**
+     * @brief Whether to ignore all static skips (default: false)
+     */
+    bool ignore_skips;
 
 private:
 

@@ -214,7 +214,7 @@ make_testinfo(std::string class_id,
     has_timed_out->store(false);
     return {make_method_id(class_id, test_name), class_name,
             test_name, args.dry_run, args.handle_exceptions,
-            done, has_timed_out, timeout, skipped, skip_message};
+            done, has_timed_out, timeout, skipped && !args.ignore_skips, skip_message};
 }
 
 void run_testfunction(const unittest::core::testinfo& info,
