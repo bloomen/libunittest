@@ -6,6 +6,7 @@
 #include "libunittest/testfailure.hpp"
 #include <iostream>
 #include <fstream>
+#include <random>
 
 namespace unittest {
 
@@ -26,9 +27,12 @@ process(int argc, char **argv)
     auto suite = core::testsuite::instance();
     suite->set_arguments(arguments);
 
-    const auto& class_runs = suite->get_class_runs();
-    const int n_threads = arguments.concurrent_threads;
-    core::call_functions(class_runs, n_threads);
+    auto class_runs = suite->get_class_runs();
+    if (arguments.shuffle) {
+        std::mt19937 gen(arguments.shuffle_seed);
+        std::shuffle(class_runs.begin(), class_runs.end(), gen);
+    }
+    core::call_functions(class_runs, arguments.concurrent_threads);
 
     const auto results = suite->get_results();
     write_error_info(std::cout, results.testlogs, results.successful);

@@ -11,7 +11,7 @@ userargs::userargs()
       handle_exceptions(true), dry_run(false), concurrent_threads(0), regex_filter(""),
       name_filter(""), test_name(""), timeout(-1), xml_filename("libunittest.xml"),
       disable_timeout(false), max_value_precision(10), max_string_length(500),
-      suite_name("libunittest")
+      suite_name("libunittest"), shuffle(false), shuffle_seed(1)
 {
     register_trigger('v', "verbose", "Sets verbose output for running tests", verbose);
     register_trigger('d', "dry_run", "A dry run without actually executing any tests", dry_run);
@@ -19,6 +19,8 @@ userargs::userargs()
     register_trigger('x', "gen_xml", "Enables the generation of the XML output", generate_xml);
     register_trigger('e', "handle_exc", "Turns off handling of unexpected exceptions", handle_exceptions);
     register_trigger('i', "no_timeouts", "Disables the measurement of any test timeouts", disable_timeout);
+    register_trigger('a', "shuffle", "Shuffles up the test cases", shuffle);
+    register_argument('z', "seed", "The random seed of the optional shuffling", shuffle_seed, true);
     register_argument('p', "number", "Runs tests in parallel with a given number of threads", concurrent_threads, false);
     register_argument('n', "name", "A certain test to be run superseding any other run filter", test_name, false);
     register_argument('f', "string", "A run filter applied to the beginning of the test names", name_filter, false);
@@ -45,6 +47,8 @@ userargs::assign_values()
     assign_value(generate_xml, 'x');
     assign_value(handle_exceptions, 'e');
     assign_value(disable_timeout, 'i');
+    assign_value(shuffle, 'a');
+    assign_value(shuffle_seed, 'z');
     assign_value(concurrent_threads, 'p');
     assign_value(test_name, 'n');
     assign_value(name_filter, 'f');

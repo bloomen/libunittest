@@ -652,7 +652,7 @@ private:
     do_get()
     {
         auto first = vector_.begin();
-        shuffle(first, vector_.end(), this->gen());
+        std::shuffle(first, vector_.end(), this->gen());
         Container container(first, first + size_);
         return std::move(container);
     }

@@ -82,6 +82,14 @@ struct userargs : argparser {
      * @brief The name of the test suite (default: "libunittest")
      */
     std::string suite_name;
+    /**
+     * @brief Whether to shuffle up the test cases (default: false)
+     */
+    bool shuffle;
+    /**
+     * @brief The random seed for the optional shuffling (default: 1)
+     */
+    int shuffle_seed;
 
 private:
 
