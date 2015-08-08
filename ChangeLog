@@ -1,6 +1,8 @@
 libunittest (9.1.0) stable; urgency=low
 
   !!!in progress!!!
+  * ensure command line arguments that are provided multiple times are ignored
+    -> the first one provided wins
   * add new preprocessor checks for easier disable of certain features
     -> see tutorial 
 
