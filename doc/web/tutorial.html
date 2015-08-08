@@ -80,16 +80,16 @@
                     }<br><br>
                 </code>
                 By including <incode>libunittest/all.hpp</incode> you get an 
-                automatic main function and access to all macros. There are 
-                three preprocessor switches that let you control the details:
+                automatic main function and access to all macros. The following 
+                three preprocessor switches let you disable certain features:
                 <li>
-                <incode>UNITTEST_MAIN_FUNC</incode> - Set to 0 to not include an automatic main function
+                <incode>UNITTEST_NO_MAIN_FUNC</incode> - Define to not include an automatic main function
                 </li>
                 <li>
-                <incode>UNITTEST_ASSERT_SHORT</incode> - Set to 0 to disable assert shortcuts
+                <incode>UNITTEST_NO_ASSERT_SHORT</incode> - Define to disable shorter assert macros
                 </li>
                 <li>
-                <incode>UNITTEST_MACRO_SHORT</incode> - Set to 0 to disable miscellaneous macro shortcuts
+                <incode>UNITTEST_NO_MACRO_SHORT</incode> - Define to disable shorter miscellaneous macros
                 </li>
                 </p>
                 <p>
