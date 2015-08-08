@@ -159,15 +159,18 @@ protected:
         const std::string flag = this->make_arg_string(arg);
         result = this->get_value<T>(flag, row.default_value);
         bool found = false;
+        std::vector<size_t> del_indices;
         for (size_t i=0; i<args_.size(); ++i) {
             if (args_[i]==flag) {
                 if (++i<args_.size()) {
-                    result = this->get_value<T>(flag, args_[i]);
-                    row.representation = this->make_repr(result);
-                    row.is_used = true;
-                    args_.erase(args_.begin()+i-1, args_.begin()+i+1);
+                    if (!row.is_used) {
+                        result = this->get_value<T>(flag, args_[i]);
+                        row.representation = this->make_repr(result);
+                        row.is_used = true;
+                    }
+                    del_indices.push_back(i - 1);
+                    del_indices.push_back(i);
                     found = true;
-                    break;
                 } else {
                     this->error(unittest::join("Missing value to argument '", flag, "'"));
                 }
@@ -176,6 +179,7 @@ protected:
         if (row.required && !found) {
             this->error(unittest::join("Missing required argument '", flag, "'"));
         }
+        remove_indices_from_args(del_indices);
     }
     /**
      * @brief Returns whether the given argument flag was used by the client
@@ -258,6 +262,9 @@ private:
 
     void
     check_assign_args();
+
+    void
+    remove_indices_from_args(std::vector<size_t> indices);
 
     friend std::ostream&
     operator<<(std::ostream& os, unittest::core::argparser& obj);

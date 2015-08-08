@@ -153,14 +153,18 @@ argparser::assign_value<bool>(bool& result,
     auto& row = from_registry(arg);
     const std::string flag = make_arg_string(arg);
     result = get_value<bool>(flag, row.default_value);
+    std::vector<size_t> del_indices;
     for (size_t i=0; i<args_.size(); ++i) {
         if (args_[i]==flag) {
-            result = !result;
-            row.representation = make_repr(result);
-            row.is_used = true;
-            args_.erase(args_.begin()+i);
+            if (!row.is_used) {
+                result = !result;
+                row.representation = make_repr(result);
+                row.is_used = true;
+            }
+            del_indices.push_back(i);
         }
     }
+    remove_indices_from_args(del_indices);
 }
 
 template<>
@@ -217,7 +221,7 @@ argparser::parse(int argc, char **argv)
     assign_values();
     check_assign_args();
     if (args_.size()) {
-        error(join("Ambiguous or invalid argument: '", args_[0], "'"));
+        error(join("Invalid argument: '", args_[0], "'"));
     }
     post_parse();
 }
@@ -237,6 +241,15 @@ argparser::check_assign_args()
     }
     if (!good)
         throw std::invalid_argument("Assign argument flags don't match those registered");
+}
+
+void
+argparser::remove_indices_from_args(std::vector<size_t> indices)
+{
+    std::sort(indices.begin(), indices.end(), std::greater<size_t>());
+    for (auto value : indices) {
+        args_.erase(args_.begin() + value);
+    }
 }
 
 std::ostream&

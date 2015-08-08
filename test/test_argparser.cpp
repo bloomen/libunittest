@@ -181,7 +181,7 @@ struct test_argparser : unittest::testcase<> {
         }
         assert_equal(std::string(argv_[0]) + " -p", client.command_line(), SPOT);
         std::string exp;
-        exp += "Ambiguous or invalid argument: '-p'\n";
+        exp += "Invalid argument: '-p'\n";
         assert_equal(exp, msg, SPOT);
     }
 
@@ -271,9 +271,10 @@ struct test_argparser : unittest::testcase<> {
         argv_[2] = (char*)"-c";
         argv_[3] = (char*)"-b";
         argv_[4] = (char*)"-13.4";
-        assert_throw<unittest::core::argparser::exit_error>([&](){
-            client.parse(5, argv_);
-        }, SPOT);
+        client.parse(5, argv_);
+        assert_equal("duck", client.a, SPOT);
+        assert_equal(-13.4, client.b, SPOT);
+        assert_equal(true, client.c, SPOT);
     }
 
     void test_real_client_with_double_args_at_end()
@@ -283,9 +284,12 @@ struct test_argparser : unittest::testcase<> {
         argv_[2] = (char*)"-b";
         argv_[3] = (char*)"-13.4";
         argv_[4] = (char*)"-c";
-        assert_throw<unittest::core::argparser::exit_error>([&](){
-            client.parse(5, argv_);
-        }, SPOT);
+        argv_[5] = (char*)"-b";
+        argv_[6] = (char*)"42";
+        client.parse(7, argv_);
+        assert_equal("duck", client.a, SPOT);
+        assert_equal(-13.4, client.b, SPOT);
+        assert_equal(true, client.c, SPOT);
     }
 
     void test_real_client_with_missing_value()
