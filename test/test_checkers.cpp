@@ -12,6 +12,20 @@ struct test_checkers : unittest::testcase<> {
         UNITTEST_CLASS(test_checkers)
         UNITTEST_RUN(test_check_epsilon)
         UNITTEST_RUN(test_check_range_bounds)
+        UNITTEST_RUN(test_check_isnan)
+    }
+
+    void test_check_isnan()
+    {
+        unittest::core::check_isnan(0., "", "");
+        unittest::core::check_isnan(42, "", "");
+        unittest::core::check_isnan(1.3, "", "");
+        unittest::core::check_isnan(true, "", "");
+        unittest::core::check_isnan("peter", "", "");
+        unittest::core::check_isnan(std::numeric_limits<double>::infinity(), "", "");
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isnan(std::numeric_limits<double>::quiet_NaN(), "", "");
+        }, SPOT);
     }
 
     void test_check_epsilon()

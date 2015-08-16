@@ -41,6 +41,19 @@ struct test_utilities : unittest::testcase<> {
         UNITTEST_RUN(test_remove_tagged_text_not_found)
         UNITTEST_RUN(test_make_unique)
         UNITTEST_RUN(test_now)
+        UNITTEST_RUN(test_isnan)
+    }
+
+    void test_isnan()
+    {
+        assert_false(unittest::core::isnan(0.), SPOT);
+        assert_false(unittest::core::isnan(42), SPOT);
+        assert_false(unittest::core::isnan(1.3), SPOT);
+        assert_false(unittest::core::isnan(true), SPOT);
+        assert_false(unittest::core::isnan("peter"), SPOT);
+        assert_false(unittest::core::isnan(std::numeric_limits<double>::infinity()), SPOT);
+        assert_true(unittest::core::isnan(std::numeric_limits<double>::quiet_NaN()), SPOT);
+        assert_true(unittest::core::isnan(0.0/0.0), SPOT);
     }
 
     void test_now()

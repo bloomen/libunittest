@@ -85,6 +85,68 @@ write_horizontal_bar(std::ostream& stream,
 double
 duration_in_seconds(const std::chrono::duration<double>& duration);
 /**
+ * @brief Checks for isnan for arithmetic types
+ */
+struct isnan_arithmetic {
+    /**
+     * Returns whether the given value is not a number
+     * @param value The value
+     * @return Whether the given value is not a number
+     */
+    template<typename T>
+    bool
+    operator()(const T& value)
+    {
+        return std::isnan(value);
+    }
+};
+/**
+ * @brief Checks for isnan for non-arithmetic types
+ */
+struct isnan_other {
+    /**
+     * Returns false
+     * @return false
+     */
+    template<typename T>
+    bool
+    operator()(const T&)
+    {
+        return false;
+    }
+};
+/**
+ * @brief Type dispatch for isnan
+ */
+template<bool is_arithmetic>
+struct isnan_dispatch;
+/**
+ * @brief Type dispatch for isnan for arithmetic types
+ */
+template<>
+struct isnan_dispatch<true> {
+    typedef unittest::core::isnan_arithmetic type;
+};
+/**
+ * @brief Type dispatch for isnan for non-arithmetic types
+ */
+template<>
+struct isnan_dispatch<false> {
+    typedef unittest::core::isnan_other type;
+};
+/**
+ * Returns whether the given value is not a number
+ * @param value The value
+ * @return Whether the given value is not a number
+ */
+template<typename T>
+bool
+isnan(const T& value)
+{
+    typename unittest::core::isnan_dispatch<std::is_arithmetic<T>::value>::type check;
+    return check(value);
+}
+/**
  * @brief Checks if two values are equal up to some epsilon
  * @param first A value
  * @param second Another value
@@ -99,6 +161,8 @@ is_approx_equal(const T& first,
                 const U& second,
                 const V& eps)
 {
+    if (unittest::core::isnan(first) || unittest::core::isnan(second) || unittest::core::isnan(eps))
+        return false;
     volatile V diff(eps - eps);
     if (first > second)
         diff = static_cast<V>(first - second);
@@ -122,6 +186,8 @@ is_approxrel_equal(const T& first,
                    const U& second,
                    const V& eps)
 {
+    if (unittest::core::isnan(first) || unittest::core::isnan(second) || unittest::core::isnan(eps))
+        return false;
     volatile const T zero(first - first);
     volatile const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
     return is_approx_equal(first, second, abs_eps);
@@ -142,6 +208,8 @@ is_in_range(const T& value,
             const U& lower,
             const V& upper)
 {
+    if (unittest::core::isnan(value) || unittest::core::isnan(lower) || unittest::core::isnan(upper))
+        return false;
     return !(value < lower) && !(value > upper);
 }
 /**
@@ -156,6 +224,8 @@ bool
 is_contained(const T& value,
              const Container& container)
 {
+    if (unittest::core::isnan(value))
+        return false;
     auto first = std::begin(container);
     auto last = std::end(container);
     return std::find(first, last, value) != last;
@@ -176,6 +246,8 @@ is_approx_contained(const T& value,
                     const Container& container,
                     const U& eps)
 {
+    if (unittest::core::isnan(value))
+        return false;
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {
@@ -200,6 +272,8 @@ is_approxrel_contained(const T& value,
                        const Container& container,
 					   const U& eps)
 {
+    if (unittest::core::isnan(value))
+        return false;
     auto first = std::begin(container);
     auto last = std::end(container);
     while (first!=last) {

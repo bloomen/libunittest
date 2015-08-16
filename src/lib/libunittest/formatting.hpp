@@ -128,5 +128,46 @@ template<>
 std::string
 str<bool>(const bool& value);
 
+struct tostr_if_converter_arithmetic {
+
+    template<typename T>
+    std::string
+    operator()(const std::string& prefix, const T& value, const std::string& postfix)
+    {
+        return prefix + unittest::core::str(value) + postfix;
+    }
+};
+
+struct tostr_if_converter_other {
+
+    template<typename T>
+    std::string
+    operator()(const std::string&, const T&, const std::string&)
+    {
+        return "";
+    }
+};
+
+template<bool is_arithmetic>
+struct tostr_if_converter;
+
+template<>
+struct tostr_if_converter<true> {
+    typedef unittest::core::tostr_if_converter_arithmetic type;
+};
+
+template<>
+struct tostr_if_converter<false> {
+    typedef unittest::core::tostr_if_converter_other type;
+};
+
+template<typename T>
+std::string
+str_if(const std::string& prefix, const T& value, const std::string& postfix="")
+{
+    typename unittest::core::tostr_if_converter<std::is_arithmetic<T>::value>::type converter;
+    return converter(prefix, value, postfix);
+}
+
 } // core
 } // unittest

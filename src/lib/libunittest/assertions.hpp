@@ -32,6 +32,7 @@ void
 assert_true(const T& value,
             const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (!value) {
         const std::string text = "false is not true";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -48,6 +49,7 @@ void
 assert_false(const T& value,
              const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (value) {
         const std::string text = "true is not false";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -68,6 +70,8 @@ assert_equal(const T& expected,
              const U& actual,
              const Args&... message)
 {
+    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
     if (!(expected == actual)) {
         const std::string text = unittest::core::str(expected) + " not equal to " + unittest::core::str(actual);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -88,6 +92,8 @@ assert_not_equal(const T& first,
                  const U& second,
                  const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     if (first == second) {
         const std::string text = unittest::core::str(first) + " equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -112,6 +118,8 @@ assert_approx_equal(const T& expected,
                     const V& epsilon,
                     const Args&... message)
 {
+    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(expected) + " not approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
@@ -137,6 +145,8 @@ assert_approx_not_equal(const T& first,
                         const V& epsilon,
                         const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(first) + " approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
@@ -162,6 +172,8 @@ assert_approxrel_equal(const T& expected,
                        const V& epsilon,
                        const Args&... message)
 {
+    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(expected) + " not relatively approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
@@ -187,6 +199,8 @@ assert_approxrel_not_equal(const T& first,
                            const V& epsilon,
                            const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approxrel_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(first) + " relatively approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
@@ -208,6 +222,8 @@ assert_greater(const T& first,
                const U& second,
                const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     if (!(first > second)) {
         const std::string text = unittest::core::str(first) + " not greater than " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -228,6 +244,8 @@ assert_greater_equal(const T& first,
                      const U& second,
                      const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     if (first < second) {
         const std::string text = unittest::core::str(first) + " not greater than or equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -248,6 +266,8 @@ assert_lesser(const T& first,
               const U& second,
               const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     if (!(first < second)) {
         const std::string text = unittest::core::str(first) + " not lesser than " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -268,6 +288,8 @@ assert_lesser_equal(const T& first,
                     const U& second,
                     const Args&... message)
 {
+    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
     if (first > second) {
         const std::string text = unittest::core::str(first) + " not lesser than or equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -291,6 +313,7 @@ assert_in_range(const T& value,
                 const V& upper,
                 const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (!unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " not in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -315,6 +338,7 @@ assert_not_in_range(const T& value,
                     const V& upper,
                     const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -336,6 +360,7 @@ assert_in_container(const T& value,
                     const Container& container,
                     const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (!unittest::core::is_contained(value, container)) {
         const std::string text = "value not in container";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -356,6 +381,7 @@ assert_not_in_container(const T& value,
                         const Container& container,
                         const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (unittest::core::is_contained(value, container)) {
         const std::string text = "value in container";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -380,6 +406,7 @@ assert_approx_in_container(const T& value,
                            const U& epsilon,
                            const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value not approx. in container";
@@ -405,6 +432,7 @@ assert_approx_not_in_container(const T& value,
                                const U& epsilon,
                                const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value approx. in container";
@@ -430,6 +458,7 @@ assert_approxrel_in_container(const T& value,
                               const U& epsilon,
                               const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_contained(value, container, epsilon)) {
         const std::string text = "value not relatively approx. in container";
@@ -455,6 +484,7 @@ assert_approxrel_not_in_container(const T& value,
                                   const U& epsilon,
                                   const Args&... message)
 {
+    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
 	unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
 	if (unittest::core::is_approxrel_contained(value, container, epsilon)) {
 		const std::string text = "value relatively approx. in container";
