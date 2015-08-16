@@ -34,7 +34,7 @@ assert_true(const T& value,
 {
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (!value) {
-        const std::string text = "false is not true";
+        const std::string text = "false is not true" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -51,7 +51,7 @@ assert_false(const T& value,
 {
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (value) {
-        const std::string text = "true is not false";
+        const std::string text = "true is not false" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -362,7 +362,7 @@ assert_in_container(const T& value,
 {
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (!unittest::core::is_contained(value, container)) {
-        const std::string text = "value not in container";
+        const std::string text = "value not in container" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -383,7 +383,7 @@ assert_not_in_container(const T& value,
 {
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     if (unittest::core::is_contained(value, container)) {
-        const std::string text = "value in container";
+        const std::string text = "value in container" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -409,7 +409,7 @@ assert_approx_in_container(const T& value,
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_contained(value, container, epsilon)) {
-        const std::string text = "value not approx. in container";
+        const std::string text = "value not approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -435,7 +435,7 @@ assert_approx_not_in_container(const T& value,
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_contained(value, container, epsilon)) {
-        const std::string text = "value approx. in container";
+        const std::string text = "value approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -461,7 +461,7 @@ assert_approxrel_in_container(const T& value,
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_contained(value, container, epsilon)) {
-        const std::string text = "value not relatively approx. in container";
+        const std::string text = "value not relatively approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -487,7 +487,7 @@ assert_approxrel_not_in_container(const T& value,
     unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
 	unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
 	if (unittest::core::is_approxrel_contained(value, container, epsilon)) {
-		const std::string text = "value relatively approx. in container";
+		const std::string text = "value relatively approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
 		unittest::fail(UNITTEST_FUNC, text, message...);
 	}
 }
@@ -552,7 +552,7 @@ assert_approx_equal_containers(const Container1& expected,
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_approx_equal(expected, actual, epsilon)) {
-        const std::string text = "containers are not approx. equal";
+        const std::string text = "containers are not approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -578,7 +578,7 @@ assert_approx_not_equal_containers(const Container1& first,
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_approx_equal(first, second, epsilon)) {
-        const std::string text = "containers are approx. equal";
+        const std::string text = "containers are approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -604,7 +604,7 @@ assert_approxrel_equal_containers(const Container1& expected,
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_approxrel_equal(expected, actual, epsilon)) {
-        const std::string text = "containers are not relatively approx. equal";
+        const std::string text = "containers are not relatively approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -630,7 +630,7 @@ assert_approxrel_not_equal_containers(const Container1& first,
 {
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_approxrel_equal(first, second, epsilon)) {
-        const std::string text = "containers are relatively approx. equal";
+        const std::string text = "containers are relatively approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }

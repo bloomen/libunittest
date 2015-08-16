@@ -8,6 +8,15 @@ struct test_formatting : unittest::testcase<> {
     {
         UNITTEST_CLASS(test_formatting)
         UNITTEST_RUN(test_str)
+        UNITTEST_RUN(test_str_if)
+    }
+
+    void test_str_if()
+    {
+        assert_equal("42.3", str_if("", 42.3), SPOT);
+        assert_equal("albert42.3", str_if("albert", 42.3), SPOT);
+        assert_equal("albert42", str_if("albert", 42, "kunde"), SPOT);
+        assert_equal("kunde", str_if("albert", unittest::sometype(), "kunde"), SPOT);
     }
 
     void test_str()

@@ -127,46 +127,78 @@ str(const T& value)
 template<>
 std::string
 str<bool>(const bool& value);
-
+/**
+ * @brief Converts an arithmetic value to string
+ */
 struct tostr_if_converter_arithmetic {
-
+    /**
+     * @brief Converts an arithmetic value to string
+     * @param prefix The prefix string
+     * @param value The value
+     * @return A string
+     */
     template<typename T>
     std::string
-    operator()(const std::string& prefix, const T& value, const std::string& postfix)
+    operator()(const std::string& prefix, const T& value, const std::string&)
     {
-        return prefix + unittest::core::str(value) + postfix;
+        return prefix + unittest::core::str(value);
     }
 };
-
+/**
+ * @brief Converts a non-arithmetic value to string
+ */
 struct tostr_if_converter_other {
-
+    /**
+     * @brief Converts a non-arithmetic value to string
+     * @param fallback
+     * @return A string
+     */
     template<typename T>
     std::string
-    operator()(const std::string&, const T&, const std::string&)
+    operator()(const std::string&, const T&, const std::string& fallback)
     {
-        return "";
+        return fallback;
     }
 };
-
+/**
+ * @brief Converts a value to string
+ */
 template<bool is_arithmetic>
 struct tostr_if_converter;
-
+/**
+ * @brief Converts a value to string. Spec. for arithmetic
+ */
 template<>
 struct tostr_if_converter<true> {
+    /**
+     * @brief Arithmetic value converter
+     */
     typedef unittest::core::tostr_if_converter_arithmetic type;
 };
-
+/**
+ * @brief Converts a value to string. Spec. for non-arithmetic
+ */
 template<>
 struct tostr_if_converter<false> {
+    /**
+     * @brief Non-arithmetic value converter
+     */
     typedef unittest::core::tostr_if_converter_other type;
 };
-
+/**
+ * Converts the given value to string by appending the prefix if value is of
+ * arithmetic type and if not, just returns the fallback string
+ * @param prefix The prefix string
+ * @param value The value
+ * @param fallback The fallback string
+ * @return A string
+ */
 template<typename T>
 std::string
-str_if(const std::string& prefix, const T& value, const std::string& postfix="")
+str_if(const std::string& prefix, const T& value, const std::string& fallback="")
 {
     typename unittest::core::tostr_if_converter<std::is_arithmetic<T>::value>::type converter;
-    return converter(prefix, value, postfix);
+    return converter(prefix, value, fallback);
 }
 
 } // core
