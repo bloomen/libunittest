@@ -85,9 +85,15 @@ write_horizontal_bar(std::ostream& stream,
 double
 duration_in_seconds(const std::chrono::duration<double>& duration);
 /**
- * @brief Checks for isnan for arithmetic types
+ * @brief Checker for isnan
  */
-struct isnan_arithmetic {
+template<bool is_arithmetic>
+struct isnan_check;
+/**
+ * @brief Checker for isnan for arithmetic types
+ */
+template<>
+struct isnan_check<true> {
     /**
      * Returns whether the given value is not a number
      * @param value The value
@@ -101,9 +107,10 @@ struct isnan_arithmetic {
     }
 };
 /**
- * @brief Checks for isnan for non-arithmetic types
+ * @brief Checker for isnan for non-arithmetic types
  */
-struct isnan_other {
+template<>
+struct isnan_check<false> {
     /**
      * Returns false
      * @return false
@@ -116,25 +123,6 @@ struct isnan_other {
     }
 };
 /**
- * @brief Type dispatch for isnan
- */
-template<bool is_arithmetic>
-struct isnan_dispatch;
-/**
- * @brief Type dispatch for isnan for arithmetic types
- */
-template<>
-struct isnan_dispatch<true> {
-    typedef unittest::core::isnan_arithmetic type;
-};
-/**
- * @brief Type dispatch for isnan for non-arithmetic types
- */
-template<>
-struct isnan_dispatch<false> {
-    typedef unittest::core::isnan_other type;
-};
-/**
  * Returns whether the given value is not a number
  * @param value The value
  * @return Whether the given value is not a number
@@ -143,7 +131,7 @@ template<typename T>
 bool
 isnan(const T& value)
 {
-    typename unittest::core::isnan_dispatch<std::is_arithmetic<T>::value>::type check;
+    unittest::core::isnan_check<std::is_arithmetic<T>::value> check;
     return check(value);
 }
 /**
