@@ -1,12 +1,13 @@
 libunittest (9.1.0) stable; urgency=low
 
-  !!!in progress!!!
+  * added checks for "not a number" to assertions
+  * improved output to stdout for arithmetic values
   * ensure command line arguments that are provided multiple times are ignored
     -> the first one provided wins
   * add new preprocessor checks for easier disable of certain features
     -> see tutorial 
 
- -- Christian Blume <chr.blume@gmail.com>  Sat, 25 Jul 2015 17:00:00 -0700
+ -- Christian Blume <chr.blume@gmail.com>  Sun, 16 Aug 2015 15:00:00 -0700
 
 libunittest (9.0.0) stable; urgency=low
 
