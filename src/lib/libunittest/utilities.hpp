@@ -135,6 +135,56 @@ isnan(const T& value)
     return check(value);
 }
 /**
+ * @brief Checker for isfinite
+ */
+template<bool is_arithmetic>
+struct isfinite_check;
+/**
+ * @brief Checker for isfinite for arithmetic types
+ */
+template<>
+struct isfinite_check<true> {
+    /**
+     * Returns whether the given value is finite
+     * @param value The value
+     * @return Whether the given value is finite
+     */
+    template<typename T>
+    bool
+    operator()(const T& value)
+    {
+        return std::isfinite(value);
+    }
+};
+/**
+ * @brief Checker for isfinite for non-arithmetic types
+ */
+template<>
+struct isfinite_check<false> {
+    /**
+     * Returns true
+     * @return true
+     */
+    template<typename T>
+    bool
+    operator()(const T&)
+    {
+        return true;
+    }
+};
+/**
+ * Returns whether the given value is finite
+ * @param value The value
+ * @return Whether the given value is finite
+ */
+template<typename T>
+bool
+isfinite(const T& value)
+{
+    unittest::core::isfinite_check<std::is_arithmetic<T>::value> check;
+    return check(value);
+}
+/**
  * @brief Checks if two values are equal up to some epsilon
  * @param first A value
  * @param second Another value
