@@ -52,6 +52,8 @@ struct test_utilities : unittest::testcase<> {
         assert_true(unittest::core::isfinite(1.3), SPOT);
         assert_true(unittest::core::isfinite(true), SPOT);
         assert_true(unittest::core::isfinite("peter"), SPOT);
+        assert_true(unittest::core::isfinite(std::numeric_limits<double>::min()), SPOT);
+        assert_true(unittest::core::isfinite(std::numeric_limits<double>::max()), SPOT);
         assert_false(unittest::core::isfinite(std::numeric_limits<double>::infinity()), SPOT);
         assert_false(unittest::core::isfinite(std::numeric_limits<double>::quiet_NaN()), SPOT);
         assert_false(unittest::core::isfinite(0.0/0.0), SPOT);
@@ -64,6 +66,8 @@ struct test_utilities : unittest::testcase<> {
         assert_false(unittest::core::isnan(1.3), SPOT);
         assert_false(unittest::core::isnan(true), SPOT);
         assert_false(unittest::core::isnan("peter"), SPOT);
+        assert_false(unittest::core::isnan(std::numeric_limits<double>::min()), SPOT);
+        assert_false(unittest::core::isnan(std::numeric_limits<double>::max()), SPOT);
         assert_false(unittest::core::isnan(std::numeric_limits<double>::infinity()), SPOT);
         assert_true(unittest::core::isnan(std::numeric_limits<double>::quiet_NaN()), SPOT);
         assert_true(unittest::core::isnan(0.0/0.0), SPOT);
