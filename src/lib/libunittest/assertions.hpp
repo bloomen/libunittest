@@ -34,7 +34,7 @@ assert_true(const T& value,
 {
     unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     if (!value) {
-        const std::string text = "false is not true" + unittest::core::str_if(": ", value);
+        const std::string text = "value is not true" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -51,7 +51,7 @@ assert_false(const T& value,
 {
     unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     if (value) {
-        const std::string text = "true is not false" + unittest::core::str_if(": ", value);
+        const std::string text = "value is not false" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
