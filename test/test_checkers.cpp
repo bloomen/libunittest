@@ -13,6 +13,55 @@ struct test_checkers : unittest::testcase<> {
         UNITTEST_RUN(test_check_epsilon)
         UNITTEST_RUN(test_check_range_bounds)
         UNITTEST_RUN(test_check_isnan)
+        UNITTEST_RUN(test_check_isfinite)
+        UNITTEST_RUN(test_check_isfinite_container)
+    }
+
+    void test_check_isfinite_container()
+    {
+        unittest::core::check_isfinite_container(std::vector<double>{}, "", "");
+        unittest::core::check_isfinite_container(std::vector<double>{0.}, "", "");
+        unittest::core::check_isfinite_container(std::vector<int>{42}, "", "");
+        unittest::core::check_isfinite_container(std::vector<double>{1.3}, "", "");
+        unittest::core::check_isfinite_container(std::vector<double>{1.3, 47.4}, "", "");
+        unittest::core::check_isfinite_container(std::vector<bool>{true}, "", "");
+        unittest::core::check_isfinite_container(std::vector<std::string>{"peter"}, "", "");
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{std::numeric_limits<double>::infinity()}, "", "");
+        }, SPOT, NDAS);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{std::numeric_limits<double>::quiet_NaN()}, "", "");
+        }, SPOT, NDAS);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{0.0/0.0}, "", "");
+        }, SPOT, NDAS);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{1.1, std::numeric_limits<double>::infinity()}, "", "");
+        }, SPOT, NDAS);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{std::numeric_limits<double>::quiet_NaN(), 3.4}, "", "");
+        }, SPOT, NDAS);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite_container(std::vector<double>{0.0/0.0, 7.8}, "", "");
+        }, SPOT, NDAS);
+    }
+
+    void test_check_isfinite()
+    {
+        unittest::core::check_isfinite(0., "", "");
+        unittest::core::check_isfinite(42, "", "");
+        unittest::core::check_isfinite(1.3, "", "");
+        unittest::core::check_isfinite(true, "", "");
+        unittest::core::check_isfinite("peter", "", "");
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite(std::numeric_limits<double>::infinity(), "", "");
+        }, SPOT);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite(std::numeric_limits<double>::quiet_NaN(), "", "");
+        }, SPOT);
+        assert_throw<unittest::testfailure>([]() {
+            unittest::core::check_isfinite(0.0/0.0, "", "");
+        }, SPOT);
     }
 
     void test_check_isnan()

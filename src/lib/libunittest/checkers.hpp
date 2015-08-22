@@ -17,6 +17,50 @@ namespace unittest {
  */
 namespace core {
 /**
+ * Checks if the value passed is finite. Performs an actual check only on
+ * values of arithmetic type
+ * @param value The value
+ * @param argument The name of the argument
+ * @param caller The name of the caller
+ * @param message If given, is appended to the default fail message
+ */
+template<typename T,
+         typename... Args>
+void
+check_isfinite(const T& value,
+               const std::string& argument,
+               const std::string& caller,
+               const Args&... message)
+{
+    if (!unittest::core::isfinite(value)) {
+        const std::string text = argument + " is not finite" + unittest::core::str_if(": ", value);
+        unittest::fail(caller, text, message...);
+    }
+}
+/**
+ * Checks if the container passed contains only finite elements. Performs an
+ * actual check only on values of arithmetic type
+ * @param container The container
+ * @param argument The name of the argument
+ * @param caller The name of the caller
+ * @param message If given, is appended to the default fail message
+ */
+template<typename T,
+         typename... Args>
+void
+check_isfinite_container(const T& container,
+                         const std::string& argument,
+                         const std::string& caller,
+                         const Args&... message)
+{
+    auto begin = std::begin(container);
+    auto end = std::end(container);
+    if (!std::all_of(begin, end, [](decltype(*begin) v) { return unittest::core::isfinite(v); })) {
+        const std::string text = argument + " contains non-finite elements";
+        unittest::fail(caller, text, message...);
+    }
+}
+/**
  * Checks if the value passed is nan. Performs an actual check only on
  * values of arithmetic type
  * @param value The value
@@ -50,7 +94,7 @@ check_epsilon(const T& epsilon,
               const std::string& caller,
               const Args&... message)
 {
-    unittest::core::check_isnan(epsilon, "epsilon", caller, message...);
+    unittest::core::check_isfinite(epsilon, "epsilon", caller, message...);
     if (!(epsilon > epsilon - epsilon)) {
         const std::string text = "epsilon not greater than zero" + unittest::core::str_if(": ", epsilon);
         unittest::fail(caller, text, message...);
@@ -72,8 +116,8 @@ check_range_bounds(const T& lower,
                    const std::string& caller,
                    const Args&... message)
 {
-    unittest::core::check_isnan(lower, "lower bound", caller, message...);
-    unittest::core::check_isnan(upper, "upper bound", caller, message...);
+    unittest::core::check_isfinite(lower, "lower bound", caller, message...);
+    unittest::core::check_isfinite(upper, "upper bound", caller, message...);
     if (lower > upper) {
         const std::string text = "lower bound cannot be greater than upper bound"  + unittest::core::str_if(": ", lower, ": lower")  + unittest::core::str_if(" > ", upper, " > upper");
         unittest::fail(caller, text, message...);

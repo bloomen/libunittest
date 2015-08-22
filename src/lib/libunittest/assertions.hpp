@@ -32,7 +32,7 @@ void
 assert_true(const T& value,
             const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     if (!value) {
         const std::string text = "false is not true" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -49,7 +49,7 @@ void
 assert_false(const T& value,
              const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     if (value) {
         const std::string text = "true is not false" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -70,8 +70,8 @@ assert_equal(const T& expected,
              const U& actual,
              const Args&... message)
 {
-    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(actual, "actual", UNITTEST_FUNC, message...);
     if (!(expected == actual)) {
         const std::string text = unittest::core::str(expected) + " not equal to " + unittest::core::str(actual);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -92,8 +92,8 @@ assert_not_equal(const T& first,
                  const U& second,
                  const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     if (first == second) {
         const std::string text = unittest::core::str(first) + " equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -118,8 +118,8 @@ assert_approx_equal(const T& expected,
                     const V& epsilon,
                     const Args&... message)
 {
-    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(expected) + " not approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
@@ -145,8 +145,8 @@ assert_approx_not_equal(const T& first,
                         const V& epsilon,
                         const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(first) + " approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
@@ -172,8 +172,8 @@ assert_approxrel_equal(const T& expected,
                        const V& epsilon,
                        const Args&... message)
 {
-    unittest::core::check_isnan(expected, "expected", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(actual, "actual", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_equal(expected, actual, epsilon)) {
         const std::string text = unittest::core::str(expected) + " not relatively approx. equal to " + unittest::core::str(actual) + " with epsilon = " + unittest::core::str(epsilon);
@@ -199,8 +199,8 @@ assert_approxrel_not_equal(const T& first,
                            const V& epsilon,
                            const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approxrel_equal(first, second, epsilon)) {
         const std::string text = unittest::core::str(first) + " relatively approx. equal to " + unittest::core::str(second) + " with epsilon = " + unittest::core::str(epsilon);
@@ -222,8 +222,8 @@ assert_greater(const T& first,
                const U& second,
                const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     if (!(first > second)) {
         const std::string text = unittest::core::str(first) + " not greater than " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -244,8 +244,8 @@ assert_greater_equal(const T& first,
                      const U& second,
                      const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     if (first < second) {
         const std::string text = unittest::core::str(first) + " not greater than or equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -266,8 +266,8 @@ assert_lesser(const T& first,
               const U& second,
               const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     if (!(first < second)) {
         const std::string text = unittest::core::str(first) + " not lesser than " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -288,8 +288,8 @@ assert_lesser_equal(const T& first,
                     const U& second,
                     const Args&... message)
 {
-    unittest::core::check_isnan(first, "first", UNITTEST_FUNC, message...);
-    unittest::core::check_isnan(second, "second", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(second, "second", UNITTEST_FUNC, message...);
     if (first > second) {
         const std::string text = unittest::core::str(first) + " not lesser than or equal to " + unittest::core::str(second);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -313,7 +313,7 @@ assert_in_range(const T& value,
                 const V& upper,
                 const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (!unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " not in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -338,7 +338,7 @@ assert_not_in_range(const T& value,
                     const V& upper,
                     const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
     unittest::core::check_range_bounds(lower, upper, UNITTEST_FUNC, message...);
     if (unittest::core::is_in_range(value, lower, upper)) {
         const std::string text = unittest::core::str(value) + " in range [" + unittest::core::str(lower) + ", " + unittest::core::str(upper) + "]";
@@ -360,7 +360,8 @@ assert_in_container(const T& value,
                     const Container& container,
                     const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!unittest::core::is_contained(value, container)) {
         const std::string text = "value not in container" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -381,7 +382,8 @@ assert_not_in_container(const T& value,
                         const Container& container,
                         const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (unittest::core::is_contained(value, container)) {
         const std::string text = "value in container" + unittest::core::str_if(": ", value);
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -406,7 +408,8 @@ assert_approx_in_container(const T& value,
                            const U& epsilon,
                            const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value not approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -432,7 +435,8 @@ assert_approx_not_in_container(const T& value,
                                const U& epsilon,
                                const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_approx_contained(value, container, epsilon)) {
         const std::string text = "value approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -458,7 +462,8 @@ assert_approxrel_in_container(const T& value,
                               const U& epsilon,
                               const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_approxrel_contained(value, container, epsilon)) {
         const std::string text = "value not relatively approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -484,7 +489,8 @@ assert_approxrel_not_in_container(const T& value,
                                   const U& epsilon,
                                   const Args&... message)
 {
-    unittest::core::check_isnan(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite(value, "value", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
 	unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
 	if (unittest::core::is_approxrel_contained(value, container, epsilon)) {
 		const std::string text = "value relatively approx. in container" + unittest::core::str_if(": ", value) + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -506,6 +512,8 @@ assert_equal_containers(const Container1& expected,
                         const Container2& actual,
                         const Args&... message)
 {
+    unittest::core::check_isfinite_container(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(actual, "actual", UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_equal(expected, actual)) {
         const std::string text = "containers are not equal";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -526,6 +534,8 @@ assert_not_equal_containers(const Container1& first,
                             const Container2& second,
                             const Args&... message)
 {
+    unittest::core::check_isfinite_container(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(second, "second", UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_equal(first, second)) {
         const std::string text = "containers are equal";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -550,6 +560,8 @@ assert_approx_equal_containers(const Container1& expected,
                                const V& epsilon,
                                const Args&... message)
 {
+    unittest::core::check_isfinite_container(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_approx_equal(expected, actual, epsilon)) {
         const std::string text = "containers are not approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -576,6 +588,8 @@ assert_approx_not_equal_containers(const Container1& first,
                                    const V& epsilon,
                                    const Args&... message)
 {
+    unittest::core::check_isfinite_container(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_approx_equal(first, second, epsilon)) {
         const std::string text = "containers are approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -602,6 +616,8 @@ assert_approxrel_equal_containers(const Container1& expected,
                                   const V& epsilon,
                                   const Args&... message)
 {
+    unittest::core::check_isfinite_container(expected, "expected", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(actual, "actual", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (!unittest::core::is_containers_approxrel_equal(expected, actual, epsilon)) {
         const std::string text = "containers are not relatively approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -628,6 +644,8 @@ assert_approxrel_not_equal_containers(const Container1& first,
                                       const V& epsilon,
                                       const Args&... message)
 {
+    unittest::core::check_isfinite_container(first, "first", UNITTEST_FUNC, message...);
+    unittest::core::check_isfinite_container(second, "second", UNITTEST_FUNC, message...);
     unittest::core::check_epsilon(epsilon, UNITTEST_FUNC, message...);
     if (unittest::core::is_containers_approxrel_equal(first, second, epsilon)) {
         const std::string text = "containers are relatively approx. equal" + unittest::core::str_if(" with epsilon = ", epsilon);
@@ -649,6 +667,7 @@ assert_all_of(const Container& container,
               Functor condition,
               const Args&... message)
 {
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "Not all elements match the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -669,6 +688,7 @@ assert_not_all_of(const Container& container,
                   Functor condition,
                   const Args&... message)
 {
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "All elements match the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -689,6 +709,7 @@ assert_any_of(const Container& container,
               Functor condition,
               const Args&... message)
 {
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::any_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "No element matches the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -709,6 +730,7 @@ assert_none_of(const Container& container,
                Functor condition,
                const Args&... message)
 {
+    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::none_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "At least one element matches the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
