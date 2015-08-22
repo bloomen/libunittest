@@ -1,3 +1,10 @@
+libunittest (9.2.0) stable; urgency=low
+
+  * added isfinite checks to assertions for values and containers
+  * improved assertion messages
+
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 22 Aug 2015 14:00:00 -0700
+
 libunittest (9.1.0) stable; urgency=low
 
   * added checks for "not a number" to assertions
