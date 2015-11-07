@@ -2,6 +2,7 @@
 #include <thread>
 #include <iostream>
 #include <mutex>
+#include <cstdlib>
 #ifdef _MSC_VER
 #include <windows.h>
 #include <iomanip>
