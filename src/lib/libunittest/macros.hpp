@@ -273,8 +273,8 @@ __UNITTEST_TEST_PLAIN_TIME(fixture, test_name, timeout, !is_run, skip_message)
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        UNITTEST_CLASS(test_name); \
-        UNITTEST_RUN_MAYBE(test, !skipped, skip_message); \
+        UNITTEST_CLASS(test_name) \
+        UNITTEST_RUN_MAYBE(test, !skipped, skip_message) \
     } \
     void test(); \
 }; \
@@ -292,8 +292,8 @@ void test_name::test()
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        UNITTEST_CLASS(test_name); \
-        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message); \
+        UNITTEST_CLASS(test_name) \
+        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message) \
     } \
     void test(); \
 }; \
@@ -407,8 +407,8 @@ template<typename Type1, typename Type2=unittest::notype, typename Type3=unittes
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        UNITTEST_CLASS(test_name); \
-        UNITTEST_RUN_MAYBE(test, !skipped, skip_message); \
+        UNITTEST_CLASS(test_name) \
+        UNITTEST_RUN_MAYBE(test, !skipped, skip_message) \
     } \
     void test(); \
 }; \
@@ -427,8 +427,8 @@ template<typename Type1, typename Type2=unittest::notype, typename Type3=unittes
 struct test_name : unittest::testcase<>, fixture { \
     static void run() \
     { \
-        UNITTEST_CLASS(test_name); \
-        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message); \
+        UNITTEST_CLASS(test_name) \
+        UNITTEST_RUN_TIME_MAYBE(test, timeout, !skipped, skip_message) \
     } \
     void test(); \
 }; \
