@@ -824,7 +824,7 @@ assert_throw(Functor functor,
         } catch (const Exception&) {
             caught = true;
         } catch (const std::exception& e) {
-            const std::string text = unittest::join("An unexpected exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
+            const std::string text = unittest::join("An unexpected exception was thrown: ", unittest::core::type_name(e), ": '", e.what(), "'");
             unittest::fail(UNITTEST_FUNC, text, message...);
         } catch (...) {
             const std::string text = "An unexpected, unknown exception was thrown";
@@ -838,7 +838,7 @@ assert_throw(Functor functor,
         }
     }
     if (!caught) {
-        const std::string text = unittest::join("The exception was not thrown: ", typeid(Exception).name());
+        const std::string text = unittest::join("The exception was not thrown: ", unittest::core::type_name<Exception>());
         unittest::fail(UNITTEST_FUNC, text, message...);
     }
 }
@@ -858,7 +858,7 @@ assert_no_throw(Functor functor,
         try {
             functor();
         } catch (const std::exception& e) {
-            const std::string text = unittest::join("An exception was thrown: ", typeid(e).name(), ": '", e.what(), "'");
+            const std::string text = unittest::join("An exception was thrown: ", unittest::core::type_name(e), ": '", e.what(), "'");
             unittest::fail(UNITTEST_FUNC, text, message...);
         } catch (...) {
             const std::string text = "An unknown exception was thrown";

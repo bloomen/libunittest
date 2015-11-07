@@ -602,6 +602,34 @@ make_unique(Args&&... args)
 {
     return unittest::core::make_unique_helper<T>(std::is_array<T>(), std::forward<Args>(args)...);
 }
+/**
+ * @brief Demangles a type name coming from std::type_info::name
+ * @param type_name The type name
+ * @returns A demangled type name
+ */
+std::string
+demangle_type(const std::string& type_name);
+/**
+ * @brief Returns a name for a given type
+ * @returns A name
+ */
+template<typename T>
+std::string
+type_name()
+{
+    return demangle_type(typeid(T).name());
+}
+/**
+ * @brief Returns a name for a given object based on its type
+ * @param obj The object
+ * @returns A name
+ */
+template<typename T>
+std::string
+type_name(const T& obj)
+{
+    return demangle_type(typeid(obj).name());
+}
 
 } // core
 

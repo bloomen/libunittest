@@ -148,7 +148,7 @@ testmonitor::log_error(const std::exception& e)
 {
     impl_->log_.status = teststatus::error;
     impl_->log_.message = e.what();
-    impl_->log_.error_type = typeid(e).name();
+    impl_->log_.error_type = type_name(e);
 }
 void
 testmonitor::log_unknown_error()

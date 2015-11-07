@@ -5,8 +5,12 @@
 #ifdef _MSC_VER
 #include <windows.h>
 #include <iomanip>
+#else
+#include "config.hpp"
 #endif
-
+#if HAVE_GCC_ABI_DEMANGLE==1
+#include <cxxabi.h>
+#endif
 
 namespace unittest {
 namespace core {
@@ -288,6 +292,18 @@ extract_file_and_line(const std::string& message)
         }
     }
     return std::make_pair(filename, linenumber);
+}
+
+std::string
+demangle_type(const std::string& type_name)
+{
+#if HAVE_GCC_ABI_DEMANGLE==1
+    int status = -1;
+    std::unique_ptr<char, void(*)(void*)> result{abi::__cxa_demangle(type_name.c_str(), NULL, NULL, &status), std::free};
+    return status==0 ? result.get() : type_name;
+#else
+    return type_name;
+#endif
 }
 
 } // core
