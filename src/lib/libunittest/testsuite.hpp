@@ -167,4 +167,17 @@ private:
 };
 
 } // core
+
+/**
+ * @brief Exception class to indicate errors emitted from the testsuite
+ */
+class testsuite_error : public std::runtime_error {
+public:
+    /**
+     * @brief Constructor
+     * @param message The exception message
+     */
+    testsuite_error(const std::string& message);
+};
+
 } // unittest

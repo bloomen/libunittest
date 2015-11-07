@@ -172,7 +172,7 @@ testsuite::add_class_map(const std::string& typeid_name,
     static std::mutex add_class_map_mutex_;
     std::lock_guard<std::mutex> lock(add_class_map_mutex_);
     if (impl_->class_maps_.find(typeid_name) != impl_->class_maps_.end())
-        throw std::runtime_error("Already registered: " + class_name);
+        throw testsuite_error("Testcase already registered: " + class_name);
     impl_->class_maps_[typeid_name] = class_name;
 }
 
@@ -227,4 +227,9 @@ testsuite::get_failures(const std::string& method_id)
 }
 
 } // core
+
+testsuite_error::testsuite_error(const std::string& message)
+    : std::runtime_error(message)
+{}
+
 } // unittest
