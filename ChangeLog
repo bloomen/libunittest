@@ -1,3 +1,13 @@
+libunittest (9.3.0) stable; urgency=low
+
+  * Fixed bug where several assertion macros where pointing to the
+    wrong templated assertion functions
+  * Added the demangling of type names if available
+  * Added better exception and error message for already registered tests
+  * Using highest precision for printing floating point values by default 
+  
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 07 Nov 2015 12:00:00 -0700
+
 libunittest (9.2.1) stable; urgency=low
 
   * added missing header for isnan/isfinite when using libc++
