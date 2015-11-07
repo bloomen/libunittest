@@ -4,7 +4,7 @@ namespace unittest {
 
 std::string version()
 {
-    return "9.2.1";
+    return "9.3.0";
 }
 
 } // unittest
