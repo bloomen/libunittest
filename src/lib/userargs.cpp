@@ -10,7 +10,7 @@ userargs::userargs()
     : verbose(false), failure_stop(false), generate_xml(false),
       handle_exceptions(true), dry_run(false), concurrent_threads(0), regex_filter(""),
       name_filter(""), test_name(""), timeout(-1), xml_filename("libunittest.xml"),
-      disable_timeout(false), max_value_precision(10), max_string_length(500),
+      disable_timeout(false), max_value_precision(-1), max_string_length(500),
       suite_name("libunittest"), shuffle_seed(-1), ignore_skips(false)
 {
     register_trigger('v', "verbose", "Sets verbose output for running tests", verbose);
@@ -26,9 +26,9 @@ userargs::userargs()
     register_argument('g', "regex", "A run filter based on regex applied to the test names", regex_filter, false);
     register_argument('z', "shuffseed", "A seed of >= 0 enables shuffling (0 means time based)", shuffle_seed, false);
     register_argument('t', "timeout", "A timeout in seconds for tests without static timeouts", timeout, false);
-    register_argument('o', "xmlfile", "The XML output file name", xml_filename, true);
+    register_argument('r', "precision", "The maximum displayed value precision", max_value_precision, false);
     register_argument('l', "length", "The maximum displayed string length", max_string_length, true);
-    register_argument('r', "precision", "The maximum displayed value precision", max_value_precision, true);
+    register_argument('o', "xmlfile", "The XML output file name", xml_filename, true);
     register_argument('u', "suite", "The name of the test suite", suite_name, true);
 }
 
@@ -66,7 +66,6 @@ userargs::post_parse()
     if (was_used('o')) generate_xml = true;
     if (concurrent_threads<0) concurrent_threads = 0;
     if (max_string_length<10) max_string_length = 10;
-    if (max_value_precision<3) max_value_precision = 3;
     if (shuffle_seed==0) shuffle_seed = now().count() / 1000000;
 }
 

@@ -71,7 +71,7 @@ struct userargs : argparser {
      */
     bool disable_timeout;
     /**
-     * @brief The maximum displayed value precision (default: 10)
+     * @brief The maximum displayed value precision (default: -1)
      */
     int max_value_precision;
     /**

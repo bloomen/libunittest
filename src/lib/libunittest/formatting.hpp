@@ -47,7 +47,9 @@ struct tostr_converter_float {
     operator()(const T& value)
     {
         std::ostringstream stream;
-        stream.precision(unittest::core::testsuite::instance()->get_arguments().max_value_precision);
+        auto precision = unittest::core::testsuite::instance()->get_arguments().max_value_precision;
+        if (precision<=0) precision = std::numeric_limits<T>::max_digits10;
+        stream.precision(precision);
         stream << value;
         return stream.str();
     }

@@ -11,6 +11,16 @@ struct test_formatting : unittest::testcase<> {
         UNITTEST_RUN(test_str_if)
     }
 
+    test_formatting()
+    {
+        const_cast<userargs&>(testsuite::instance()->get_arguments()).max_value_precision = 10;
+    }
+
+    ~test_formatting()
+    {
+        const_cast<userargs&>(testsuite::instance()->get_arguments()).max_value_precision = -1;
+    }
+
     void test_str_if()
     {
         assert_equal("42.3", str_if("", 42.3), SPOT);
