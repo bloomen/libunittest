@@ -1,3 +1,10 @@
+libunittest (9.3.1) stable; urgency=low
+
+  * Fixed bug where some assertions would perform unnecessary isfinite
+    checks on the container elements 
+  
+ -- Christian Blume <chr.blume@gmail.com>  Wed, 11 Nov 2015 12:00:00 -0700
+
 libunittest (9.3.0) stable; urgency=low
 
   * Fixed bug where several assertion macros where pointing to the

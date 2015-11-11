@@ -667,7 +667,6 @@ assert_all_of(const Container& container,
               Functor condition,
               const Args&... message)
 {
-    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "Not all elements match the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -688,7 +687,6 @@ assert_not_all_of(const Container& container,
                   Functor condition,
                   const Args&... message)
 {
-    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (std::all_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "All elements match the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -709,7 +707,6 @@ assert_any_of(const Container& container,
               Functor condition,
               const Args&... message)
 {
-    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::any_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "No element matches the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
@@ -730,7 +727,6 @@ assert_none_of(const Container& container,
                Functor condition,
                const Args&... message)
 {
-    unittest::core::check_isfinite_container(container, "container", UNITTEST_FUNC, message...);
     if (!std::none_of(std::begin(container), std::end(container), condition)) {
         const std::string text = "At least one element matches the condition";
         unittest::fail(UNITTEST_FUNC, text, message...);
