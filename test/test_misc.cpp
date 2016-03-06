@@ -157,7 +157,7 @@ struct test_misc : unittest::testcase<> {
         expected << "\t\t</error>\n";
         expected << "\t</testcase>\n";
         expected << "</testsuite>\n";
-        assert_equal(expected.str(), stream.str(), SPOT);
+        ASSERT_EQUAL(expected.str(), stream.str());
     }
 
     void test_write_summary_empty()
