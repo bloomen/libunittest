@@ -4,6 +4,7 @@
 #include "libunittest/testresults.hpp"
 #include "libunittest/utilities.hpp"
 #include "libunittest/testfailure.hpp"
+#include "libunittest/quote.hpp"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -22,6 +23,12 @@ process(int argc, char **argv)
     } catch (const core::argparser::exit_error& e) {
         std::cout << "Error: " << e.what();
         std::exit(EXIT_FAILURE);
+    }
+
+    if (arguments.display_quote) {
+        core::quote_generator quote_gen(0);
+        std::cout << quote_gen.next() << std::endl;
+        return EXIT_SUCCESS;
     }
 
     auto suite = core::testsuite::instance();

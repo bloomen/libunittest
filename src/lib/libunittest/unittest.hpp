@@ -26,4 +26,5 @@
 #include "noexcept.hpp"
 #include "func.hpp"
 #include "assertmacros.hpp"
+#include "quote.hpp"
 #include <iostream>

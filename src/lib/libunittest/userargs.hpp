@@ -90,6 +90,10 @@ struct userargs : argparser {
      * @brief Whether to ignore all static skips (default: false)
      */
     bool ignore_skips;
+    /**
+     * @brief Whether to display a random quote and exit
+     */
+    bool display_quote;
 
 private:
 

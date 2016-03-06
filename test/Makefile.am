@@ -15,6 +15,7 @@ test_misc.cpp \
 test_random.cpp \
 test_testrun.cpp \
 test_userargs.cpp \
-test_utilities.cpp
+test_utilities.cpp \
+test_quote.cpp
 
 unittest_LDADD = $(top_builddir)/src/lib/.libs/libunittest.a $(AM_LDFLAGS)

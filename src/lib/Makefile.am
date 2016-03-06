@@ -36,7 +36,8 @@ libunittest/version.hpp \
 libunittest/noexcept.hpp \
 libunittest/func.hpp \
 libunittest/assertmacros.hpp \
-libunittest/assertshortcuts.hpp
+libunittest/assertshortcuts.hpp \
+libunittest/quote.hpp
 
 
 # the sources to add to the library and to add to the source distribution
@@ -54,4 +55,5 @@ testrun.cpp \
 testsuite.cpp \
 userargs.cpp \
 utilities.cpp \
+quote.cpp \
 version.cpp
