@@ -63,7 +63,7 @@ write_xml(std::ostream& stream,
         if (log.text.size()) {
             system_out += "\t\t<system-out>\n";
             system_out += "\t\t\t" + xml_escape(trim(log.text)) + "\n";
-            system_out += "\t\t</system-out>\n";
+            system_out += "\t\t</system-out>";
         }
         stream << "\t<testcase ";
         if (log.class_name.size())
@@ -85,11 +85,13 @@ write_xml(std::ostream& stream,
                 stream << "\t\t<skipped/>";
                 stream << "\n";
                 stream << system_out;
+                if (system_out.size())
+                    stream << "\n";
                 stream << "\t</testcase>";
             } else {
                 if (system_out.size()) {
                     stream << ">\n";
-                    stream << system_out;
+                    stream << system_out << "\n";
                     stream << "\t</testcase>";
                 } else {
                     stream << "/>";
@@ -123,10 +125,12 @@ write_xml(std::ostream& stream,
                 }
                 stream << "\n";
                 stream << "\t\t</" << name << ">";
-                stream << "\n";
+                if (system_out.size())
+                    stream << "\n";
                 stream << system_out;
-                stream << "\t</testcase>";
             }
+            stream << "\n";
+            stream << "\t</testcase>";
             stream << "\n";
         }
     }

@@ -55,6 +55,7 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_version)
         UNITTEST_RUN(test_write_xml_empty)
         UNITTEST_RUN(test_write_xml_filled)
+        UNITTEST_RUN(test_write_xml_filled_with_nondeadly_assertion)
         UNITTEST_RUN(test_write_summary_empty)
         UNITTEST_RUN(test_write_summary_filled)
         UNITTEST_RUN(test_write_error_info_empty)
@@ -114,6 +115,39 @@ struct test_misc : unittest::testcase<> {
         expected << "tests=\"3\" errors=\"1\" ";
         expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\"/>\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
+        expected << "\t\t<failure type=\"testfailure\" message=\"message2\">\n";
+        expected << "\t\t</failure>\n";
+        expected << "\t</testcase>\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test3\" time=\"3.000000\">\n";
+        expected << "\t\t<error type=\"error\" message=\"message3\">\n";
+        expected << "\t\t</error>\n";
+        expected << "\t</testcase>\n";
+        expected << "</testsuite>\n";
+        assert_equal(expected.str(), stream.str(), SPOT);
+    }
+
+    void test_write_xml_filled_with_nondeadly_assertion()
+    {
+        auto results = make_sample_results();
+        unittest::testfailure e("cool assertion", "some message");
+        results.testlogs[0].successful = false;
+        results.testlogs[0].nd_failures.push_back(e);
+        std::ostringstream stream;
+        const time_t value = 1234567890;
+        const auto time_point = std::chrono::system_clock::from_time_t(value);
+        unittest::core::write_xml(stream, results, "peter", -1, time_point, false);
+        std::ostringstream expected;
+        expected << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        expected << "<testsuite name=\"peter\" ";
+        expected << "timestamp=\"2009-02-13T23:31:30\" ";
+        expected << "tests=\"3\" errors=\"1\" ";
+        expected << "failures=\"1\" timeouts=\"1\" skipped=\"0\" time=\"6.000000\">\n";
+        expected << "\t<testcase classname=\"test_class\" name=\"test1\" time=\"1.000000\">\n";
+        expected << "\t\t<failure type=\"testfailure (non-deadly)\" message=\"some message\">\n";
+        expected << "\t\t\tassertion: cool assertion\n";
+        expected << "\t\t</failure>\n";
+        expected << "\t</testcase>\n";
         expected << "\t<testcase classname=\"test_class\" name=\"test2\" time=\"2.000000\" timeout=\"2.400000\">\n";
         expected << "\t\t<failure type=\"testfailure\" message=\"message2\">\n";
         expected << "\t\t</failure>\n";
