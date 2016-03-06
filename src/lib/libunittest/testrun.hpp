@@ -220,9 +220,9 @@ struct testfunctor {
      * @returns The test info
      */
     const unittest::core::testinfo&
-	info() const
+    info() const
     {
-    	return info_;
+        return info_;
     }
     /**
      * @brief Executes the test
@@ -356,7 +356,7 @@ private:
     _execute(unittest::testcase<TestContext>*& test,
              unittest::core::testmonitor&)
     {
-    	caller_(test);
+    	  caller_(test);
         return true;
     }
 
@@ -390,7 +390,7 @@ private:
     _destruct(unittest::testcase<TestContext>*& test,
               unittest::core::testmonitor&)
     {
-    	delete test;
+    	  delete test;
         return true;
     }
 
