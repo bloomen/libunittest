@@ -1,3 +1,11 @@
+libunittest (9.3.2) stable; urgency=low
+
+  * fixed bug where XML wasn't created correctly for non-deadly assertions
+  * got the *_MSG assert macros to accept stream statements
+  * added the shuffle seed output to beginning of verbose output
+  
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 05 Mar 2016 22:30:00 -0700
+
 libunittest (9.3.1) stable; urgency=low
 
   * Fixed bug where some assertions would perform unnecessary isfinite
