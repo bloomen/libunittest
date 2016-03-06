@@ -30,7 +30,7 @@ process(int argc, char **argv)
     auto class_runs = suite->get_class_runs();
     if (arguments.shuffle_seed >= 0) {
         if (arguments.verbose)
-          std::cout << "shuffseed = " << arguments.shuffle_seed << std::endl;
+            std::cout << "shuffseed = " << arguments.shuffle_seed << std::endl;
         std::mt19937 gen(static_cast<unsigned int>(arguments.shuffle_seed));
         std::shuffle(class_runs.begin(), class_runs.end(), gen);
     }
