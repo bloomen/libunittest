@@ -281,15 +281,28 @@
 				<a name="miscellaneous"></a>
                 <h2>Miscellaneous</h2>
                 <p>
+                <li>
+                    You can make use of non-deadly assertions by simply
+                    pre-pending <incode>ND</incode> to the assertion, e.g., 
+                    <incode>
+                        ASSERT_EQUAL(a, b)
+                    </incode>
+                    becomes
+                    <incode>
+                        NDASSERT_EQUAL(a, b)
+                    </incode>
+                    which means that execution will proceed even in case of 
+                    an assertion failure.
+                </li>
+                <li>
+                    You can run test cases in parallel by typing:
+                    <code>
+                        ./test_application -p number
+                    </code> 
+                    where number denotes the number of concurrent threads to use.
+                </li>
 				<li>
-					You can run test cases in parallel by typing:
-					<code>
-						./test_application -p number
-					</code> 
-					where number denotes the number of concurrent threads to use.
-				</li>
-				<li>
-					There is a very useful function, namely <incode>unittest::join(arg, args...)</incode>, 
+					There is a useful function, namely <incode>unittest::join(arg, args...)</incode>, 
 					which joins an arbitrary number of arguments of arbitrary type to a single string.
 				</li>
 				<li>
@@ -299,8 +312,8 @@
 				        TEST(test_number_greater_zero)<br> 
 				        {<br> 
 				            <t>int number = 42;</t><br>  
-				            <t>TESTINFO("Check for number greater than zero: ", number)</t><br> 
-				            <t>assert_greater(number, 0, SPOT);</t><br> 
+				            <t>TESTINFO("Check for number greater than zero: ", number);</t><br> 
+				            <t>ASSERT_GREATER(number, 0);</t><br> 
 				        }
 				    </code>
 				    This will output the given test info to the
