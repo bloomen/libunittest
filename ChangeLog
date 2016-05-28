@@ -1,3 +1,9 @@
+libunittest (9.3.3) stable; urgency=low
+
+  * Added automatic sorting of testcases by testcase name
+  
+ -- Christian Blume <chr.blume@gmail.com>  Fri, 27 Mar 2016 20:30:00 -0700
+
 libunittest (9.3.2) stable; urgency=low
 
   * fixed bug where XML wasn't created correctly for non-deadly assertions
