@@ -19,6 +19,7 @@ struct testsuite::impl {
     userargs arguments_;
     testresults results_;
     std::vector<std::function<void()>> class_runs_;
+    std::vector<std::string> class_names_;
     std::map<std::string, std::string> class_maps_;
     std::vector<std::pair<std::thread, std::shared_ptr<std::atomic_bool>>> lonely_threads_;
     std::map<std::string, std::string> logged_texts_;
@@ -31,6 +32,7 @@ struct testsuite::impl {
           arguments_(),
           results_(),
           class_runs_(),
+          class_names_(),
           class_maps_(),
           lonely_threads_(),
           logged_texts_(),
@@ -88,6 +90,17 @@ testsuite::get_arguments() const
 const std::vector<std::function<void()>>&
 testsuite::get_class_runs() const
 {
+    if (impl_->class_runs_.size() != impl_->class_names_.size())
+        throw std::runtime_error(__func__);
+    std::map<std::string, std::function<void()>> map;
+    for (size_t i=0; i<impl_->class_runs_.size(); ++i) {
+        map[impl_->class_names_[i]] = impl_->class_runs_[i];
+    }
+    impl_->class_runs_.clear();
+    impl_->class_runs_.reserve(map.size());
+    for (const auto& pair : map) {
+        impl_->class_runs_.push_back(pair.second);
+    }
     return impl_->class_runs_;
 }
 
@@ -174,6 +187,7 @@ testsuite::add_class_map(const std::string& typeid_name,
     if (impl_->class_maps_.find(typeid_name) != impl_->class_maps_.end())
         throw testsuite_error("Testcase already registered: " + class_name);
     impl_->class_maps_[typeid_name] = class_name;
+    impl_->class_names_.push_back(class_name + typeid_name);
 }
 
 const std::map<std::string, std::string>&
