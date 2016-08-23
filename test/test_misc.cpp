@@ -76,6 +76,7 @@ struct test_misc : unittest::testcase<> {
         UNITTEST_RUN(test_keep_running_fail)
         UNITTEST_RUN(test_keep_running_ok)
         UNITTEST_RUN(test_assertion_in_separate_thread)
+        UNITTEST_RUN(test_assertion_with_message)
     }
 
     void test_version()
@@ -434,6 +435,12 @@ struct test_misc : unittest::testcase<> {
                 std::rethrow_exception(ptr);
         };
         assert_throw<unittest::testfailure>(functor, SPOT);
+    }
+
+    void test_assertion_with_message()
+    {
+      ASSERT_EQUAL_MSG(42, 42, "message" << 42);
+      ASSERT_TRUE_MSG(true, "message" << 42);
     }
 
 };
