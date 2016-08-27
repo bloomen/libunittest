@@ -1,3 +1,10 @@
+libunittest (9.3.4) stable; urgency=low
+
+  * ensure const cast of std::ostringstream& to prevent compilation 
+    errors with some compilers when using *_MSG macros  
+  
+ -- Christian Blume <chr.blume@gmail.com>  Sat, 27 Aug 2016 12:45:00 +1200
+
 libunittest (9.3.3) stable; urgency=low
 
   * Added automatic sorting of testcases by testcase name
