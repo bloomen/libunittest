@@ -88,10 +88,10 @@ duration_in_seconds(const std::chrono::duration<double>& duration);
 /**
  * @brief Checker for isnan
  */
-template<bool is_arithmetic>
+template<bool is_floating>
 struct isnan_check;
 /**
- * @brief Checker for isnan for arithmetic types
+ * @brief Checker for isnan for floating types
  */
 template<>
 struct isnan_check<true> {
@@ -108,7 +108,7 @@ struct isnan_check<true> {
     }
 };
 /**
- * @brief Checker for isnan for non-arithmetic types
+ * @brief Checker for isnan for non-floating types
  */
 template<>
 struct isnan_check<false> {
@@ -132,7 +132,7 @@ template<typename T>
 bool
 isnan(const T& value)
 {
-    unittest::core::isnan_check<std::is_arithmetic<T>::value> check;
+    unittest::core::isnan_check<std::is_floating_point<T>::value> check;
     return check(value);
 }
 /**
@@ -141,7 +141,7 @@ isnan(const T& value)
 template<bool is_arithmetic>
 struct isfinite_check;
 /**
- * @brief Checker for isfinite for arithmetic types
+ * @brief Checker for isfinite for floating types
  */
 template<>
 struct isfinite_check<true> {
@@ -158,7 +158,7 @@ struct isfinite_check<true> {
     }
 };
 /**
- * @brief Checker for isfinite for non-arithmetic types
+ * @brief Checker for isfinite for non-floating types
  */
 template<>
 struct isfinite_check<false> {
@@ -182,7 +182,7 @@ template<typename T>
 bool
 isfinite(const T& value)
 {
-    unittest::core::isfinite_check<std::is_arithmetic<T>::value> check;
+    unittest::core::isfinite_check<std::is_floating_point<T>::value> check;
     return check(value);
 }
 /**
@@ -202,12 +202,11 @@ is_approx_equal(const T& first,
 {
     if (unittest::core::isnan(first) || unittest::core::isnan(second) || unittest::core::isnan(eps))
         return false;
-    volatile V diff(eps - eps);
     if (first > second)
-        diff = static_cast<V>(first - second);
+        return static_cast<V>(first - second) < eps;
     else if (first < second)
-        diff = static_cast<V>(second - first);
-    return diff < eps;
+        return static_cast<V>(second - first) < eps;
+    return V{0} < eps;
 }
 /**
  * @brief Checks if two values are approx. relatively equal up to some epsilon

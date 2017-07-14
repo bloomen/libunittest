@@ -16,7 +16,7 @@ operator<<(std::ostream& os, const unittest::core::quote& q)
 
 
 quote_generator::quote_generator(int seed)
-    : generator_((seed <= 0 ? core::now().count() / 1000000 : seed)),
+    : generator_((seed <= 0 ? static_cast<int>(core::now().count() / 1000000) : seed)),
       quotes_{}
 {
     quotes_.push_back({"C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do, it blows away your whole leg.", "Bjarne Stroustrup"});

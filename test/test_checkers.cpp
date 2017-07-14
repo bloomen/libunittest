@@ -33,16 +33,10 @@ struct test_checkers : unittest::testcase<> {
             unittest::core::check_isfinite_container(std::vector<double>{std::numeric_limits<double>::quiet_NaN()}, "", "");
         }, SPOT, NDAS);
         assert_throw<unittest::testfailure>([]() {
-            unittest::core::check_isfinite_container(std::vector<double>{0.0/0.0}, "", "");
-        }, SPOT, NDAS);
-        assert_throw<unittest::testfailure>([]() {
             unittest::core::check_isfinite_container(std::vector<double>{1.1, std::numeric_limits<double>::infinity()}, "", "");
         }, SPOT, NDAS);
         assert_throw<unittest::testfailure>([]() {
             unittest::core::check_isfinite_container(std::vector<double>{std::numeric_limits<double>::quiet_NaN(), 3.4}, "", "");
-        }, SPOT, NDAS);
-        assert_throw<unittest::testfailure>([]() {
-            unittest::core::check_isfinite_container(std::vector<double>{0.0/0.0, 7.8}, "", "");
         }, SPOT, NDAS);
     }
 
@@ -58,9 +52,6 @@ struct test_checkers : unittest::testcase<> {
         }, SPOT);
         assert_throw<unittest::testfailure>([]() {
             unittest::core::check_isfinite(std::numeric_limits<double>::quiet_NaN(), "", "");
-        }, SPOT);
-        assert_throw<unittest::testfailure>([]() {
-            unittest::core::check_isfinite(0.0/0.0, "", "");
         }, SPOT);
     }
 
