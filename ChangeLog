@@ -1,3 +1,9 @@
+libunittest (9.3.5) stable; urgency=low
+
+  * a few minor changes to support Visual Studio 2015
+  
+ -- Christian Blume <chr.blume@gmail.com>  Fri, 14 Jul 2017 08:45:00 +1200
+
 libunittest (9.3.4) stable; urgency=low
 
   * ensure const cast of std::ostringstream& to prevent compilation 

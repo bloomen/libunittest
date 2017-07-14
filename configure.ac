@@ -1,4 +1,4 @@
-AC_INIT([libunittest],[9.3.4],[chr.blume@gmail.com],[libunittest],[http://libunittest.sourceforge.net])
+AC_INIT([libunittest],[9.3.5],[chr.blume@gmail.com],[libunittest],[http://libunittest.sourceforge.net])
 AC_CONFIG_SRCDIR([src/lib/main.cpp])
 AC_CONFIG_HEADERS([src/lib/config.hpp])
 AC_CONFIG_MACRO_DIR([m4])
