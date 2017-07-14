@@ -226,8 +226,8 @@ is_approxrel_equal(const T& first,
 {
     if (unittest::core::isnan(first) || unittest::core::isnan(second) || unittest::core::isnan(eps))
         return false;
-    volatile const T zero(first - first);
-    volatile const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
+    const T zero{0};
+    const V abs_eps(static_cast<V>(first < zero ? zero - first : first) * eps);
     return is_approx_equal(first, second, abs_eps);
 }
 /**
