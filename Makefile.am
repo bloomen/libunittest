@@ -1,8 +1,8 @@
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = doc
+EXTRA_DIST = docs
 dist-hook:
-	make clean -C $(top_distdir)/doc/doxygen
+	make clean -C $(top_distdir)/docs/doxygen
 
 SUBDIRS = \
 src/lib \
