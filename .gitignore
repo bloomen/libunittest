@@ -43,3 +43,4 @@ m4/lt*m4
 test-driver
 *.tar.gz
 INSTALL
+NEWS

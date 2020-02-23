@@ -1,8 +1,8 @@
-AC_INIT([libunittest],[9.3.5],[chr.blume@gmail.com],[libunittest],[http://libunittest.sourceforge.net])
+AC_INIT([libunittest],[9.3.6],[chr.blume@gmail.com],[libunittest],[https://bloomen.github.io/libunittest])
 AC_CONFIG_SRCDIR([src/lib/main.cpp])
 AC_CONFIG_HEADERS([src/lib/config.hpp])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE([foreign])
 LT_INIT([win32-dll])
 : ${CXXFLAGS=""}
 AC_PROG_CXX
